@@ -1,6 +1,9 @@
 package dk.muj.derius.entity;
 
+import java.util.List;
+
 import com.massivecraft.massivecore.store.Entity;
+import com.massivecraft.massivecore.util.MUtil;
 
 public class MConf extends Entity<MConf>
 {
@@ -14,5 +17,8 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
+	
+	//Command aliases
+	public List<String> outerAliasesDerius = MUtil.list("d", "derius");
 	
 }
