@@ -13,7 +13,7 @@ import dk.muj.derius.entity.MConf;
 // This is the Basecommand for Derius
 public class CmdDerius extends DeriusCommand
 {
-	//Initialize all the commands that belong to it.
+	//Initialize all the sub-commands that belong to it.
 	public VersionCommand innerCmdDeriusVersion = new VersionCommand(Derius.get(), Perm.VERSION.node, "v", "version");
 	
 	// Constructor

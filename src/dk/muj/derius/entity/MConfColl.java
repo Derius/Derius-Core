@@ -23,7 +23,8 @@ public class MConfColl extends Coll<MConf>
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-		
+	
+	// This initializes the saving task of the class.
 	@Override
 	public void init()
 	{

@@ -4,6 +4,7 @@ import org.bukkit.permissions.Permissible;
 
 import com.massivecraft.massivecore.util.PermUtil;
 
+// The Permissions Enum of Derius
 public enum Perm
 {
 	// -------------------------------------------- //
@@ -29,7 +30,7 @@ public enum Perm
 	
 	Perm(final String node)
 	{
-		this.node = "derius."+node;
+		this.node = "derius."+ node;
 	}
 	
 	// -------------------------------------------- //

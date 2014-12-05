@@ -1,8 +1,8 @@
 package dk.muj.derius;
 
+// This class stores all constants that are used in Derius.
 public class Const 
 {
-
 	// -------------------------------------------- //
 	// DATABASE
 	// -------------------------------------------- //
