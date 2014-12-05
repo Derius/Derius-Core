@@ -127,7 +127,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the amount to add to players cooldown
 	 */
-	public void AddCooldown(String skillId, long millismore)
+	public void ExtendCooldown(String skillId, long millismore)
 	{
 		this.cooldown.put(skillId, GetCooldown(skillId)+millismore);
 	}
@@ -137,7 +137,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the amount of millis to take away from cooldown.
 	 */
-	public void TakeCooldown(String skillId, long millisless)
+	public void ReduceCooldown(String skillId, long millisless)
 	{
 		this.cooldown.put(skillId, GetCooldown(skillId)-millisless);
 	}
