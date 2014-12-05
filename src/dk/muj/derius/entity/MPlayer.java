@@ -25,6 +25,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	//		Long is the exp
 	private Map<String, Long> exp = new HashMap<String,Long>();
 	
+	//		String is id for the skill
+	//		Long is the millis (starting 1 January 1970), when its ability was last used
+	private Map<String,Long> cooldown= new HashMap<String,Long>();
+	
 	
 	// -------------------------------------------- //
 	// MANAGING EXP
@@ -94,8 +98,49 @@ public class MPlayer extends SenderEntity<MPlayer>
 			this.exp.put(skillId, new Long(0));
 	}
 	
+	// -------------------------------------------- //
+	// MANAGING COOLDOWN
+	// -------------------------------------------- //
 	
+	/**
+	 * Sets users cooldown in said skill. Most used to set it to the current millis of the server running.
+	 * @param {String} id of the skill
+	 * @param {long} the cooldown to set it to
+	 */
+	public void SetCooldown(String skillId, long cooldownTime)
+	{
+		this.cooldown.put(skillId, cooldownTime);
+	}
 	
+	/**
+	 * Gets players cooldown in said skill.
+	 * @param {String} id of the skill
+	 * @return {long} players cooldown in said skill
+	 */
+	public long GetCooldown(String skillId)
+	{
+		return this.cooldown.get(skillId);
+	}
+	
+	/**
+	 * Adds to the users cooldown in said skill
+	 * @param {String} id of the skill
+	 * @param {long} the amount to add to players cooldown
+	 */
+	public void AddCooldown(String skillId, long millismore)
+	{
+		this.cooldown.put(skillId, GetCooldown(skillId)+millismore);
+	}
+	
+	/**
+	 * Lowers users cooldown in said skill.
+	 * @param {String} id of the skill
+	 * @param {long} the amount of millis to take away from cooldown.
+	 */
+	public void TakeCooldown(String skillId, long millisless)
+	{
+		this.cooldown.put(skillId, GetCooldown(skillId)-millisless);
+	}
 
 
 }

@@ -14,14 +14,14 @@ import dk.muj.derius.entity.MConf;
 public class CmdDerius extends DeriusCommand
 {
 	//Initialize all the commands that belong to it.
-	public VersionCommand cmdDeriusVersion = new VersionCommand(Derius.get(), Perm.VERSION.node, "v", "version");
+	public VersionCommand innerCmdDeriusVersion = new VersionCommand(Derius.get(), Perm.VERSION.node, "v", "version");
 	
 	// Constructor
 	public CmdDerius()
 	{
 		
 		this.addSubCommand(HelpCommand.get());
-		this.addSubCommand(cmdDeriusVersion);
+		this.addSubCommand(innerCmdDeriusVersion);
 		
 		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
 	}
