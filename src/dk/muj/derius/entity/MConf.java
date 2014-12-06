@@ -18,10 +18,25 @@ public class MConf extends Entity<MConf>
 	// FIELDS
 	// -------------------------------------------- //
 	
-	//Command aliases
+	// -------------------------------------------- //
+	// COMMAND ALIASES
+	// -------------------------------------------- //
 	public List<String> outerAliasesDerius = MUtil.list("d", "derius");
+	
 	public List<String> innerAliasesDeriusSkill = MUtil.list("s", "skill");
 	public List<String> innerAliasesDeriusList = MUtil.list("l", "list");
 	public List<String> innerAliasesDeriusInspect = MUtil.list("i", "inspect");
 	
+	
+	// -------------------------------------------- //
+	// FACTION SETTINGS
+	// -------------------------------------------- //
+	
+	public boolean factionFlagUseSkillsDefaultValue = true;
+	public boolean factionFlagUseEditableByUser = false;
+	public boolean factionFlagUseVisibleByUser = false;
+	
+	public boolean factionFlagEarnSkillsDefaultValue = true;
+	public boolean factionFlagEarnEditableByUser = false;
+	public boolean factionFlagEarnVisibleByUser = false;
 }

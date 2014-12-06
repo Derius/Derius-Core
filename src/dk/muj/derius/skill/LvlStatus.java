@@ -26,7 +26,7 @@ public class LvlStatus
 	
 	/**
 	 * This is the exp left after calculating the lvl.
-	 * This si /not/ the total exp
+	 * This is /not/ the total exp
 	 */
 	private int exp = 0;
 	public int getExp () {	return exp;	}
