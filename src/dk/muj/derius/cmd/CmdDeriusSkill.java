@@ -8,16 +8,17 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 
-// Shows this skills with it's description and the ability with level specific information.
 public class CmdDeriusSkill extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusSkill()
 	{
 		this.addRequiredArg("skillname");
@@ -27,6 +28,10 @@ public class CmdDeriusSkill extends DeriusCommand
 		
 		this.addRequirements(ReqHasPerm.get(Perm.SKILL.node));
 	}
+
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
 	
 	@Override
 	public void perform()
@@ -43,6 +48,12 @@ public class CmdDeriusSkill extends DeriusCommand
 		Integer level = this.arg(1, ARInteger.get(), -1);
 		if (level == null) return;
 		
+		
+		// Message construction
+		msgLines.add(Txt.parse("<bold><under><i>" + skill.toString())); // Titel
+		msgLines.add(skill.getDesc());
+		
+		// Swapping between default and user inserted value
 		if(level.intValue() == -1)
 		{
 			LvlStatus status = msender.getLvlStatus(skill.getId());
@@ -52,20 +63,16 @@ public class CmdDeriusSkill extends DeriusCommand
 		{
 			msgLines.add(Txt.parse("<grey>LVL:<yellow>"+level));
 		}
-		
-		
-		msgLines.add(skill.toString());
-		msgLines.add("------------");
-		msgLines.add(skill.getDesc());
-		msgLines.add("<i>Passive abilities");
-		
-		msgLines.add("<i>Passive abilities");
-		msgLines.addAll(skill.getPassiveAbilityDescriptions());
-		msgLines.add("<i>Active abilities");
-		msgLines.addAll(skill.getActiveAbilityDescriptions());
-		msgLines.add("<i>Active abilities");
 
+		msgLines.add("<i><under>Passive abilities");
+		msgLines.addAll(skill.getPassiveAbilityDescriptions());
+		msgLines.add("<i><under>Active abilities");
+		msgLines.addAll(skill.getActiveAbilityDescriptions());
+		msgLines.add("<i><under>Level stats");
+		msgLines.addAll(skill.getAbilitiesDecriptionByLvl(level));
 		
+
+		this.msg(msgLines);
 	}
 	
 	@Override
