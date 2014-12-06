@@ -19,12 +19,28 @@ public abstract class Skill
 	// DESCRIPTION
 	// -------------------------------------------- //
 	
+	/**
+	 * Adds a description of how to earn exp in said skill
+	 * @param {String} The description to add
+	 */
 	public void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
 	
+	/**
+	 * Adds a description (with name) of a passive ability in this skill
+	 * @param {Description} The description to add
+	 */
 	public void addPassiveAbilityDesc (Description desc) {	this.passiveAbilityDesc.add(desc);	}
 	
+	/**
+	 * Adds a description (with name) of a active ability in this skill
+	 * @param {Description} The description to add
+	 */
 	public void addActiveAbilityDesc (Description desc) {	this.activeAbilityDesc.add(desc);	}
 	
+	/**
+	 * Gets a list of the descriptions to earn exp
+	 * @return {String} the description
+	 */
 	public List<String> getEarnExpDescriptions()
 	{
 		//Yeah it will be immutable
@@ -34,6 +50,10 @@ public abstract class Skill
 		return descs;
 	}
 	
+	/**
+	 * Gets a list of the descriptions (with name) of the passive abilities
+	 * @return {Description} the description
+	 */
 	public List<String> getPassiveAbilityDescriptions()
 	{
 		//Yeah it will be immutable
@@ -43,6 +63,10 @@ public abstract class Skill
 		return descs;
 	}
 	
+	/**
+	 * Gets a list of the descriptions (with name) of the active abilities
+	 * @return {Description} the description
+	 */
 	public List<String> getActiveAbilityDescriptions()
 	{
 		//Yeah it will be immutable

@@ -40,5 +40,14 @@ public class LvlStatus
 		this.setExpToNextLvl(expToNextLvl);
 	}
 	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return "<silver>LVL<art>: "+ lvl+ "  <silver>XP: <lime>"+exp+"<yellow>/<lime>"+expToNextLvl;
+	}
 
 }
