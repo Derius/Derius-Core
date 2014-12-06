@@ -3,7 +3,16 @@ package dk.muj.derius.skill;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
+
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.massivecore.ps.PS;
+
+import dk.muj.derius.Const;
+import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.integration.FactionIntegration;
 
 public abstract class Skill
 {
@@ -101,6 +110,45 @@ public abstract class Skill
 			level++;
 		}
 		return new LvlStatus(level,(int)exp,nextLvlExp);
+	}
+	
+	// -------------------------------------------- //
+	// AREA RESTRICTION
+	// -------------------------------------------- //
+	/**
+	 * Tells whether or not this skill can be used in said area
+	 * @param {Location} the are you want to check for
+	 * @return {boolean} true if the skill can be used
+	 */
+	public boolean CanSkillBeUsedInArea(Location loc)
+	{
+		if(FactionIntegration.EstablishIntegration())
+		{
+			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
+			if(f != null)
+				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
+					return f.getFlag(Const.FACTION_FLAG_SKILLS_USE);
+			
+		}
+		return MConf.get().worldSkillsUse.get(this.getId()).EnabledInWorld(loc.getWorld());
+	}
+	
+	/**
+	 * Tells whether or not experience can be earned for this skill in said area
+	 * @param {Location} the are you want to check for
+	 * @return {boolean} true if experience in this skill can be earned in the area
+	 */
+	public boolean CanSkillBeEarnedInArea(Location loc)
+	{
+		if(FactionIntegration.EstablishIntegration())
+		{
+			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
+			if(f != null)
+				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
+					return f.getFlag(Const.FACTION_FLAG_SKILLS_EARN);
+			
+		}
+		return MConf.get().worldSkillsEarn.get(this.getId()).EnabledInWorld(loc.getWorld());
 	}
 	
 	// -------------------------------------------- //

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.events.SkillRegisteredEvent;
 
 public final class Skills
@@ -69,14 +67,4 @@ public final class Skills
 		return new ArrayList<Skill>(skillList);
 	}
 	
-	
-	public static boolean CanSkillBeUsedInArea(String skillId, Location loc)
-	{
-		return MConf.get().worldSkillsUse.get(skillId).EnabledInWorld(loc.getWorld());
-	}
-	
-	public static boolean CanSkillBeEarnedInArea(String skillId, Location loc)
-	{
-		return MConf.get().worldSkillsEarn.get(skillId).EnabledInWorld(loc.getWorld());
-	}
 }
