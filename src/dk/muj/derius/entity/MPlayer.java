@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 
+import dk.muj.derius.skill.LvlStatus;
+import dk.muj.derius.skill.Skills;
+
 public class MPlayer extends SenderEntity<MPlayer>
 {
 
@@ -71,6 +74,20 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void TakeExp(String skillId, long exp)
 	{
 		this.exp.put(skillId, getExp(skillId)-exp);
+	}
+	
+	// -------------------------------------------- //
+	// LEVEL INFO
+	// -------------------------------------------- //
+	
+	public LvlStatus getLvlStatus(String skillId)
+	{
+		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId));
+	}
+	
+	public int getLvl(String skillId)
+	{
+		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId)).getLvl();
 	}
 	
 	// -------------------------------------------- //
