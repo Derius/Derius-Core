@@ -21,7 +21,6 @@ public class CmdDeriusSkill extends DeriusCommand
 	public CmdDeriusSkill()
 	{
 		this.addRequiredArg("skillname");
-		this.addOptionalArg("player", "you");
 		this.addOptionalArg("level", "your level");
 		
 		this.setDesc("Shows a skill, it's description, the passive and active abilities and level specific information");
@@ -39,21 +38,20 @@ public class CmdDeriusSkill extends DeriusCommand
 		Skill skill = this.arg (0, ARSkill.get());
 		if (skill == null) return;
 		
-		// player args
-		MPlayer mplayer = this.arg(1, ARMPlayer.getAny(), msender);
-		if (mplayer == null) return;
 		
 		// level args
-		Integer level = this.arg(2, ARInteger.get(), -1);
+		Integer level = this.arg(1, ARInteger.get(), -1);
 		if (level == null) return;
+		
 		if(level.intValue() == -1)
 		{
 			LvlStatus status = msender.getLvlStatus(skill.getId());
 			msgLines.add(Txt.parse("<grey>LVL:"+status.toString()));
 		}
 		else
+		{
 			msgLines.add(Txt.parse("<grey>LVL:<yellow>"+level));
-		
+		}
 		
 		
 		msgLines.add(skill.toString());
