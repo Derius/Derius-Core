@@ -3,8 +3,11 @@ package dk.muj.derius.skill;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.MPlayerColl;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
+import dk.muj.derius.entity.MConf;
+import dk.muj.derius.events.SkillRegisteredEvent;
 
 public final class Skills
 {
@@ -25,8 +28,8 @@ public final class Skills
 	public static void AddSkill(Skill skill)
 	{
 		skillList.add(skill);
-		for (MPlayer p: MPlayerColl.get().getAll())
-			p.InstantiateSkill(skill.getId());
+		SkillRegisteredEvent event = new SkillRegisteredEvent(skill);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 	
 	/**
@@ -64,5 +67,16 @@ public final class Skills
 	public static List<Skill> GetAllSkills()
 	{
 		return new ArrayList<Skill>(skillList);
+	}
+	
+	
+	public static boolean CanSkillBeUsedInArea(String skillId, Location loc)
+	{
+		return MConf.get().worldSkillsUse.get(skillId).EnabledInWorld(loc.getWorld());
+	}
+	
+	public static boolean CanSkillBeEarnedInArea(String skillId, Location loc)
+	{
+		return MConf.get().worldSkillsEarn.get(skillId).EnabledInWorld(loc.getWorld());
 	}
 }

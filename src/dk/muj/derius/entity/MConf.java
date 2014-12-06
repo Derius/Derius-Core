@@ -1,9 +1,13 @@
 package dk.muj.derius.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
+
+import dk.muj.derius.WorldException;
 
 public class MConf extends Entity<MConf>
 {
@@ -39,4 +43,16 @@ public class MConf extends Entity<MConf>
 	public boolean factionFlagEarnSkillsDefaultValue = true;
 	public boolean factionFlagEarnEditableByUser = false;
 	public boolean factionFlagEarnVisibleByUser = false;
+	
+	public boolean factionFlagOverrideWorldDefaultValue = false;
+	public boolean factionFlagOverrideWorldEditableByUser = false;
+	public boolean factionFlagOverrideWorldVisibleByUser = false;
+	
+	
+	// -------------------------------------------- //
+	// WORLD SETTINGS
+	// -------------------------------------------- //
+	
+	public Map<String, WorldException> worldSkillsUse = new HashMap<String, WorldException>();
+	public Map<String, WorldException> worldSkillsEarn = new HashMap<String, WorldException>();
 }
