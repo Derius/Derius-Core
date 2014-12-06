@@ -1,5 +1,16 @@
 package dk.muj.derius.skill;
 
+import com.massivecraft.massivecore.util.Txt;
+
+/**
+ * This class is used for passing data about a players progress
+ * in a certain skill around between methods and classes.
+ * It has 3 variables.
+ * It contains the players level
+ * It contains the players leftover exp (after calculating level)
+ * It contains the amount of exp required to reach next level (ignoring leftover exp).
+ * The getters & setters should be obvious.
+ */
 public class LvlStatus
 {
 	// -------------------------------------------- //
@@ -45,9 +56,12 @@ public class LvlStatus
 	// -------------------------------------------- //
 	
 	@Override
+	/**
+	 * Should just be displayed to players
+	 */
 	public String toString()
 	{
-		return "<silver>LVL<art>: "+ lvl+ "  <silver>XP: <lime>"+exp+"<yellow>/<lime>"+expToNextLvl;
+		return Txt.parse("<silver>LVL<art>: "+ lvl+ "  <silver>XP: <lime>"+exp+"<yellow>/<lime>"+expToNextLvl);
 	}
 
 }
