@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 
 // Shows this skills with it's description and the ability with level specific information.
@@ -30,6 +32,8 @@ public class CmdDeriusSkill extends DeriusCommand
 	@Override
 	public void perform()
 	{
+		List<String> msgLines = new ArrayList<String>();
+		
 		//Args
 		// skillname args
 		Skill skill = this.arg (0, ARSkill.get());
@@ -40,23 +44,28 @@ public class CmdDeriusSkill extends DeriusCommand
 		if (mplayer == null) return;
 		
 		// level args
-		int level = this.arg(2, ARInteger.get(), msender.getLvl(skill.getId()));
-		if (level == 0) return;
+		Integer level = this.arg(2, ARInteger.get(), -1);
+		if (level == null) return;
+		if(level.intValue() == -1)
+		{
+			LvlStatus status = msender.getLvlStatus(skill.getId());
+			msgLines.add(Txt.parse("<grey>LVL:"+status.toString()));
+		}
+		else
+			msgLines.add(Txt.parse("<grey>LVL:<yellow>"+level));
 		
-		List<String> messagelines = new ArrayList<String>();
 		
-		String level = "Level is"
 		
-		messagelines.add(skill.toString());
-		messagelines.add("------------");
-		messagelines.add(skill.getdesc());
-		messagelines.add("<i>Passive abilities");
+		msgLines.add(skill.toString());
+		msgLines.add("------------");
+		msgLines.add(skill.getDesc());
+		msgLines.add("<i>Passive abilities");
 		
-		messagelines.add("<i>Passive abilities");
-		messagelines.addAll(skill.getPassiveAbilityDescriptions());
-		messagelines.add("<i>Active abilities");
-		messagelines.addAll(skill.getActiveAbilityDescriptions());
-		messagelines.add("<i>Active abilities");
+		msgLines.add("<i>Passive abilities");
+		msgLines.addAll(skill.getPassiveAbilityDescriptions());
+		msgLines.add("<i>Active abilities");
+		msgLines.addAll(skill.getActiveAbilityDescriptions());
+		msgLines.add("<i>Active abilities");
 
 		
 	}
