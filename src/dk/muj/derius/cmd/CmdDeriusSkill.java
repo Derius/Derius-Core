@@ -13,6 +13,7 @@ import dk.muj.derius.entity.MConf;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 
+// Shows you a skill with it's description and abilities and some level specific information.
 public class CmdDeriusSkill extends DeriusCommand
 {
 	// -------------------------------------------- //
@@ -38,19 +39,19 @@ public class CmdDeriusSkill extends DeriusCommand
 	{
 		List<String> msgLines = new ArrayList<String>();
 		
-		//Args
-		// skillname args
+		// Args
+		// Skillname args
 		Skill skill = this.arg (0, ARSkill.get());
 		if (skill == null) return;
 		
-		
-		// level args
+		// Level args
 		Integer level = this.arg(1, ARInteger.get(), -1);
 		if (level == null) return;
 		
 		
 		// Message construction
 		msgLines.add(Txt.parse("<bold><under><i>" + skill.toString())); // Titel
+		msgLines.add("");
 		msgLines.add(skill.getDesc());
 		
 		// Swapping between default and user inserted value
@@ -70,8 +71,8 @@ public class CmdDeriusSkill extends DeriusCommand
 		msgLines.addAll(skill.getActiveAbilityDescriptions());
 		msgLines.add("<i><under>Level stats");
 		msgLines.addAll(skill.getAbilitiesDecriptionByLvl(level));
-		
 
+		// Send Message
 		this.msg(msgLines);
 	}
 	

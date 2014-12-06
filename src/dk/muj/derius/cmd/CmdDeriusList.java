@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.Skills;
 
 // Shows you a list of all the available skills (color coded for state) and a short description of them.
@@ -23,7 +25,7 @@ public class CmdDeriusList extends DeriusCommand
 	{
 		this.addOptionalArg("player", "you");
 		
-		this.setDesc("Shows you a list of all the available skills and a short description of them");
+		this.setDesc("Shows you the list of skills and a short description of them");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
 	}
@@ -37,15 +39,41 @@ public class CmdDeriusList extends DeriusCommand
 	{
 		List<String> msgLines = new ArrayList<String>();
 		
-		//Args
-		// player args
+		// Args
+		// Player args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
 		if (mplayer == null) return;
 		
 		// Message construction
 		msgLines.add("<bold><under>Skills"); // Titel
-		msgLines.addAll(Skills.getSkillsByAvailability(mplayer)); // Not yet implemented, placeholder
+		msgLines.add("");
 		
+		// Evaluates what color code the skill should have and adds it to the list
+		for (Skill skill: Skills.GetAllSkills())
+		{
+			String colorCode;
+			
+			if (!skill.CanPlayerLearnSkill(mplayer))
+			{
+				colorCode = "<grey>";
+			}
+			else
+			{
+				int currentLvl = mplayer.getLvlStatus(skill.getId()).getLvl();
+				if (currentLvl <= 1)
+				{
+					colorCode = "<g>";
+				}
+				else
+				{
+					colorCode = "<b>";
+				}
+			}
+			
+			msgLines.add(Txt.parse("%s %s:	<i>%s", colorCode, skill.getName(), skill.getDesc()));
+		}
+		
+		// Send Message
 		this.msg(msgLines);
 	}
 	
