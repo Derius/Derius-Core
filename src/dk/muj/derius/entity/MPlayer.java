@@ -27,7 +27,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	//		String is id for the skill
 	//		Long is the millis (starting 1 January 1970), when its ability was last used
-	private Map<String,Long> cooldown= new HashMap<String,Long>();
+	private transient long cooldown = 0;
 	
 	
 	// -------------------------------------------- //
@@ -38,7 +38,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the exp to set it to
 	 */
-	public void SetExp(String skillId, long exp)
+	public void setExp(String skillId, long exp)
 	{
 		this.exp.put(skillId, exp);
 	}
@@ -48,7 +48,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {long} players exp in said skill
 	 */
-	public long GetExp(String skillId)
+	public long getExp(String skillId)
 	{
 		return this.exp.get(skillId);
 	}
@@ -60,7 +60,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void AddExp(String skillId, long exp)
 	{
-		this.exp.put(skillId, GetExp(skillId)+exp);
+		this.exp.put(skillId, getExp(skillId)+exp);
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void TakeExp(String skillId, long exp)
 	{
-		this.exp.put(skillId, GetExp(skillId)-exp);
+		this.exp.put(skillId, getExp(skillId)-exp);
 	}
 	
 	// -------------------------------------------- //
@@ -94,7 +94,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void InstantiateSkill(String skillId)
 	{
-		if(!this.exp.containsKey(skillId))
+		if(!this.HasSkill(skillId))
 			this.exp.put(skillId, new Long(0));
 	}
 	
@@ -107,9 +107,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the cooldown to set it to
 	 */
-	public void SetCooldown(String skillId, long cooldownTime)
+	public void setCooldownExpire( long cooldownTime)
 	{
-		this.cooldown.put(skillId, cooldownTime);
+		this.cooldown = cooldownTime;
 	}
 	
 	/**
@@ -117,9 +117,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {long} players cooldown in said skill
 	 */
-	public long GetCooldown(String skillId)
+	public long getCooldownExpire()
 	{
-		return this.cooldown.get(skillId);
+		return cooldown;
 	}
 	
 	/**
@@ -127,9 +127,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the amount to add to players cooldown
 	 */
-	public void ExtendCooldown(String skillId, long millismore)
+	public void ExtendCooldown(String skillId, long millisMore)
 	{
-		this.cooldown.put(skillId, GetCooldown(skillId)+millismore);
+		this.setCooldown(getCooldown()+millisMore);
 	}
 	
 	/**
@@ -137,10 +137,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the amount of millis to take away from cooldown.
 	 */
-	public void ReduceCooldown(String skillId, long millisless)
+	public void ReduceCooldown(long millisLess)
 	{
-		this.cooldown.put(skillId, GetCooldown(skillId)-millisless);
+		this.setCooldown(getCooldown()-millisLess);
 	}
-
-
 }
