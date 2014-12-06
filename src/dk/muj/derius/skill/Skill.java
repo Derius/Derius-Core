@@ -74,7 +74,8 @@ public abstract class Skill
 		for(Description desc : activeAbilityDesc)
 			descs.add(desc.toString());
 		return descs;
-	}	
+	}
+	
 	// -------------------------------------------- //
 	// LEVELS
 	// -------------------------------------------- //
@@ -129,6 +130,17 @@ public abstract class Skill
 	 * @return {boolean} true if the player can learn said skill
 	 */
 	public abstract boolean CanPlayerLearnSkill(MPlayer p);
+	
+	/**
+	 * Gets a list of descriptions for the different abilities.
+	 * But these should include level specific data.
+	 * So this would include data like your double drop chance
+	 * or the length of an active ability being activated (for that lvl).
+	 * These string should be passed directly to a player under normal circumstances.
+	 * @param {int} The level you want to get information about.
+	 * @return {List<String>} description of abilities to the corresponding lvl.
+	 */
+	public abstract List<String> getAbilitiesDecriptionByLvl(int lvl);
 	
 	// -------------------------------------------- //
 	// TO STRING
