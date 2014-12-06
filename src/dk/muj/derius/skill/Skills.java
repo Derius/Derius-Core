@@ -1,4 +1,4 @@
-package dk.muj.derius;
+package dk.muj.derius.skill;
 
 import java.util.ArrayList;
 import java.util.List;
