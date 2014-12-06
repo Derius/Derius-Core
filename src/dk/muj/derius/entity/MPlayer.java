@@ -25,8 +25,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	//		Long is the exp
 	private Map<String, Long> exp = new HashMap<String,Long>();
 	
-	//		String is id for the skill
-	//		Long is the millis (starting 1 January 1970), when its ability was last used
+	//		Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
+	//		Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
 	private transient long cooldown = 0;
 	
 	
@@ -103,8 +103,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// -------------------------------------------- //
 	
 	/**
-	 * Sets users cooldown in said skill. Most used to set it to the current millis of the server running.
-	 * @param {String} id of the skill
+	 * Sets users time when the global cooldown should expire.
 	 * @param {long} the cooldown to set it to
 	 */
 	public void setCooldownExpire( long cooldownTime)
@@ -113,9 +112,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Gets players cooldown in said skill.
-	 * @param {String} id of the skill
-	 * @return {long} players cooldown in said skill
+	 * Gets players cooldown.
+	 * @return {long} players global cooldown
 	 */
 	public long getCooldownExpire()
 	{
@@ -123,19 +121,17 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Adds to the users cooldown in said skill
-	 * @param {String} id of the skill
-	 * @param {long} the amount to add to players cooldown
+	 * Adds millis to the users cooldown.
+	 * @param {long} the amount of millis to add to players global cooldown
 	 */
-	public void ExtendCooldown(String skillId, long millisMore)
+	public void ExtendCooldown(long millisMore)
 	{
 		this.setCooldownExpire(getCooldownExpire()+millisMore);
 	}
 	
 	/**
-	 * Lowers users cooldown in said skill.
-	 * @param {String} id of the skill
-	 * @param {long} the amount of millis to take away from cooldown.
+	 * Lowers users cooldown expire time.
+	 * @param {long} the amount of millis to lower the  global cooldown.
 	 */
 	public void ReduceCooldown(long millisLess)
 	{
