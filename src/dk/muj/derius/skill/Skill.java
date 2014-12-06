@@ -172,6 +172,13 @@ public abstract class Skill
 	public abstract String getName();
 	
 	/**
+	 * Gives a short description of the skill.
+	 * Should not be more than one or two minecraft chat lines long
+	 * @return {String} a short description of the skill
+	 */
+	public abstract String getDesc();
+	
+	/**
 	 * Tells whether or not the player can learn said skill.
 	 * The skill can have different reasons the player might not.
 	 * @param {MPlayer} the player you want to check
