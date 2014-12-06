@@ -8,11 +8,13 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
 
 // Shows you all the learned skills and the level for said player/yourself.
-public class CmdDeriusInspect extends CmdDerius
+public class CmdDeriusInspect extends DeriusCommand
 {
 	public CmdDeriusInspect()
 	{
 		this.addOptionalArg("player", "you");
+		
+		this.setDesc("Shows you all the learned skills and the level for said player/yourself.");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.node));
 	}
