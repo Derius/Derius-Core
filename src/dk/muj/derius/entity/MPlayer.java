@@ -129,7 +129,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void ExtendCooldown(String skillId, long millisMore)
 	{
-		this.setCooldown(getCooldown()+millisMore);
+		this.setCooldownExpire(getCooldownExpire()+millisMore);
 	}
 	
 	/**
@@ -139,6 +139,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void ReduceCooldown(long millisLess)
 	{
-		this.setCooldown(getCooldown()-millisLess);
+		this.setCooldownExpire(getCooldownExpire()-millisLess);
 	}
 }
