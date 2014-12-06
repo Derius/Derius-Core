@@ -1,6 +1,7 @@
 package dk.muj.derius.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.massivecraft.massivecore.store.SenderEntity;
@@ -77,17 +78,52 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	// -------------------------------------------- //
-	// LEVEL INFO
+	// CONVENIENCE METHODS
 	// -------------------------------------------- //
 	
+	/**
+	 * Gets a LvlStatus for said skill in this MPlayer
+	 * @param {String} id of the skill
+	 * @return {LvlStatus} The LvlStatus for said skill & this player
+	 */
 	public LvlStatus getLvlStatus(String skillId)
 	{
 		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId));
 	}
 	
+	/**
+	 * Gets level for said skill in this MPlayer
+	 * @param {String} id of the skill
+	 * @return {int} players level in said skill
+	 */
 	public int getLvl(String skillId)
 	{
 		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId)).getLvl();
+	}
+	
+	/**
+	 * Tells whether or not this player can learn said skill.
+	 * The requirements is set up by the skill not the core plugin
+	 * @param {String} id of the skill
+	 * @return true if the player can learn this skill
+	 */
+	public boolean CanLearnSkill(String skillId)
+	{
+		return Skills.GetSkillById(skillId).CanPlayerLearnSkill(this);
+	}
+	
+	/**
+	 * Gets a list of descriptions for the different abilities in said skill.
+	 * But these should include level specific data (using this players level)
+	 * So this would include data like your double drop chance
+	 * or the length of an active ability being activated (for that lvl).
+	 * These string should be passed directly to a player under normal circumstances.
+	 * @param {String} id of the skill
+	 * @return {List<String>} description of abilities for said skill, corresponding to the players level.
+	 */
+	public List<String> getAbilitiesDecriptionByLvl(String skillId)
+	{
+		return Skills.GetSkillById(skillId).getAbilitiesDecriptionByLvl(this.getLvl(skillId));
 	}
 	
 	// -------------------------------------------- //
