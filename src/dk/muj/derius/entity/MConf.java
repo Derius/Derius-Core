@@ -21,8 +21,7 @@ public class MConf extends Entity<MConf>
 	//Command aliases
 	public List<String> outerAliasesDerius = MUtil.list("d", "derius");
 	public List<String> innerAliasesDeriusSkill = MUtil.list("s", "skill");
-	public List<String> innerAliasesDeriusAbility = MUtil.list("a", "ability");
 	public List<String> innerAliasesDeriusList = MUtil.list("l", "list");
-	public List<String> innerAliasesDeriusShow = MUtil.list("sh", "show");
+	public List<String> innerAliasesDeriusInspect = MUtil.list("i", "inspect");
 	
 }

@@ -15,9 +15,8 @@ public enum Perm
 	ADMIN("admin"),
 	VERSION("version"),
 	SKILL("skill"),
-	ABILITY("ability"),
 	LIST("list"),
-	SHOW("show"),
+	INSPECT("inspect"),
 	
 	
 	// END OF LIST
