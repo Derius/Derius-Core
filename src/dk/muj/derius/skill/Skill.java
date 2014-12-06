@@ -29,13 +29,13 @@ public abstract class Skill
 	 * Adds a description (with name) of a passive ability in this skill
 	 * @param {Description} The description to add
 	 */
-	public void addPassiveAbilityDesc (Description desc) {	this.passiveAbilityDesc.add(desc);	}
+	public void addPassiveAbilityDesc (String name, String desc) {	this.passiveAbilityDesc.add(new Description(name,desc));	}
 	
 	/**
 	 * Adds a description (with name) of a active ability in this skill
 	 * @param {Description} The description to add
 	 */
-	public void addActiveAbilityDesc (Description desc) {	this.activeAbilityDesc.add(desc);	}
+	public void addActiveAbilityDesc (String name, String desc) {	this.activeAbilityDesc.add(new Description(name,desc));	}
 	
 	/**
 	 * Gets a list of the descriptions to earn exp
@@ -74,8 +74,7 @@ public abstract class Skill
 		for(Description desc : activeAbilityDesc)
 			descs.add(desc.toString());
 		return descs;
-	}
-	
+	}	
 	// -------------------------------------------- //
 	// LEVELS
 	// -------------------------------------------- //
