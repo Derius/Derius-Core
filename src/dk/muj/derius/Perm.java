@@ -14,6 +14,11 @@ public enum Perm
 	BASECOMMAND("basecommand"),
 	ADMIN("admin"),
 	VERSION("version"),
+	SKILL("skill"),
+	ABILITY("ability"),
+	LIST("list"),
+	SHOW("show"),
+	
 	
 	// END OF LIST
 	;
