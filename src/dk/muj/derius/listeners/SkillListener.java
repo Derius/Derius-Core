@@ -30,7 +30,7 @@ public class SkillListener implements Listener
 		Skill skill = e.getSkill();
 		int id = skill.getId();
 		for (MPlayer p: MPlayerColl.get().getAll())
-			p.InstantiateSkill(id);
+			p.InstantiateSkill(skill);
 		
 		MConf.get().worldSkillsUse.put(id, new WorldException());
 		MConf.get().worldSkillsEarn.put(id, new WorldException());

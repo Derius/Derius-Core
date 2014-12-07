@@ -8,10 +8,13 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 
 import com.massivecraft.massivecore.store.SenderEntity;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
+import dk.muj.derius.events.PlayerAddExpEvent;
+import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
-import dk.muj.derius.skill.Skills;
+import dk.muj.derius.skill.Skill;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
@@ -52,9 +55,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the exp to set it to
 	 */
-	public void setExp(int skillId, long exp)
+	private void setExp(Skill skill, long exp)
 	{
-		this.exp.put(skillId, exp);
+		this.exp.put(skill.getId(), exp);
 	}
 	
 	/**
@@ -62,29 +65,47 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {long} players exp in said skill
 	 */
-	public long getExp(int skillId)
+	public long getExp(Skill skill)
 	{
-		return this.exp.get(skillId);
+		return this.exp.get(skill);
 	}
 	
 	/**
 	 * Adds exp to user in said skill
-	 * @param {String} id of the skill
+	 * @param {int} id of the skill
 	 * @param {long} the amount to add to players exp
 	 */
-	public void AddExp(int skillId, long exp)
+	public void AddExp(Skill skill, long exp)
 	{
-		this.exp.put(skillId, getExp(skillId)+exp);
+		int lvlBefore = this.getLvl(skill);
+		
+		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
+		Bukkit.getPluginManager().callEvent(event);
+		if(!event.isCancelled())
+			this.setExp(skill, this.getExp(skill)+exp);
+		
+		int lvlAfter = this.getLvl(skill);
+		if(lvlBefore != lvlAfter)
+			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled up <lime>%s <yellow>level in <aqua>%s"), lvlAfter-lvlBefore+"", skill.getName());
 	}
 	
 	/**
 	 * Takes users exp in said skill.
-	 * @param {String} id of the skill
+	 * @param {int} id of the skill
 	 * @param {long} the amount of exp to take away.
 	 */
-	public void TakeExp(int skillId, long exp)
+	public void TakeExp(Skill skill, long exp)
 	{
-		this.exp.put(skillId, getExp(skillId)-exp);
+		int lvlBefore = this.getLvl(skill);
+		
+		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this,skill,exp);
+		Bukkit.getPluginManager().callEvent(event);
+		if(!event.isCancelled())
+			this.setExp(skill, this.getExp(skill)+exp);
+		
+		int lvlAfter = this.getLvl(skill);
+		if(lvlBefore != lvlAfter)
+			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled down <b>%s <yellow>level in <aqua>%s"), lvlBefore-lvlAfter+"", skill.getName());
 	}
 	
 	// -------------------------------------------- //
@@ -96,9 +117,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return true if the player has something in this skill (even 0)
 	 */
-	public boolean HasSkill(int skillId)
+	public boolean HasSkill(Skill skill)
 	{
-		return this.exp.containsKey(skillId);
+		return this.exp.containsKey(skill.getId());
 	}
 	
 	/**
@@ -106,10 +127,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * if not already instantiated
 	 * @param {String} id of the skill
 	 */
-	public void InstantiateSkill(int skillId)
+	public void InstantiateSkill(Skill skill)
 	{
-		if(!this.HasSkill(skillId))
-			this.exp.put(skillId, new Long(0));
+		if(!this.HasSkill(skill))
+			this.exp.put(skill.getId(), new Long(0));
 	}
 	
 	// -------------------------------------------- //
@@ -192,9 +213,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {LvlStatus} The LvlStatus for said skill & this player
 	 */
-	public LvlStatus getLvlStatus(int skillId)
+	public LvlStatus getLvlStatus(Skill skill)
 	{
-		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId));
+		return skill.LvlStatusFromExp(this.getExp(skill));
 	}
 	
 	/**
@@ -202,9 +223,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {int} players level in said skill
 	 */
-	public int getLvl(int skillId)
+	public int getLvl(Skill skill)
 	{
-		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId)).getLvl();
+		return skill.LvlStatusFromExp(this.getExp(skill)).getLvl();
 	}
 	
 	/**
@@ -213,9 +234,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return true if the player can learn this skill
 	 */
-	public boolean CanLearnSkill(int skillId)
+	public boolean CanLearnSkill(Skill skill)
 	{
-		return Skills.GetSkillById(skillId).CanPlayerLearnSkill(this);
+		return skill.CanPlayerLearnSkill(this);
 	}
 	
 	/**
@@ -227,9 +248,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {List<String>} description of abilities for said skill, corresponding to the players level.
 	 */
-	public List<String> getAbilitiesDecriptionByLvl(int skillId)
+	public List<String> getAbilitiesDecriptionByLvl(Skill skill)
 	{
-		return Skills.GetSkillById(skillId).getAbilitiesDecriptionByLvl(this.getLvl(skillId));
+		return skill.getAbilitiesDecriptionByLvl(this.getLvl(skill));
 	}
 	
 }

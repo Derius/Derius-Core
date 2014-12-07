@@ -56,7 +56,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		// Swapping between default and user inserted value
 		if(level.intValue() <= -1)
 		{
-			LvlStatus status = msender.getLvlStatus(skill.getId());
+			LvlStatus status = msender.getLvlStatus(skill);
 			msgLines.add(Txt.parse(status.toString()));
 			level = status.getLvl();
 		}

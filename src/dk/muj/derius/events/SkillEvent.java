@@ -1,15 +1,13 @@
 package dk.muj.derius.events;
 
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.skill.Skill;
 
-/**
- * This event is called when a skill is registered into the system.
- * Note the same skills will be registered on server startup each time.
- */
-public class SkillRegisteredEvent extends SkillEvent
+public abstract class SkillEvent extends Event
 {
+
 	private static final HandlerList handlers = new HandlerList();
 	 
 	public HandlerList getHandlers() 
@@ -22,9 +20,15 @@ public class SkillRegisteredEvent extends SkillEvent
 	    return handlers;
 	}
 	
-	public SkillRegisteredEvent(Skill registeredSkill)
-	{
-		super(registeredSkill);
-	}
+	private final Skill skill;
 	
+	public SkillEvent(Skill skill)
+	{
+		this.skill = skill;
+	}
+
+	public Skill getSkill()
+	{
+		return skill;
+	}
 }
