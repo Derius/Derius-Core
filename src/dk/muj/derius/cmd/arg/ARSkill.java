@@ -40,7 +40,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		for (Skill skill : Skills.GetAllSkills())
 		{
 			skillstr = getComparable(arg);
-			if(skill.getId().equals(skillstr))
+			if(skill.getName().toLowerCase().startsWith(skillstr.toLowerCase()))
 			{
 				return skill;
 			}
@@ -68,7 +68,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		
 		for (Skill skill : Skills.GetAllSkills())
 		{
-			ret.add(Txt.upperCaseFirst(skill.getId()));
+			ret.add(skill.getName());
 		}
 		return ret;
 	}
