@@ -6,6 +6,9 @@ import org.bukkit.event.HandlerList;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
+/**
+ * This event is thrown every time a player loses exp
+ */
 public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 {
 	private static final HandlerList handlers = new HandlerList();
@@ -32,16 +35,28 @@ public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 		
 	}
 
+	/**
+	 * Get the player who is losing exp
+	 * @return {MPlayer} player getting exp
+	 */
 	public MPlayer getPlayer()
 	{
 		return player;
 	}
 
+	/**
+	 * Gets the amount of exp being lost
+	 * @return {long} the amount of lost exp
+	 */
 	public long getExpamount()
 	{
 		return amount;
 	}
 
+	/**
+	 * Sets the amount of exp being lost
+	 * @param {long} the amount of exp lost
+	 */
 	public void setExpAmount(long expamount)
 	{
 		this.amount = expamount;

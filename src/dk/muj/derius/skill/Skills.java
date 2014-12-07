@@ -23,7 +23,6 @@ public final class Skills
 	 * You still have to add exp & enforce the abilities players get.
 	 * This should be done on server startup.
 	 * @param {Skill} The skill you want to add
-	 * @throws IdAlreadyInUseException 
 	 */
 	public static void AddSkill(Skill skill)
 	{
