@@ -31,9 +31,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	//		String is id for the skill
 	//		Long is the exp
-	private Map<String, Long> exp = new HashMap<String,Long>();
+	private Map<Integer, Long> exp = new HashMap<Integer,Long>();
 	
-	private List<String> specialised = new ArrayList<String>();
+	private List<Integer> specialised = new ArrayList<Integer>();
 	
 	//		Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	//		Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
@@ -52,7 +52,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the exp to set it to
 	 */
-	public void setExp(String skillId, long exp)
+	public void setExp(int skillId, long exp)
 	{
 		this.exp.put(skillId, exp);
 	}
@@ -62,7 +62,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {long} players exp in said skill
 	 */
-	public long getExp(String skillId)
+	public long getExp(int skillId)
 	{
 		return this.exp.get(skillId);
 	}
@@ -72,7 +72,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the amount to add to players exp
 	 */
-	public void AddExp(String skillId, long exp)
+	public void AddExp(int skillId, long exp)
 	{
 		this.exp.put(skillId, getExp(skillId)+exp);
 	}
@@ -82,7 +82,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @param {long} the amount of exp to take away.
 	 */
-	public void TakeExp(String skillId, long exp)
+	public void TakeExp(int skillId, long exp)
 	{
 		this.exp.put(skillId, getExp(skillId)-exp);
 	}
@@ -96,7 +96,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return true if the player has something in this skill (even 0)
 	 */
-	public boolean HasSkill(String skillId)
+	public boolean HasSkill(int skillId)
 	{
 		return this.exp.containsKey(skillId);
 	}
@@ -106,7 +106,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * if not already instantiated
 	 * @param {String} id of the skill
 	 */
-	public void InstantiateSkill(String skillId)
+	public void InstantiateSkill(int skillId)
 	{
 		if(!this.HasSkill(skillId))
 			this.exp.put(skillId, new Long(0));
@@ -192,7 +192,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {LvlStatus} The LvlStatus for said skill & this player
 	 */
-	public LvlStatus getLvlStatus(String skillId)
+	public LvlStatus getLvlStatus(int skillId)
 	{
 		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId));
 	}
@@ -202,7 +202,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {int} players level in said skill
 	 */
-	public int getLvl(String skillId)
+	public int getLvl(int skillId)
 	{
 		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId)).getLvl();
 	}
@@ -213,7 +213,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return true if the player can learn this skill
 	 */
-	public boolean CanLearnSkill(String skillId)
+	public boolean CanLearnSkill(int skillId)
 	{
 		return Skills.GetSkillById(skillId).CanPlayerLearnSkill(this);
 	}
@@ -227,7 +227,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {List<String>} description of abilities for said skill, corresponding to the players level.
 	 */
-	public List<String> getAbilitiesDecriptionByLvl(String skillId)
+	public List<String> getAbilitiesDecriptionByLvl(int skillId)
 	{
 		return Skills.GetSkillById(skillId).getAbilitiesDecriptionByLvl(this.getLvl(skillId));
 	}

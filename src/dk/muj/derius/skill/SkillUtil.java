@@ -13,7 +13,7 @@ public class SkillUtil
 	 * @param {String} id of the skill
 	 * @return {boolean} true if a double drop should occur. This is random
 	 */
-	public static boolean PlayerGetDoubleDrop(MPlayer mplayer, String skillId)
+	public static boolean PlayerGetDoubleDrop(MPlayer mplayer, int skillId)
 	{
 		return SkillUtil.PlayerGetDoubleDrop(mplayer.getLvl(skillId), skillId);
 	}
@@ -26,7 +26,7 @@ public class SkillUtil
 	 * @param {String} id of the skill
 	 * @return {boolean} true if a double drop should occur. This is random
 	 */
-	public static boolean PlayerGetDoubleDrop(int level, String skillId)
+	public static boolean PlayerGetDoubleDrop(int level, int skillId)
 	{
 		double chance = level/10.0;
 		double random = (int) ((Math.random()*100)+1);

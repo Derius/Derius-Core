@@ -28,7 +28,7 @@ public class SkillListener implements Listener
 	public void onRegistered(SkillRegisteredEvent e)
 	{
 		Skill skill = e.getSkill();
-		String id = skill.getId();
+		int id = skill.getId();
 		for (MPlayer p: MPlayerColl.get().getAll())
 			p.InstantiateSkill(id);
 		

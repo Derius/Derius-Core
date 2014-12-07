@@ -36,11 +36,11 @@ public final class Skills
 	 * @param {String} The id of the skill you wanted to get.
 	 * @return{Skill} The skill which has this id
 	 */
-	public static Skill GetSkillById(String skillId)
+	public static Skill GetSkillById(int skillId)
 	{
 		for(Skill skill: Skills.skillList)
 		{
-			if(skill.getId().equals(skillId))
+			if(skill.getId() == skillId)
 				return skill;
 		}
 		return null;

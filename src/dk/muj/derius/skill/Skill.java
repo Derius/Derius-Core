@@ -199,7 +199,7 @@ public abstract class Skill
 	 * This should be lowercase.
 	 * @return {String} the skills unique id.
 	 */
-	public abstract String getId();
+	public abstract int getId();
 	
 	/**
 	 * Gets the name of the skill. This is seen by players.
