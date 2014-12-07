@@ -54,14 +54,15 @@ public class CmdDeriusSkill extends DeriusCommand
 		msgLines.add("<lime>"+skill.getDesc());
 		
 		// Swapping between default and user inserted value
-		if(level.intValue() == -1)
+		if(level.intValue() <= -1)
 		{
 			LvlStatus status = msender.getLvlStatus(skill.getId());
 			msgLines.add(Txt.parse(status.toString()));
+			level = status.getLvl();
 		}
 		else
 		{
-			msgLines.add(Txt.parse("<grey>LVL: <art>"+level));
+			msgLines.add(Txt.parse("<gray>LVL: <art>"+level));
 		}
 
 		msgLines.add("<red>[<green>Passive abilities<red>]");
