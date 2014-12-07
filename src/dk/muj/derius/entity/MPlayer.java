@@ -67,7 +67,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public long getExp(Skill skill)
 	{
-		return this.exp.get(skill);
+		return this.exp.get(skill.getId());
 	}
 	
 	/**
