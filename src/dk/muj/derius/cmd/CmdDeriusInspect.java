@@ -10,6 +10,7 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.Skills;
 
@@ -59,15 +60,18 @@ public class CmdDeriusInspect extends DeriusCommand
 		// Evaluates if the user has leveled the skill and adds it to the List
 		for (Skill skill: Skills.GetAllSkills())
 		{
-			int currentLvl = mplayer.getLvlStatus(skill).getLvl();
+			LvlStatus status = mplayer.getLvlStatus(skill);
+			String skillColor;
 			if(!mplayer.CanLearnSkill(skill))
 			{
-				msgLines.add(Txt.parse("<gray>%s: <pink>%s", skill.getName(), currentLvl));
+				skillColor = "<gray>";
 			}
 			else
 			{
-				msgLines.add(Txt.parse("<aqua>%s: <pink>%s", skill.getName(), currentLvl));
+				skillColor = "<aqua>";
 			}
+			
+			msgLines.add(Txt.parse("%s%s: %s", skillColor, skill.getName(), status));
 		}
 		
 		// Send Message
