@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 
 import dk.muj.derius.events.SkillRegisteredEvent;
+import dk.muj.derius.exceptions.IdAlreadyInUseException;
 
 public final class Skills
 {
@@ -22,9 +23,17 @@ public final class Skills
 	 * You still have to add exp & enforce the abilities players get.
 	 * This should be done on server startup.
 	 * @param {Skill} The skill you want to add
+	 * @throws IdAlreadyInUseException 
 	 */
-	public static void AddSkill(Skill skill)
+	public static void AddSkill(Skill skill) throws IdAlreadyInUseException
 	{
+		Skill before = GetSkillById(skill.getId());
+		if(before != null)
+		{
+			int id = skill.getId();
+			throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+					+ " but "+skill.getName() + " is trying to use it");
+		}
 		skillList.add(skill);
 		SkillRegisteredEvent event = new SkillRegisteredEvent(skill);
 		Bukkit.getServer().getPluginManager().callEvent(event);
