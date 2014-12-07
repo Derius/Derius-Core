@@ -15,6 +15,7 @@ import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.Skills;
 
 // Shows you all the learned skills and the level for said player/yourself.
+// Color code of skill: grey = locked, you can't learn it | aqua = You have started learning it and are on some level
 public class CmdDeriusInspect extends DeriusCommand
 {
 	// -------------------------------------------- //
@@ -71,7 +72,7 @@ public class CmdDeriusInspect extends DeriusCommand
 				skillColor = "<aqua>";
 			}
 			
-			msgLines.add(Txt.parse("%s%s: %s", skillColor, skill.getName(), status));
+			msgLines.add(Txt.parse("%s%s: %s", skillColor, skill.getName(), status.toString()));
 		}
 		
 		// Send Message
