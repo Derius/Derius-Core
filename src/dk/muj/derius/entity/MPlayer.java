@@ -1,11 +1,15 @@
 package dk.muj.derius.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+
 import com.massivecraft.massivecore.store.SenderEntity;
 
+import dk.muj.derius.Derius;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skills;
 
@@ -29,9 +33,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	//		Long is the exp
 	private Map<String, Long> exp = new HashMap<String,Long>();
 	
+	private List<String> specialised = new ArrayList<String>();
+	
 	//		Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	//		Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
 	private transient long cooldown = 0;
+	
+	//A list of the active abilities the user has activated
+	//Each ability should have a unique number
+	private transient List<Integer> activatedAbilities = new ArrayList<Integer>();
 	
 	
 	// -------------------------------------------- //
@@ -75,55 +85,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void TakeExp(String skillId, long exp)
 	{
 		this.exp.put(skillId, getExp(skillId)-exp);
-	}
-	
-	// -------------------------------------------- //
-	// CONVENIENCE METHODS
-	// -------------------------------------------- //
-	
-	/**
-	 * Gets a LvlStatus for said skill in this MPlayer
-	 * @param {String} id of the skill
-	 * @return {LvlStatus} The LvlStatus for said skill & this player
-	 */
-	public LvlStatus getLvlStatus(String skillId)
-	{
-		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId));
-	}
-	
-	/**
-	 * Gets level for said skill in this MPlayer
-	 * @param {String} id of the skill
-	 * @return {int} players level in said skill
-	 */
-	public int getLvl(String skillId)
-	{
-		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId)).getLvl();
-	}
-	
-	/**
-	 * Tells whether or not this player can learn said skill.
-	 * The requirements is set up by the skill not the core plugin
-	 * @param {String} id of the skill
-	 * @return true if the player can learn this skill
-	 */
-	public boolean CanLearnSkill(String skillId)
-	{
-		return Skills.GetSkillById(skillId).CanPlayerLearnSkill(this);
-	}
-	
-	/**
-	 * Gets a list of descriptions for the different abilities in said skill.
-	 * But these should include level specific data (using this players level)
-	 * So this would include data like your double drop chance
-	 * or the length of an active ability being activated (for that lvl).
-	 * These string should be passed directly to a player under normal circumstances.
-	 * @param {String} id of the skill
-	 * @return {List<String>} description of abilities for said skill, corresponding to the players level.
-	 */
-	public List<String> getAbilitiesDecriptionByLvl(String skillId)
-	{
-		return Skills.GetSkillById(skillId).getAbilitiesDecriptionByLvl(this.getLvl(skillId));
 	}
 	
 	// -------------------------------------------- //
@@ -190,4 +151,85 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		this.setCooldownExpire(getCooldownExpire()-millisLess);
 	}
+	
+	// -------------------------------------------- //
+	// MANAGE ACTIVATED ABILITIES
+	// -------------------------------------------- //
+	
+	public void ActivateAbility(int ability)
+	{
+		this.activatedAbilities.add(ability);
+	}
+	
+	public void ActivateAbility(final int ability, int deactivateTime)
+	{
+		this.activatedAbilities.add(ability);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Derius.get(), new Runnable(){
+			@Override
+			public void run()
+			{
+				DeactivateAbility(ability); 
+			}
+		}, deactivateTime);
+	}
+	
+	public void DeactivateAbility(int ability)
+	{
+		this.activatedAbilities.remove(ability);
+	}
+	
+	public boolean HasActivated(int ability)
+	{
+		return this.activatedAbilities.contains(ability);
+	}
+	
+	// -------------------------------------------- //
+	// CONVENIENCE METHODS
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets a LvlStatus for said skill in this MPlayer
+	 * @param {String} id of the skill
+	 * @return {LvlStatus} The LvlStatus for said skill & this player
+	 */
+	public LvlStatus getLvlStatus(String skillId)
+	{
+		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId));
+	}
+	
+	/**
+	 * Gets level for said skill in this MPlayer
+	 * @param {String} id of the skill
+	 * @return {int} players level in said skill
+	 */
+	public int getLvl(String skillId)
+	{
+		return Skills.GetSkillById(skillId).LvlStatusFromExp(this.getExp(skillId)).getLvl();
+	}
+	
+	/**
+	 * Tells whether or not this player can learn said skill.
+	 * The requirements is set up by the skill not the core plugin
+	 * @param {String} id of the skill
+	 * @return true if the player can learn this skill
+	 */
+	public boolean CanLearnSkill(String skillId)
+	{
+		return Skills.GetSkillById(skillId).CanPlayerLearnSkill(this);
+	}
+	
+	/**
+	 * Gets a list of descriptions for the different abilities in said skill.
+	 * But these should include level specific data (using this players level)
+	 * So this would include data like your double drop chance
+	 * or the length of an active ability being activated (for that lvl).
+	 * These string should be passed directly to a player under normal circumstances.
+	 * @param {String} id of the skill
+	 * @return {List<String>} description of abilities for said skill, corresponding to the players level.
+	 */
+	public List<String> getAbilitiesDecriptionByLvl(String skillId)
+	{
+		return Skills.GetSkillById(skillId).getAbilitiesDecriptionByLvl(this.getLvl(skillId));
+	}
+	
 }

@@ -23,6 +23,24 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	// -------------------------------------------- //
+	// SKILL SETTINGS
+	// -------------------------------------------- //
+	
+	/**
+	 * The maximum amount of skills you can specialize in
+	 */
+	public int maxSpecial = 3;
+	
+	/**
+	 * The maximum level you can reach without specialization
+	 */
+	public int softCap = 1000;
+	/**
+	 * The maximum level you can reach with specialization
+	 */
+	public int hardCap = 2000;
+	
+	// -------------------------------------------- //
 	// COMMAND ALIASES
 	// -------------------------------------------- //
 	public List<String> outerAliasesDerius = MUtil.list("d", "derius");
