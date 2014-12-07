@@ -60,7 +60,11 @@ public class CmdDeriusInspect extends DeriusCommand
 		for (Skill skill: Skills.GetAllSkills())
 		{
 			int currentLvl = mplayer.getLvlStatus(skill).getLvl();
-			if( currentLvl <= 1)
+			if(!mplayer.CanLearnSkill(skill))
+			{
+				msgLines.add(Txt.parse("<gray>%s: <pink>%s", skill.getName(), currentLvl));
+			}
+			else
 			{
 				msgLines.add(Txt.parse("<aqua>%s: <pink>%s", skill.getName(), currentLvl));
 			}
