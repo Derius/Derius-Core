@@ -58,7 +58,7 @@ public class CmdDeriusList extends DeriusCommand
 			}
 			else
 			{
-				colorCode = "<pink>";
+				colorCode = "<aqua>";
 			}
 			
 			msgLines.add(Txt.parse("%s%s: <i>%s", colorCode, skill.getName(), skill.getDesc()));

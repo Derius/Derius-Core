@@ -52,7 +52,8 @@ public class CmdDeriusInspect extends DeriusCommand
 		}
 		else
 		{
-			msgLines.add(Txt.parse("<bold><under>%s's Skills", mplayer.getName()));
+			
+			msgLines.add(Txt.titleize(Txt.parse("%s's Skills", mplayer.getDisplayName(msender))));
 		}
 		
 		// Evaluates if the user has leveled the skill and adds it to the List
@@ -61,7 +62,7 @@ public class CmdDeriusInspect extends DeriusCommand
 			int currentLvl = mplayer.getLvlStatus(skill.getId()).getLvl();
 			if( currentLvl <= 1)
 			{
-				msgLines.add(Txt.parse("<pink>%s: <g>%s", skill.getName(), currentLvl));
+				msgLines.add(Txt.parse("<aqua>%s: <pink>%s", skill.getName(), currentLvl));
 			}
 		}
 		
