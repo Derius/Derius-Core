@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Derius;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
@@ -86,7 +85,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		int lvlAfter = this.getLvl(skill);
 		if(lvlBefore != lvlAfter)
-			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled up <lime>%s <yellow>level in <aqua>%s"), lvlAfter-lvlBefore+"", skill.getName());
+			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled up <lime>%s <yellow>level in <aqua>%s", lvlAfter-lvlBefore+"", skill.getName()));
 	}
 	
 	/**
@@ -105,7 +104,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		int lvlAfter = this.getLvl(skill);
 		if(lvlBefore != lvlAfter)
-			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled down <b>%s <yellow>level in <aqua>%s"), lvlBefore-lvlAfter+"", skill.getName());
+			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled down <b>%s <yellow>level in <aqua>%s", lvlBefore-lvlAfter+"", skill.getName()));
 	}
 	
 	// -------------------------------------------- //
@@ -177,28 +176,34 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// MANAGE ACTIVATED ABILITIES
 	// -------------------------------------------- //
 	
+	/**
+	 * Activates an ability for this player.
+	 * This is only for easily cross plugin data sharing 
+	 * & making storing of data easier for you
+	 * @param {int} id of the ability
+	 */
 	public void ActivateAbility(int ability)
 	{
 		this.activatedAbilities.add(ability);
 	}
 	
-	public void ActivateAbility(final int ability, int deactivateTime)
-	{
-		this.activatedAbilities.add(ability);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(Derius.get(), new Runnable(){
-			@Override
-			public void run()
-			{
-				DeactivateAbility(ability); 
-			}
-		}, deactivateTime);
-	}
-	
+	/**
+	 * Deactivates an ability for this player.
+	 * This is only for easily cross plugin data sharing 
+	 * & making storing of data easier for you
+	 * @param {int} id of the ability
+	 */
 	public void DeactivateAbility(int ability)
 	{
 		this.activatedAbilities.remove(ability);
 	}
 	
+	/**
+	 * Checks if the player has ability activated.
+	 * This is only for easily cross plugin data sharing 
+	 * & making storing of data easier for you
+	 * @param {int} id of the ability
+	 */
 	public boolean HasActivated(int ability)
 	{
 		return this.activatedAbilities.contains(ability);
