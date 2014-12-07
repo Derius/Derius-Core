@@ -61,7 +61,7 @@ public class LvlStatus
 	 */
 	public String toString()
 	{
-		return Txt.parse("<silver>LVL<art>: "+ lvl+ "  <silver>XP: <lime>"+exp+"<yellow>/<lime>"+expToNextLvl);
+		return Txt.parse("<silver>LVL: <art>"+ lvl+ "  <silver>XP: <lime>"+exp+"<yellow>/<lime>"+expToNextLvl);
 	}
 
 }

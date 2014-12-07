@@ -50,30 +50,30 @@ public class CmdDeriusSkill extends DeriusCommand
 		
 		
 		// Message construction
-		msgLines.add(Txt.parse("<bold><under><i>" + skill.toString())); // Titel
-		msgLines.add("");
-		msgLines.add(skill.getDesc());
+		msgLines.add(Txt.titleize(Txt.parse("<green>" + skill.toString()))); // Titel
+		msgLines.add("<lime>"+skill.getDesc());
 		
 		// Swapping between default and user inserted value
 		if(level.intValue() == -1)
 		{
 			LvlStatus status = msender.getLvlStatus(skill.getId());
-			msgLines.add(Txt.parse("<grey>LVL:"+status.toString()));
+			msgLines.add(Txt.parse(status.toString()));
 		}
 		else
 		{
-			msgLines.add(Txt.parse("<grey>LVL:<yellow>"+level));
+			msgLines.add(Txt.parse("<grey>LVL: <art>"+level));
 		}
 
-		msgLines.add("<i><under>Passive abilities");
+		msgLines.add("<red>[<green>Passive abilities<red>]");
 		msgLines.addAll(skill.getPassiveAbilityDescriptions());
-		msgLines.add("<i><under>Active abilities");
+		msgLines.add("<red>[<green>Active abilities<red>]");
 		msgLines.addAll(skill.getActiveAbilityDescriptions());
-		msgLines.add("<i><under>Level stats");
+		msgLines.add("<red>[<green>Level stats<red>]");
 		msgLines.addAll(skill.getAbilitiesDecriptionByLvl(level));
 
+		
 		// Send Message
-		this.msg(msgLines);
+		this.msg(Txt.parse(msgLines));
 	}
 	
 	@Override

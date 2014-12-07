@@ -45,8 +45,7 @@ public class CmdDeriusList extends DeriusCommand
 		if (mplayer == null) return;
 		
 		// Message construction
-		msgLines.add("<bold><under>Skills"); // Titel
-		msgLines.add("");
+		msgLines.add(Txt.titleize("Skills")); // Titel
 		
 		// Evaluates what color code the skill should have and adds it to the list
 		for (Skill skill: Skills.GetAllSkills())
@@ -59,18 +58,10 @@ public class CmdDeriusList extends DeriusCommand
 			}
 			else
 			{
-				int currentLvl = mplayer.getLvlStatus(skill.getId()).getLvl();
-				if (currentLvl <= 1)
-				{
-					colorCode = "<g>";
-				}
-				else
-				{
-					colorCode = "<b>";
-				}
+				colorCode = "<pink>";
 			}
 			
-			msgLines.add(Txt.parse("%s %s:	<i>%s", colorCode, skill.getName(), skill.getDesc()));
+			msgLines.add(Txt.parse("%s%s: <i>%s", colorCode, skill.getName(), skill.getDesc()));
 		}
 		
 		// Send Message

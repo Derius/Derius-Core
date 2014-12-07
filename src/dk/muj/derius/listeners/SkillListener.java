@@ -1,5 +1,6 @@
 package dk.muj.derius.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,13 +20,15 @@ public class SkillListener implements Listener
 	public SkillListener(MassivePlugin plugin)
 	{
 		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+		Bukkit.broadcastMessage("Registered listener");
 	}
 	
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onRegistered(SkillRegisteredEvent e)
 	{
+		Bukkit.broadcastMessage("Skill registered");
 		Skill skill = e.getSkill();
 		String id = skill.getId();
 		for (MPlayer p: MPlayerColl.get().getAll())
