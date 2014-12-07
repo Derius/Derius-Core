@@ -25,14 +25,21 @@ public final class Skills
 	 * @param {Skill} The skill you want to add
 	 * @throws IdAlreadyInUseException 
 	 */
-	public static void AddSkill(Skill skill) throws IdAlreadyInUseException
+	public static void AddSkill(Skill skill)
 	{
 		Skill before = GetSkillById(skill.getId());
 		if(before != null)
 		{
 			int id = skill.getId();
-			throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
-					+ " but "+skill.getName() + " is trying to use it");
+			try
+			{
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+						+ " but "+skill.getName() + " is trying to use it");
+			}
+			catch (IdAlreadyInUseException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		skillList.add(skill);
 		SkillRegisteredEvent event = new SkillRegisteredEvent(skill);
