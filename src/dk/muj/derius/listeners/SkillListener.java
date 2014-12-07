@@ -21,14 +21,12 @@ public class SkillListener implements Listener
 	{
 		this.plugin = plugin;
 		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
-		Bukkit.broadcastMessage("Registered listener");
 	}
 	
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onRegistered(SkillRegisteredEvent e)
 	{
-		Bukkit.broadcastMessage("Skill registered");
 		Skill skill = e.getSkill();
 		String id = skill.getId();
 		for (MPlayer p: MPlayerColl.get().getAll())
