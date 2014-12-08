@@ -203,7 +203,7 @@ public abstract class Skill
 	
 	/**
 	 * Gets the name of the skill. This is seen by players.
-	 * THis MUST be unique but can always be changed.
+	 * This MUST be unique but can always be changed.
 	 * @return {String} The skills name
 	 */
 	public abstract String getName();
