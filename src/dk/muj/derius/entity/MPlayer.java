@@ -150,7 +150,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Sets the player specialised in the skill.
-	 * This will not suceed if the player is filled with specialisations already
+	 * This will not succeed if the player is filled with specialisations already
 	 * or the skill is on the spcialisationAutomatic or black list.
 	 * @param {Skill} the skill
 	 * @return Whether or not the player is ,specialised in the skill now.
@@ -212,6 +212,55 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void ReduceCooldown(long millisLess)
 	{
 		this.setCooldownExpire(getCooldownExpire()-millisLess);
+	}
+	
+	/**
+	 * Checks whether the Cooldown has expired and if sendMessage is true
+	 * send the Cooldown message along.
+	 * @return {boolean} whether the Cooldown has expired or not
+	 */
+	public boolean hasCooldownExpired (boolean sendMessage)
+	{
+		long currentTime = System.currentTimeMillis();
+		if (currentTime >= getCooldownExpire()) 
+			return true;
+		
+		if (sendMessage) { AbilityCooldownMsg(currentTime); }
+		return false;
+	}
+	
+	/**
+	 * Sends out the Cooldown message to the player. The Message itself can be changed in the MConf.
+	 */
+	public void AbilityCooldownMsg (long timeNow)
+	{
+		long currentTime = timeNow;
+		long timeRemainingSeconds = (currentTime-getCooldownExpire())/1000;
+		
+		msg(Txt.parse(MConf.get().abilityCooldownMsg, timeRemainingSeconds));
+	}
+	
+	/**
+	 * Sets the Cooldown to be the passed seconds in the future.
+	 * @param {int} seconds in the future the cooldown should be set to.
+	 */
+	public void setCooldownExpireIn (int seconds)
+	{
+		long currentTime = System.currentTimeMillis();
+		setCooldownExpire(currentTime+seconds*1000);
+	}
+	
+	/**
+	 * Sets the Cooldown to be between the passed seconds in the future.
+	 * @param {int} minimum seconds in the future the cooldown should be set to.
+	 * @param {int} maximum seconds in the future the cooldown should be set to.
+	 */
+	public void setCooldownExpireBetween (int secondsMin, int secondsMax)
+	{
+		long currentTime = System.currentTimeMillis();
+		int difference = RandomBetween(secondsMin, secondsMax);
+
+		setCooldownExpire(currentTime+difference*1000);
 	}
 	
 	// -------------------------------------------- //
@@ -298,6 +347,12 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public List<String> getAbilitiesDecriptionByLvl(Skill skill)
 	{
 		return skill.getAbilitiesDecriptionByLvl(this.getLvl(skill));
+	}
+	
+	private int RandomBetween(int from, int to)
+	{
+		int range = to - from + 1;
+		return (int) (Math.random()*range) + to;
 	}
 	
 }

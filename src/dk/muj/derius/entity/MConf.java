@@ -24,6 +24,16 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	// -------------------------------------------- //
+	// COOLDOWN SETTINGS
+	// -------------------------------------------- //
+	
+	/**
+	 * This Message get's shown to the Player when he attempts to use his ability,
+	 * but the Cooldown time has not yet been reached.
+	 */
+	public String abilityCooldownMsg = "<green>[DERIUS]<i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
+	
+	// -------------------------------------------- //
 	// SKILL SETTINGS
 	// -------------------------------------------- //
 	
@@ -42,12 +52,12 @@ public class MConf extends Entity<MConf>
 	public int hardCap = 2000;
 	
 	/**
-	 * The skills which you can't specialise int
+	 * The skills which you can't specialize in.
 	 */
 	public List<Integer> specialisationBlacklist = new ArrayList<Integer>();
 	
 	/**
-	 * The skills you are automatically specialised in.
+	 * The skills you are automatically specialized in.
 	 */
 	public List<Integer> specialisationAutomatic = new ArrayList<Integer>();
 	
