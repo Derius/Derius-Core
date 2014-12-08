@@ -14,6 +14,7 @@ import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.skill.SpecialisationStatus;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
@@ -78,6 +79,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		int lvlBefore = this.getLvl(skill);
 		
+		if(lvlBefore >= this.MaxLevel(skill))
+			return;
+		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		Bukkit.getPluginManager().callEvent(event);
 		if(!event.isCancelled())
@@ -132,20 +136,31 @@ public class MPlayer extends SenderEntity<MPlayer>
 			this.exp.put(skill.getId(), new Long(0));
 	}
 	
+	public int MaxLevel(Skill skill)
+	{
+		SpecialisationStatus status = this.isSpecialisedIn(skill);
+		if(status == SpecialisationStatus.HAD || status == SpecialisationStatus.AUTO_ASSIGNED)
+			return MConf.get().hardCap;
+		return MConf.get().softCap;
+	}
+	
 	/**
 	 * Tells whether or not the player is specialised in this skill
 	 * @param {Skill} the skill
 	 * @return {boolean} true if the player is specialised in the skill
 	 */
-	public boolean isSpecialisedIn(Skill skill)
+	public SpecialisationStatus isSpecialisedIn(Skill skill)
 	{
 		if( specialised.contains(skill.getId()) )
-			return true;
+			return SpecialisationStatus.HAD;
 		
 		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return true;
+			return SpecialisationStatus.AUTO_ASSIGNED;
 		
-		return false;
+		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
+			return SpecialisationStatus.BLACK_LISTED;
+		
+		return SpecialisationStatus.DIDNT_HAVE;
 	}
 	
 	/**
@@ -155,22 +170,22 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} the skill
 	 * @return Whether or not the player is ,specialised in the skill now.
 	 */
-	public boolean setSpecialisedIn(Skill skill)
+	public SpecialisationStatus setSpecialisedIn(Skill skill)
 	{
 		if( specialised.contains(skill.getId()) )
-			return true;
+			return SpecialisationStatus.HAD;
 		
 		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return true;
+			return SpecialisationStatus.AUTO_ASSIGNED;
 		
 		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
-			return false;
+			return SpecialisationStatus.BLACK_LISTED;
 		
 		if(MConf.get().specialisationMax >= specialised.size())
-			return false;
+			return SpecialisationStatus.TOO_MANY;
 		
 		specialised.add(skill.getId());
-		return true;
+		return SpecialisationStatus.HAS_NOW;
 	}
 	
 	
