@@ -51,7 +51,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// -------------------------------------------- //
 	/**
 	 * Sets users exp in said skill.
-	 * @param {String} id of the skill
+	 * @param {Skill} the skill
 	 * @param {long} the exp to set it to
 	 */
 	private void setExp(Skill skill, long exp)
@@ -61,7 +61,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Gets players exp in said skill.
-	 * @param {String} id of the skill
+	 * @param {Skill} the skill
 	 * @return {long} players exp in said skill
 	 */
 	public long getExp(Skill skill)
@@ -71,7 +71,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Adds exp to user in said skill
-	 * @param {int} id of the skill
+	 * @param {Skill} the skill
 	 * @param {long} the amount to add to players exp
 	 */
 	public void AddExp(Skill skill, long exp)
@@ -90,7 +90,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Takes users exp in said skill.
-	 * @param {int} id of the skill
+	 * @param {Skill} the skill
 	 * @param {long} the amount of exp to take away.
 	 */
 	public void TakeExp(Skill skill, long exp)
@@ -113,7 +113,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Tells whether or not the player has this skill initiated.
-	 * @param {String} id of the skill
+	 * @param {Skill} the skill
 	 * @return true if the player has something in this skill (even 0)
 	 */
 	public boolean HasSkill(Skill skill)
@@ -124,13 +124,55 @@ public class MPlayer extends SenderEntity<MPlayer>
 	/**
 	 * Instantiates this skill for the player
 	 * if not already instantiated
-	 * @param {String} id of the skill
+	 * @param {Skill} the skill
 	 */
 	public void InstantiateSkill(Skill skill)
 	{
 		if(!this.HasSkill(skill))
 			this.exp.put(skill.getId(), new Long(0));
 	}
+	
+	/**
+	 * Tells whether or not the player is specialised in this skill
+	 * @param {Skill} the skill
+	 * @return {boolean} true if the player is specialised in the skill
+	 */
+	public boolean isSpecialisedIn(Skill skill)
+	{
+		if( specialised.contains(skill.getId()) )
+			return true;
+		
+		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
+			return true;
+		
+		return false;
+	}
+	
+	/**
+	 * Sets the player specialised in the skill.
+	 * This will not suceed if the player is filled with specialisations already
+	 * or the skill is on the spcialisationAutomatic or black list.
+	 * @param {Skill} the skill
+	 * @return Whether or not the player is ,specialised in the skill now.
+	 */
+	public boolean setSpecialisedIn(Skill skill)
+	{
+		if( specialised.contains(skill.getId()) )
+			return true;
+		
+		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
+			return true;
+		
+		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
+			return false;
+		
+		if(MConf.get().specialisationMax >= specialised.size())
+			return false;
+		
+		specialised.add(skill.getId());
+		return true;
+	}
+	
 	
 	// -------------------------------------------- //
 	// MANAGING COOLDOWN

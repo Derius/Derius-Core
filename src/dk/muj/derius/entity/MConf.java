@@ -1,5 +1,6 @@
 package dk.muj.derius.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class MConf extends Entity<MConf>
 	/**
 	 * The maximum amount of skills you can specialize in
 	 */
-	public int maxSpecial = 3;
+	public int specialisationMax = 3;
 	
 	/**
 	 * The maximum level you can reach without specialization
@@ -39,6 +40,16 @@ public class MConf extends Entity<MConf>
 	 * The maximum level you can reach with specialization
 	 */
 	public int hardCap = 2000;
+	
+	/**
+	 * The skills which you can't specialise int
+	 */
+	public List<Integer> specialisationBlacklist = new ArrayList<Integer>();
+	
+	/**
+	 * The skills you are automatically specialised in.
+	 */
+	public List<Integer> specialisationAutomatic = new ArrayList<Integer>();
 	
 	// -------------------------------------------- //
 	// COMMAND ALIASES
