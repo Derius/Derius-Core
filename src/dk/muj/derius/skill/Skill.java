@@ -197,7 +197,7 @@ public abstract class Skill
 	 * & is never seen by the player/user.
 	 * MUST be unique & should never be changed
 	 * This should be lowercase.
-	 * @return {String} the skills unique id.
+	 * @return {int} the skills unique id.
 	 */
 	public abstract int getId();
 	
