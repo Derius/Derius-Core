@@ -25,7 +25,7 @@ public class CmdDeriusList extends DeriusCommand
 	{
 		this.addOptionalArg("player", "you");
 		
-		this.setDesc("Shows you the list of skills and a short description of them");
+		this.setDesc("lists skills");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
 	}

@@ -26,7 +26,7 @@ public class CmdDeriusInspect extends DeriusCommand
 	{
 		this.addOptionalArg("player", "you");
 		
-		this.setDesc("Shows you all the learned skills and the level for said player/yourself.");
+		this.setDesc("inspects player");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.node));
 	}
@@ -50,12 +50,12 @@ public class CmdDeriusInspect extends DeriusCommand
 		// Titel switch
 		if (mplayer == msender)
 		{
-			msgLines.add(Txt.titleize("Your Skills"));
+			msgLines.add(Txt.titleize("<green>Your Skills"));
 		}
 		else
 		{
 			
-			msgLines.add(Txt.titleize(Txt.parse("%s's Skills", mplayer.getDisplayName(msender))));
+			msgLines.add(Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender))));
 		}
 		
 		// Evaluates if the user has leveled the skill and adds it to the List

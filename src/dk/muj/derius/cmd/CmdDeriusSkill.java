@@ -25,7 +25,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		this.addRequiredArg("skillname");
 		this.addOptionalArg("level", "your level");
 		
-		this.setDesc("Shows a skill, it's description, the passive and active abilities and level specific information");
+		this.setDesc("describes skill");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.SKILL.node));
 	}
