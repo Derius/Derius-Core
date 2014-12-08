@@ -23,7 +23,6 @@ public abstract class Skill
 	private List<String> earnExpDesc = new ArrayList<String>();
 	private List<Description> passiveAbilityDesc = new ArrayList<Description>();
 	private List<Description> activeAbilityDesc = new ArrayList<Description>();
-	//private List<Material> activationItems = new ArrayList<Material>();
 	
 	// -------------------------------------------- //
 	// DESCRIPTION
@@ -113,41 +112,7 @@ public abstract class Skill
 		}
 		return new LvlStatus(level,(int)exp,nextLvlExp);
 	}
-	
-	// -------------------------------------------- //
-	// ABILITIES
-	// -------------------------------------------- //
-	
-	//Commented out, might use this later
-	/**
-	 * Gets a list of items to activate an ability
-	 * 
-	 * @return {List}
-	 */
-	/*
-	public List<Material> getActivationItems()
-	{
-		return activationItems;
-	}
-	*/
-	
-	/**
-	 * Passes in a material into the list of activationitems.
-	 * @param {Material} the item that should be put into the list.
-	 */
-	/*
-	public void addActivationItem(Material material) { this.activationItems.add(material); }
-	*/
-	
-	/**
-	 * Passes in an itemId into the list of activationitems.
-	 * @param {int} the itemId of which material should be put into the list.
-	 */
-	/*
-	@SuppressWarnings("deprecation")
-	public void addActivationITem(int itemId) {  this.activationItems.add(Material.getMaterial(itemId)); }
-	*/
-	
+
 	// -------------------------------------------- //
 	// AREA RESTRICTION
 	// -------------------------------------------- //
