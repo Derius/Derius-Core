@@ -1,6 +1,19 @@
 package dk.muj.derius.ability;
 
+import java.util.Collection;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.massivecore.ps.PS;
+
+import dk.muj.derius.Const;
+import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.integration.FactionIntegration;
+import dk.muj.derius.skill.Skill;
 
 public abstract class Ability
 {
@@ -8,6 +21,39 @@ public abstract class Ability
 	// FIELDS
 	// -------------------------------------------- //
 
+	
+	// -------------------------------------------- //
+	// DEFAULT METHODS
+	// -------------------------------------------- //
+	
+	public int getTicksLast(MPlayer p)
+	{
+		return 20*30;
+	}
+	
+	// -------------------------------------------- //
+	// AREA RESTRICTION
+	// -------------------------------------------- //
+	
+	/**
+	 * Tells whether or not this skill can be used in said area
+	 * @param {Location} the are you want to check for
+	 * @return {boolean} true if the skill can be used
+	 */
+	public boolean CanAbilityBeUsedInArea(Location loc)
+	{
+		if(FactionIntegration.EstablishIntegration())
+		{
+			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
+			if(f != null)
+				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
+					return f.getFlag(Const.FACTION_FLAG_ABILITIES_USE);
+			
+		}
+		return MConf.get().worldAbilityUse.get(this.getId()).EnabledInWorld(loc.getWorld());
+	}
+
+	
 	// -------------------------------------------- //
 	// ABSTRACT
 	// -------------------------------------------- //
@@ -16,8 +62,6 @@ public abstract class Ability
 	 * Gets the id of the ability. This id is only used by plugins
 	 * & is never seen by the player/user.
 	 * MUST be unique & should never be changed
-	 * Since it is not stored, it could be changed without fatal consequences.
-	 * But it may also break things, in some cases.
 	 * @return {int} the abilities unique id.
 	 */
 	public abstract int getId();
@@ -40,13 +84,28 @@ public abstract class Ability
 	
 	/**
 	 * Turns on the ability for said player.
+	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to use the ability
 	 */
 	public abstract void onActivate(MPlayer p);
 	
 	/**
 	 * Turns off the ability for said player.
+	 * THIS IS NOT THE PROPER WAY TO DEACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to stop using the ability
 	 */
 	public abstract void onDeactivate(MPlayer p);
+	
+	/**
+	 * Gets a collection of the materials that can activate this ability
+	 * when a player right clicks with that material
+	 * @return {Collection<Material>}
+	 */
+	public abstract Collection<Material> getInteractKeys();
+	
+	/**
+	 * Gets the skill related to this ability
+	 * @return {Skill} the skill related to this ability
+	 */
+	public abstract Skill getSkill();
 }

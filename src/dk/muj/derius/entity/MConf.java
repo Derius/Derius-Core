@@ -76,12 +76,16 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	public boolean factionFlagUseSkillsDefaultValue = true;
-	public boolean factionFlagUseEditableByUser = false;
-	public boolean factionFlagUseVisibleByUser = false;
+	public boolean factionFlagUseSkillsEditableByUser = false;
+	public boolean factionFlagUseSkillsVisibleByUser = false;
 	
-	public boolean factionFlagEarnSkillsDefaultValue = true;
+	public boolean factionFlagEarnDefaultValue = true;
 	public boolean factionFlagEarnEditableByUser = false;
 	public boolean factionFlagEarnVisibleByUser = false;
+	
+	public boolean factionFlagUseAbilitiesDefaultValue = true;
+	public boolean factionFlagUseAbilitiesEditableByUser = false;
+	public boolean factionFlagUseAbilitiesVisibleByUser = false;
 	
 	public boolean factionFlagOverrideWorldDefaultValue = false;
 	public boolean factionFlagOverrideWorldEditableByUser = false;
@@ -94,4 +98,5 @@ public class MConf extends Entity<MConf>
 	
 	public Map<Integer, WorldException> worldSkillsUse = new HashMap<Integer, WorldException>();
 	public Map<Integer, WorldException> worldSkillsEarn = new HashMap<Integer, WorldException>();
+	public Map<Integer, WorldException> worldAbilityUse = new HashMap<Integer, WorldException>();
 }

@@ -19,5 +19,7 @@ public class Const
 	
 	public static final String FACTION_FLAG_SKILLS_USE = "skillsuse";
 	public static final String FACTION_FLAG_SKILLS_EARN = "skillsearn";
+	public static final String FACTION_FLAG_ABILITIES_USE = "abilitiesuse";
 	public static final String FACTION_FLAG_SKILLS_OVERRIDE_WORLD = "skillsoverrideworld";
+
 }
