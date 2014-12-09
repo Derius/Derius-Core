@@ -312,10 +312,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Activates an active ability for this player.
+	 * Activates an active ability for the ticks you pass in for this player.
 	 * This is also for easily cross plugin data sharing 
 	 * but will call the onActivate methods in ability
 	 * @param {Ability} the ability activate
+	 * @param {int} the ticks it should last
 	 */
 	public void ActivateActiveAbility(final Ability ability, int ticksToLast)
 	{

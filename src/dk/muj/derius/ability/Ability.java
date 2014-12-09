@@ -97,7 +97,7 @@ public abstract class Ability
 	/**
 	 * Gets the name of the ability. This is seen by players.
 	 * This MUST be unique but can always be changed.
-	 * However changin it may confuse players.
+	 * However changing it may confuse players.
 	 * @return {String} The abilities name
 	 */
 	public abstract String getName();
