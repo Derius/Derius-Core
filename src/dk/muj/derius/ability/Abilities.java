@@ -23,7 +23,7 @@ public final class Abilities
 	private static EnumMap<Material, Ability> blockBreakKeys = new EnumMap<Material, Ability>(Material.class);
 		
 	/**
-	 * Adds a ability to our system.
+	 * Adds an ability to our system.
 	 * We will instantiate the correct fields.
 	 * You still have to enforce the powers & general implementation.
 	 * This should be done on server startup.
@@ -55,8 +55,8 @@ public final class Abilities
 	}
 	
 	/**
-	 * Gets a ability from its id. 
-	 * This is the best way to get a ability, since the id never changes.
+	 * Gets an ability from its id. 
+	 * This is the best way to get an ability, since the id never changes.
 	 * @param {int} The id of the ability you wanted to get.
 	 * @return{Ability} The ability which has this id
 	 */
@@ -71,7 +71,7 @@ public final class Abilities
 	}
 	
 	/**
-	 * Gets a ability from its name.
+	 * Gets an ability from its name.
 	 * This should only be done by players. Since they don't know the id
 	 * @param {String} The name of the ability you wanted to get.
 	 * @return{Ability} The ability which starts with this name
@@ -88,7 +88,7 @@ public final class Abilities
 	
 	/**
 	 * Gets all registered abilities.
-	 * @return {List<Ability>} all registred skills
+	 * @return {List<Ability>} all registered skills
 	 */
 	public static List<Ability> GetAllAbilities()
 	{
@@ -96,7 +96,7 @@ public final class Abilities
 	}
 	
 	/**
-	 * Gets the skill whcih will activate when right clicked with this material
+	 * Gets the skill which will activate when right clicked with this material
 	 * @param {Material} the material you want to check for.
 	 * @return {Ability} The ability which has said material as interact key.
 	 */
