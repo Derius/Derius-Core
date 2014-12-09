@@ -223,20 +223,20 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Adds millis to the users cooldown.
-	 * @param {long} the amount of millis to add to players global cooldown
+	 * @param {int} the amount of ticks to add to players global cooldown
 	 */
-	public void ExtendCooldown(long millisMore)
+	public void ExtendCooldown(int ticksToAdd)
 	{
-		this.setCooldownExpire(getCooldownExpire()+millisMore);
+		this.setCooldownExpire(getCooldownExpire()+ticksToAdd*20*1000);
 	}
 	
 	/**
 	 * Lowers users cooldown expire time.
-	 * @param {long} the amount of millis to lower the  global cooldown.
+	 * @param {int} the amount of millis to lower the  global cooldown.
 	 */
-	public void ReduceCooldown(long millisLess)
+	public void ReduceCooldown(int ticksToReduce)
 	{
-		this.setCooldownExpire(getCooldownExpire()-millisLess);
+		this.setCooldownExpire(getCooldownExpire()-ticksToReduce*20*1000);
 	}
 	
 	/**
@@ -261,7 +261,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void AbilityCooldownMsg (long timeNow)
 	{
 		long currentTime = timeNow;
-		long timeRemainingSeconds = (currentTime-getCooldownExpire())/1000;
+		long timeRemainingSeconds = (getCooldownExpire()-currentTime)/1000;
 		
 		msg(Txt.parse(MConf.get().abilityCooldownMsg, timeRemainingSeconds));
 	}
@@ -277,16 +277,16 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Sets the Cooldown to be between the passed seconds in the future.
-	 * @param {int} minimum seconds in the future the cooldown should be set to.
-	 * @param {int} maximum seconds in the future the cooldown should be set to.
+	 * Sets the Cooldown to be between the passed ticks in the future.
+	 * @param {int} minimum ticks in the future the cooldown should be set to.
+	 * @param {int} maximum ticks in the future the cooldown should be set to.
 	 */
 	public void setCooldownExpireBetween (int secondsMin, int secondsMax)
 	{
 		long currentTime = System.currentTimeMillis();
 		int difference = RandomBetween(secondsMin, secondsMax);
 
-		setCooldownExpire(currentTime+difference*1000);
+		setCooldownExpire(currentTime+difference*20*1000);
 	}
 	
 	// -------------------------------------------- //
@@ -306,7 +306,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if(e.isCancelled())
 			return;
 		this.activatedAbilities.add(ability.getId());
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
+		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable(){
 			@Override
 			public void run()
 			{
@@ -316,6 +316,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		}, ticksToLast);
 		ability.onActivate(this);
 		this.msg(Txt.parse(MConf.get().abilityActivatedMsg, ability.getName()));
+		this.setCooldownExpireIn(ticksToLast+5);
 	}
 	
 	/**
@@ -330,7 +331,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
-		this.activatedAbilities.remove(ability.getId());
+		this.activatedAbilities.remove(new Integer(ability.getId()));
 		ability.onDeactivate(this);
 		this.msg(Txt.parse(MConf.get().abilityDeactivatedMsg, ability.getName()));
 	}

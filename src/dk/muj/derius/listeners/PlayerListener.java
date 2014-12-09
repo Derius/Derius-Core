@@ -23,20 +23,26 @@ public class PlayerListener implements Listener
 		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e)
 	{
+		Bukkit.broadcastMessage("HERE 1");
+		
 		Player p = e.getPlayer();
 		Action action = e.getAction();
 		if(action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK)
 			return;
+		Bukkit.broadcastMessage("HERE 2");
 		Ability ability = Abilities.getAbilityByInteractKey(e.getMaterial());
 		if(ability == null)
 			return;
+		Bukkit.broadcastMessage("HERE 3");
+		
 		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
-		mplayer.hasCooldownExpired(true);
+		if (!mplayer.hasCooldownExpired(true))
+			return;
 		
 		if(!ability.CanPlayerActivateAbility(mplayer))
 			return;
