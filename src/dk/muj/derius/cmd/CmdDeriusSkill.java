@@ -62,7 +62,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		}
 		else
 		{
-			msgLines.add(Txt.parse("<gray>LVL: <art>"+level));
+			msgLines.add(Txt.parse("<navy>LVL: <lime>"+level));
 		}
 
 		msgLines.add("<red>[<green>Passive abilities<red>]");

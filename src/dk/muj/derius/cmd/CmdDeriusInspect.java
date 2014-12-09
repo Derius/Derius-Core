@@ -12,10 +12,11 @@ import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.skill.SkillUtil;
 import dk.muj.derius.skill.Skills;
 
 // Shows you all the learned skills and the level for said player/yourself.
-// Color code of skill: grey = locked, you can't learn it | aqua = You have started learning it and are on some level
+// Default Color code of skill: grey = locked, you can't learn it | aqua = You have started learning it and are on some level
 public class CmdDeriusInspect extends DeriusCommand
 {
 	// -------------------------------------------- //
@@ -62,17 +63,9 @@ public class CmdDeriusInspect extends DeriusCommand
 		for (Skill skill: Skills.GetAllSkills())
 		{
 			LvlStatus status = mplayer.getLvlStatus(skill);
-			String skillColor;
-			if(!mplayer.CanLearnSkill(skill))
-			{
-				skillColor = "<gray>";
-			}
-			else
-			{
-				skillColor = "<aqua>";
-			}
 			
-			msgLines.add(Txt.parse("%s%s: %s", skillColor, skill.getName(), status.toString()));
+			// Example Output (before applying the colors): "<aqua>Mining: <navy>LVL: <lime>1 <navy>XP: <lime>120<yellow>/<lime>5000"
+			msgLines.add(Txt.parse("%s%s: %s", SkillUtil.CanPlayerLearnSkillColor(skill, mplayer), skill.getName(), status.toString()));
 		}
 		
 		// Send Message

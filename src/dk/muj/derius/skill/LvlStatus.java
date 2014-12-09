@@ -2,6 +2,8 @@ package dk.muj.derius.skill;
 
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.entity.MConf;
+
 /**
  * This class is used for passing data about a players progress
  * in a certain skill around between methods and classes.
@@ -61,7 +63,8 @@ public class LvlStatus
 	 */
 	public String toString()
 	{
-		return Txt.parse("<silver>LVL: <art>"+ lvl+ "  <silver>XP: <lime>"+exp+"<yellow>/<lime>"+expToNextLvl);
+		//  Example Output (before applying the colors): "<navy>LVL: <lime>1 <navy>XP: <lime>120<yellow>/<lime>5000"
+		return Txt.parse(MConf.get().LvlStatus, lvl, exp, expToNextLvl);
 	}
 
 }

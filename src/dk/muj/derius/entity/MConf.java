@@ -33,9 +33,30 @@ public class MConf extends Entity<MConf>
 	 */
 	public String abilityCooldownMsg = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
 	
+	/**
+	 * This Message get's shown to the Player when he activated an ability.
+	 */
 	public String abilityActivatedMsg = "<green>[DERIUS] <i>You activated <lime>%s";
 	
+	/**
+	 * This Message get's shown to the Player when an ability gets deactivated.
+	 */
 	public String abilityDeactivatedMsg = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
+	
+	/**
+	 * This is the Color that get's added  to the skill, when the player is able to learn it.
+	 */
+	public String canPlayerLearnSkillColorYes = "<aqua>";
+	
+	/**
+	 * This is the Color that get's added  to the skill, when the player is able to learn it.
+	 */
+	public String canPlayerLearnSkillColorNo = "<grey>";
+	
+	/**
+	 * This is the message that gets sent when asked for the LvlStatus.getString.
+	 */
+	public String LvlStatus = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
 	
 	// -------------------------------------------- //
 	// SKILL SETTINGS

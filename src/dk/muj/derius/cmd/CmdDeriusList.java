@@ -11,6 +11,7 @@ import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.skill.SkillUtil;
 import dk.muj.derius.skill.Skills;
 
 // Shows you a list of all the available skills (color coded for state) and a short description of them.
@@ -47,21 +48,11 @@ public class CmdDeriusList extends DeriusCommand
 		// Message construction
 		msgLines.add(Txt.titleize("Skills")); // Titel
 		
-		// Evaluates what color code the skill should have and adds it to the list
+		// Put the skill into the list, colored accordingly to players ability to learn them.
 		for (Skill skill: Skills.GetAllSkills())
 		{
-			String colorCode;
-			
-			if (!skill.CanPlayerLearnSkill(mplayer))
-			{
-				colorCode = "<grey>";
-			}
-			else
-			{
-				colorCode = "<aqua>";
-			}
-			
-			msgLines.add(Txt.parse("%s%s: <i>%s", colorCode, skill.getName(), skill.getDesc()));
+			// Example Output (before before applying the colors): "<aqua>Mining: <i>Makes you better at mining."
+			msgLines.add(Txt.parse("%s%s: <i>%s", SkillUtil.CanPlayerLearnSkillColor(skill, mplayer), skill.getName(), skill.getDesc()));
 		}
 		
 		// Send Message
