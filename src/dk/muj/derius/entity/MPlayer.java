@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.Derius;
+import dk.muj.derius.ability.Ability;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
@@ -284,24 +286,33 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Activates an ability for this player.
-	 * This is only for easily cross plugin data sharing 
-	 * & making storing of data easier for you
-	 * @param {int} id of the ability
+	 * This is also for easily cross plugin data sharing 
+	 * but will call the onActivate methods in ability
+	 * @param {Ability} the ability activate
 	 */
-	public void ActivateAbility(int ability)
+	public void ActivateAbility(final Ability ability, int ticksToLast)
 	{
-		this.activatedAbilities.add(ability);
+		this.activatedAbilities.add(ability.getId());
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
+			@Override
+			public void run()
+			{
+				DeactivateAbility(ability);
+			}
+		}, ticksToLast);
+		ability.onActivate(this);
 	}
 	
 	/**
 	 * Deactivates an ability for this player.
-	 * This is only for easily cross plugin data sharing 
-	 * & making storing of data easier for you
-	 * @param {int} id of the ability
+	 * This should however automatically be done
+	 * by our scheduled tasks.
+	 * @param {Ability} id of the ability
 	 */
-	public void DeactivateAbility(int ability)
+	public void DeactivateAbility(Ability ability)
 	{
-		this.activatedAbilities.remove(ability);
+		this.activatedAbilities.remove(ability.getId());
+		ability.onDeactivate(this);
 	}
 	
 	/**
@@ -310,9 +321,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * & making storing of data easier for you
 	 * @param {int} id of the ability
 	 */
-	public boolean HasActivated(int ability)
+	public boolean HasActivated(Ability ability)
 	{
-		return this.activatedAbilities.contains(ability);
+		return this.activatedAbilities.contains(ability.getId());
 	}
 	
 	// -------------------------------------------- //

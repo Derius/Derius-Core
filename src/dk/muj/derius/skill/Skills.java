@@ -2,6 +2,7 @@ package dk.muj.derius.skill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 
@@ -10,12 +11,12 @@ import dk.muj.derius.exceptions.IdAlreadyInUseException;
 
 public final class Skills
 {
-	//This is what we consider a static method
+	//This is what we consider a static class
 	//So it should not be instantiated.
 	private Skills(){};
 	
 	//A list of skill which we get from different sources.
-	private static List<Skill> skillList = new ArrayList<Skill>();
+	private static List<Skill> skillList = new CopyOnWriteArrayList<Skill>();
 	
 	/**
 	 * Adds a skill to our system.

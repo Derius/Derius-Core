@@ -1,4 +1,4 @@
-package dk.muj.derius.skill;
+package dk.muj.derius.ability;
 
 import dk.muj.derius.entity.MPlayer;
 
@@ -37,4 +37,16 @@ public abstract class Ability
 	 * @return {boolean} true if the player can use said ability
 	 */
 	public abstract boolean CanPlayerActivateAbility(MPlayer p);
+	
+	/**
+	 * Turns on the ability for said player.
+	 * @param {MPlayer} the player to use the ability
+	 */
+	public abstract void onActivate(MPlayer p);
+	
+	/**
+	 * Turns off the ability for said player.
+	 * @param {MPlayer} the player to stop using the ability
+	 */
+	public abstract void onDeactivate(MPlayer p);
 }

@@ -11,16 +11,8 @@ import dk.muj.derius.skill.Skill;
 public class SkillRegisteredEvent extends SkillEvent
 {
 	private static final HandlerList handlers = new HandlerList();
-	 
-	public HandlerList getHandlers() 
-	{
-	    return handlers;
-	}
-	 
-	public static HandlerList getHandlerList() 
-	{
-	    return handlers;
-	}
+	public HandlerList getHandlers() {    return handlers;	} 
+	public static HandlerList getHandlerList() {    return handlers;	}
 	
 	public SkillRegisteredEvent(Skill registeredSkill)
 	{

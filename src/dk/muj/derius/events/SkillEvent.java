@@ -9,18 +9,10 @@ public abstract class SkillEvent extends Event
 {
 
 	private static final HandlerList handlers = new HandlerList();
-	 
-	public HandlerList getHandlers() 
-	{
-	    return handlers;
-	}
-	 
-	public static HandlerList getHandlerList() 
-	{
-	    return handlers;
-	}
+	public HandlerList getHandlers() {    return handlers;	} 
+	public static HandlerList getHandlerList() {    return handlers;	}
 	
-	private final Skill skill;
+	protected final Skill skill;
 	
 	public SkillEvent(Skill skill)
 	{

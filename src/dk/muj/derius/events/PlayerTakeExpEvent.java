@@ -12,16 +12,8 @@ import dk.muj.derius.skill.Skill;
 public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 {
 	private static final HandlerList handlers = new HandlerList();
-	 
-	public HandlerList getHandlers() 
-	{
-	    return handlers;
-	}
-	 
-	public static HandlerList getHandlerList() 
-	{
-	    return handlers;
-	}
+	public HandlerList getHandlers() {    return handlers;	} 
+	public static HandlerList getHandlerList() {    return handlers;	}
 	
 	private final MPlayer player;
 	private long amount;
