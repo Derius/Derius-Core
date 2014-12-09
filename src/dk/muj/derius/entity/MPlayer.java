@@ -316,7 +316,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 		}, ticksToLast);
 		ability.onActivate(this);
 		this.msg(Txt.parse(MConf.get().abilityActivatedMsg, ability.getName()));
-		this.setCooldownExpireIn(ticksToLast+5);
 	}
 	
 	/**
@@ -345,6 +344,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public boolean HasActivated(Ability ability)
 	{
 		return this.activatedAbilities.contains(ability.getId());
+	}
+	
+	/**
+	 * Tells whether or not the player has ANY abilities activated.
+	 * @return {boolean} true if the player has ANY abilities activated.
+	 */
+	public boolean HasActivatedAny()
+	{
+		return this.activatedAbilities.size() != 0;
 	}
 	
 	// -------------------------------------------- //
