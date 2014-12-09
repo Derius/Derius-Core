@@ -28,7 +28,7 @@ public abstract class Ability
 	
 	/**
 	 * Gets how many ticks this ability will last
-	 * on passed mplayer
+	 * on passed mplayer, in ticks
 	 * @param {MPlayer} player to check
 	 * @return {int} amount of ticks, this ability would last.
 	 */
@@ -37,9 +37,10 @@ public abstract class Ability
 		return this.getTicksLastDefault(p.getLvl(this.getSkill()));
 	}
 	
+	
 	private int getTicksLastDefault(int level)
 	{
-		return 2 + level/50;
+		return (2 + level/50)*20;
 	}
 	
 	/**
