@@ -227,7 +227,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void ExtendCooldown(int ticksToAdd)
 	{
-		this.setCooldownExpire(getCooldownExpire()+ticksToAdd*20*1000);
+		this.setCooldownExpire(getCooldownExpire()+ticksToAdd/20*1000);
 	}
 	
 	/**
@@ -236,7 +236,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void ReduceCooldown(int ticksToReduce)
 	{
-		this.setCooldownExpire(getCooldownExpire()-ticksToReduce*20*1000);
+		this.setCooldownExpire(getCooldownExpire()-ticksToReduce/20*1000);
 	}
 	
 	/**
@@ -273,7 +273,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void setCooldownExpireIn (int ticks)
 	{
 		long currentTime = System.currentTimeMillis();
-		setCooldownExpire(currentTime+ticks*20*1000);
+		setCooldownExpire(currentTime+ticks/20*1000);
 	}
 	
 	/**
@@ -286,7 +286,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		long currentTime = System.currentTimeMillis();
 		int difference = RandomBetween(secondsMin, secondsMax);
 
-		setCooldownExpire(currentTime+difference*20*1000);
+		setCooldownExpire(currentTime+difference/20*1000);
 	}
 	
 	// -------------------------------------------- //
