@@ -40,7 +40,7 @@ public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 	 * Gets the amount of exp being lost
 	 * @return {long} the amount of lost exp
 	 */
-	public long getExpamount()
+	public long getExpAmount()
 	{
 		return amount;
 	}
