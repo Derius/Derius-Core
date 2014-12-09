@@ -39,7 +39,7 @@ public class FactionIntegration
 					"You can use Derius active abilities in this faction", "You can NOT use Derius active abilities in this faction", 
 					MConf.get().factionFlagUseAbilitiesDefaultValue, MConf.get().factionFlagUseAbilitiesEditableByUser, MConf.get().factionFlagUseAbilitiesVisibleByUser);
 			
-			MFlag.getCreative(5300, Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD, Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD, "Does this factions flags override the skill settings for the world?", 
+			MFlag.getCreative(5400, Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD, Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD, "Does this factions flags override the skill settings for the world?", 
 					"This factions flags overrides the worlds skill settings", "This factions flags does not override the worlds skill settings", 
 					MConf.get().factionFlagOverrideWorldDefaultValue, MConf.get().factionFlagOverrideWorldEditableByUser, MConf.get().factionFlagOverrideWorldVisibleByUser);
 			

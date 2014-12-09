@@ -11,7 +11,7 @@ import org.bukkit.Material;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
 
-public class Abilities
+public final class Abilities
 {
 	//This is what we consider a static class
 	//So it should not be instantiated.
@@ -20,6 +20,7 @@ public class Abilities
 	//A list of ability which we get from different sources.
 	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
 	private static EnumMap<Material, Ability> interactKeys = new EnumMap<Material, Ability>(Material.class);
+	private static EnumMap<Material, Ability> blockBreakKeys = new EnumMap<Material, Ability>(Material.class);
 		
 	/**
 	 * Adds a ability to our system.
@@ -47,6 +48,8 @@ public class Abilities
 		abilityList.add(ability);
 		for(Material m: ability.getInteractKeys())
 			interactKeys.put(m, ability);
+		for(Material m: ability.getBlockBreakKeys())
+			blockBreakKeys.put(m, ability);
 		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
@@ -83,14 +86,33 @@ public class Abilities
 		return null;
 	}
 	
+	/**
+	 * Gets all registered abilities.
+	 * @return {List<Ability>} all registred skills
+	 */
 	public static List<Ability> GetAllAbilities()
 	{
 		return new ArrayList<Ability>(Abilities.abilityList);
 	}
 	
+	/**
+	 * Gets the skill whcih will activate when right clicked with this material
+	 * @param {Material} the material you want to check for.
+	 * @return {Ability} The ability which has said material as interact key.
+	 */
 	public static Ability getAbilityByInteractKey(Material key)
 	{
 		return Abilities.interactKeys.get(key);
+	}
+	
+	/**
+	 * Gets the skill which will activate when a block with this material is broken
+	 * @param {Material} the material you want to check for.
+	 * @return {Ability} The ability which has said material as block break key.
+	 */
+	public static Ability getAbilityByBlockBreakKey(Material key)
+	{
+		return Abilities.blockBreakKeys.get(key);
 	}
 
 }

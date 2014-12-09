@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.massivecraft.massivecore.MassivePlugin;
@@ -47,6 +48,21 @@ public class PlayerListener implements Listener
 			return;
 
 		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivateAbility(ability, ability.getTicksLast(mplayer));
+			mplayer.ActivateActiveAbility(ability, ability.getTicksLast(mplayer));
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onInteract(BlockBreakEvent e)
+	{	
+		Player p = e.getPlayer();
+		
+		Ability ability = Abilities.getAbilityByBlockBreakKey(e.getBlock().getType());
+		if(ability == null)
+			return;
+		
+		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
+		
+		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
+			mplayer.ActivatePassiveAbility(ability);
 	}
 }

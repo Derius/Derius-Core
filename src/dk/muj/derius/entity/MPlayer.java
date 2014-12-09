@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 
@@ -46,7 +47,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	//		Long is the exp
 	private Map<Integer, Long> exp = new HashMap<Integer,Long>();
 	
-	private List<Integer> specialised = new ArrayList<Integer>();
+	private List<Integer> specialised = new CopyOnWriteArrayList<Integer>();
 	
 	//		Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	//		Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
@@ -293,13 +294,30 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// MANAGE ACTIVATED ABILITIES
 	// -------------------------------------------- //
 	
+	
 	/**
-	 * Activates an ability for this player.
+	 * Activates an passive ability for this player.
 	 * This is also for easily cross plugin data sharing 
 	 * but will call the onActivate methods in ability
 	 * @param {Ability} the ability activate
 	 */
-	public void ActivateAbility(final Ability ability, int ticksToLast)
+	public void ActivatePassiveAbility(final Ability ability)
+	{
+		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
+		Bukkit.getPluginManager().callEvent(e);
+		if(e.isCancelled())
+			return;
+	
+		ability.onActivate(this);
+	}
+	
+	/**
+	 * Activates an active ability for this player.
+	 * This is also for easily cross plugin data sharing 
+	 * but will call the onActivate methods in ability
+	 * @param {Ability} the ability activate
+	 */
+	public void ActivateActiveAbility(final Ability ability, int ticksToLast)
 	{
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
@@ -310,7 +328,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 			@Override
 			public void run()
 			{
-				DeactivateAbility(ability);
+				DeactivateActiveAbility(ability);
 				setCooldownExpireIn(ability.getCooldownTime(get()));
 			}
 		}, ticksToLast);
@@ -324,7 +342,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * by our scheduled tasks.
 	 * @param {Ability} id of the ability
 	 */
-	public void DeactivateAbility(Ability ability)
+	public void DeactivateActiveAbility(Ability ability)
 	{
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);

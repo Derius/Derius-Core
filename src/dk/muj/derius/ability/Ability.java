@@ -103,6 +103,12 @@ public abstract class Ability
 	public abstract String getName();
 	
 	/**
+	 * Gets the ability type for this ability (passive or active)
+	 * @return {AbilityType} this abilities type.
+	 */
+	public abstract AbilityType getType();
+	
+	/**
 	 * Tells whether or not the player can use the ability .
 	 * The ability can have different reasons the player might not.
 	 * @param {MPlayer} the player you want to check
@@ -130,6 +136,13 @@ public abstract class Ability
 	 * @return {Collection<Material>}
 	 */
 	public abstract Collection<Material> getInteractKeys();
+	
+	/**
+	 * Gets a collection of the materials that can activate this ability
+	 * when a player breaks a block of that material
+	 * @return {Collection<Material>}
+	 */
+	public abstract Collection<Material> getBlockBreakKeys();
 	
 	/**
 	 * Gets the skill related to this ability
