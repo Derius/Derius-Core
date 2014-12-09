@@ -16,14 +16,16 @@ public abstract class Ability
 	 * Gets the id of the ability. This id is only used by plugins
 	 * & is never seen by the player/user.
 	 * MUST be unique & should never be changed
-	 * This should be lowercase.
-	 * @return {int} the skills unique id.
+	 * Since it is not stored, it could be changed without fatal consequences.
+	 * But it may also break things, in some cases.
+	 * @return {int} the abilities unique id.
 	 */
 	public abstract int getId();
 	
 	/**
 	 * Gets the name of the ability. This is seen by players.
 	 * This MUST be unique but can always be changed.
+	 * However changin it may confuse players.
 	 * @return {String} The abilities name
 	 */
 	public abstract String getName();
