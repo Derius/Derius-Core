@@ -24,14 +24,18 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	// -------------------------------------------- //
-	// COOLDOWN SETTINGS
+	// MESSAGES
 	// -------------------------------------------- //
 	
 	/**
 	 * This Message get's shown to the Player when he attempts to use his ability,
 	 * but the Cooldown time has not yet been reached.
 	 */
-	public String abilityCooldownMsg = "<green>[DERIUS]<i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
+	public String abilityCooldownMsg = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
+	
+	public String abilityActivatedMsg = "<green>[DERIUS] <i>You activated <lime>%s";
+	
+	public String abilityDeactivatedMsg = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
 	
 	// -------------------------------------------- //
 	// SKILL SETTINGS

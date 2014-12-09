@@ -29,6 +29,9 @@ public class AbilityDeactivateEvent extends AbilityEvent implements Cancellable
 	}
 
 	@Override
+	/**
+	 * THIS IS HEAVILY DISCOURAGED AND CAN CAUSE MAJOR ISSUES
+	 */
 	public void setCancelled(boolean cancelled)
 	{
 		this.cancelled = cancelled;

@@ -36,6 +36,8 @@ public class PlayerListener implements Listener
 		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
+		mplayer.hasCooldownExpired(true);
+		
 		if(!ability.CanPlayerActivateAbility(mplayer))
 			return;
 		

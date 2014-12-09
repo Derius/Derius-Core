@@ -23,14 +23,41 @@ public abstract class Ability
 
 	
 	// -------------------------------------------- //
-	// DEFAULT METHODS
+	// TIME
 	// -------------------------------------------- //
 	
+	/**
+	 * Gets how many ticks this ability will last
+	 * on passed mplayer
+	 * @param {MPlayer} player to check
+	 * @return {int} amount of ticks, this ability would last.
+	 */
 	public int getTicksLast(MPlayer p)
 	{
-		return 20*30;
+		return this.getTicksLastDefault(p.getLvl(this.getSkill()));
 	}
 	
+	private int getTicksLastDefault(int level)
+	{
+		return 2 + level/50;
+	}
+	
+	/**
+	 * Gets how many ticks the cooldown will last
+	 * after using this ability on passed mplayer
+	 * @param {MPlayer} player to check
+	 * @return {int} amount of ticks, the cooldown will be.
+	 */
+	public int getCooldownTime(MPlayer p)
+	{
+		return this.getCooldownTimedefault();
+	}
+	
+	private int getCooldownTimedefault()
+	{
+		return 20*60*2;
+	}
+
 	// -------------------------------------------- //
 	// AREA RESTRICTION
 	// -------------------------------------------- //

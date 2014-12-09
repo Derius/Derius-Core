@@ -12,6 +12,8 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.events.AbilityActivateEvent;
+import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
@@ -28,6 +30,12 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public static MPlayer get(Object oid)
 	{
 		return MPlayerColl.get().get(oid, false);
+	}
+	
+	//Used for inner class
+	public MPlayer get()
+	{
+		return this;
 	}
 	
 	// -------------------------------------------- //
@@ -242,7 +250,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (currentTime >= getCooldownExpire()) 
 			return true;
 		
-		if (sendMessage) { AbilityCooldownMsg(currentTime); }
+		if (sendMessage) 
+			AbilityCooldownMsg(currentTime); 
 		return false;
 	}
 	
@@ -258,13 +267,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Sets the Cooldown to be the passed seconds in the future.
-	 * @param {int} seconds in the future the cooldown should be set to.
+	 * Sets the Cooldown to run out the passed amount of ticks in the future
+	 * @param {int} ticks in the future the cooldown should be set to.
 	 */
-	public void setCooldownExpireIn (int seconds)
+	public void setCooldownExpireIn (int ticks)
 	{
 		long currentTime = System.currentTimeMillis();
-		setCooldownExpire(currentTime+seconds*1000);
+		setCooldownExpire(currentTime+ticks*20*1000);
 	}
 	
 	/**
@@ -292,15 +301,21 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void ActivateAbility(final Ability ability, int ticksToLast)
 	{
+		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
+		Bukkit.getPluginManager().callEvent(e);
+		if(e.isCancelled())
+			return;
 		this.activatedAbilities.add(ability.getId());
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
 			public void run()
 			{
 				DeactivateAbility(ability);
+				setCooldownExpireIn(ability.getCooldownTime(get()));
 			}
 		}, ticksToLast);
 		ability.onActivate(this);
+		this.msg(Txt.parse(MConf.get().abilityActivatedMsg, ability.getName()));
 	}
 	
 	/**
@@ -311,8 +326,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void DeactivateAbility(Ability ability)
 	{
+		AbilityDeactivateEvent e = new AbilityDeactivateEvent(ability, this);
+		Bukkit.getPluginManager().callEvent(e);
+		if(e.isCancelled())
+			return;
 		this.activatedAbilities.remove(ability.getId());
 		ability.onDeactivate(this);
+		this.msg(Txt.parse(MConf.get().abilityDeactivatedMsg, ability.getName()));
 	}
 	
 	/**
