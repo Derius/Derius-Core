@@ -9,6 +9,7 @@ import com.massivecraft.massivecore.MassivePlugin;
 import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MPlayerColl;
+import dk.muj.derius.listeners.PlayerListener;
 import dk.muj.derius.listeners.SkillListener;
 
 
@@ -37,7 +38,10 @@ public class Derius extends MassivePlugin
 	// -------------------------------------------- //
 	
 	private SkillListener skillListener;
-	public SkillListener getSkillListener () {	return skillListener;	}
+	public SkillListener getSkillListener () { return skillListener; }
+	
+	private PlayerListener playerListener;
+	public PlayerListener getPlayerListener () { return playerListener; }
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -54,7 +58,8 @@ public class Derius extends MassivePlugin
 		
 		//Listeners
 		super.getServer().getPluginManager().registerEvents(this, this);
-		skillListener = new SkillListener(this);
+		this.skillListener = new SkillListener(this);
+		this.playerListener = new PlayerListener(this);
 		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius();
