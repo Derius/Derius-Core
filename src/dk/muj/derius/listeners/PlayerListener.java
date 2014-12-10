@@ -48,11 +48,11 @@ public class PlayerListener implements Listener
 			return;
 
 		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivateActiveAbility(ability, ability.getTicksLast(mplayer));
+			mplayer.ActivateActiveAbility(ability, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onInteract(BlockBreakEvent e)
+	public void onBlockBreak(BlockBreakEvent e)
 	{	
 		Player p = e.getPlayer();
 		

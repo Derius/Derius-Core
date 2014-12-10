@@ -240,9 +240,9 @@ public abstract class Ability
 	 * @param {MPlayer} player to check
 	 * @return {int} amount of ticks, this ability would last.
 	 */
-	public int getTicksLast(MPlayer p)
+	public int getTicksLast(int lvl)
 	{
-		return this.getTicksLastDefault(p.getLvl(this.getSkill()));
+		return this.getTicksLastDefault(lvl);
 	}
 	
 	

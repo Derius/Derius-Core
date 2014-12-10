@@ -10,6 +10,7 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
 
 import dk.muj.derius.Const;
+import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.integration.FactionIntegration;
@@ -21,8 +22,8 @@ public abstract class Skill
 	// -------------------------------------------- //
 	
 	private List<String> earnExpDesc = new ArrayList<String>();
-	private List<Description> passiveAbilityDesc = new ArrayList<Description>();
-	private List<Description> activeAbilityDesc = new ArrayList<Description>();
+	private List<Ability> passiveAbilities = new ArrayList<Ability>();
+	private List<Ability> activeAbilities = new ArrayList<Ability>();
 	
 	// -------------------------------------------- //
 	// DESCRIPTION
@@ -34,17 +35,6 @@ public abstract class Skill
 	 */
 	public void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
 	
-	/**
-	 * Adds a description (with name) of a passive ability in this skill
-	 * @param {Description} The description to add
-	 */
-	public void addPassiveAbilityDesc (String name, String desc) {	this.passiveAbilityDesc.add(new Description(name,desc));	}
-	
-	/**
-	 * Adds a description (with name) of a active ability in this skill
-	 * @param {Description} The description to add
-	 */
-	public void addActiveAbilityDesc (String name, String desc) {	this.activeAbilityDesc.add(new Description(name,desc));	}
 	
 	/**
 	 * Gets a list of the descriptions to earn exp
@@ -56,32 +46,6 @@ public abstract class Skill
 		List<String> descs = new ArrayList<String>();
 		for(String desc : earnExpDesc)
 			descs.add(desc);
-		return descs;
-	}
-	
-	/**
-	 * Gets a list of the descriptions (with name) of the passive abilities
-	 * @return {Description} the description
-	 */
-	public List<String> getPassiveAbilityDescriptions()
-	{
-		//Yeah it will be immutable
-		List<String> descs = new ArrayList<String>();
-		for(Description desc : passiveAbilityDesc)
-			descs.add(desc.toString());
-		return descs;
-	}
-	
-	/**
-	 * Gets a list of the descriptions (with name) of the active abilities
-	 * @return {Description} the description
-	 */
-	public List<String> getActiveAbilityDescriptions()
-	{
-		//Yeah it will be immutable
-		List<String> descs = new ArrayList<String>();
-		for(Description desc : activeAbilityDesc)
-			descs.add(desc.toString());
 		return descs;
 	}
 	
@@ -154,6 +118,40 @@ public abstract class Skill
 	}
 	
 	// -------------------------------------------- //
+	// ABILITIES
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets the list of active abilities
+	 * @return {List<Ability>} all active abilities related to this skill
+	 */
+	public List<Ability> getActiveAbilities()
+	{
+		return this.activeAbilities;
+	}
+	
+	/**
+	 * Gets the list of passive abilities
+	 * @return {List<Ability>} all passive abilities related to this skill
+	 */
+	public List<Ability> getPassiveAbilities()
+	{
+		return this.passiveAbilities;
+	}
+	
+	/**
+	 * Gets the list of all abilities related to skill
+	 * @return {List<Ability>} all abilities related to this skill
+	 */
+	public List<Ability> getAllAbilities()
+	{
+		List<Ability> ret = new ArrayList<Ability>();
+		ret.addAll(this.getPassiveAbilities());
+		ret.addAll(this.getActiveAbilities());
+		return ret;
+	}
+	
+	// -------------------------------------------- //
 	// ABSTRACT
 	// -------------------------------------------- //
 	
@@ -187,17 +185,6 @@ public abstract class Skill
 	 * @return {boolean} true if the player can learn said skill
 	 */
 	public abstract boolean CanPlayerLearnSkill(MPlayer p);
-	
-	/**
-	 * Gets a list of descriptions for the different abilities.
-	 * But these should include level specific data.
-	 * So this would include data like your double drop chance
-	 * or the length of an active ability being activated (for that lvl).
-	 * These string should be passed directly to a player under normal circumstances.
-	 * @param {int} The level you want to get information about.
-	 * @return {List<String>} description of abilities to the corresponding lvl.
-	 */
-	public abstract List<String> getAbilitiesDecriptionByLvl(int lvl);
 	
 	// -------------------------------------------- //
 	// TO STRING

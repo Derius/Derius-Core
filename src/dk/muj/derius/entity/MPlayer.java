@@ -1,5 +1,6 @@
 package dk.muj.derius.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -429,7 +430,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public List<String> getAbilitiesDecriptionByLvl(Skill skill)
 	{
-		return skill.getAbilitiesDecriptionByLvl(this.getLvl(skill));
+		List<String> ret = new ArrayList<String>();
+		int level = this.getLvl(skill);
+		for(Ability a: skill.getAllAbilities())
+			ret.add(a.getLvlDescription(level));
+		return ret;
 	}
 	
 	private int RandomBetween(int from, int to)

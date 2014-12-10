@@ -8,6 +8,8 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.ability.Ability;
+import dk.muj.derius.ability.AbilityUtil;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.skill.LvlStatus;
@@ -66,11 +68,14 @@ public class CmdDeriusSkill extends DeriusCommand
 		}
 
 		msgLines.add("<red>[<green>Passive abilities<red>]");
-		msgLines.addAll(skill.getPassiveAbilityDescriptions());
+		for(Ability a :skill.getPassiveAbilities())
+			msgLines.add(a.getDisplayedDescription(msender));
 		msgLines.add("<red>[<green>Active abilities<red>]");
-		msgLines.addAll(skill.getActiveAbilityDescriptions());
+		for(Ability a :skill.getActiveAbilities())
+			msgLines.add(a.getDisplayedDescription(msender));
 		msgLines.add("<red>[<green>Level stats<red>]");
-		msgLines.addAll(skill.getAbilitiesDecriptionByLvl(level));
+		for(Ability a :skill.getActiveAbilities())
+			msgLines.add(Txt.parse("%s%s: <i>%s",AbilityUtil.CanUseAbilitySkillColor(a, msender), a.getName(), a.getLvlDescription(level)));
 
 		
 		// Send Message
