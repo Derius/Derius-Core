@@ -16,8 +16,11 @@ public enum Perm
 	VERSION("version"),
 	SKILL("skill"),
 	LIST("list"),
-	INSPECT("inspect"),
-	
+	INSPECT("inspect"), 
+	SPECIALISATION("sp"),
+	SPECIALISATION_INFO("sp.info"),
+	SPECIALISATION_LEARN("sp.learn"),
+	SPECIALISATION_UNLEARN("sp.unlearn"),
 	
 	// END OF LIST
 	;
