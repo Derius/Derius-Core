@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 
 import dk.muj.derius.skill.Skill;
-import dk.muj.derius.skill.Skills;
 
 public class ARSkill extends ARAbstractSelect<Skill>
 {
@@ -36,7 +35,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		arg = getComparable(arg);
 		
 		String skillstr;
-		for (Skill skill : Skills.GetAllSkills())
+		for (Skill skill : Skill.GetAllSkills())
 		{
 			skillstr = getComparable(arg);
 			if(skill.getName().toLowerCase().startsWith(skillstr.toLowerCase()))
@@ -65,7 +64,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	{
 		List<String> ret = new ArrayList<String>();
 		
-		for (Skill skill : Skills.GetAllSkills())
+		for (Skill skill : Skill.GetAllSkills())
 		{
 			ret.add(skill.getName());
 		}

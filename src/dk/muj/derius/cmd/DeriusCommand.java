@@ -1,8 +1,9 @@
 package dk.muj.derius.cmd;
 
-import dk.muj.derius.entity.MPlayer;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.cmd.VisibilityMode;
+
+import dk.muj.derius.entity.MPlayer;
 
 
 public class DeriusCommand extends MassiveCommand

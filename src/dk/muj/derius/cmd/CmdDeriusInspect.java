@@ -13,7 +13,6 @@ import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.SkillUtil;
-import dk.muj.derius.skill.Skills;
 
 // Shows you all the learned skills and the level for said player/yourself.
 // Default Color code of skill: grey = locked, you can't learn it | aqua = You have started learning it and are on some level
@@ -60,7 +59,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		}
 		
 		// Evaluates if the user has leveled the skill and adds it to the List
-		for (Skill skill: Skills.GetAllSkills())
+		for (Skill skill: Skill.GetAllSkills())
 		{
 			LvlStatus status = mplayer.getLvlStatus(skill);
 			

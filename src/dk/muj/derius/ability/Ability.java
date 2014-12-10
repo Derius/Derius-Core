@@ -144,7 +144,11 @@ public abstract class Ability
 	public void removeInteractKeys(Material... keys)
 	{
 		for(Material m: keys)
+		{
 			this.interactKeys.remove(m);
+			this.removeInteractKeys(m);
+		}
+		
 		this.setChange(true);
 	}
 	
@@ -179,7 +183,10 @@ public abstract class Ability
 	public void removeBlockBreakKeys(Material... keys)
 	{
 		for(Material m: keys)
+		{
 			this.blockBreakKeys.remove(m);
+			this.removeBlockBreakKeys(keys);
+		}
 		this.setChange(true);
 	}
 	

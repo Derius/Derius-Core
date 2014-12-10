@@ -2,7 +2,9 @@ package dk.muj.derius.skill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import com.massivecraft.factions.entity.BoardColl;
@@ -13,6 +15,8 @@ import dk.muj.derius.Const;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.events.SkillRegisteredEvent;
+import dk.muj.derius.exceptions.IdAlreadyInUseException;
 import dk.muj.derius.integration.FactionIntegration;
 
 public abstract class Skill
@@ -20,6 +24,9 @@ public abstract class Skill
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
+
+	private static List<Skill> skillList = new CopyOnWriteArrayList<Skill>();
+	
 	
 	private List<String> earnExpDesc = new ArrayList<String>();
 	private List<Ability> passiveAbilities = new ArrayList<Ability>();
@@ -30,11 +37,78 @@ public abstract class Skill
 	// REGISTER
 	// -------------------------------------------- //
 	
+	/**
+	 * Registers this Skill into our system
+	 * You should register skills before abilities
+	 * NOTE: create only one instance of your skill, 
+	 * from there we will just pass references around
+	 */
 	public void register()
 	{
-		Skills.AddSkill(this);
+		Skill before = GetSkillById(this.getId());
+		if(before != null)
+		{
+			int id = this.getId();
+			try
+			{
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+						+ " but "+this.getName() + " is trying to use it");
+			}
+			catch (IdAlreadyInUseException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		skillList.add(this);
+		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 	
+	
+	// -------------------------------------------- //
+	// STATIC
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets a skill from its id. 
+	 * This is the best way to get a skill, since the id never changes.
+	 * @param {String} The id of the skill you wanted to get.
+	 * @return{Skill} The skill which has this id
+	 */
+	public static Skill GetSkillById(int skillId)
+	{
+		for(Skill skill: Skill.skillList)
+		{
+			if(skill.getId() == skillId)
+				return skill;
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets a skill from its name.
+	 * This should only be done by players. Since they don't know the id
+	 * @param {String} The name of the skill you wanted to get.
+	 * @return{Skill} The skill which starts with this name
+	 */
+	public static Skill GetSkillByName(String skillName)
+	{
+		for(Skill skill: Skill.skillList)
+		{
+			if(skill.getName().startsWith(skillName))
+				return skill;
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets a list of ALL skills
+	 * @return {List<Skill>} all registered skills
+	 */
+	public static List<Skill> GetAllSkills()
+	{
+		return new ArrayList<Skill>(skillList);
+	}
 	
 	// -------------------------------------------- //
 	// DESCRIPTION
