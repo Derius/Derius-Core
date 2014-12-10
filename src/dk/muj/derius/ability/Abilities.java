@@ -114,5 +114,45 @@ public final class Abilities
 	{
 		return Abilities.blockBreakKeys.get(key);
 	}
+	
+	/**
+	 * Removes interact key from map
+	 * THIS IS NOT THE PROPER WAY TO UNREGISTER AN INTERACT KEY
+	 * @param {Material} material to remove
+	 */
+	public static void addInteractKey(Material m, Ability a)
+	{
+		Abilities.interactKeys.put(m,a);
+	}
+	
+	/**
+	 * Adds a block break key to the map
+	 * THIS IS NOT THE PROPER WAY TO REGISTER A BLOCK BREAK KEY
+	 * @param {Material} material to remove
+	 */
+	public static void addBlockBreakKey(Material m, Ability a)
+	{
+		Abilities.blockBreakKeys.put(m,a);
+	}
+	
+	/**
+	 * Adds a interact key to the map
+	 * THIS IS NOT THE PROPER WAY TO REGISTER AN INTERACT KEY
+	 * @param {Material} material to remove
+	 */
+	public static void removeInteractKey(Material m)
+	{
+		Abilities.interactKeys.remove(m);
+	}
+	
+	/**
+	 * Removes block break key from map
+	 * THIS IS NOT THE PROPER WAY TO UNREGISTER A BLOCK BREAK KEY
+	 * @param {Material} material to remove
+	 */
+	public static void removeBlockBreakKey(Material m)
+	{
+		Abilities.blockBreakKeys.remove(m);
+	}
 
 }

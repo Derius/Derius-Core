@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.massivecraft.massivecore.MassivePlugin;
 
 import dk.muj.derius.cmd.CmdDerius;
+import dk.muj.derius.engine.AbilityEngine;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.integration.FactionIntegration;
@@ -61,6 +62,9 @@ public class Derius extends MassivePlugin
 		super.getServer().getPluginManager().registerEvents(this, this);
 		this.skillListener = new SkillListener(this);
 		this.playerListener = new PlayerListener(this);
+		
+		//ENGINE
+		AbilityEngine.get().activate();
 		
 		FactionIntegration.EstablishIntegration();
 		

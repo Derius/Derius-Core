@@ -1,6 +1,5 @@
 package dk.muj.derius.entity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	//A list of the active abilities the user has activated
 	//Each ability should have a unique number
-	private transient List<Integer> activatedAbilities = new ArrayList<Integer>();
+	private transient int activatedAbilities = 0;
 	
 	
 	// -------------------------------------------- //
@@ -324,7 +323,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
-		this.activatedAbilities.add(ability.getId());
+		this.activatedAbilities = ability.getId();
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
 			public void run()
@@ -349,7 +348,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
-		this.activatedAbilities.remove(new Integer(ability.getId()));
+		this.activatedAbilities = 0;
 		ability.onDeactivate(this);
 		this.msg(Txt.parse(MConf.get().abilityDeactivatedMsg, ability.getName()));
 	}
@@ -362,7 +361,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean HasActivated(Ability ability)
 	{
-		return this.activatedAbilities.contains(ability.getId());
+		return this.activatedAbilities == ability.getId();
 	}
 	
 	/**
@@ -371,7 +370,17 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean HasActivatedAny()
 	{
-		return this.activatedAbilities.size() != 0;
+		return this.activatedAbilities != 0;
+	}
+	
+	/**
+	 * Gets the id of the activated ability
+	 * 0 if no ability is activated
+	 * @return {int} id of acivated ability. 0 if none
+	 */
+	public int getActivated()
+	{
+		return this.activatedAbilities;
 	}
 	
 	// -------------------------------------------- //

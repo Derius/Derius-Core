@@ -49,9 +49,19 @@ public class MConf extends Entity<MConf>
 	public String canPlayerLearnSkillColorYes = "<aqua>";
 	
 	/**
-	 * This is the Color that get's added  to the skill, when the player is able to learn it.
+	 * This is the Color that get's added  to the skill, when the player is NOY able to learn it.
 	 */
 	public String canPlayerLearnSkillColorNo = "<grey>";
+	
+	/**
+	 * This is the Color that get's added  to the ability, when the player is able to learn it.
+	 */
+	public String canPlayerUseAbilityColorYes = "<pink>";
+	
+	/**
+	 * This is the Color that get's added  to the skill, when the player is NOT able to learn it.
+	 */
+	public String canPlayerUseAbilityColorNo = "<grey>";
 	
 	/**
 	 * This is the message that gets sent when asked for the LvlStatus.getString.

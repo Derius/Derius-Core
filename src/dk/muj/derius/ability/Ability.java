@@ -1,6 +1,8 @@
 package dk.muj.derius.ability;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,6 +10,7 @@ import org.bukkit.Material;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Const;
 import dk.muj.derius.entity.MConf;
@@ -21,6 +24,211 @@ public abstract class Ability
 	// FIELDS
 	// -------------------------------------------- //
 
+	private Skill skill;
+	private AbilityType type;
+	
+	private String desc = "";
+	private String name;
+	
+	private boolean didChange = false;
+	
+	private List<Material> interactKeys = new CopyOnWriteArrayList<Material>();
+	private List<Material> blockBreakKeys = new CopyOnWriteArrayList<Material>();
+	
+	private List<Material> interactKeysRemoved = new ArrayList<Material>();
+	private List<Material> blockBreakKeysRemoved = new ArrayList<Material>();
+	
+	
+	// -------------------------------------------- //
+	// REGISTER
+	// -------------------------------------------- //
+	
+	public void register()
+	{
+		Abilities.AddAbility(this);
+	}
+	
+	// -------------------------------------------- //
+	// SKILL
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets the skill associated with this ability
+	 * @return {Skill} the skill associated with this ability
+	 */
+	public Skill getSkill()
+	{
+		return this.skill;
+	}
+	
+	/**
+	 * Sets the skill associated with this ability
+	 * @param {Skill} the skill associated with this ability from now on
+	 */
+	protected void setSkill(Skill skill)
+	{
+		this.skill = skill;
+	}
+	
+	/**
+	 * Gets the ability type (passive/active) of this ability
+	 * @return {AbilityType} the type of this ability
+	 */
+	public AbilityType getType()
+	{
+		return this.type;
+	}
+	
+	/**
+	 * Sets the ability type (passive/active) of this ability
+	 * @param {AbilityType} the new type of this ability
+	 */
+	protected void setType(AbilityType newType)
+	{
+		this.type = newType;
+	}
+	
+	// -------------------------------------------- //
+	// DESCRIPTION
+	// -------------------------------------------- //
+	
+	/**
+	 * Sets the description of the ability
+	 * @param {String} new description for this ability
+	 */
+	public void setDescription(String str)
+	{
+		this.desc = str;
+	}
+	
+	/**
+	 * Gets the description of the ability
+	 * @param {String} description for this ability
+	 */
+	public String getDescription()
+	{
+		return this.desc;
+	}
+	
+	/**
+	 * Sets the name of the ability
+	 * @param {String} new name for this ability
+	 */
+	protected void setName(String str)
+	{
+		this.name = str;
+	}
+	
+	/**
+	 * Gets the name of the ability
+	 * @param {String} name for this ability
+	 */
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	/**
+	 * Gets the name & description, as it would be displayed
+	 * to the passed player
+	 * @param {MPlayer} player to see description
+	 * @return {String} how the player should see the description
+	 */
+	public String getDisplayedDescription(MPlayer whatcherObject)
+	{
+		return Txt.parse("%s%s: <i>%s",AbilityUtil.CanUseAbilitySkillColor(this, whatcherObject),this.getName(), this.getDescription());
+	}
+	
+	// -------------------------------------------- //
+	// ACTIVATION KEYS
+	// -------------------------------------------- //
+	
+	//INTERACT KEYS
+	
+	/**
+	 * This will add said materials to its list of interact activation keys
+	 * @param {Material...} an array of keys to add
+	 */
+	public void addInteractKeys(Material... keys)
+	{
+		for(Material m: keys)
+			this.interactKeys.add(m);
+		this.setChange(true);
+	}
+	
+	/**
+	 * This will add said materials to its list of interact activation keys
+	 * @param {Material...} an array of keys to remove
+	 */
+	public void removeInteractKeys(Material... keys)
+	{
+		for(Material m: keys)
+			this.interactKeys.remove(m);
+		this.setChange(true);
+	}
+	
+	
+	/**
+	 * Gets a collection of the materials that can activate this ability
+	 * when a player right clicks with that material
+	 * @return {Collection<Material>}
+	 */
+	public List<Material> getInteractKeys()
+	{
+		return this.interactKeys;
+	}
+	
+	//BLOCK BREAK KEYS
+	
+	/**
+	 * This will add said materials to its list of block break activation keys
+	 * @param {Material...} an array of keys to add
+	 */
+	public void addBlockBreakKeys(Material... keys)
+	{
+		for(Material m: keys)
+			this.blockBreakKeys.add(m);
+		this.setChange(true);
+	}
+	
+	/**
+	 * This will add said materials to its list of block break activation keys
+	 * @param {Material...} an array of keys to remove
+	 */
+	public void removeBlockBreakKeys(Material... keys)
+	{
+		for(Material m: keys)
+			this.blockBreakKeys.remove(m);
+		this.setChange(true);
+	}
+	
+	
+	/**
+	 * Gets a collection of the materials that can activate this ability
+	 * when a player breaks a block of that material
+	 * @return {Collection<Material>}
+	 */
+	public List<Material> getBlockBreakKeys()
+	{
+		return this.blockBreakKeys;
+	}
+	
+	// -------------------------------------------- //
+	// CHANGE
+	// -------------------------------------------- //
+
+	public boolean DidChange() { return didChange; }
+	public void setChange(boolean change) { this.didChange = change; }
+	
+	public List<Material> getRemovedBlockBreakKeys()
+	{
+		return this.blockBreakKeysRemoved;
+	}
+	
+	public List<Material> getRemovedInteractKeys()
+	{
+		return this.interactKeysRemoved;
+	}
 	
 	// -------------------------------------------- //
 	// TIME
@@ -95,18 +303,13 @@ public abstract class Ability
 	public abstract int getId();
 	
 	/**
-	 * Gets the name of the ability. This is seen by players.
-	 * This MUST be unique but can always be changed.
-	 * However changing it may confuse players.
-	 * @return {String} The abilities name
+	 * Gets a description based on passed level
+	 * example "Double drop. Chance for double drop is 10%"
+	 * if someone with that level had 10% chance to double drop.
+	 * @param {int} the level you want to test for
+	 * @return {String} the actual string message
 	 */
-	public abstract String getName();
-	
-	/**
-	 * Gets the ability type for this ability (passive or active)
-	 * @return {AbilityType} this abilities type.
-	 */
-	public abstract AbilityType getType();
+	public abstract String getLvlDescription(int lvl);
 	
 	/**
 	 * Tells whether or not the player can use the ability .
@@ -121,32 +324,13 @@ public abstract class Ability
 	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to use the ability
 	 */
-	public abstract void onActivate(MPlayer p);
+	public void onActivate(MPlayer p){}
 	
 	/**
 	 * Turns off the ability for said player.
 	 * THIS IS NOT THE PROPER WAY TO DEACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to stop using the ability
 	 */
-	public abstract void onDeactivate(MPlayer p);
+	public void onDeactivate(MPlayer p){}
 	
-	/**
-	 * Gets a collection of the materials that can activate this ability
-	 * when a player right clicks with that material
-	 * @return {Collection<Material>}
-	 */
-	public abstract Collection<Material> getInteractKeys();
-	
-	/**
-	 * Gets a collection of the materials that can activate this ability
-	 * when a player breaks a block of that material
-	 * @return {Collection<Material>}
-	 */
-	public abstract Collection<Material> getBlockBreakKeys();
-	
-	/**
-	 * Gets the skill related to this ability
-	 * @return {Skill} the skill related to this ability
-	 */
-	public abstract Skill getSkill();
 }
