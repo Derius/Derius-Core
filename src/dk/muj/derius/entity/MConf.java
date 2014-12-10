@@ -113,6 +113,10 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusList = MUtil.list("l", "list");
 	public List<String> innerAliasesDeriusInspect = MUtil.list("i", "inspect");
 	
+	public List<String> innerAliasesDeriusSpecialise = MUtil.list("specialise");
+	public List<String> innerAliasesSpecialiseLearn = MUtil.list("learn");
+	public List<String> innerAliasesSpecialiseUnlearn = MUtil.list("learn");
+	public List<String> innerAliasesSpecialiseInfo = MUtil.list("info");
 	
 	// -------------------------------------------- //
 	// FACTION SETTINGS

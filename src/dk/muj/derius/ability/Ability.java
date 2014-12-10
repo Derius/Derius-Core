@@ -348,16 +348,9 @@ public abstract class Ability
 	 * Turns on the ability for said player.
 	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to use the ability
-	 */
-	public abstract void onActivate(MPlayer p);
-	
-	/**
-	 * Turns on the ability for said player.
-	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
-	 * @param {MPlayer} the player to use the ability
 	 * @param {Object} other parameter used in some abilities
 	 */
-	public void onActivate(MPlayer p, Object other){this.onActivate(p);};
+	public abstract void onActivate(MPlayer p, Object other);
 	
 	/**
 	 * Turns off the ability for said player.
