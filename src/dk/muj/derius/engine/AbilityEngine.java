@@ -85,7 +85,7 @@ public class AbilityEngine extends EngineAbstract
 			return;
 
 		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivateActiveAbility(ability, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
+			mplayer.ActivateAbility(ability);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -100,7 +100,7 @@ public class AbilityEngine extends EngineAbstract
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
 		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivatePassiveAbility(ability, e.getBlock());
+			mplayer.ActivateAbility(ability, e.getBlock());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
