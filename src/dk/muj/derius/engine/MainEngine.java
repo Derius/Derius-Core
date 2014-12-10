@@ -1,13 +1,14 @@
-package dk.muj.derius.listeners;
+package dk.muj.derius.engine;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 
-import com.massivecraft.massivecore.MassivePlugin;
+import com.massivecraft.massivecore.EngineAbstract;
 
+import dk.muj.derius.Derius;
 import dk.muj.derius.WorldException;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
@@ -16,15 +17,36 @@ import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.skill.Skill;
 
-public class SkillListener implements Listener
+public class MainEngine extends EngineAbstract
 {
-	MassivePlugin plugin;
-	public SkillListener(MassivePlugin plugin)
+
+	// -------------------------------------------- //
+	// INSTANCE & CONSTRUCT
+	// -------------------------------------------- //
+	
+    private static MainEngine i = new MainEngine();
+	public static MainEngine get() { return i; }
+	public MainEngine() {}
+	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
+	
+	@Override
+	public Plugin getPlugin()
 	{
-		this.plugin = plugin;
-		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+		return Derius.get();
 	}
 	
+	// -------------------------------------------- //
+	// EVENTS
+	// -------------------------------------------- //
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onJoin(PlayerJoinEvent e)
+	{
+		MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
+	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onSkillRegistered(SkillRegisteredEvent e)
@@ -54,4 +76,6 @@ public class SkillListener implements Listener
 			}
 		}
 	}
+
+
 }

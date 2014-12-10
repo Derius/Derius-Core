@@ -1,18 +1,13 @@
 package dk.muj.derius;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerJoinEvent;
-
 import com.massivecraft.massivecore.MassivePlugin;
 
 import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.engine.AbilityEngine;
+import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.integration.FactionIntegration;
-import dk.muj.derius.listeners.PlayerListener;
-import dk.muj.derius.listeners.SkillListener;
 
 
 public class Derius extends MassivePlugin
@@ -34,16 +29,7 @@ public class Derius extends MassivePlugin
 	// "outer" means it is accessed directly as a command. ex. "/example"
 	private CmdDerius outerCmdDerius;
 	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
-	
-	// -------------------------------------------- //
-	// LISTENERS
-	// -------------------------------------------- //
-	
-	private SkillListener skillListener;
-	public SkillListener getSkillListener () { return skillListener; }
-	
-	private PlayerListener playerListener;
-	public PlayerListener getPlayerListener () { return playerListener; }
+
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -58,13 +44,10 @@ public class Derius extends MassivePlugin
 		MConfColl.get().init();
 		MPlayerColl.get().init();
 		
-		//Listeners
-		super.getServer().getPluginManager().registerEvents(this, this);
-		this.skillListener = new SkillListener(this);
-		this.playerListener = new PlayerListener(this);
 		
 		//ENGINE
 		AbilityEngine.get().activate();
+		MainEngine.get().activate();
 		
 		FactionIntegration.EstablishIntegration();
 		
@@ -81,9 +64,4 @@ public class Derius extends MassivePlugin
 		super.onDisable();
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onJoin(PlayerJoinEvent e)
-	{
-		MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
-	}
 }

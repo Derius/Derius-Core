@@ -25,6 +25,17 @@ public abstract class Skill
 	private List<Ability> passiveAbilities = new ArrayList<Ability>();
 	private List<Ability> activeAbilities = new ArrayList<Ability>();
 	
+	
+	// -------------------------------------------- //
+	// REGISTER
+	// -------------------------------------------- //
+	
+	public void register()
+	{
+		Skills.AddSkill(this);
+	}
+	
+	
 	// -------------------------------------------- //
 	// DESCRIPTION
 	// -------------------------------------------- //

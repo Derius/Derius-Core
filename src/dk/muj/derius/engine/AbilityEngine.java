@@ -1,8 +1,12 @@
 package dk.muj.derius.engine;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -13,6 +17,7 @@ import dk.muj.derius.ability.Abilities;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.skill.Skill;
 
@@ -66,6 +71,48 @@ public class AbilityEngine extends EngineAbstract
 		Ability ability = e.getAbility();
 		if(MConf.get().worldAbilityUse.get(new Integer(ability.getId())) == null)
 			MConf.get().worldAbilityUse.put(ability.getId(), new WorldException());
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
+	public void onInteract(PlayerInteractEvent e)
+	{	
+		Player p = e.getPlayer();
+		Action action = e.getAction();
+		if(action != Action.RIGHT_CLICK_AIR)
+			return;
+		Ability ability = Abilities.getAbilityByInteractKey(e.getMaterial());
+		if(ability == null)
+			return;
+		
+		
+		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
+		
+		if(mplayer.HasActivatedAny())
+			return;
+
+		if (!mplayer.hasCooldownExpired(true))
+			return;
+
+		if(!ability.CanPlayerActivateAbility(mplayer))
+			return;
+
+		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
+			mplayer.ActivateActiveAbility(ability, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onBlockBreak(BlockBreakEvent e)
+	{	
+		Player p = e.getPlayer();
+		
+		Ability ability = Abilities.getAbilityByBlockBreakKey(e.getBlock().getType());
+		if(ability == null)
+			return;
+		
+		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
+		
+		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
+			mplayer.ActivatePassiveAbility(ability);
 	}
 	
 	// -------------------------------------------- //
