@@ -199,101 +199,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 		return SpecialisationStatus.HAS_NOW;
 	}
 	
-	
-	// -------------------------------------------- //
-	// MANAGING COOLDOWN
-	// -------------------------------------------- //
-	
-	/**
-	 * Sets users time when the global cooldown should expire.
-	 * @param {long} the cooldown to set it to
-	 */
-	public void setCooldownExpire( long cooldownTime)
-	{
-		this.cooldown = cooldownTime;
-	}
-	
-	/**
-	 * Gets players cooldown.
-	 * @return {long} players global cooldown
-	 */
-	public long getCooldownExpire()
-	{
-		return cooldown;
-	}
-	
-	/**
-	 * Adds millis to the users cooldown.
-	 * @param {int} the amount of ticks to add to players global cooldown
-	 */
-	public void ExtendCooldown(int ticksToAdd)
-	{
-		this.setCooldownExpire(getCooldownExpire()+ticksToAdd/20*1000);
-	}
-	
-	/**
-	 * Lowers users cooldown expire time.
-	 * @param {int} the amount of millis to lower the  global cooldown.
-	 */
-	public void ReduceCooldown(int ticksToReduce)
-	{
-		this.setCooldownExpire(getCooldownExpire()-ticksToReduce/20*1000);
-	}
-	
-	/**
-	 * Checks whether the Cooldown has expired and if sendMessage is true
-	 * send the Cooldown message along.
-	 * @return {boolean} whether the Cooldown has expired or not
-	 */
-	public boolean hasCooldownExpired (boolean sendMessage)
-	{
-		long currentTime = System.currentTimeMillis();
-		if (currentTime >= getCooldownExpire()) 
-			return true;
-		
-		if (sendMessage) 
-			AbilityCooldownMsg(currentTime); 
-		return false;
-	}
-	
-	/**
-	 * Sends out the Cooldown message to the player. The Message itself can be changed in the MConf.
-	 */
-	public void AbilityCooldownMsg (long timeNow)
-	{
-		long currentTime = timeNow;
-		long timeRemainingSeconds = (getCooldownExpire()-currentTime)/1000;
-		
-		msg(Txt.parse(MConf.get().abilityCooldownMsg, timeRemainingSeconds));
-	}
-	
-	/**
-	 * Sets the Cooldown to run out the passed amount of ticks in the future
-	 * @param {int} ticks in the future the cooldown should be set to.
-	 */
-	public void setCooldownExpireIn (int ticks)
-	{
-		long currentTime = System.currentTimeMillis();
-		setCooldownExpire(currentTime+ticks/20*1000);
-	}
-	
-	/**
-	 * Sets the Cooldown to be between the passed ticks in the future.
-	 * @param {int} minimum ticks in the future the cooldown should be set to.
-	 * @param {int} maximum ticks in the future the cooldown should be set to.
-	 */
-	public void setCooldownExpireBetween (int secondsMin, int secondsMax)
-	{
-		long currentTime = System.currentTimeMillis();
-		int difference = RandomBetween(secondsMin, secondsMax);
-
-		setCooldownExpire(currentTime+difference/20*1000);
-	}
-	
 	// -------------------------------------------- //
 	// MANAGE ABILITIES
 	// -------------------------------------------- //
-	
 	
 	/**
 	 * Activates an passive ability for this player.
@@ -426,6 +334,97 @@ public class MPlayer extends SenderEntity<MPlayer>
 		return this.activatedAbilities;
 	}
 	
+	// -------------------------------------------- //
+	// MANAGING COOLDOWN
+	// -------------------------------------------- //
+	
+	/**
+	 * Sets users time when the global cooldown should expire.
+	 * @param {long} the cooldown to set it to
+	 */
+	public void setCooldownExpire( long cooldownTime)
+	{
+		this.cooldown = cooldownTime;
+	}
+	
+	/**
+	 * Gets players cooldown.
+	 * @return {long} players global cooldown
+	 */
+	public long getCooldownExpire()
+	{
+		return cooldown;
+	}
+	
+	/**
+	 * Adds millis to the users cooldown.
+	 * @param {int} the amount of ticks to add to players global cooldown
+	 */
+	public void ExtendCooldown(int ticksToAdd)
+	{
+		this.setCooldownExpire(getCooldownExpire()+ticksToAdd/20*1000);
+	}
+	
+	/**
+	 * Lowers users cooldown expire time.
+	 * @param {int} the amount of millis to lower the  global cooldown.
+	 */
+	public void ReduceCooldown(int ticksToReduce)
+	{
+		this.setCooldownExpire(getCooldownExpire()-ticksToReduce/20*1000);
+	}
+	
+	/**
+	 * Checks whether the Cooldown has expired and if sendMessage is true
+	 * send the Cooldown message along.
+	 * @return {boolean} whether the Cooldown has expired or not
+	 */
+	public boolean hasCooldownExpired (boolean sendMessage)
+	{
+		long currentTime = System.currentTimeMillis();
+		if (currentTime >= getCooldownExpire()) 
+			return true;
+		
+		if (sendMessage) 
+			AbilityCooldownMsg(currentTime); 
+		return false;
+	}
+	
+	/**
+	 * Sends out the Cooldown message to the player. The Message itself can be changed in the MConf.
+	 */
+	public void AbilityCooldownMsg (long timeNow)
+	{
+		long currentTime = timeNow;
+		long timeRemainingSeconds = (getCooldownExpire()-currentTime)/1000;
+		
+		msg(Txt.parse(MConf.get().abilityCooldownMsg, timeRemainingSeconds));
+	}
+	
+	/**
+	 * Sets the Cooldown to run out the passed amount of ticks in the future
+	 * @param {int} ticks in the future the cooldown should be set to.
+	 */
+	public void setCooldownExpireIn (int ticks)
+	{
+		long currentTime = System.currentTimeMillis();
+		setCooldownExpire(currentTime+ticks/20*1000);
+	}
+	
+	/**
+	 * Sets the Cooldown to be between the passed ticks in the future.
+	 * @param {int} minimum ticks in the future the cooldown should be set to.
+	 * @param {int} maximum ticks in the future the cooldown should be set to.
+	 */
+	public void setCooldownExpireBetween (int secondsMin, int secondsMax)
+	{
+		long currentTime = System.currentTimeMillis();
+		int difference = RandomBetween(secondsMin, secondsMax);
+
+		setCooldownExpire(currentTime+difference/20*1000);
+	}
+	
+
 	// -------------------------------------------- //
 	// CONVENIENCE METHODS
 	// -------------------------------------------- //
