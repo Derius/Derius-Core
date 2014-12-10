@@ -1,9 +1,11 @@
 package dk.muj.derius.ability;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -15,6 +17,8 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.Const;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.events.AbilityRegisteredEvent;
+import dk.muj.derius.exceptions.IdAlreadyInUseException;
 import dk.muj.derius.integration.FactionIntegration;
 import dk.muj.derius.skill.Skill;
 
@@ -29,22 +33,42 @@ public abstract class Ability
 	private String desc = "";
 	private String name;
 	
-	private boolean didChange = false;
-	
-	private List<Material> interactKeys = new CopyOnWriteArrayList<Material>();
-	private List<Material> blockBreakKeys = new CopyOnWriteArrayList<Material>();
-	
-	private List<Material> interactKeysRemoved = new ArrayList<Material>();
-	private List<Material> blockBreakKeysRemoved = new ArrayList<Material>();
+	//A list of ability which we get from different sources.
+	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
+	private static EnumMap<Material, Ability> interactKeys = new EnumMap<Material, Ability>(Material.class);
+	private static EnumMap<Material, Ability> blockBreakKeys = new EnumMap<Material, Ability>(Material.class);
 	
 	
 	// -------------------------------------------- //
 	// REGISTER
 	// -------------------------------------------- //
 	
+	/**
+	 * Registers an ability to our system.
+	 * We will instantiate the correct fields.
+	 * You still have to enforce the powers & general implementation.
+	 * This should be done on server startup.
+	 */
 	public void register()
 	{
-		Abilities.AddAbility(this);
+		Ability ability = this;
+		Ability before = GetAbilityById(ability.getId());
+		if(before != null)
+		{
+			int id = ability.getId();
+			try
+			{
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+						+ " but "+ability.getName() + " is trying to use it");
+			}
+			catch (IdAlreadyInUseException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		abilityList.add(ability);
+		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 	
 	// -------------------------------------------- //
@@ -67,6 +91,71 @@ public abstract class Ability
 	protected void setType(AbilityType newType)
 	{
 		this.type = newType;
+	}
+	
+	// -------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets an ability from its id. 
+	 * This is the best way to get an ability, since the id never changes.
+	 * @param {int} The id of the ability you wanted to get.
+	 * @return{Ability} The ability which has this id
+	 */
+	public static Ability GetAbilityById(int abilityId)
+	{
+		for(Ability ability: Ability.abilityList)
+		{
+			if(ability.getId() == abilityId)
+				return ability;
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets an ability from its name.
+	 * This should only be done by players. Since they don't know the id
+	 * @param {String} The name of the ability you wanted to get.
+	 * @return{Ability} The ability which starts with this name
+	 */
+	public static Ability GetAbilityByName(String abilityName)
+	{
+		for(Ability ability: Ability.abilityList)
+		{
+			if(ability.getName().startsWith(abilityName))
+				return ability;
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets all registered abilities.
+	 * @return {List<Ability>} all registered skills
+	 */
+	public static List<Ability> GetAllAbilities()
+	{
+		return new ArrayList<Ability>(Ability.abilityList);
+	}
+	
+	/**
+	 * Gets the skill which will activate when right clicked with this material
+	 * @param {Material} the material you want to check for.
+	 * @return {Ability} The ability which has said material as interact key.
+	 */
+	public static Ability getAbilityByInteractKey(Material key)
+	{
+		return Ability.interactKeys.get(key);
+	}
+	
+	/**
+	 * Gets the skill which will activate when a block with this material is broken
+	 * @param {Material} the material you want to check for.
+	 * @return {Ability} The ability which has said material as block break key.
+	 */
+	public static Ability getAbilityByBlockBreakKey(Material key)
+	{
+		return Ability.blockBreakKeys.get(key);
 	}
 	
 	// -------------------------------------------- //
@@ -133,36 +222,19 @@ public abstract class Ability
 	public void addInteractKeys(Material... keys)
 	{
 		for(Material m: keys)
-			this.interactKeys.add(m);
-		this.setChange(true);
+			interactKeys.put(m,this);
 	}
 	
 	/**
-	 * This will add said materials to its list of interact activation keys
+	 * This will remove said materials from the list of interact activation keys
 	 * @param {Material...} an array of keys to remove
 	 */
 	public void removeInteractKeys(Material... keys)
 	{
 		for(Material m: keys)
-		{
-			this.interactKeys.remove(m);
-			this.removeInteractKeys(m);
-		}
-		
-		this.setChange(true);
+			interactKeys.remove(m);
 	}
-	
-	
-	/**
-	 * Gets a collection of the materials that can activate this ability
-	 * when a player right clicks with that material
-	 * @return {Collection<Material>}
-	 */
-	public List<Material> getInteractKeys()
-	{
-		return this.interactKeys;
-	}
-	
+
 	//BLOCK BREAK KEYS
 	
 	/**
@@ -172,8 +244,7 @@ public abstract class Ability
 	public void addBlockBreakKeys(Material... keys)
 	{
 		for(Material m: keys)
-			this.blockBreakKeys.add(m);
-		this.setChange(true);
+			blockBreakKeys.put(m,this);
 	}
 	
 	/**
@@ -183,39 +254,7 @@ public abstract class Ability
 	public void removeBlockBreakKeys(Material... keys)
 	{
 		for(Material m: keys)
-		{
-			this.blockBreakKeys.remove(m);
-			this.removeBlockBreakKeys(keys);
-		}
-		this.setChange(true);
-	}
-	
-	
-	/**
-	 * Gets a collection of the materials that can activate this ability
-	 * when a player breaks a block of that material
-	 * @return {Collection<Material>}
-	 */
-	public List<Material> getBlockBreakKeys()
-	{
-		return this.blockBreakKeys;
-	}
-	
-	// -------------------------------------------- //
-	// CHANGE
-	// -------------------------------------------- //
-
-	public boolean DidChange() { return didChange; }
-	public void setChange(boolean change) { this.didChange = change; }
-	
-	public List<Material> getRemovedBlockBreakKeys()
-	{
-		return this.blockBreakKeysRemoved;
-	}
-	
-	public List<Material> getRemovedInteractKeys()
-	{
-		return this.interactKeysRemoved;
+			blockBreakKeys.remove(m);
 	}
 	
 	// -------------------------------------------- //
@@ -276,7 +315,6 @@ public abstract class Ability
 		}
 		return MConf.get().worldAbilityUse.get(this.getId()).EnabledInWorld(loc.getWorld());
 	}
-
 	
 	// -------------------------------------------- //
 	// ABSTRACT
@@ -333,6 +371,5 @@ public abstract class Ability
 	 * Gets the skill associated with this ability
 	 * @return {Skill} the skill associated with this ability
 	 */
-	public abstract Skill getSkill();
-	
+	public abstract Skill getSkill();	
 }

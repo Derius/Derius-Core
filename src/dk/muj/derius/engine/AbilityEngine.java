@@ -1,6 +1,5 @@
 package dk.muj.derius.engine;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,7 +13,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.WorldException;
-import dk.muj.derius.ability.Abilities;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.entity.MConf;
@@ -44,18 +42,6 @@ public class AbilityEngine extends EngineAbstract
 		return Derius.get();
 	}
 	
-	@Override
-	public Long getPeriod()
-	{
-		return (long) (20*10);
-	}
-	
-	@Override
-	public Long getDelay()
-	{
-		return (long) (20*60);
-	}
-	
 	// -------------------------------------------- //
 	// EVENTS
 	// -------------------------------------------- //
@@ -82,7 +68,7 @@ public class AbilityEngine extends EngineAbstract
 		Action action = e.getAction();
 		if(action != Action.RIGHT_CLICK_AIR)
 			return;
-		Ability ability = Abilities.getAbilityByInteractKey(e.getMaterial());
+		Ability ability = Ability.getAbilityByInteractKey(e.getMaterial());
 		if(ability == null)
 			return;
 		
@@ -107,7 +93,7 @@ public class AbilityEngine extends EngineAbstract
 	{	
 		Player p = e.getPlayer();
 		
-		Ability ability = Abilities.getAbilityByBlockBreakKey(e.getBlock().getType());
+		Ability ability = Ability.getAbilityByBlockBreakKey(e.getBlock().getType());
 		if(ability == null)
 			return;
 		
@@ -123,35 +109,5 @@ public class AbilityEngine extends EngineAbstract
 		Ability a = e.getAbility();
 		if(a.getType() == AbilityType.ACTIVE)
 			e.getMPlayer().msg(Txt.parse(MConf.get().abilityActivatedMsg, a.getName()));
-	}
-	
-	// -------------------------------------------- //
-	// REPEAT TASK
-	// -------------------------------------------- //
-
-	@Override
-	public void run()
-	{
-		for(Ability a: Abilities.GetAllAbilities())
-		{
-			if(!a.DidChange())
-				return;
-			
-			for(Material m: a.getRemovedBlockBreakKeys())
-				Abilities.removeBlockBreakKey(m);
-			a.getRemovedBlockBreakKeys().clear();
-			
-			for(Material m: a.getRemovedInteractKeys())
-				Abilities.removeInteractKey(m);
-			a.getRemovedInteractKeys().clear();
-			
-			for(Material m: a.getBlockBreakKeys())
-				Abilities.addBlockBreakKey(m, a);
-			
-			for(Material m: a.getInteractKeys())
-				Abilities.addInteractKey(m, a);
-			
-			a.setChange(false);
-		}
 	}
 }
