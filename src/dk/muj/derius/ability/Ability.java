@@ -38,61 +38,6 @@ public abstract class Ability
 	private static EnumMap<Material, Ability> interactKeys = new EnumMap<Material, Ability>(Material.class);
 	private static EnumMap<Material, Ability> blockBreakKeys = new EnumMap<Material, Ability>(Material.class);
 	
-	
-	// -------------------------------------------- //
-	// REGISTER
-	// -------------------------------------------- //
-	
-	/**
-	 * Registers an ability to our system.
-	 * We will instantiate the correct fields.
-	 * You still have to enforce the powers & general implementation.
-	 * This should be done on server startup.
-	 */
-	public void register()
-	{
-		Ability ability = this;
-		Ability before = GetAbilityById(ability.getId());
-		if(before != null)
-		{
-			int id = ability.getId();
-			try
-			{
-				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
-						+ " but "+ability.getName() + " is trying to use it");
-			}
-			catch (IdAlreadyInUseException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		abilityList.add(ability);
-		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
-		Bukkit.getServer().getPluginManager().callEvent(event);
-	}
-	
-	// -------------------------------------------- //
-	// SKILL
-	// -------------------------------------------- //
-	
-	/**
-	 * Gets the ability type (passive/active) of this ability
-	 * @return {AbilityType} the type of this ability
-	 */
-	public AbilityType getType()
-	{
-		return this.type;
-	}
-	
-	/**
-	 * Sets the ability type (passive/active) of this ability
-	 * @param {AbilityType} the new type of this ability
-	 */
-	protected void setType(AbilityType newType)
-	{
-		this.type = newType;
-	}
-	
 	// -------------------------------------------- //
 	// STATIC FIELDS
 	// -------------------------------------------- //
@@ -156,6 +101,60 @@ public abstract class Ability
 	public static Ability getAbilityByBlockBreakKey(Material key)
 	{
 		return Ability.blockBreakKeys.get(key);
+	}
+
+	// -------------------------------------------- //
+	// REGISTER
+	// -------------------------------------------- //
+	
+	/**
+	 * Registers an ability to our system.
+	 * We will instantiate the correct fields.
+	 * You still have to enforce the powers & general implementation.
+	 * This should be done on server startup.
+	 */
+	public void register()
+	{
+		Ability ability = this;
+		Ability before = GetAbilityById(ability.getId());
+		if(before != null)
+		{
+			int id = ability.getId();
+			try
+			{
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+						+ " but "+ability.getName() + " is trying to use it");
+			}
+			catch (IdAlreadyInUseException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		abilityList.add(ability);
+		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+	}
+	
+	// -------------------------------------------- //
+	// SKILL
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets the ability type (passive/active) of this ability
+	 * @return {AbilityType} the type of this ability
+	 */
+	public AbilityType getType()
+	{
+		return this.type;
+	}
+	
+	/**
+	 * Sets the ability type (passive/active) of this ability
+	 * @param {AbilityType} the new type of this ability
+	 */
+	protected void setType(AbilityType newType)
+	{
+		this.type = newType;
 	}
 	
 	// -------------------------------------------- //
