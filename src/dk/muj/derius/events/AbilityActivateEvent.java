@@ -33,7 +33,7 @@ public class AbilityActivateEvent extends AbilityEvent implements Cancellable
 		this.cancelled = cancelled;
 		
 	}
-	public MPlayer getMplayer()
+	public MPlayer getMPlayer()
 	{
 		return mplayer;
 	}

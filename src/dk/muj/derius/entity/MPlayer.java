@@ -291,7 +291,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	// -------------------------------------------- //
-	// MANAGE ACTIVATED ABILITIES
+	// MANAGE ABILITIES
 	// -------------------------------------------- //
 	
 	
@@ -309,6 +309,23 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return;
 	
 		ability.onActivate(this);
+	}
+	
+	/**
+	 * Activates an passive ability for this player.
+	 * This is also for easily cross plugin data sharing 
+	 * but will call the onActivate methods in ability
+	 * @param {Ability} the ability activate
+	 * @param {Object} other parameter used in some abilities
+	 */
+	public void ActivatePassiveAbility(final Ability ability, Object other)
+	{
+		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
+		Bukkit.getPluginManager().callEvent(e);
+		if(e.isCancelled())
+			return;
+	
+		ability.onActivate(this,other);
 	}
 	
 	/**
@@ -334,7 +351,32 @@ public class MPlayer extends SenderEntity<MPlayer>
 			}
 		}, ticksToLast);
 		ability.onActivate(this);
-		this.msg(Txt.parse(MConf.get().abilityActivatedMsg, ability.getName()));
+	}
+	
+	/**
+	 * Activates an active ability for the ticks you pass in for this player.
+	 * This is also for easily cross plugin data sharing 
+	 * but will call the onActivate methods in ability
+	 * @param {Ability} the ability activate
+	 * @param {int} the ticks it should last
+	 * @param {Object} other parameter used in some abilities
+	 */
+	public void ActivateActiveAbility(final Ability ability, int ticksToLast, Object other)
+	{
+		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
+		Bukkit.getPluginManager().callEvent(e);
+		if(e.isCancelled())
+			return;
+		this.activatedAbilities = ability.getId();
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
+			@Override
+			public void run()
+			{
+				DeactivateActiveAbility(ability);
+				setCooldownExpireIn(ability.getCooldownTime(get()));
+			}
+		}, ticksToLast);
+		ability.onActivate(this,other);
 	}
 	
 	/**

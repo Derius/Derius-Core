@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.WorldException;
@@ -18,6 +19,7 @@ import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.skill.Skill;
 
@@ -112,7 +114,15 @@ public class AbilityEngine extends EngineAbstract
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
 		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivatePassiveAbility(ability);
+			mplayer.ActivatePassiveAbility(ability, e.getBlock());
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onActivate(AbilityActivateEvent e)
+	{
+		Ability a = e.getAbility();
+		if(a.getType() == AbilityType.ACTIVE)
+			e.getMPlayer().msg(Txt.parse(MConf.get().abilityActivatedMsg, a.getName()));
 	}
 	
 	// -------------------------------------------- //

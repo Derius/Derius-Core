@@ -24,7 +24,6 @@ public abstract class Ability
 	// FIELDS
 	// -------------------------------------------- //
 
-	private Skill skill;
 	private AbilityType type;
 	
 	private String desc = "";
@@ -51,24 +50,6 @@ public abstract class Ability
 	// -------------------------------------------- //
 	// SKILL
 	// -------------------------------------------- //
-	
-	/**
-	 * Gets the skill associated with this ability
-	 * @return {Skill} the skill associated with this ability
-	 */
-	public Skill getSkill()
-	{
-		return this.skill;
-	}
-	
-	/**
-	 * Sets the skill associated with this ability
-	 * @param {Skill} the skill associated with this ability from now on
-	 */
-	protected void setSkill(Skill skill)
-	{
-		this.skill = skill;
-	}
 	
 	/**
 	 * Gets the ability type (passive/active) of this ability
@@ -324,13 +305,27 @@ public abstract class Ability
 	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to use the ability
 	 */
-	public void onActivate(MPlayer p){}
+	public abstract void onActivate(MPlayer p);
+	
+	/**
+	 * Turns on the ability for said player.
+	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
+	 * @param {MPlayer} the player to use the ability
+	 * @param {Object} other parameter used in some abilities
+	 */
+	public void onActivate(MPlayer p, Object other){this.onActivate(p);};
 	
 	/**
 	 * Turns off the ability for said player.
 	 * THIS IS NOT THE PROPER WAY TO DEACTIVATE AN ABILITY
 	 * @param {MPlayer} the player to stop using the ability
 	 */
-	public void onDeactivate(MPlayer p){}
+	public abstract void onDeactivate(MPlayer p);
+	
+	/**
+	 * Gets the skill associated with this ability
+	 * @return {Skill} the skill associated with this ability
+	 */
+	public abstract Skill getSkill();
 	
 }
