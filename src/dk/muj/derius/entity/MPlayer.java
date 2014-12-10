@@ -325,7 +325,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if(e.isCancelled())
 			return;
 		this.activatedAbilities.add(ability.getId());
-		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable(){
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
 			public void run()
 			{
