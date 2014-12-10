@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.WorldException;
 
@@ -85,6 +86,13 @@ public class MConf extends Entity<MConf>
 	 * The maximum level you can reach with specialization
 	 */
 	public int hardCap = 2000;
+	
+	/**
+	 * The amount of millis a player will have to wait
+	 * before being able to change specialisation again
+	 * this counts for both learning & unlearning
+	 */
+	public long specialisationCooldown = Txt.millisPerDay*3;
 	
 	/**
 	 * The skills which you can't specialize in.

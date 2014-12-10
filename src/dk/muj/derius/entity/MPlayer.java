@@ -13,6 +13,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.PlayerAddExpEvent;
@@ -48,6 +49,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	private Map<Integer, Long> exp = new HashMap<Integer,Long>();
 	
 	private List<Integer> specialised = new CopyOnWriteArrayList<Integer>();
+	
+	private long specialisedMillis = System.currentTimeMillis();
 	
 	//		Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	//		Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
@@ -199,51 +202,108 @@ public class MPlayer extends SenderEntity<MPlayer>
 		return SpecialisationStatus.HAS_NOW;
 	}
 	
+	/**
+	 * Sets the player to not be specialised in the skill.
+	 * This will not succeed if the player isn't specialised beforehand
+	 * or the skill is on the spcialisationAutomatic or black list.
+	 * @param {Skill} the skill
+	 * @return {SpecialisationStatus} Whether or not the player is, specialised in the skill now.
+	 */
+	public SpecialisationStatus setNotSpecialisedIn(Skill skill)
+	{	
+		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
+			return SpecialisationStatus.AUTO_ASSIGNED;
+		
+		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
+			return SpecialisationStatus.BLACK_LISTED;
+		
+		if(!this.specialised.contains(skill.getId()))
+			return SpecialisationStatus.DIDNT_HAVE;
+		
+		specialised.remove(skill.getId());
+		return SpecialisationStatus.DONT_HAVE_NOW;
+	}
+	
+	/**
+	 * Gets the last time a player either specialised or unspecialised in a skill
+	 * This is used so players don't change their specialisation all the time.
+	 * @return {long} system millis for last specialisation change
+	 */
+	public long getSpecialisationChangeMillis()
+	{
+		return this.specialisedMillis;
+	}
+	
+	/**
+	 * Sets the last time a player either specialised or unspecialised in a skill
+	 * This is used so players don't change their specialisation all the time.
+	 * @param {long} system millis for last specialisation change
+	 */
+	public void setSpecialisationChangeMillis(long millis)
+	{
+		this.specialisedMillis = millis;
+	}
+	
+	/**
+	 * Gets when the specialisation cooldown will expire
+	 * This is the last time they changed any specialisation + some time modfied by server owner
+	 * This is used so players don't change their specialisation all the time.
+	 * @return {long} system millis for last specialisation change + some cooldown
+	 */
+	public long getSpecialisationCooldownExpire()
+	{
+		return this.specialisedMillis + MConf.get().specialisationCooldown;
+	}
+	
+	/**
+	 * Checks whether the specialisation cooldown has expired
+	 * @return {boolean} true if specialisation cooldown has expired
+	 */
+	public boolean hasSpecialisationCooldownExpired()
+	{
+		return this.getSpecialisationCooldownExpire() < System.currentTimeMillis();
+	}
+	
 	// -------------------------------------------- //
 	// MANAGE ABILITIES
 	// -------------------------------------------- //
+
+	/**
+	 * Activates an ability
+	 * this is the proper way to activate an ability
+	 * @param {Ability} the ability to activate
+	 * @param {Object} some abilities need another object. Check for the individual ability
+	 */
+	public void ActivateAbility(final Ability ability, Object other)
+	{
+		if(ability.getType() == AbilityType.PASSIVE)
+			this.ActivatePassiveAbility(ability, null);
+		
+		if(ability.getType() == AbilityType.ACTIVE)
+			this.ActivateActiveAbility(ability, null);
+	}
 	
 	/**
-	 * Activates an passive ability for this player.
-	 * This is also for easily cross plugin data sharing 
-	 * but will call the onActivate methods in ability
-	 * @param {Ability} the ability activate
+	 * Activates an ability
+	 * this is the proper way to activate an ability
+	 * @param {Ability} the ability to activate
 	 */
-	public void ActivatePassiveAbility(final Ability ability)
+	public void ActivateAbility(final Ability ability)
+	{
+		this.ActivateAbility(ability, null);
+	}
+	
+	private void ActivatePassiveAbility(final Ability ability, Object other)
 	{
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
 	
-		ability.onActivate(this);
+		ability.onActivate(this, other);
 	}
 	
-	/**
-	 * Activates an passive ability for this player.
-	 * This is also for easily cross plugin data sharing 
-	 * but will call the onActivate methods in ability
-	 * @param {Ability} the ability activate
-	 * @param {Object} other parameter used in some abilities
-	 */
-	public void ActivatePassiveAbility(final Ability ability, Object other)
-	{
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
-		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-	
-		ability.onActivate(this,other);
-	}
-	
-	/**
-	 * Activates an active ability for the ticks you pass in for this player.
-	 * This is also for easily cross plugin data sharing 
-	 * but will call the onActivate methods in ability
-	 * @param {Ability} the ability activate
-	 * @param {int} the ticks it should last
-	 */
-	public void ActivateActiveAbility(final Ability ability, int ticksToLast)
+	private void ActivateActiveAbility(final Ability ability, Object other)
 	{
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
@@ -257,41 +317,14 @@ public class MPlayer extends SenderEntity<MPlayer>
 				DeactivateActiveAbility(ability);
 				setCooldownExpireIn(ability.getCooldownTime(get()));
 			}
-		}, ticksToLast);
-		ability.onActivate(this);
-	}
-	
-	/**
-	 * Activates an active ability for the ticks you pass in for this player.
-	 * This is also for easily cross plugin data sharing 
-	 * but will call the onActivate methods in ability
-	 * @param {Ability} the ability activate
-	 * @param {int} the ticks it should last
-	 * @param {Object} other parameter used in some abilities
-	 */
-	public void ActivateActiveAbility(final Ability ability, int ticksToLast, Object other)
-	{
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
-		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-		this.activatedAbilities = ability.getId();
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
-			@Override
-			public void run()
-			{
-				DeactivateActiveAbility(ability);
-				setCooldownExpireIn(ability.getCooldownTime(get()));
-			}
-		}, ticksToLast);
-		ability.onActivate(this,other);
+		}, ability.getTicksLast(this.getLvl(ability.getSkill())));
+		ability.onActivate(this, other);
 	}
 	
 	/**
 	 * Deactivates an ability for this player.
-	 * This should however automatically be done
-	 * by our scheduled tasks.
-	 * @param {Ability} id of the ability
+	 * This should however automatically be done by our scheduled tasks.
+	 * @param {Ability} the ability to deactivate
 	 */
 	public void DeactivateActiveAbility(Ability ability)
 	{
@@ -340,6 +373,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Sets users time when the global cooldown should expire.
+	 * this is system millis
 	 * @param {long} the cooldown to set it to
 	 */
 	public void setCooldownExpire( long cooldownTime)
@@ -349,6 +383,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Gets players cooldown.
+	 * this is system millis
 	 * @return {long} players global cooldown
 	 */
 	public long getCooldownExpire()
@@ -375,9 +410,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Checks whether the Cooldown has expired and if sendMessage is true
-	 * send the Cooldown message along.
-	 * @return {boolean} whether the Cooldown has expired or not
+	 * Checks whether the cooldown has expired and if sendMessage is true
+	 * send the cooldown message along.
+	 * @return {boolean} whether the cooldown has expired or not
 	 */
 	public boolean hasCooldownExpired (boolean sendMessage)
 	{
@@ -416,10 +451,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {int} minimum ticks in the future the cooldown should be set to.
 	 * @param {int} maximum ticks in the future the cooldown should be set to.
 	 */
-	public void setCooldownExpireBetween (int secondsMin, int secondsMax)
+	public void setCooldownExpireBetween (int ticksMin, int ticksMax)
 	{
 		long currentTime = System.currentTimeMillis();
-		int difference = RandomBetween(secondsMin, secondsMax);
+		int difference = RandomBetween(ticksMin, ticksMax);
 
 		setCooldownExpire(currentTime+difference/20*1000);
 	}
