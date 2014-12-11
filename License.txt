@@ -14,7 +14,7 @@ This product includes software developed by Magnus Ulf Jørgensen & Benjamin Heu
 4. Neither the name of Derius nor the
 names of its contributors may be used to endorse or promote products
 derived from this software without specific prior written permission.
-5. In no case of redistribution may anyone charge access for a copy of this software 
+5. In no case of redistribution may anyone charge anything for access to a copy of this software 
 without explicit written permission from copyright holders.
 
 THIS SOFTWARE IS PROVIDED BY Magnus Ulf Jørgensen & Benjamin Heusser ''AS IS'' AND ANY
