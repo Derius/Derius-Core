@@ -41,7 +41,7 @@ public class CmdDeriusSpList  extends DeriusCommand
 		String[] names = new String[skills.length];
 		for(int i = 0; i < skills.length ; i++)
 			names[i] = skills[i].getDisplayName(msender);
-		this.msg(Txt.implode(names, "GLUE", "%s,"));
+		this.msg(Txt.implode(names, ", ", "%s"));
 	}
 	
 	@Override

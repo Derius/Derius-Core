@@ -68,12 +68,15 @@ public class CmdDeriusSpLearn extends DeriusCommand
 			case TOO_MANY : 
 				msender.msg(Txt.parse(MConf.get().msgTooManySkillsSpecialised),skill.getDisplayName(msender));
 				return;
+			case HAS_NOW : 
+				msender.msg(Txt.parse(MConf.get().msgIsPlayerSpecialisedInSkillColor, skill.getDisplayName(msender)));
+				return;
 			default:
 				break;
 				
 		}
 		
-		msender.msg(Txt.parse(MConf.get().msgIsPlayerSpecialisedInSkillColor, skill.getDisplayName(msender)));
+		
 	}
 	
 	@Override
