@@ -1,6 +1,7 @@
 package dk.muj.derius.ability;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -222,6 +223,18 @@ public abstract class Ability
 	{
 		for(Material m: keys)
 			interactKeys.put(m,this);
+	}
+	
+	/**
+	 * This will add the materials in the collection to its list of interact activation keys
+	 * @param {Collection<Material>} a collection of keys to add
+	 */
+	public void addInteractKeys(Collection<Material> keys)
+	{
+		for (Material m :keys)
+		{
+			interactKeys.put(m, this);
+		}
 	}
 	
 	/**
