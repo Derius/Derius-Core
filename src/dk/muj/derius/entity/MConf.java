@@ -95,6 +95,13 @@ public class MConf extends Entity<MConf>
 	public long specialisationCooldown = Txt.millisPerDay*3;
 	
 	/**
+	 * The amount of millis a player will have to stand still
+	 * before changing their specialisation
+	 * this is so they don't do it by accident
+	 */
+	public long specialiseChangeStandStillSeconds = 60*1;
+	
+	/**
 	 * The skills which you can't specialize in.
 	 */
 	public List<Integer> specialisationBlacklist = new ArrayList<Integer>();

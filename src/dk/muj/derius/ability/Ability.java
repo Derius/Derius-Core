@@ -129,6 +129,7 @@ public abstract class Ability
 			catch (IdAlreadyInUseException e)
 			{
 				e.printStackTrace();
+				return;
 			}
 		}
 		abilityList.add(ability);

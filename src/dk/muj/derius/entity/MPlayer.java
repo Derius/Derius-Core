@@ -276,6 +276,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void ActivateAbility(final Ability ability, Object other)
 	{
+		if(this.isPlayer())
+			if(ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
+				return;
+		
 		if(ability.getType() == AbilityType.PASSIVE)
 			this.ActivatePassiveAbility(ability, null);
 		

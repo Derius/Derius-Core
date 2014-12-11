@@ -1,8 +1,14 @@
 package dk.muj.derius.cmd;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
+import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
+import com.massivecraft.massivecore.util.PlayerUtil;
+import com.massivecraft.massivecore.util.TimeDiffUtil;
+import com.massivecraft.massivecore.util.TimeUnit;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARSkill;
@@ -20,6 +26,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		super.addRequiredArg("skill");
 		super.setDesc("specialises in said skill");
 		
+		super.addRequirements(ReqIsPlayer.get());
 		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LEARN.node));
 	}
 		
@@ -32,6 +39,20 @@ public class CmdDeriusSpLearn extends DeriusCommand
 	{
 		Skill skill = super.arg(0, ARSkill.get());
 		if(skill == null) return;
+		long moveMillis = PlayerUtil.getLastMoveMillis(msender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
+		
+		
+		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
+		String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
+		
+		if(moveMillis > 0)
+		{
+			msender.sendMessage(Txt.parse("<b>You cannot change specialisation right now"));
+			msender.sendMessage(Txt.parse("<b> please stand still for %s <b>more",moveDesc));
+			return;
+		}
+		
+		SpecialisationStatus status = msender;
 	}
 	
 	@Override

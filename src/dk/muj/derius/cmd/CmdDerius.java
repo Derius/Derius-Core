@@ -17,6 +17,7 @@ public class CmdDerius extends DeriusCommand
 	public VersionCommand innerCmdDeriusVersion = new VersionCommand(Derius.get(), Perm.VERSION.node, "v", "version");
 	public CmdDeriusSkill innerCmdDeriusSkill = new CmdDeriusSkill();
 	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList();
+	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise();
 	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect();	
 	
 	// Constructor
@@ -26,6 +27,7 @@ public class CmdDerius extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusSkill);
 		this.addSubCommand(this.innerCmdDeriusList);
 		this.addSubCommand(this.innerCmdDeriusInspect);
+		this.addSubCommand(this.innerCmdDeriusSpecialise);
 		this.addSubCommand(this.innerCmdDeriusVersion);
 		
 		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
