@@ -109,5 +109,8 @@ public class AbilityEngine extends EngineAbstract
 		Ability a = e.getAbility();
 		if(a.getType() == AbilityType.ACTIVE)
 			e.getMPlayer().msg(Txt.parse(MConf.get().abilityActivatedMsg, a.getName()));
+		
+		if(!MConf.get().worldAbilityUse.containsKey(a.getId()))
+			MConf.get().worldAbilityUse.put(a.getId(), new WorldException());
 	}
 }

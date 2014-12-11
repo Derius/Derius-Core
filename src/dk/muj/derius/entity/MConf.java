@@ -47,12 +47,17 @@ public class MConf extends Entity<MConf>
 	/**
 	 * This is the Color that get's added  to the skill, when the player is able to learn it.
 	 */
-	public String canPlayerLearnSkillColorYes = "<aqua>";
+	public String msgCanPlayerLearnSkillColorYes = "<aqua>";
 	
 	/**
-	 * This is the Color that get's added  to the skill, when the player is NOY able to learn it.
+	 * This is the Color that get's added  to the skill, when the player is NOT able to learn it.
 	 */
-	public String canPlayerLearnSkillColorNo = "<grey>";
+	public String msgCanPlayerLearnSkillColorNo = "<grey>";
+	
+	/**
+	 * This is the color that the player sees for skills he/she has specialised in
+	 */
+	public String msgIsPlayerSpecialisedInSkillColor = "<gold>";
 	
 	/**
 	 * This is the Color that get's added  to the ability, when the player is able to learn it.
@@ -68,6 +73,31 @@ public class MConf extends Entity<MConf>
 	 * This is the message that gets sent when asked for the LvlStatus.getString.
 	 */
 	public String LvlStatus = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
+	
+	/**
+	 * This message is is sent when the player tries to specialise in a skill that is auto assigned
+	 */
+	public String msgSkillIsAutoSpecialised = "<b>The skill %s <b> is automatically specialised";
+	
+	/**
+	 * This message is is sent when the player tries to specialise in a skill that is black listed
+	 */
+	public String msgSkillIsBlackListed = "<b>It is not possible to specialise in %s";
+	
+	/**
+	 * This message is is sent when the player tries to specialise in a skill that they are already specialised in
+	 */
+	public String msgAlreadyHasSkillSpecialised = "<b>You already have %s";
+	
+	/**
+	 * This message is is sent when the player tries to specialise but has too much specialised
+	 */
+	public String msgTooManySkillsSpecialised = "<b>You cannot add %s <b>because you don't have room for more specialised";
+	
+	/**
+	 * This message is sent when adding a specialisation succeeds
+	 */
+	public String msgSpecialisationSuceed = "<b>You are now specialised in %s";
 	
 	// -------------------------------------------- //
 	// SKILL SETTINGS

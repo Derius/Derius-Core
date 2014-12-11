@@ -203,6 +203,26 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
+	 * Gets the player specialisation status in the skill.
+	 * @param {Skill} the skill
+	 * @return {SpecialisationStatus} players specialisation status in specified skill
+	 */
+	public SpecialisationStatus getSpecialisedIn(Skill skill)
+	{
+		if( specialised.contains(skill.getId()) )
+			return SpecialisationStatus.HAD;
+		
+		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
+			return SpecialisationStatus.AUTO_ASSIGNED;
+		
+		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
+			return SpecialisationStatus.BLACK_LISTED;
+		
+		return SpecialisationStatus.DIDNT_HAVE;
+		
+	}
+	
+	/**
 	 * Sets the player to not be specialised in the skill.
 	 * This will not succeed if the player isn't specialised beforehand
 	 * or the skill is on the spcialisationAutomatic or black list.
@@ -281,10 +301,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 				return;
 		
 		if(ability.getType() == AbilityType.PASSIVE)
-			this.ActivatePassiveAbility(ability, null);
+			this.ActivatePassiveAbility(ability, other);
 		
 		if(ability.getType() == AbilityType.ACTIVE)
-			this.ActivateActiveAbility(ability, null);
+			this.ActivateActiveAbility(ability, other);
 	}
 	
 	/**

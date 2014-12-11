@@ -55,9 +55,8 @@ public class MainEngine extends EngineAbstract
 		int id = skill.getId();
 		for (MPlayer p: MPlayerColl.get().getAll())
 			p.InstantiateSkill(skill);
-		
-		MConf.get().worldSkillsUse.put(id, new WorldException());
-		MConf.get().worldSkillsEarn.put(id, new WorldException());
+		if(!MConf.get().worldSkillsEarn.containsKey(id))
+			MConf.get().worldSkillsEarn.put(id, new WorldException());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)

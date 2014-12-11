@@ -182,9 +182,25 @@ public abstract class Skill
 	 * @param {MPlayer} player to see description
 	 * @return {String} how the player should see the description
 	 */
-	public String getDisplayedDescription(MPlayer whatcherObject)
+	public String getDisplayedDescription(MPlayer watcherObject)
 	{
-		return Txt.parse("%s%s: <i>%s",SkillUtil.CanPlayerLearnSkillColor(this, whatcherObject),this.getName(), this.getDescription());
+		return Txt.parse("%s: <i>%s",this.getDisplayName(watcherObject), this.getDescription());
+	}
+	
+	/**
+	 * Returns a colorcode name
+	 * based on the players ability to learn stated skill or not.
+	 * @param {MPlayer} The MPlayer we want to check for.
+	 * @return {String} The colorcode for the txt.parse method.
+	 */
+	public String getDisplayName ( MPlayer watcherObject)
+	{
+		if (this.CanPlayerLearnSkill(watcherObject))
+			return this.getName() + MConf.get().msgCanPlayerLearnSkillColorYes;
+		else if (watcherObject.isSpecialisedIn(this) == SpecialisationStatus.HAD)
+			return this.getName() + MConf.get().msgCanPlayerLearnSkillColorYes;
+		else
+			return this.getName() + MConf.get().msgCanPlayerLearnSkillColorNo;
 	}
 	
 	// -------------------------------------------- //

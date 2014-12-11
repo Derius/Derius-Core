@@ -14,6 +14,7 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.skill.SpecialisationStatus;
 
 public class CmdDeriusSpLearn extends DeriusCommand
 {
@@ -52,7 +53,27 @@ public class CmdDeriusSpLearn extends DeriusCommand
 			return;
 		}
 		
-		SpecialisationStatus status = msender;
+		SpecialisationStatus status = msender.setSpecialisedIn(skill);
+		switch(status)
+		{
+			case AUTO_ASSIGNED : 
+				msender.msg(Txt.parse(MConf.get().msgSkillIsAutoSpecialised),skill.getDisplayName(msender));
+				return;
+			case BLACK_LISTED : 
+				msender.msg(Txt.parse(MConf.get().msgSkillIsBlackListed),skill.getDisplayName(msender));
+				return;
+			case HAD : 
+				msender.msg(Txt.parse(MConf.get().msgAlreadyHasSkillSpecialised),skill.getDisplayName(msender));
+				return;
+			case TOO_MANY : 
+				msender.msg(Txt.parse(MConf.get().msgTooManySkillsSpecialised),skill.getDisplayName(msender));
+				return;
+			default:
+				break;
+				
+		}
+		
+		msender.msg(Txt.parse(MConf.get().msgIsPlayerSpecialisedInSkillColor, skill.getDisplayName(msender)));
 	}
 	
 	@Override

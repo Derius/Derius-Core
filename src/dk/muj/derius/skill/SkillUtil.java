@@ -71,15 +71,16 @@ public class SkillUtil
 	 * @param {MPlayer} The MPlayer we want to check for.
 	 * @return {String} The colorcode for the txt.parse method.
 	 */
+	@Deprecated
 	public static String CanPlayerLearnSkillColor (Skill skill, MPlayer mplayer)
 	{
 		if (skill.CanPlayerLearnSkill(mplayer))
 		{
-			return MConf.get().canPlayerLearnSkillColorYes;
+			return MConf.get().msgCanPlayerLearnSkillColorYes;
 		}
 		else
 		{
-			return MConf.get().canPlayerLearnSkillColorNo;
+			return MConf.get().msgCanPlayerLearnSkillColorNo;
 		}
 	}
 }
