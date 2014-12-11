@@ -124,7 +124,7 @@ public abstract class Skill
 	 */
 	protected void setName(String str)
 	{
-		this.desc = str;
+		this.name = str;
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public abstract class Skill
 	 */
 	protected void setDescription(String str)
 	{
-		this.name = str;
+		this.desc = str;
 	}
 	
 	/**
