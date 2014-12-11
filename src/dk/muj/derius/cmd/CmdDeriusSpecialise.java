@@ -10,16 +10,18 @@ import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusSpecialise extends DeriusCommand
 {
-	CmdDeriusSpLearn innerCmdSpLearn = new CmdDeriusSpLearn();
-	CmdDeriusSpUnlearn innerCmdSpUnlearn = new CmdDeriusSpUnlearn();
-	CmdDeriusSpInfo innerCmdSpInfo = new CmdDeriusSpInfo();
+	CmdDeriusSpLearn innerCmdDeriusSpLearn = new CmdDeriusSpLearn();
+	CmdDeriusSpUnlearn innerCmdDeriusSpUnlearn = new CmdDeriusSpUnlearn();
+	CmdDeriusSpInfo innerCmdDeriusSpInfo = new CmdDeriusSpInfo();
+	CmdDeriusSpList innerCmdDeriusSpList = new CmdDeriusSpList();
 	
 	public CmdDeriusSpecialise()
 	{
 		this.addSubCommand(HelpCommand.get());
-		this.addSubCommand(innerCmdSpLearn);
-		this.addSubCommand(innerCmdSpUnlearn);
-		this.addSubCommand(innerCmdSpInfo);
+		this.addSubCommand(innerCmdDeriusSpLearn);
+		this.addSubCommand(innerCmdDeriusSpUnlearn);
+		this.addSubCommand(innerCmdDeriusSpInfo);
+		this.addSubCommand(innerCmdDeriusSpList);
 		
 		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION.node));
 	}

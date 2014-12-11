@@ -165,7 +165,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public SpecialisationStatus isSpecialisedIn(Skill skill)
 	{
-		if( specialised.contains(skill.getId()) )
+		if( specialised.contains(skill.getId()))
 			return SpecialisationStatus.HAD;
 		
 		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
@@ -195,32 +195,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
 			return SpecialisationStatus.BLACK_LISTED;
 		
-		if(MConf.get().specialisationMax >= specialised.size())
+		if(MConf.get().specialisationMax <= specialised.size())
 			return SpecialisationStatus.TOO_MANY;
 		
 		specialised.add(skill.getId());
 		return SpecialisationStatus.HAS_NOW;
 	}
 	
-	/**
-	 * Gets the player specialisation status in the skill.
-	 * @param {Skill} the skill
-	 * @return {SpecialisationStatus} players specialisation status in specified skill
-	 */
-	public SpecialisationStatus getSpecialisedIn(Skill skill)
-	{
-		if( specialised.contains(skill.getId()) )
-			return SpecialisationStatus.HAD;
-		
-		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return SpecialisationStatus.AUTO_ASSIGNED;
-		
-		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
-			return SpecialisationStatus.BLACK_LISTED;
-		
-		return SpecialisationStatus.DIDNT_HAVE;
-		
-	}
 	
 	/**
 	 * Sets the player to not be specialised in the skill.
@@ -242,6 +223,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		specialised.remove(skill.getId());
 		return SpecialisationStatus.DONT_HAVE_NOW;
+	}
+	
+	/**
+	 * Gets an array of the skills this player has specialised in
+	 * @return {Skill[]} the skills this player has specialised in
+	 */
+	public Skill[] getSpecialisedSkills()
+	{		
+		Skill[] ret = new Skill[this.specialised.size()];
+		for(int i = 0; i < this.specialised.size(); i++)
+			ret[i] = Skill.GetSkillById(specialised.get(i).intValue());
+		return ret;
 	}
 	
 	/**

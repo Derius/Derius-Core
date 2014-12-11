@@ -195,12 +195,12 @@ public abstract class Skill
 	 */
 	public String getDisplayName ( MPlayer watcherObject)
 	{
-		if (this.CanPlayerLearnSkill(watcherObject))
-			return this.getName() + MConf.get().msgCanPlayerLearnSkillColorYes;
-		else if (watcherObject.isSpecialisedIn(this) == SpecialisationStatus.HAD)
-			return this.getName() + MConf.get().msgCanPlayerLearnSkillColorYes;
+		if (watcherObject.isSpecialisedIn(this) == SpecialisationStatus.HAD)
+			return Txt.parse(MConf.get().msgIsPlayerSpecialisedInSkillColor + this.getName());
+		else if (this.CanPlayerLearnSkill(watcherObject))
+			return Txt.parse(MConf.get().msgCanPlayerLearnSkillColorYes + this.getName());
 		else
-			return this.getName() + MConf.get().msgCanPlayerLearnSkillColorNo;
+			return  Txt.parse(MConf.get().msgCanPlayerLearnSkillColorNo + this.getName());
 	}
 	
 	// -------------------------------------------- //
