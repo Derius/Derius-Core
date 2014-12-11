@@ -115,7 +115,7 @@ public abstract class Skill
 	// -------------------------------------------- //
 	
 	/**
-	 * Adds a description of how to earn exp in said skill
+	 * Adds a description of how to earn exp in this skill
 	 * @param {String} The description to add
 	 */
 	public void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
