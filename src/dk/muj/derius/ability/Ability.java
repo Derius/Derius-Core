@@ -232,9 +232,7 @@ public abstract class Ability
 	public void addInteractKeys(Collection<Material> keys)
 	{
 		for (Material m :keys)
-		{
 			interactKeys.put(m, this);
-		}
 	}
 	
 	/**
@@ -254,6 +252,16 @@ public abstract class Ability
 	 * @param {Material...} an array of keys to add
 	 */
 	public void addBlockBreakKeys(Material... keys)
+	{
+		for(Material m: keys)
+			blockBreakKeys.put(m,this);
+	}
+	
+	/**
+	 * This will add said materials to its list of block break activation keys
+	 * @param {Material...} an array of keys to add
+	 */
+	public void addBlockBreakKeys(Collection<Material> keys)
 	{
 		for(Material m: keys)
 			blockBreakKeys.put(m,this);
