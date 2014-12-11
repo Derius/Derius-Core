@@ -184,7 +184,7 @@ public abstract class Ability
 	 * Sets the description of the ability
 	 * @param {String} new description for this ability
 	 */
-	public void setDescription(String str)
+	protected void setDescription(String str)
 	{
 		this.desc = str;
 	}

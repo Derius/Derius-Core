@@ -122,7 +122,7 @@ public abstract class Skill
 	 * This MUST be unique but can always be changed.
 	 * @return {String} The skills name
 	 */
-	public void setName(String str)
+	protected void setName(String str)
 	{
 		this.desc = str;
 	}
@@ -142,7 +142,7 @@ public abstract class Skill
 	 * Should not be more than one or two minecraft chat lines long
 	 * @return {String} a short description of the skill
 	 */
-	public void setDescription(String str)
+	protected void setDescription(String str)
 	{
 		this.name = str;
 	}
@@ -161,7 +161,7 @@ public abstract class Skill
 	 * Adds a description of how to earn exp in this skill
 	 * @param {String} The description to add
 	 */
-	public void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
+	protected void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
 	
 	/**
 	 * Gets a list of the descriptions to earn exp
