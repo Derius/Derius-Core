@@ -53,7 +53,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		
 		// Message construction
 		msgLines.add(Txt.titleize(Txt.parse("<green>" + skill.toString()))); // Titel
-		msgLines.add("<lime>"+skill.getDesc());
+		msgLines.add("<lime>"+skill.getDescription());
 		
 		// Swapping between default and user inserted value
 		if(level.intValue() <= -1)

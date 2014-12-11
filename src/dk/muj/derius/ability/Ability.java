@@ -40,7 +40,7 @@ public abstract class Ability
 	private static EnumMap<Material, Ability> blockBreakKeys = new EnumMap<Material, Ability>(Material.class);
 	
 	// -------------------------------------------- //
-	// STATIC FIELDS
+	// STATIC
 	// -------------------------------------------- //
 	
 	/**
@@ -163,24 +163,6 @@ public abstract class Ability
 	// -------------------------------------------- //
 	
 	/**
-	 * Sets the description of the ability
-	 * @param {String} new description for this ability
-	 */
-	public void setDescription(String str)
-	{
-		this.desc = str;
-	}
-	
-	/**
-	 * Gets the description of the ability
-	 * @param {String} description for this ability
-	 */
-	public String getDescription()
-	{
-		return this.desc;
-	}
-	
-	/**
 	 * Sets the name of the ability
 	 * @param {String} new name for this ability
 	 */
@@ -198,6 +180,24 @@ public abstract class Ability
 		return this.name;
 	}
 	
+	/**
+	 * Sets the description of the ability
+	 * @param {String} new description for this ability
+	 */
+	public void setDescription(String str)
+	{
+		this.desc = str;
+	}
+	
+	/**
+	 * Gets the description of the ability
+	 * @param {String} description for this ability
+	 */
+	public String getDescription()
+	{
+		return this.desc;
+	}
+
 	/**
 	 * Gets the name & description, as it would be displayed
 	 * to the passed player
@@ -357,17 +357,18 @@ public abstract class Ability
 	 */
 	public abstract boolean CanPlayerActivateAbility(MPlayer p);
 	
+	// Ability Execution methods
 	/**
-	 * Turns on the ability for said player.
-	 * THIS IS NOT THE PROPER WAY TO ACTIVATE AN ABILITY
+	 * This is the method called by Derius to run your ability. 
+	 * It is similar to bukkits onEnable method.
 	 * @param {MPlayer} the player to use the ability
 	 * @param {Object} other parameter used in some abilities
 	 */
 	public abstract void onActivate(MPlayer p, Object other);
 	
 	/**
-	 * Turns off the ability for said player.
-	 * THIS IS NOT THE PROPER WAY TO DEACTIVATE AN ABILITY
+	 * This is the method called by Derius when your ability
+	 * is deactivated. It is similar to bukkits onDisable method.
 	 * @param {MPlayer} the player to stop using the ability
 	 */
 	public abstract void onDeactivate(MPlayer p);
@@ -376,5 +377,15 @@ public abstract class Ability
 	 * Gets the skill associated with this ability
 	 * @return {Skill} the skill associated with this ability
 	 */
-	public abstract Skill getSkill();	
+	public abstract Skill getSkill();
+	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return getName();
+	}
 }

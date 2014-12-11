@@ -2,7 +2,6 @@ package dk.muj.derius.skill;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,6 +9,7 @@ import org.bukkit.Location;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Const;
 import dk.muj.derius.ability.Ability;
@@ -24,46 +24,18 @@ public abstract class Skill
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
-
-	private static List<Skill> skillList = new CopyOnWriteArrayList<Skill>();
 	
+	private String desc = "";
+	private String name;
 	
-	private List<String> earnExpDesc = new ArrayList<String>();
+	// The list of existing skills in a class-variable
+	private static List<Skill> skillList = new ArrayList<Skill>();
+	
+	// The lists of of active and passive abilities
 	private List<Ability> passiveAbilities = new ArrayList<Ability>();
 	private List<Ability> activeAbilities = new ArrayList<Ability>();
 	
-	
-	// -------------------------------------------- //
-	// REGISTER
-	// -------------------------------------------- //
-	
-	/**
-	 * Registers this Skill into our system
-	 * You should register skills before abilities
-	 * NOTE: create only one instance of your skill, 
-	 * from there we will just pass references around
-	 */
-	public void register()
-	{
-		Skill before = GetSkillById(this.getId());
-		if(before != null)
-		{
-			int id = this.getId();
-			try
-			{
-				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
-						+ " but "+this.getName() + " is trying to use it");
-			}
-			catch (IdAlreadyInUseException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		skillList.add(this);
-		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
-		Bukkit.getServer().getPluginManager().callEvent(event);
-	}
-	
+	private List<String> earnExpDesc = new ArrayList<String>();
 	
 	// -------------------------------------------- //
 	// STATIC
@@ -111,15 +83,85 @@ public abstract class Skill
 	}
 	
 	// -------------------------------------------- //
+	// REGISTER
+	// -------------------------------------------- //
+	
+	/**
+	 * Registers this Skill into our system
+	 * You should register skills before abilities
+	 * NOTE: create only one instance of your skill, 
+	 * from there we will just pass references around
+	 */
+	public void register()
+	{
+		Skill before = GetSkillById(this.getId());
+		if(before != null)
+		{
+			int id = this.getId();
+			try
+			{
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+						+ " but "+this.getName() + " is trying to use it");
+			}
+			catch (IdAlreadyInUseException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		skillList.add(this);
+		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+	}
+	
+	// -------------------------------------------- //
 	// DESCRIPTION
 	// -------------------------------------------- //
 	
+	/**
+	 * Sets the name of the skill. This is seen by players.
+	 * This MUST be unique but can always be changed.
+	 * @return {String} The skills name
+	 */
+	public void setName(String str)
+	{
+		this.desc = str;
+	}
+	
+	/**
+	 * Sets the name of the skill. This is seen by players.
+	 * This MUST be unique but can always be changed.
+	 * @return {String} The skills name
+	 */
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	/**
+	 * Gives a short description of the skill.
+	 * Should not be more than one or two minecraft chat lines long
+	 * @return {String} a short description of the skill
+	 */
+	public void setDescription(String str)
+	{
+		this.name = str;
+	}
+	
+	/**
+	 * Gives a short description of the skill.
+	 * Should not be more than one or two minecraft chat lines long
+	 * @return {String} a short description of the skill
+	 */
+	public String getDescription()
+	{
+		return this.desc;
+	}
+
 	/**
 	 * Adds a description of how to earn exp in this skill
 	 * @param {String} The description to add
 	 */
 	public void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
-	
 	
 	/**
 	 * Gets a list of the descriptions to earn exp
@@ -132,6 +174,17 @@ public abstract class Skill
 		for(String desc : earnExpDesc)
 			descs.add(desc);
 		return descs;
+	}
+	
+	/**
+	 * Gets the name & description, as it would be displayed
+	 * to the passed player
+	 * @param {MPlayer} player to see description
+	 * @return {String} how the player should see the description
+	 */
+	public String getDisplayedDescription(MPlayer whatcherObject)
+	{
+		return Txt.parse("%s%s: <i>%s",SkillUtil.CanPlayerLearnSkillColor(this, whatcherObject),this.getName(), this.getDescription());
 	}
 	
 	// -------------------------------------------- //
@@ -248,20 +301,6 @@ public abstract class Skill
 	 * @return {int} the skills unique id.
 	 */
 	public abstract int getId();
-	
-	/**
-	 * Gets the name of the skill. This is seen by players.
-	 * This MUST be unique but can always be changed.
-	 * @return {String} The skills name
-	 */
-	public abstract String getName();
-	
-	/**
-	 * Gives a short description of the skill.
-	 * Should not be more than one or two minecraft chat lines long
-	 * @return {String} a short description of the skill
-	 */
-	public abstract String getDesc();
 	
 	/**
 	 * Tells whether or not the player can learn said skill.

@@ -51,7 +51,7 @@ public class CmdDeriusList extends DeriusCommand
 		for (Skill skill: Skill.GetAllSkills())
 		{
 			// Example Output (before before applying the colors): "<aqua>Mining: <i>Makes you better at mining."
-			msgLines.add(Txt.parse("%s%s: <i>%s", SkillUtil.CanPlayerLearnSkillColor(skill, mplayer), skill.getName(), skill.getDesc()));
+			msgLines.add(Txt.parse("%s%s: <i>%s", SkillUtil.CanPlayerLearnSkillColor(skill, mplayer), skill.getName(), skill.getDescription()));
 		}
 		
 		// Send Message
