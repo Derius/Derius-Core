@@ -220,24 +220,6 @@ public abstract class Skill
 	// -------------------------------------------- //
 	
 	/**
-	 * Tells whether or not this skill can be used in said area
-	 * @param {Location} the are you want to check for
-	 * @return {boolean} true if the skill can be used
-	 */
-	public boolean CanSkillBeUsedInArea(Location loc)
-	{
-		if(FactionIntegration.EstablishIntegration())
-		{
-			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
-			if(f != null)
-				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
-					return f.getFlag(Const.FACTION_FLAG_SKILLS_USE);
-			
-		}
-		return MConf.get().worldSkillsUse.get(this.getId()).EnabledInWorld(loc.getWorld());
-	}
-	
-	/**
 	 * Tells whether or not experience can be earned for this skill in said area
 	 * @param {Location} the are you want to check for
 	 * @return {boolean} true if experience in this skill can be earned in the area
