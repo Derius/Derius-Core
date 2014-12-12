@@ -45,7 +45,9 @@ public class MainEngine extends EngineAbstract
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onJoin(PlayerJoinEvent e)
 	{
-		MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
+		MPlayer p = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
+		for(Skill s: Skill.GetAllSkills())
+			p.InstantiateSkill(s);
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)

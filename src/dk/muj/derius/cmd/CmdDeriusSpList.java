@@ -40,13 +40,14 @@ public class CmdDeriusSpList  extends DeriusCommand
 			return;
 		List<Skill> skills = target.getSpecialisedSkills();
 
-		List<String> names = new ArrayList<String>();
-		for(Skill s: skills)
-			names.add(s.getDisplayName(msender));
+		List<String> msgLines = new ArrayList<String>();
 		this.msg(Txt.titleize(target.getDisplayName(msender)+ "'s specilisations"));
-		this.msg(Txt.implode(names, ", ", "%s"));
+		for(Skill s: skills)
+			msgLines.add(s.getDisplayName(msender)+": "+target.getLvlStatus(s).toString());
+		msender.msg(msgLines);
 	}
 	
+
 	@Override
     public List<String> getAliases()
     {

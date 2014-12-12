@@ -42,16 +42,15 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		if(skill == null) return;
 		long moveMillis = PlayerUtil.getLastMoveMillis(msender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		
-		
-		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
-		String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
-		
 		if(moveMillis > 0)
 		{
+			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
+			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 			msender.sendMessage(Txt.parse("<b>You cannot change specialisation right now"));
 			msender.sendMessage(Txt.parse("<b> please stand still for %s <b>more",moveDesc));
 			return;
 		}
+		
 		SpecialisationStatus status = msender.setSpecialisedIn(skill);
 		switch(status)
 		{

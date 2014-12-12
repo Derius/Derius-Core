@@ -101,6 +101,10 @@ public class MConf extends Entity<MConf>
 	
 	public String specialisationError = "<b>An error occured while trying to specialise";
 	
+	public String msgAlreadyNotSpecialised = "<b>You do not have the Skill %s <b>specialised";
+	
+	public String msgSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
+	
 	// -------------------------------------------- //
 	// SKILL SETTINGS
 	// -------------------------------------------- //

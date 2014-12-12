@@ -222,6 +222,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return SpecialisationStatus.DIDNT_HAVE;
 		
 		specialised.remove(skill.getId());
+		exp.put(skill.getId(), 0l);
 		return SpecialisationStatus.DONT_HAVE_NOW;
 	}
 	
