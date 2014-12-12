@@ -56,9 +56,8 @@ public class AbilityEngine extends EngineAbstract
 		else if(a.getType() == AbilityType.PASSIVE)
 			s.getPassiveAbilities().add(a);
 		
-		Ability ability = e.getAbility();
-		if(MConf.get().worldAbilityUse.get(new Integer(ability.getId())) == null)
-			MConf.get().worldAbilityUse.put(ability.getId(), new WorldException());
+		if(MConf.get().worldAbilityUse.get(new Integer(a.getId())) == null)
+			MConf.get().worldAbilityUse.put(a.getId(), new WorldException());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
@@ -117,8 +116,5 @@ public class AbilityEngine extends EngineAbstract
 		Ability a = e.getAbility();
 		if(a.getType() == AbilityType.ACTIVE)
 			e.getMPlayer().msg(Txt.parse(MConf.get().abilityActivatedMsg, a.getName()));
-		
-		if(!MConf.get().worldAbilityUse.containsKey(a.getId()))
-			MConf.get().worldAbilityUse.put(a.getId(), new WorldException());
 	}
 }
