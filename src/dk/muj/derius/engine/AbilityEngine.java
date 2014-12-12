@@ -66,7 +66,7 @@ public class AbilityEngine extends EngineAbstract
 	{	
 		Player p = e.getPlayer();
 		Action action = e.getAction();
-		if(action == Action.RIGHT_CLICK_AIR)
+		if(action == Action.RIGHT_CLICK_AIR || action == Action.LEFT_CLICK_AIR)
 			return;
 		
 		Ability ability = Ability.getAbilityByInteractKey(e.getMaterial());
