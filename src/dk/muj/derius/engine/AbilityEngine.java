@@ -66,12 +66,12 @@ public class AbilityEngine extends EngineAbstract
 	{	
 		Player p = e.getPlayer();
 		Action action = e.getAction();
-		if(action != Action.RIGHT_CLICK_AIR)
+		if(action == Action.RIGHT_CLICK_AIR)
 			return;
+		
 		Ability ability = Ability.getAbilityByInteractKey(e.getMaterial());
 		if(ability == null)
 			return;
-		
 		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		

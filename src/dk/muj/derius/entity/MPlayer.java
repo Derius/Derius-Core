@@ -290,7 +290,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void ActivateAbility(final Ability ability, Object other)
 	{
 		if(this.isPlayer())
-			if(ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
+			if(!ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
 				return;
 		
 		if(ability.getType() == AbilityType.PASSIVE)
@@ -326,7 +326,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
-		this.activatedAbilities = ability.getId();
+
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
 			public void run()
