@@ -1,5 +1,6 @@
 package dk.muj.derius.cmd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
@@ -37,10 +38,12 @@ public class CmdDeriusSpList  extends DeriusCommand
 		if(target == null) return;
 		if(args.size() == 1 && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true))
 			return;
-		Skill[] skills = target.getSpecialisedSkills();
-		String[] names = new String[skills.length];
-		for(int i = 0; i < skills.length ; i++)
-			names[i] = skills[i].getDisplayName(msender);
+		List<Skill> skills = target.getSpecialisedSkills();
+
+		List<String> names = new ArrayList<String>();
+		for(Skill s: skills)
+			names.add(s.getDisplayName(msender));
+		this.msg(Txt.titleize(target.getDisplayName(msender)+ "'s specilisations"));
 		this.msg(Txt.implode(names, ", ", "%s"));
 	}
 	
@@ -49,6 +52,7 @@ public class CmdDeriusSpList  extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusSpList;
     }
+
 
 
 }

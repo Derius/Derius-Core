@@ -52,7 +52,6 @@ public class CmdDeriusSpLearn extends DeriusCommand
 			msender.sendMessage(Txt.parse("<b> please stand still for %s <b>more",moveDesc));
 			return;
 		}
-		
 		SpecialisationStatus status = msender.setSpecialisedIn(skill);
 		switch(status)
 		{
@@ -69,9 +68,10 @@ public class CmdDeriusSpLearn extends DeriusCommand
 				msender.msg(Txt.parse(MConf.get().msgTooManySkillsSpecialised),skill.getDisplayName(msender));
 				return;
 			case HAS_NOW : 
-				msender.msg(Txt.parse(MConf.get().msgIsPlayerSpecialisedInSkillColor, skill.getDisplayName(msender)));
+				msender.msg(Txt.parse(MConf.get().msgSpecialisationSuceed, skill.getDisplayName(msender)));
 				return;
 			default:
+				msender.msg(Txt.parse(MConf.get().specialisationError, skill.getDisplayName(msender)));
 				break;
 				
 		}

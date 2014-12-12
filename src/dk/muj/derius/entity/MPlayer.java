@@ -229,11 +229,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Gets an array of the skills this player has specialised in
 	 * @return {Skill[]} the skills this player has specialised in
 	 */
-	public Skill[] getSpecialisedSkills()
+	public List<Skill> getSpecialisedSkills()
 	{		
-		Skill[] ret = new Skill[this.specialised.size()];
-		for(int i = 0; i < this.specialised.size(); i++)
-			ret[i] = Skill.GetSkillById(specialised.get(i).intValue());
+		List<Skill> ret = new ArrayList<Skill>();
+		for(int i: specialised)
+		{
+			Skill s = Skill.GetSkillById(i);
+					if(s != null)
+						ret.add(s);
+		}
 		return ret;
 	}
 	

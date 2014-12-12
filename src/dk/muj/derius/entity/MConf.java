@@ -97,7 +97,9 @@ public class MConf extends Entity<MConf>
 	/**
 	 * This message is sent when adding a specialisation succeeds
 	 */
-	public String msgSpecialisationSuceed = "<b>You are now specialised in %s";
+	public String msgSpecialisationSuceed = "<i>You are now specialised in %s";
+	
+	public String specialisationError = "<b>An error occured while trying to specialise";
 	
 	// -------------------------------------------- //
 	// SKILL SETTINGS
