@@ -75,17 +75,22 @@ public class AbilityEngine extends EngineAbstract
 		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
-		if(mplayer.HasActivatedAny())
-			return;
-
-		if (!mplayer.hasCooldownExpired(true))
-			return;
-
-		if(!ability.CanPlayerActivateAbility(mplayer))
-			return;
-
-		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivateAbility(ability);
+		if(!ability.getAbilityCheck())
+		{
+			if(mplayer.HasActivatedAny())
+				return;
+	
+			if (!mplayer.hasCooldownExpired(true))
+				return;
+	
+			if(!ability.CanPlayerActivateAbility(mplayer))
+				return;
+	
+			if(!ability.CanAbilityBeUsedInArea(p.getLocation()))
+				return;
+		}
+		
+		mplayer.ActivateAbility(ability);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -99,8 +104,11 @@ public class AbilityEngine extends EngineAbstract
 		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
-		if(ability.CanAbilityBeUsedInArea(p.getLocation()))
-			mplayer.ActivateAbility(ability, e.getBlock());
+		if(!ability.getAbilityCheck())
+			if(!ability.CanAbilityBeUsedInArea(p.getLocation()))
+				return;
+		
+		mplayer.ActivateAbility(ability, e.getBlock());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
