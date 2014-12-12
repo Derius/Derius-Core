@@ -31,7 +31,10 @@ public abstract class Ability
 
 	private AbilityType type;
 	
-	// Whether or not the ability checks for conditions itself.
+	/*
+	 *  Whether or not the ability checks for conditions itself.
+	 *  Mostly used in Abilities giving exp in combination with something else.
+	 */
 	private boolean abilityCheck = false;
 	
 	private String desc = "";
