@@ -31,6 +31,12 @@ public abstract class Ability
 
 	private AbilityType type;
 	
+	/*
+	 *  Whether or not the ability checks for conditions itself.
+	 *  Mostly used in Abilities giving exp in combination with something else.
+	 */
+	private boolean abilityCheck = false;
+	
 	private String desc = "";
 	private String name;
 	
@@ -138,7 +144,7 @@ public abstract class Ability
 	}
 	
 	// -------------------------------------------- //
-	// ABILTY TYPE
+	// ABILTY TYPE & CHECK
 	// -------------------------------------------- //
 	
 	/**
@@ -157,6 +163,26 @@ public abstract class Ability
 	protected void setType(AbilityType newType)
 	{
 		this.type = newType;
+	}
+	
+	/**
+	 * Gets the state of AbilityCheck, whether the ability
+	 * checks for conditions itself.
+	 * @return {boolean} whether or not the engine should check 
+	 */
+	public boolean getAbilityCheck()
+	{
+		return this.abilityCheck;
+	}
+	
+	/**
+	 * Sets the state of AbilityCheck, whether the ability
+	 * checks for conditions itself or not.
+	 * @return {boolean} whether or not the engine should check 
+	 */
+	protected void setAbilityCheck( boolean state)
+	{
+		this.abilityCheck = state;
 	}
 	
 	// -------------------------------------------- //
