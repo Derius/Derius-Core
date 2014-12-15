@@ -231,9 +231,21 @@ public abstract class Ability
 	 * @param {MPlayer} player to see description
 	 * @return {String} how the player should see the description
 	 */
-	public String getDisplayedDescription(MPlayer whatcherObject)
+	public String getDisplayedDescription(MPlayer watcherObject)
 	{
-		return Txt.parse("%s%s: <i>%s",AbilityUtil.CanUseAbilitySkillColor(this, whatcherObject),this.getName(), this.getDescription());
+		String color = CanPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		return Txt.parse(MConf.get().msgAbilityDisplayedDescription, color + this.getName(), this.getDescription());
+	}
+	
+	/**
+	 * Gets the name  as it would be displayed to the passed player
+	 * @param {MPlayer} player to see description
+	 * @return {String} how the player should see the description
+	 */
+	public String getDisplayName(MPlayer watcherObject)
+	{
+		String color = CanPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		return color + this.getName();
 	}
 	
 	// -------------------------------------------- //

@@ -19,18 +19,20 @@ public class CmdDerius extends DeriusCommand
 	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList();
 	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise();
 	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect();	
+	public CmdDeriusDebug innerCmdDeriusDebug = new CmdDeriusDebug();
 	
 	// Constructor
 	public CmdDerius()
 	{
-		this.addSubCommand(HelpCommand.get());
-		this.addSubCommand(this.innerCmdDeriusSkill);
-		this.addSubCommand(this.innerCmdDeriusList);
-		this.addSubCommand(this.innerCmdDeriusInspect);
-		this.addSubCommand(this.innerCmdDeriusSpecialise);
-		this.addSubCommand(this.innerCmdDeriusVersion);
+		super.addSubCommand(HelpCommand.get());
+		super.addSubCommand(this.innerCmdDeriusSkill);
+		super.addSubCommand(this.innerCmdDeriusList);
+		super.addSubCommand(this.innerCmdDeriusInspect);
+		super.addSubCommand(this.innerCmdDeriusSpecialise);
+		super.addSubCommand(this.innerCmdDeriusDebug);
+		super.addSubCommand(this.innerCmdDeriusVersion);
 		
-		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
+		super.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
 	}
 	
 	@Override

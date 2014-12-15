@@ -53,19 +53,19 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		switch(status)
 		{
 			case AUTO_ASSIGNED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillIsAutoSpecialised),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAutoAssigned),skill.getDisplayName(msender));
 				return;
 			case BLACK_LISTED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillIsBlackListed),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationBlackList),skill.getDisplayName(msender));
 				return;
 			case DIDNT_HAVE : 
-				msender.msg(Txt.parse(MConf.get().msgAlreadyNotSpecialised),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAlreadyHasNot),skill.getDisplayName(msender));
 				return;
 			case DONT_HAVE_NOW : 
 				msender.msg(Txt.parse(MConf.get().msgSpecialisationRemoveSuceed, skill.getDisplayName(msender)));
 				return;
 			default:
-				msender.msg(Txt.parse(MConf.get().specialisationError, skill.getDisplayName(msender)));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationError, skill.getDisplayName(msender)));
 				break;
 				
 		}

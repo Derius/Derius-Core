@@ -21,89 +21,46 @@ public class MConf extends Entity<MConf>
 	public static MConf get() { return i; }
 	
 	// -------------------------------------------- //
-	// FIELDS
-	// -------------------------------------------- //
-	
-	// -------------------------------------------- //
 	// MESSAGES
 	// -------------------------------------------- //
 	
-	/**
-	 * This Message get's shown to the Player when he attempts to use his ability,
-	 * but the Cooldown time has not yet been reached.
-	 */
-	public String abilityCooldownMsg = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
+	public String msgAbilityCooldown = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
+	public String msgAbilityActivated = "<green>[DERIUS] <i>You activated <lime>%s";
+	public String msgAbilityDeactivated = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
 	
-	/**
-	 * This Message get's shown to the Player when he activated an ability.
-	 */
-	public String abilityActivatedMsg = "<green>[DERIUS] <i>You activated <lime>%s";
+
+	public String colorAbilityCanPlayerUse = "<pink>";
+	public String colorAbilityCanPlayerNotUse = "<grey>";
 	
-	/**
-	 * This Message get's shown to the Player when an ability gets deactivated.
-	 */
-	public String abilityDeactivatedMsg = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
+	public String colorSkillCanPlayerUse = "<aqua>";
+	public String colorSkillCanPlayerNotUse = "<grey>";
+	public String colorSkillIsPlayerSpecialised = "<gold>";
 	
-	/**
-	 * This is the Color that get's added  to the skill, when the player is able to learn it.
-	 */
-	public String msgCanPlayerLearnSkillColorYes = "<aqua>";
 	
-	/**
-	 * This is the Color that get's added  to the skill, when the player is NOT able to learn it.
-	 */
-	public String msgCanPlayerLearnSkillColorNo = "<grey>";
-	
-	/**
-	 * This is the color that the player sees for skills he/she has specialised in
-	 */
-	public String msgIsPlayerSpecialisedInSkillColor = "<gold>";
-	
-	/**
-	 * This is the Color that get's added  to the ability, when the player is able to learn it.
-	 */
-	public String canPlayerUseAbilityColorYes = "<pink>";
-	
-	/**
-	 * This is the Color that get's added  to the skill, when the player is NOT able to learn it.
-	 */
-	public String canPlayerUseAbilityColorNo = "<grey>";
-	
-	/**
-	 * This is the message that gets sent when asked for the LvlStatus.getString.
-	 */
-	public String LvlStatus = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
-	
-	/**
-	 * This message is is sent when the player tries to specialise in a skill that is auto assigned
-	 */
-	public String msgSkillIsAutoSpecialised = "<b>The skill %s <b> is automatically specialised";
-	
-	/**
-	 * This message is is sent when the player tries to specialise in a skill that is black listed
-	 */
-	public String msgSkillIsBlackListed = "<b>It is not possible to specialise in %s";
-	
-	/**
-	 * This message is is sent when the player tries to specialise in a skill that they are already specialised in
-	 */
-	public String msgAlreadyHasSkillSpecialised = "<b>You already have %s";
-	
-	/**
-	 * This message is is sent when the player tries to specialise but has too much specialised
-	 */
-	public String msgTooManySkillsSpecialised = "<b>You cannot add %s <b>because you don't have room for more specialised";
-	
-	/**
-	 * This message is sent when adding a specialisation succeeds
-	 */
-	public String msgSpecialisationSuceed = "<i>You are now specialised in %s";
-	
-	public String specialisationError = "<b>An error occured while trying to specialise";
-	
-	public String msgAlreadyNotSpecialised = "<b>You do not have the Skill %s <b>specialised";
-	
+
+	public String msgSkillSpecialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
+	public String msgSkillSpecialisationBlackList = "<b>It is not possible to specialise in %s";
+	public String msgSkillSpecialisationAlreadyHas = "<b>You already have %s";
+	public String msgSkillSpecialisationTooMany = "<b>You cannot add %s <b>because you don't have room for more specialised";
+	public String msgSkillSpecialisationAddSucceed = "<i>You are now specialised in %s";
+	public String msgSkillSpecialisationError = "<b>An error occured while trying to specialise";
+	public String msgSkillSpecialisationAlreadyHasNot = "<b>You do not have the Skill %s <b>specialised";
 	public String msgSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
+	
+	public String msgLvlStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
+	public String msgAbilityDisplayedDescription = "%s: <i>%s";
+	
+	public int timeLvlUpFadeIn = 5;
+	public int timeLvlUpStay = 60;
+	public int timeLvlUpFadeOut = 5;
+	
+	public int timeAbilityActivateFadeIn = 5;
+	public int timeAbilityActivateStay = 50;
+	public int timeAbilityActivateFadeOut = 5;
+	
+	public int timeAbilityDeactivateFadeIn = 5;
+	public int timeAbilityDeactivateStay = 50;
+	public int timeAbilityDeactivateFadeOut = 5;
 	
 	// -------------------------------------------- //
 	// SKILL SETTINGS
@@ -155,8 +112,9 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusSkill = MUtil.list("s", "skill");
 	public List<String> innerAliasesDeriusList = MUtil.list("l", "list");
 	public List<String> innerAliasesDeriusInspect = MUtil.list("i", "inspect");
-	
 	public List<String> innerAliasesDeriusSpecialise = MUtil.list("sp","specialise");
+	public List<String> innerAliasesDeriusDebug = MUtil.list("debug");
+	
 	public List<String> innerAliasesDeriusSpLearn = MUtil.list("learn");
 	public List<String> innerAliasesDeriusSpUnlearn = MUtil.list("unlearn");
 	public List<String> innerAliasesDeriusSpInfo = MUtil.list("i","info");

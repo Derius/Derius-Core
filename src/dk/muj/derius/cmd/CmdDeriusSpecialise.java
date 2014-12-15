@@ -10,10 +10,10 @@ import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusSpecialise extends DeriusCommand
 {
-	CmdDeriusSpLearn innerCmdDeriusSpLearn = new CmdDeriusSpLearn();
-	CmdDeriusSpUnlearn innerCmdDeriusSpUnlearn = new CmdDeriusSpUnlearn();
-	CmdDeriusSpInfo innerCmdDeriusSpInfo = new CmdDeriusSpInfo();
-	CmdDeriusSpList innerCmdDeriusSpList = new CmdDeriusSpList();
+	public CmdDeriusSpLearn innerCmdDeriusSpLearn = new CmdDeriusSpLearn();
+	public CmdDeriusSpUnlearn innerCmdDeriusSpUnlearn = new CmdDeriusSpUnlearn();
+	public CmdDeriusSpInfo innerCmdDeriusSpInfo = new CmdDeriusSpInfo();
+	public CmdDeriusSpList innerCmdDeriusSpList = new CmdDeriusSpList();
 	
 	public CmdDeriusSpecialise()
 	{

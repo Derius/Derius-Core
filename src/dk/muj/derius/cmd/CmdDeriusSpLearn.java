@@ -55,22 +55,22 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		switch(status)
 		{
 			case AUTO_ASSIGNED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillIsAutoSpecialised),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAutoAssigned),skill.getDisplayName(msender));
 				return;
 			case BLACK_LISTED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillIsBlackListed),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationBlackList),skill.getDisplayName(msender));
 				return;
 			case HAD : 
-				msender.msg(Txt.parse(MConf.get().msgAlreadyHasSkillSpecialised),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAlreadyHas),skill.getDisplayName(msender));
 				return;
 			case TOO_MANY : 
-				msender.msg(Txt.parse(MConf.get().msgTooManySkillsSpecialised),skill.getDisplayName(msender));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationTooMany),skill.getDisplayName(msender));
 				return;
 			case HAS_NOW : 
-				msender.msg(Txt.parse(MConf.get().msgSpecialisationSuceed, skill.getDisplayName(msender)));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAddSucceed, skill.getDisplayName(msender)));
 				return;
 			default:
-				msender.msg(Txt.parse(MConf.get().specialisationError, skill.getDisplayName(msender)));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationError, skill.getDisplayName(msender)));
 				break;
 				
 		}

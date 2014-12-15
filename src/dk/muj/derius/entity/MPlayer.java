@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.ChatUtil;
 import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
@@ -103,7 +104,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		int lvlAfter = this.getLvl(skill);
 		if(lvlBefore != lvlAfter)
-			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled up <lime>%s <yellow>level in <aqua>%s", lvlAfter-lvlBefore+"", skill.getName()));
+			ChatUtil.msgLevelUp(this, skill, lvlAfter);
 	}
 	
 	/**
@@ -358,7 +359,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return;
 		this.activatedAbilities = 0;
 		ability.onDeactivate(this);
-		this.msg(Txt.parse(MConf.get().abilityDeactivatedMsg, ability.getName()));
+		
 	}
 	
 	/**
@@ -457,7 +458,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		long currentTime = timeNow;
 		long timeRemainingSeconds = (getCooldownExpire()-currentTime)/1000;
 		
-		msg(Txt.parse(MConf.get().abilityCooldownMsg, timeRemainingSeconds));
+		msg(Txt.parse(MConf.get().msgAbilityCooldown, timeRemainingSeconds));
 	}
 	
 	/**

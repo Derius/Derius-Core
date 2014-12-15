@@ -1,6 +1,5 @@
 package dk.muj.derius.skill;
 
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 
 public class SkillUtil
@@ -64,23 +63,4 @@ public class SkillUtil
 		return false;
 	}
 	
-	/**
-	 * Returns a colorcode from the MConf for the Txt.parse method,
-	 * based on the players ability to learn stated skill or not.
-	 * @param {Skill} The Skill we want to check for.
-	 * @param {MPlayer} The MPlayer we want to check for.
-	 * @return {String} The colorcode for the txt.parse method.
-	 */
-	@Deprecated
-	public static String CanPlayerLearnSkillColor (Skill skill, MPlayer mplayer)
-	{
-		if (skill.CanPlayerLearnSkill(mplayer))
-		{
-			return MConf.get().msgCanPlayerLearnSkillColorYes;
-		}
-		else
-		{
-			return MConf.get().msgCanPlayerLearnSkillColorNo;
-		}
-	}
 }

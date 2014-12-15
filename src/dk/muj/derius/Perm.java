@@ -22,7 +22,8 @@ public enum Perm
 	SPECIALISATION_LEARN("sp.learn"),
 	SPECIALISATION_UNLEARN("sp.unlearn"), 
 	SPECIALISATION_LIST("sp.list"), 
-	SPECIALISATION_LIST_OTHER("sp.list.others"),
+	SPECIALISATION_LIST_OTHER("sp.list.others"), 
+	DEBUG("debug"),
 	
 	// END OF LIST
 	;

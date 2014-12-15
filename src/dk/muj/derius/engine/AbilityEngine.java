@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.ChatUtil;
 import dk.muj.derius.Derius;
 import dk.muj.derius.WorldException;
 import dk.muj.derius.ability.Ability;
@@ -18,6 +18,7 @@ import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityActivateEvent;
+import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.skill.Skill;
 
@@ -65,7 +66,7 @@ public class AbilityEngine extends EngineAbstract
 	{	
 		Player p = e.getPlayer();
 		Action action = e.getAction();
-		if(action == Action.RIGHT_CLICK_AIR || action == Action.LEFT_CLICK_AIR)
+		if(action != Action.RIGHT_CLICK_AIR)
 			return;
 		
 		Ability ability = Ability.getAbilityByInteractKey(e.getMaterial());
@@ -111,10 +112,20 @@ public class AbilityEngine extends EngineAbstract
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onActivate(AbilityActivateEvent e)
+	public void onActivate(AbilityActivateEvent event)
 	{
-		Ability a = e.getAbility();
-		if(a.getType() == AbilityType.ACTIVE)
-			e.getMPlayer().msg(Txt.parse(MConf.get().abilityActivatedMsg, a.getName()));
+		Ability ability = event.getAbility();
+		MPlayer player = event.getMPlayer();
+		if(ability.getType() == AbilityType.ACTIVE)
+			ChatUtil.msgAbilityActivate(player, ability);
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onDeactivate(AbilityDeactivateEvent event)
+	{
+		Ability ability = event.getAbility();
+		MPlayer player = event.getMPlayer();
+		if(ability.getType() == AbilityType.ACTIVE)
+			ChatUtil.msgAbilityDeactivate(player, ability);
 	}
 }

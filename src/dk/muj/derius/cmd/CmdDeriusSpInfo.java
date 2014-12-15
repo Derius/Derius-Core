@@ -26,15 +26,17 @@ public class CmdDeriusSpInfo extends DeriusCommand
 		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_INFO.node));
 	}
 		
-	// -------------------------------------------- //
-	// OVERRIDE
-	// -------------------------------------------- //
+
 	
 	@Override
 	public void perform()
 	{
-		this.msg(Txt.parse("<i>Specliasing description"));
+		this.msg(Txt.parse("<i>"+specialisationInfo));
 	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
 	
 	@Override
     public List<String> getAliases()

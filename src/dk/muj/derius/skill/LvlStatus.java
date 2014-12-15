@@ -64,7 +64,7 @@ public class LvlStatus
 	public String toString()
 	{
 		//  Example Output (before applying the colors): "<navy>LVL: <lime>1 <navy>XP: <lime>120<yellow>/<lime>5000"
-		return Txt.parse(MConf.get().LvlStatus, lvl, exp, expToNextLvl);
+		return Txt.parse(MConf.get().msgLvlStatusFormat, lvl, exp, expToNextLvl);
 	}
 
 }
