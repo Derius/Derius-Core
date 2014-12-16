@@ -1,11 +1,7 @@
 package dk.muj.derius.engine;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -61,7 +57,7 @@ public class AbilityEngine extends EngineAbstract
 			MConf.get().worldAbilityUse.put(a.getId(), new WorldException());
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
+	/*@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e)
 	{	
 		Player p = e.getPlayer();
@@ -109,7 +105,7 @@ public class AbilityEngine extends EngineAbstract
 				return;
 		
 		mplayer.ActivateAbility(ability, e.getBlock());
-	}
+	}*/
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onActivate(AbilityActivateEvent event)

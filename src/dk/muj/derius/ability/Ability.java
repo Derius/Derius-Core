@@ -1,14 +1,11 @@
 package dk.muj.derius.ability;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -42,8 +39,6 @@ public abstract class Ability
 	
 	//A list of ability which we get from different sources.
 	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
-	private static EnumMap<Material, Ability> interactKeys = new EnumMap<Material, Ability>(Material.class);
-	private static EnumMap<Material, Ability> blockBreakKeys = new EnumMap<Material, Ability>(Material.class);
 	
 	// -------------------------------------------- //
 	// STATIC
@@ -88,26 +83,6 @@ public abstract class Ability
 	public static List<Ability> GetAllAbilities()
 	{
 		return new ArrayList<Ability>(Ability.abilityList);
-	}
-	
-	/**
-	 * Gets the skill which will activate when right clicked with this material
-	 * @param {Material} the material you want to check for.
-	 * @return {Ability} The ability which has said material as interact key.
-	 */
-	public static Ability getAbilityByInteractKey(Material key)
-	{
-		return Ability.interactKeys.get(key);
-	}
-	
-	/**
-	 * Gets the skill which will activate when a block with this material is broken
-	 * @param {Material} the material you want to check for.
-	 * @return {Ability} The ability which has said material as block break key.
-	 */
-	public static Ability getAbilityByBlockBreakKey(Material key)
-	{
-		return Ability.blockBreakKeys.get(key);
 	}
 
 	// -------------------------------------------- //
@@ -246,74 +221,6 @@ public abstract class Ability
 	{
 		String color = CanPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
 		return color + this.getName();
-	}
-	
-	// -------------------------------------------- //
-	// ACTIVATION KEYS
-	// -------------------------------------------- //
-	
-	//INTERACT KEYS
-	
-	/**
-	 * This will add said materials to its list of interact activation keys
-	 * @param {Material...} an array of keys to add
-	 */
-	public void addInteractKeys(Material... keys)
-	{
-		for(Material m: keys)
-			interactKeys.put(m,this);
-	}
-	
-	/**
-	 * This will add the materials in the collection to its list of interact activation keys
-	 * @param {Collection<Material>} a collection of keys to add
-	 */
-	public void addInteractKeys(Collection<Material> keys)
-	{
-		for (Material m :keys)
-			interactKeys.put(m, this);
-	}
-	
-	/**
-	 * This will remove said materials from the list of interact activation keys
-	 * @param {Material...} an array of keys to remove
-	 */
-	public void removeInteractKeys(Material... keys)
-	{
-		for(Material m: keys)
-			interactKeys.remove(m);
-	}
-
-	//BLOCK BREAK KEYS
-	
-	/**
-	 * This will add said materials to its list of block break activation keys
-	 * @param {Material...} an array of keys to add
-	 */
-	public void addBlockBreakKeys(Material... keys)
-	{
-		for(Material m: keys)
-			blockBreakKeys.put(m,this);
-	}
-	
-	/**
-	 * This will add said materials to its list of block break activation keys
-	 * @param {Material...} an array of keys to add
-	 */
-	public void addBlockBreakKeys(Collection<Material> keys)
-	{
-		for(Material m: keys)
-			blockBreakKeys.put(m,this);
-	}
-	
-	/**
-	 * This will add said materials to its list of block break activation keys
-	 * @param {Material...} an array of keys to remove
-	 */
-	public void removeBlockBreakKeys(Material... keys)
-	{
-		for(Material m: keys)
-			blockBreakKeys.remove(m);
 	}
 	
 	// -------------------------------------------- //
