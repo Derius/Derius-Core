@@ -24,6 +24,8 @@ public class MConf extends Entity<MConf>
 	// MESSAGES
 	// -------------------------------------------- //
 	
+	public String msgPrefix = "<green>[DERIUS]";
+	
 	public String msgAbilityCooldown = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
 	public String msgAbilityActivated = "<green>[DERIUS] <i>You activated <lime>%s";
 	public String msgAbilityDeactivated = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
@@ -46,6 +48,9 @@ public class MConf extends Entity<MConf>
 	public String msgSkillSpecialisationError = "<b>An error occured while trying to specialise";
 	public String msgSkillSpecialisationAlreadyHasNot = "<b>You do not have the Skill %s <b>specialised";
 	public String msgSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
+	
+	public String msgToolPrepared = "<i>You prepared your %s";
+	public String msgToolNotPrepared = "<i>You lowered your %s";
 	
 	public String msgLvlStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
 	public String msgAbilityDisplayedDescription = "%s: <i>%s";

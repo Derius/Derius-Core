@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.Txt;
@@ -59,7 +60,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	//A list of the active abilities the user has activated
 	//Each ability should have a unique number
-	private transient int activatedAbilities = 0;
+	private transient int activatedAbility = 0;
+	
+	//The tool which the user has prepared.
+	//A tool is prepared by right clicking, then can activate abilities
+	private transient Material preparedTool = null;
 	
 	
 	// -------------------------------------------- //
@@ -158,6 +163,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return MConf.get().hardCap;
 		return MConf.get().softCap;
 	}
+	
+	// -------------------------------------------- //
+	// S
+	// -------------------------------------------- //
 	
 	/**
 	 * Tells whether or not the player is specialised in this skill
@@ -328,12 +337,24 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	private void ActivateActiveAbility(final Ability ability, Object other)
 	{
+		if(this.HasActivatedAny())
+			return;
+
+		if (!this.hasCooldownExpired(true))
+			return;
+
+		if(!ability.CanPlayerActivateAbility(this))
+			return;
+
+		if(this.isPlayer() && !ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
+			return;
+		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
 		
-		this.activatedAbilities = ability.getId();
+		this.activatedAbility = ability.getId();
 
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
@@ -357,7 +378,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
-		this.activatedAbilities = 0;
+		this.activatedAbility = 0;
 		ability.onDeactivate(this);
 		
 	}
@@ -370,7 +391,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean HasActivated(Ability ability)
 	{
-		return this.activatedAbilities == ability.getId();
+		return this.activatedAbility == ability.getId();
 	}
 	
 	/**
@@ -379,7 +400,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean HasActivatedAny()
 	{
-		return this.activatedAbilities != 0;
+		return this.activatedAbility != 0;
 	}
 	
 	/**
@@ -389,7 +410,52 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getActivated()
 	{
-		return this.activatedAbilities;
+		return this.activatedAbility;
+	}
+	
+	// -------------------------------------------- //
+	// PREPARED TOOL
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets the tool which the user has prepared
+	 * this is used for activating active abilities
+	 * @return {Material} the tool the player has prepared
+	 */
+	public Material getPreparedTool()
+	{
+		return preparedTool;
+	}
+
+	/**
+	 * Sets the tool which the user has prepared
+	 * this is used for activating active abilities
+	 * @param {Material} the tool the player will have prepared
+	 */
+	public void setPreparedTool(final Material tool)
+	{
+		if(this.HasActivatedAny())
+			return;
+		if(this.getPreparedTool() != null)
+			return;
+		if(tool != null)
+		{
+			ChatUtil.msgToolPrepared(this, tool);
+			this.preparedTool = tool;
+			Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					preparedTool = null;
+					ChatUtil.msgToolNotPrepared(get(), tool);
+					
+				}
+			}, 20*5);
+		}
+		else
+			this.preparedTool = null;
+		
 	}
 	
 	// -------------------------------------------- //
@@ -543,5 +609,4 @@ public class MPlayer extends SenderEntity<MPlayer>
 		int range = to - from + 1;
 		return (int) (Math.random()*range) + to;
 	}
-	
 }

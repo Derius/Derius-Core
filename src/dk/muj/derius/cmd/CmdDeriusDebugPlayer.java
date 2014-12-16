@@ -65,6 +65,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		msgLines.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
 		msgLines.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
 		msgLines.add(Txt.parse("<i>Specialised millis: <lime>" + System.currentTimeMillis()));
+		msgLines.add(Txt.parse("<i>Prepared tool: <lime>" + target.getPreparedTool()));
 		
 		msgLines.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( value, ",", "&")));
 		msgLines.add(Txt.parse("<red>Exp:"));

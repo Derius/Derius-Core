@@ -1,6 +1,7 @@
 package dk.muj.derius;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.util.Txt;
@@ -57,5 +58,20 @@ public final class ChatUtil
 		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityDeactivateFadeIn + space + MConf.get().timeAbilityDeactivateStay + space + MConf.get().timeAbilityDeactivateFadeOut);
 		
 		Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" ran out\",\"color\":\"yellow\"}]}",a.getName()));
+	}
+	
+	public static void msgToolPrepared(MPlayer player, Material tool)
+	{
+		player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolPrepared, ToolToString(tool)));
+	}
+	
+	public static void msgToolNotPrepared(MPlayer player, Material tool)
+	{
+		player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolNotPrepared, ToolToString(tool)));
+	}
+	
+	private static String ToolToString(Material tool)
+	{
+		return Txt.upperCaseFirst(tool.name().substring(tool.name().indexOf("_")+1).toLowerCase());
 	}
 }

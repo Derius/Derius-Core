@@ -1,7 +1,10 @@
 package dk.muj.derius.engine;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -57,7 +60,7 @@ public class AbilityEngine extends EngineAbstract
 			MConf.get().worldAbilityUse.put(a.getId(), new WorldException());
 	}
 	
-	/*@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e)
 	{	
 		Player p = e.getPlayer();
@@ -65,31 +68,13 @@ public class AbilityEngine extends EngineAbstract
 		if(action != Action.RIGHT_CLICK_AIR)
 			return;
 		
-		Ability ability = Ability.getAbilityByInteractKey(e.getMaterial());
-		if(ability == null)
-			return;
-		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
-		if(!ability.getAbilityCheck())
-		{
-			if(mplayer.HasActivatedAny())
-				return;
-	
-			if (!mplayer.hasCooldownExpired(true))
-				return;
-	
-			if(!ability.CanPlayerActivateAbility(mplayer))
-				return;
-	
-			if(!ability.CanAbilityBeUsedInArea(p.getLocation()))
-				return;
-		}
 		
-		mplayer.ActivateAbility(ability);
+		mplayer.setPreparedTool(e.getMaterial());
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	/*@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e)
 	{	
 		Player p = e.getPlayer();
