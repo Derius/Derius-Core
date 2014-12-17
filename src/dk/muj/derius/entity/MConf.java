@@ -37,8 +37,6 @@ public class MConf extends Entity<MConf>
 	public String colorSkillCanPlayerUse = "<aqua>";
 	public String colorSkillCanPlayerNotUse = "<grey>";
 	public String colorSkillIsPlayerSpecialised = "<gold>";
-	
-	
 
 	public String msgSkillSpecialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
 	public String msgSkillSpecialisationBlackList = "<b>It is not possible to specialise in %s";
@@ -48,6 +46,14 @@ public class MConf extends Entity<MConf>
 	public String msgSkillSpecialisationError = "<b>An error occured while trying to specialise";
 	public String msgSkillSpecialisationAlreadyHasNot = "<b>You do not have the Skill %s <b>specialised";
 	public String msgSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
+	
+	public String msgKeyAdd = "<i>You have succesfully registered the key %s to the ability %s.";
+	public String msgKeyAddIsAlready = "<i>The key %s is already in use. Please use another one.";
+	public String msgKeyAddInvalid = "<i>This Ability Id is not valid/not in use.";
+	public String msgKeyRemoveInvalid = "<i>This key doesn't exist, so it cannot be removed";
+	public String msgKeyRemoveSuccess = "<i>You have succesfully removed the key %s from your list of keys.";
+	public String msgKeyClearWarning = "<i>Do you really want to clear all your entries?  Type <aqua> /d k c true";
+	public String msgKeyClearSuccess = "<i>You have successfully cleared your chat activation keys.";
 	
 	public String msgToolPrepared = "<i>You prepared your %s";
 	public String msgToolNotPrepared = "<i>You lowered your %s";

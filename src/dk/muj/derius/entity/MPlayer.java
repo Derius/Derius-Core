@@ -46,16 +46,16 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// FIELDS
 	// -------------------------------------------- //
 	
-	//		String is id for the skill
-	//		Long is the exp
+	// Integer is id for the skill
+	// Long is the exp
 	private Map<Integer, Long> exp = new HashMap<Integer,Long>();
 	
 	private List<Integer> specialised = new CopyOnWriteArrayList<Integer>();
 	
 	private long specialisedMillis = System.currentTimeMillis();
 	
-	//		Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
-	//		Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
+	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
+	// Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
 	private transient long cooldown = 0;
 	
 	//A list of the active abilities the user has activated
@@ -65,6 +65,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	//The tool which the user has prepared.
 	//A tool is prepared by right clicking, then can activate abilities
 	private transient Material preparedTool = null;
+	
+	// A boolean that defines whether the player wants to activate abilities by chat or not.
+	private boolean isListeningToChat = false;
+		
+	private Map<String, Ability> chatKeys = new HashMap<String, Ability>(); //Is this transient?
 	
 	
 	// -------------------------------------------- //
@@ -404,7 +409,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	/**
 	 * Gets the id of the activated ability
 	 * 0 if no ability is activated
-	 * @return {int} id of acivated ability. 0 if none
+	 * @return {int} id of activated ability. 0 if none
 	 */
 	public int getActivated()
 	{
@@ -456,7 +461,139 @@ public class MPlayer extends SenderEntity<MPlayer>
 			this.preparedTool = null;
 		
 	}
+
+	// -------------------------------------------- //
+	// MANAGING CHAT ACTIVATION
+	// -------------------------------------------- //
 	
+	// set and get for isListeningToChat boolean
+	/**
+	 * Gets the boolean if someone is listening to ability activation through chat
+	 * @return {Boolean} returns if listening.
+	 */
+	public boolean getIsListeningToChat()
+	{
+		return this.isListeningToChat;
+	}
+	
+	/**
+	 * Sets the boolean if someone is listening to ability activation through chat
+	 * @param {boolean} set whether it should listen to chat or not.
+	 */
+	public void setIsListeningToChat (boolean state)
+	{
+		this.isListeningToChat = state;
+	}
+	
+	// Adding, getting, setting to the chatKeys map
+	
+	/**
+	 * Adds an entry to the mplayers chatkey map
+	 * @param {String} The key that the Chat should listen for
+	 * @param {Ability} the ability it should activate
+	 */
+	public void addChatKeys(String key, Ability ability)
+	{
+		this.chatKeys.put(key, ability);
+	}
+	
+	/**
+	 * Removes an entry to the mplayers chatkey map
+	 * @param {String} The key and its ability that should be removed
+	 */
+	public void removeChatKeys (String key)
+	{
+		this.chatKeys.remove(key);
+	}
+	
+	/**
+	 * Gets all the keys from the chatKeys map
+	 * @return {List<String>} Get's you all keys from the map
+	 */
+	public List<String> getChatKeys()
+	{
+		List<String> list = new ArrayList<String>();
+		list.addAll(this.chatKeys.keySet());
+		return list;
+	}
+	
+	/**
+	 * Removes all entries of this mplayers map.
+	 */
+	public void clearChatKeys()
+	{
+		this.chatKeys.clear();
+	}
+	
+	/**
+	 * Checks whether this String is already in use or not
+	 * @param {String} the key you want to check for
+	 * @return {boolean} if it is or is not a chat key
+	 */
+	public boolean isAlreadyChatKey(String key)
+	{
+		for(String string:  this.chatKeys.keySet())
+		{
+			if (string.equals(key))
+				return true;
+		}
+		return false;
+	}
+	/**
+	 * Has the mplayer any chat keys registered?
+	 * @return {boolean} whether it is empty or not
+	 */
+	public boolean hasAnyChatKeys ()
+	{
+		return !this.chatKeys.isEmpty();
+	}
+	
+	/**
+	 * 
+	 * @param {String} The message to check for
+	 * @return {Ability} the ability we get from this message
+	 */
+	public Ability getAbilityBySubString (String message)
+	{
+		int pos = -1;
+		
+		for (String key: this.getChatKeys())
+		{
+			pos = message.indexOf(key);
+			if (pos != -1)
+			{
+				return this.getAbilityfromChatKey(key);
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets an ability from it's chat key
+	 * @param {String} the key you want to get the ability by
+	 * @return {Ability} the ability you got from the map
+	 */
+	public Ability getAbilityfromChatKey(String key)
+	{
+		return this.chatKeys.get(key);
+	}
+	
+	/**
+	 * Gets the map of this mplayer as a list of strings
+	 * @return {List<String>} the list of all the map data
+	 */
+	public List<String> chatKeysToString()
+	{
+		List<String> msgLines = new ArrayList<String>();
+		
+		for(String str: chatKeys.keySet())
+		{
+			msgLines.add(Txt.parse("<lime>" + str + "<i> activates " + getAbilityfromChatKey(str).toString()));
+		}
+		
+		return msgLines;
+	}
+
 	// -------------------------------------------- //
 	// MANAGING COOLDOWN
 	// -------------------------------------------- //
@@ -601,6 +738,17 @@ public class MPlayer extends SenderEntity<MPlayer>
 		for(Ability a: skill.getAllAbilities())
 			ret.add(a.getLvlDescription(level));
 		return ret;
+	}
+	
+	/**
+	 * Checks whether a player qualifies for chatListening
+	 * @return {boolean} are the conditions met?
+	 */
+	public boolean isChatListeningOk()
+	{
+		if (this.getIsListeningToChat() && this.hasAnyChatKeys())
+			return true;
+		return false;
 	}
 	
 	private int RandomBetween(int from, int to)
