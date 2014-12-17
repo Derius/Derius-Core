@@ -24,6 +24,12 @@ public enum Perm
 	SPECIALISATION_LIST("sp.list"), 
 	SPECIALISATION_LIST_OTHER("sp.list.others"), 
 	DEBUG("debug"),
+	KEYS("keys"),
+	KEYS_ADD("keys.add"),
+	KEYS_REMOVE("keys.remove"),
+	KEYS_LIST("keys.list"),
+	KEYS_CLEAR("keys.clear"),
+	KEYS_ABILITYID("keys.abilityid"),
 	
 	// END OF LIST
 	;

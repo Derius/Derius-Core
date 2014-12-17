@@ -20,6 +20,7 @@ public class CmdDerius extends DeriusCommand
 	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise();
 	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect();	
 	public CmdDeriusDebug innerCmdDeriusDebug = new CmdDeriusDebug();
+	public CmdDeriusKeys innerCmdDeriusKeys = new  CmdDeriusKeys();
 	
 	// Constructor
 	public CmdDerius()
@@ -29,6 +30,7 @@ public class CmdDerius extends DeriusCommand
 		super.addSubCommand(this.innerCmdDeriusList);
 		super.addSubCommand(this.innerCmdDeriusInspect);
 		super.addSubCommand(this.innerCmdDeriusSpecialise);
+		super.addSubCommand(this.innerCmdDeriusKeys);
 		super.addSubCommand(this.innerCmdDeriusDebug);
 		super.addSubCommand(this.innerCmdDeriusVersion);
 		
