@@ -1,4 +1,4 @@
-package dk.muj.derius;
+package dk.muj.derius.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -3,9 +3,9 @@ package dk.muj.derius.cmd;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
 
-import dk.muj.derius.ChatUtil;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.ChatUtil;
 
 public class CmdDeriusDebugTitle extends DeriusCommand
 {

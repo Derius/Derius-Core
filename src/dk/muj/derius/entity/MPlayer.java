@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.ChatUtil;
 import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
@@ -23,6 +22,7 @@ import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.SpecialisationStatus;
+import dk.muj.derius.util.ChatUtil;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
@@ -165,7 +165,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	// -------------------------------------------- //
-	// S
+	// SPECIALISATION
 	// -------------------------------------------- //
 	
 	/**
@@ -293,7 +293,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	// -------------------------------------------- //
-	// MANAGE ABILITIES
+	// ABILITIES
 	// -------------------------------------------- //
 
 	/**
@@ -303,11 +303,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Object} some abilities need another object. Check for the individual ability
 	 */
 	public void ActivateAbility(final Ability ability, Object other)
-	{
-		if(this.isPlayer())
-			if(!ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
-				return;
+	{	
+		//CHECKS
+		if(!ability.CanPlayerActivateAbility(this))
+			return;
+		if(this.isPlayer() && !ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
+			return;
 		
+		
+		//ACTIVATE
 		if(ability.getType() == AbilityType.PASSIVE)
 			this.ActivatePassiveAbility(ability, other);
 		
@@ -341,12 +345,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return;
 
 		if (!this.hasCooldownExpired(true))
-			return;
-
-		if(!ability.CanPlayerActivateAbility(this))
-			return;
-
-		if(this.isPlayer() && !ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
 			return;
 		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
@@ -448,10 +446,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 				public void run()
 				{
 					preparedTool = null;
-					ChatUtil.msgToolNotPrepared(get(), tool);
+					if(getActivated() == 0)
+						ChatUtil.msgToolNotPrepared(get(), tool);
 					
 				}
-			}, 20*5);
+			}, 20*2);
 		}
 		else
 			this.preparedTool = null;

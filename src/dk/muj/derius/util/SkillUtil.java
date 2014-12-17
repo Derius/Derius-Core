@@ -1,6 +1,7 @@
-package dk.muj.derius.skill;
+package dk.muj.derius.util;
 
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.skill.Skill;
 
 public class SkillUtil
 {

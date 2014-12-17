@@ -3,6 +3,7 @@ package dk.muj.derius.engine;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -16,6 +17,7 @@ import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.Listener;
 
 public class MainEngine extends EngineAbstract
 {
@@ -76,6 +78,16 @@ public class MainEngine extends EngineAbstract
 				break;
 			}
 		}
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onBlockBreak(BlockBreakEvent e)
+	{	
+		Listener listener = Listener.getListener(e.getBlock().getType());
+		if(listener == null)
+			return;
+		listener.onBlockBreak(MPlayer.get(e.getPlayer().getUniqueId().toString()), e.getBlock());
+		
 	}
 
 

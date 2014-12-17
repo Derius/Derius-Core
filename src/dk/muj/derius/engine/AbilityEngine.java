@@ -9,7 +9,6 @@ import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
 
-import dk.muj.derius.ChatUtil;
 import dk.muj.derius.Derius;
 import dk.muj.derius.WorldException;
 import dk.muj.derius.ability.Ability;
@@ -20,6 +19,7 @@ import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.ChatUtil;
 
 public class AbilityEngine extends EngineAbstract
 {
