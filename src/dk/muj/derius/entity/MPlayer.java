@@ -58,18 +58,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
 	private transient long cooldown = 0;
 	
-	//A list of the active abilities the user has activated
-	//Each ability should have a unique number
+	// An int that stores which Ability is currently activated.
 	private transient int activatedAbility = 0;
 	
-	//The tool which the user has prepared.
-	//A tool is prepared by right clicking, then can activate abilities
+	// The tool which the user has prepared.
+	// A tool is prepared by right clicking, then can activate abilities
 	private transient Material preparedTool = null;
 	
 	// A boolean that defines whether the player wants to activate abilities by chat or not.
 	private boolean isListeningToChat = false;
-		
-	private Map<String, Ability> chatKeys = new HashMap<String, Ability>(); //Is this transient?
+	
+	// A Map that stores which string a player types in chat should activate what ability.
+	private Map<String, Ability> chatKeys = new HashMap<String, Ability>();
 	
 	
 	// -------------------------------------------- //
