@@ -30,7 +30,6 @@ public class MConf extends Entity<MConf>
 	public String msgAbilityActivated = "<green>[DERIUS] <i>You activated <lime>%s";
 	public String msgAbilityDeactivated = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
 	
-
 	public String colorAbilityCanPlayerUse = "<pink>";
 	public String colorAbilityCanPlayerNotUse = "<grey>";
 	
@@ -47,7 +46,7 @@ public class MConf extends Entity<MConf>
 	public String msgSkillSpecialisationAlreadyHasNot = "<b>You do not have the Skill %s <b>specialised";
 	public String msgSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
 	
-	public String msgKeyAdd = "<i>You have succesfully registered the key %s to the ability %s.";
+	public String msgKeyAddSuccess = "<i>You have succesfully registered the key %s to the ability %s.";
 	public String msgKeyAddIsAlready = "<i>The key %s is already in use. Please use another one.";
 	public String msgKeyAddInvalid = "<i>This Ability Id is not valid/not in use.";
 	public String msgKeyRemoveInvalid = "<i>This key doesn't exist, so it cannot be removed";
@@ -55,6 +54,9 @@ public class MConf extends Entity<MConf>
 	public String msgKeyClearWarning = "<i>Do you really want to clear all your entries?  Type <aqua> /d k c true";
 	public String msgKeyClearSuccess = "<i>You have successfully cleared your chat activation keys.";
 	
+	public String msgSettingsMsgChangeInvalid = "<i>The parameter %s is invalid as a Msg type.";
+	public String msgSettingsMsgChangeSuccess = "<i>You have succesfully changed your messsage appearance to %s.";
+			
 	public String msgToolPrepared = "<i>You prepared your %s";
 	public String msgToolNotPrepared = "<i>You lowered your %s";
 	
@@ -125,6 +127,7 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusInspect = MUtil.list("i", "inspect");
 	public List<String> innerAliasesDeriusSpecialise = MUtil.list("sp","specialise");
 	public List<String> innerAliasesDeriusKeys = MUtil.list("k", "keys");
+	public List<String> innerAliasesDeriusSettings = MUtil.list("se", "settings");
 	public List<String> innerAliasesDeriusDebug = MUtil.list("debug");
 	
 	public List<String> innerAliasesDeriusSpLearn = MUtil.list("learn");
@@ -137,6 +140,9 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusKeysList = MUtil.list("l", "list");	
 	public List<String> innerAliasesDeriusKeysClear = MUtil.list("c", "clear");	
 	public List<String> innerAliasesDeriusKeyAbilityId = MUtil.list("id", "Abilityid");
+	
+	public List<String> innerAliasesDeriusSeMsgSet = MUtil.list( "msgtype");
+	
 	
 	// -------------------------------------------- //
 	// FACTION SETTINGS

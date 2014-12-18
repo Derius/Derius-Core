@@ -50,7 +50,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		
 		mplayer.addChatKeys(key, ability);
 		
-		mplayer.msg(Txt.parse(MConf.get().msgKeyAdd, key, ability.toString()));
+		mplayer.msg(Txt.parse(MConf.get().msgKeyAddSuccess, key, ability.toString()));
 	}
 	
 	

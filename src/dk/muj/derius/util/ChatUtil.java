@@ -33,41 +33,107 @@ public final class ChatUtil
 	{
 		CommandSender sender = Bukkit.getConsoleSender();
 		String name = p.getName();
-		
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name + " reset");
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeLvlUpFadeIn + space + MConf.get().timeLvlUpStay + space + MConf.get().timeLvlUpFadeOut);
-		Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name + " subtitle {\"text\":\"\",\"extra\":[{\"text\":\"You leveled up to lvl \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" in \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"aqua\"}]}",level,s.getName()));
-		//Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name + " title {\"text\":\"\",\"extra\":[{\"text\":\"You leveled up to lvl \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" in \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"aqua\"}]}",level,s.getName()));
+		switch(p.getMsgType())
+		{
+			case CHAT:
+				p.msg(Txt.parse("<i>You leveled up to level <lime>%s<i> in <aqua>%s.",level,s.getName()));
+				break;
+			case TITLE:
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name + " reset");
+				
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeLvlUpFadeIn + space + MConf.get().timeLvlUpStay + space + MConf.get().timeLvlUpFadeOut);
+				Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name + " subtitle {\"text\":\"\",\"extra\":[{\"text\":\"You leveled up to lvl \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" in \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"aqua\"}]}",level,s.getName()));
+				break;
+			case SCOREBOARD:
+				
+				break;
+		}
 	}
 	
 	public static void msgAbilityActivate(MPlayer p, Ability a)
 	{
 		CommandSender sender = Bukkit.getConsoleSender();
 		String name = p.getName();
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
 		
-		Bukkit.getServer().dispatchCommand(sender, Txt.parse("title "+name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" was activated\",\"color\":\"yellow\"}]}",a.getName()));
+		switch(p.getMsgType())
+		{
+			case CHAT:
+				p.msg(Txt.parse("<i>The Ability <lime>%s<i> was activated.",a.getName()));			
+				break;
+			case TITLE:
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
+				
+				Bukkit.getServer().dispatchCommand(sender, Txt.parse("title "+name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" was activated\",\"color\":\"yellow\"}]}",a.getName()));
+				break;
+			case SCOREBOARD:
+				
+				break;
+		}
 	}
 	
 	public static void msgAbilityDeactivate(MPlayer p, Ability a)
 	{
 		CommandSender sender = Bukkit.getConsoleSender();
 		String name = p.getName();
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityDeactivateFadeIn + space + MConf.get().timeAbilityDeactivateStay + space + MConf.get().timeAbilityDeactivateFadeOut);
 		
-		Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" ran out\",\"color\":\"yellow\"}]}",a.getName()));
+		switch(p.getMsgType())
+		{
+			case CHAT:
+				p.msg(Txt.parse("<i>The Ability <lime>%s<i> ran out.",a.getName()));					
+				break;
+			case TITLE:
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityDeactivateFadeIn + space + MConf.get().timeAbilityDeactivateStay + space + MConf.get().timeAbilityDeactivateFadeOut);
+				
+				Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" ran out\",\"color\":\"yellow\"}]}",a.getName()));
+				break;
+			case SCOREBOARD:
+				
+				break;
+		}
+		
 	}
 	
 	public static void msgToolPrepared(MPlayer player, Material tool)
 	{
-		player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolPrepared, ToolToString(tool)));
+		CommandSender sender = Bukkit.getConsoleSender();
+		String name = player.getName();
+		
+		switch(player.getMsgType())
+		{
+			case CHAT:
+				player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolPrepared, ToolToString(tool)));
+			case TITLE:
+				// Change fade in, stay and fade out times to according values
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
+				// Add in actual message ....man thats so weird stuff
+			case SCOREBOARD:
+				
+				break;
+		}
+		
 	}
 	
 	public static void msgToolNotPrepared(MPlayer player, Material tool)
 	{
-		player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolNotPrepared, ToolToString(tool)));
+		CommandSender sender = Bukkit.getConsoleSender();
+		String name = player.getName();
+		
+		switch(player.getMsgType())
+		{
+			case CHAT:
+				player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolNotPrepared, ToolToString(tool)));
+			case TITLE:
+				// Change fade in, stay and fade out times to according values
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
+				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
+				// Add in actual message
+			case SCOREBOARD:
+				
+				break;
+		}
 	}
 	
 	private static String ToolToString(Material tool)

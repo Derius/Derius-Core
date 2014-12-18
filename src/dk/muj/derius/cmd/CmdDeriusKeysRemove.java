@@ -13,7 +13,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 {
 	public CmdDeriusKeysRemove()
 	{
-		this.addRequiredArg("keys");
+		this.addRequiredArg("key");
 		
 		this.setDesc("Removes a key from your list of activation keys.");
 		
@@ -38,6 +38,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		}
 		
 		mplayer.removeChatKeys(key);
+		
 		mplayer.msg(Txt.parse(MConf.get().msgKeyRemoveSuccess, key));
 	}
 	

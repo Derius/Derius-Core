@@ -71,6 +71,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// A Map that stores which string a player types in chat should activate what ability.
 	private Map<String, Ability> chatKeys = new HashMap<String, Ability>();
 	
+	// The players choice on how he wants his messages sent.
+	private MsgType type = MsgType.TITLE;
+	
 	
 	// -------------------------------------------- //
 	// MANAGING EXP
@@ -463,7 +466,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 
 	// -------------------------------------------- //
-	// MANAGING CHAT ACTIVATION
+	// MANAGING CHAT | ACTIVATION & MSGTYPE
 	// -------------------------------------------- //
 	
 	// set and get for isListeningToChat boolean
@@ -593,6 +596,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		return msgLines;
 	}
+	
+	// get/set msgType
+	
+	public MsgType getMsgType()
+	{
+		return this.type;
+	}
+	
+	public void setMsgType(MsgType newType)
+	{
+		this.type = newType;
+	}
 
 	// -------------------------------------------- //
 	// MANAGING COOLDOWN
@@ -685,7 +700,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 
 		setCooldownExpire(currentTime+difference/20*1000);
 	}
-	
 
 	// -------------------------------------------- //
 	// CONVENIENCE METHODS
