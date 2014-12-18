@@ -75,6 +75,17 @@ public abstract class Listener
 	// INTERACT
 	// -------------------------------------------- //
 	
+	
+	/**
+	 * Makes it possible for players to prepare these tools
+	 * @param {Collection<Material>} materials to register
+	 */
+	public static void registerTools(Collection<Material> materials)
+	{
+		for(Material material : materials)
+			registeredInteractTools.add(material);
+	}
+	
 	/**
 	 * Makes it possible for players to prepare the tool
 	 * @param {Material} material to register
@@ -82,6 +93,16 @@ public abstract class Listener
 	public static void registerTool(Material material)
 	{
 		registeredInteractTools.add(material);
+	}
+	
+	/**
+	 * Tells whether or not a tool can be prepared
+	 * @param {Material} material to check for
+	 * @return {boolean} true if tool is registered
+	 */
+	public static boolean isRegistered(Material material)
+	{
+		return registeredInteractTools.contains(material);
 	}
 	
 	/**

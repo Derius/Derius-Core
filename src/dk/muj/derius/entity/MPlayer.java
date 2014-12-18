@@ -23,6 +23,7 @@ import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.SpecialisationStatus;
 import dk.muj.derius.util.ChatUtil;
+import dk.muj.derius.util.Listener;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
@@ -443,6 +444,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if(this.HasActivatedAny())
 			return;
 		if(this.getPreparedTool() != null)
+			return;
+		if(!Listener.isRegistered(tool))
 			return;
 		if(tool != null)
 		{

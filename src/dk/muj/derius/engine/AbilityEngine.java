@@ -70,7 +70,6 @@ public class AbilityEngine extends EngineAbstract
 		
 		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
 		
-		
 		mplayer.setPreparedTool(e.getMaterial());
 	}
 	
