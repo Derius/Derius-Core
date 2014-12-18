@@ -128,6 +128,7 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusSpecialise = MUtil.list("sp","specialise");
 	public List<String> innerAliasesDeriusKeys = MUtil.list("k", "keys");
 	public List<String> innerAliasesDeriusSettings = MUtil.list("se", "settings");
+	public List<String> innerAliasesDeriusClear = MUtil.list("c", "clear");
 	public List<String> innerAliasesDeriusDebug = MUtil.list("debug");
 	
 	public List<String> innerAliasesDeriusSpLearn = MUtil.list("learn");
@@ -142,6 +143,10 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusKeyAbilityId = MUtil.list("id", "Abilityid");
 	
 	public List<String> innerAliasesDeriusSeMsgSet = MUtil.list( "msgtype");
+	
+	public List<String> innerAliasesDeriusClearPlayer = MUtil.list("p", "player");
+	public List<String> innerAliasesDeriusClearSkill = MUtil.list("s", "skill");
+	public List<String> innerAliasesDeriusClearAll = MUtil.list("a", "all");
 	
 	
 	// -------------------------------------------- //

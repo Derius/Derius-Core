@@ -30,6 +30,10 @@ public enum Perm
 	KEYS_LIST("keys.list"),
 	KEYS_CLEAR("keys.clear"),
 	KEYS_ABILITYID("keys.abilityid"),
+	CLEAR("clear"),
+	CLEAR_PLAYER("clear.player"),
+	CLEAR_SKILL("clear.skill"),
+	CLEAR_ALL("clear.all"),
 	
 	// END OF LIST
 	;
