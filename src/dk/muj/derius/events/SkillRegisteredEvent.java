@@ -19,4 +19,32 @@ public class SkillRegisteredEvent extends SkillEvent
 		super(registeredSkill);
 	}
 	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return skill.getName() + " is registered";
+	}
+	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		if(obj == null)
+			return false;
+		if(!(obj instanceof SkillRegisteredEvent))
+			return false;
+		SkillRegisteredEvent that = (SkillRegisteredEvent) obj;
+	
+		if(that.skill == this.skill)
+			return true;
+		
+		return false;
+	}
 }

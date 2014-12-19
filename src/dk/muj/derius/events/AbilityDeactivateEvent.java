@@ -41,4 +41,33 @@ public class AbilityDeactivateEvent extends AbilityEvent implements Cancellable
 	{
 		return mplayer;
 	}
+	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return mplayer.getName() + " deactivated " + ability.getName();
+	}
+	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		if(obj == null)
+			return false;
+		if(!(obj instanceof AbilityDeactivateEvent))
+			return false;
+		AbilityDeactivateEvent that = (AbilityDeactivateEvent) obj;
+	
+		if(that.mplayer == this.mplayer && that.ability == this.ability)
+			return true;
+		
+		return false;
+	}
 }

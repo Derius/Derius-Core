@@ -66,5 +66,21 @@ public class LvlStatus
 		//  Example Output (before applying the colors): "<navy>LVL: <lime>1 <navy>XP: <lime>120<yellow>/<lime>5000"
 		return Txt.parse(MConf.get().msgLvlStatusFormat, lvl, exp, expToNextLvl);
 	}
-
+	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+			return false;
+		if(!(obj instanceof LvlStatus))
+			return false;
+		LvlStatus that = (LvlStatus) obj;
+		if(that.getLvl() == this.getLvl() && that.getExp() == this.getExp() && that.getExpToNextLvl() == this.getExpToNextLvl())
+			return true;
+		return false;
+	}
 }

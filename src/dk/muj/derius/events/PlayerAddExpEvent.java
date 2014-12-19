@@ -66,4 +66,33 @@ public class PlayerAddExpEvent extends SkillEvent implements Cancellable
 		this.cancelled = cancelled;
 		
 	}
+	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return player.getName() + " earned " + amount + " exp in " + skill.getName();
+	}
+	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		if(obj == null)
+			return false;
+		if(!(obj instanceof PlayerAddExpEvent))
+			return false;
+		PlayerAddExpEvent that = (PlayerAddExpEvent) obj;
+	
+		if(that.player == this.player && that.amount == this.amount && that.skill == this.skill)
+			return true;
+		
+		return false;
+	}
 }

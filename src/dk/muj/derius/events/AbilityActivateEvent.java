@@ -37,5 +37,34 @@ public class AbilityActivateEvent extends AbilityEvent implements Cancellable
 	{
 		return mplayer;
 	}
+	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return mplayer.getName() + " activated " + ability.getName();
+	}
+	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		if(obj == null)
+			return false;
+		if(!(obj instanceof AbilityActivateEvent))
+			return false;
+		AbilityActivateEvent that = (AbilityActivateEvent) obj;
+	
+		if(that.mplayer == this.mplayer && that.ability == this.ability)
+			return true;
+		
+		return false;
+	}
 
 }

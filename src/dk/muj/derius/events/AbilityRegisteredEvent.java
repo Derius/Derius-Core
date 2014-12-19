@@ -15,4 +15,33 @@ public class AbilityRegisteredEvent extends AbilityEvent
 		super(ability);
 	}
 	
+	// -------------------------------------------- //
+	// TO STRING
+	// -------------------------------------------- //
+	
+	@Override
+	public String toString()
+	{
+		return ability.getName() + " is registered";
+	}
+	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		if(obj == null)
+			return false;
+		if(!(obj instanceof AbilityRegisteredEvent))
+			return false;
+		AbilityRegisteredEvent that = (AbilityRegisteredEvent) obj;
+	
+		if(that.ability == this.ability)
+			return true;
+		
+		return false;
+	}
+	
 }

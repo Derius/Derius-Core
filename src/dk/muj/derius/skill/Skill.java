@@ -318,4 +318,21 @@ public abstract class Skill
 		return getName();
 	}
 	
+	// -------------------------------------------- //
+	// EQUALS
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+			return false;
+		if(!(obj instanceof Skill))
+			return false;
+		Skill that = (Skill) obj;
+		if(that.getId() == this.getId() && that.getName().equals(this.getName()))
+			return true;
+		return false;
+	}
+	
 }
