@@ -2,8 +2,10 @@ package dk.muj.derius.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
@@ -27,7 +29,6 @@ import dk.muj.derius.util.Listener;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
-
 	// -------------------------------------------- //
 	// META
 	// -------------------------------------------- //
@@ -53,7 +54,16 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	private List<Integer> specialised = new CopyOnWriteArrayList<Integer>();
 	
-	private long specialisedMillis = System.currentTimeMillis();
+	private long specialisedMillis = 0;
+	
+	// A boolean that defines whether the player wants to activate abilities by chat or not.
+	private boolean isListeningToChat = false;
+	
+	// A Map that stores which string a player types in chat should activate what ability.
+	private Map<String, Integer> chatKeys = new HashMap<String, Integer>();
+	
+	// The players choice on how he wants his messages sent.
+	private MsgType type = MsgType.TITLE;
 	
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
@@ -66,14 +76,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// A tool is prepared by right clicking, then can activate abilities
 	private transient Material preparedTool = null;
 	
-	// A boolean that defines whether the player wants to activate abilities by chat or not.
-	private boolean isListeningToChat = false;
-	
-	// A Map that stores which string a player types in chat should activate what ability.
-	private Map<String, Ability> chatKeys = new HashMap<String, Ability>();
-	
-	// The players choice on how he wants his messages sent.
-	private MsgType type = MsgType.TITLE;
+
 	
 	
 	// -------------------------------------------- //
@@ -165,6 +168,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 			this.exp.put(skill.getId(), new Long(0));
 	}
 	
+	/**
+	 * The maximum level a player can reach in said skill
+	 * @param {Skill} skill to check for
+	 * @return {int} the level the player can reach
+	 */
 	public int MaxLevel(Skill skill)
 	{
 		SpecialisationStatus status = this.isSpecialisedIn(skill);
@@ -172,6 +180,80 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return MConf.get().hardCap;
 		return MConf.get().softCap;
 	}
+	
+	/**
+	 * Cleans player for skills & abilities with this id
+	 * cleans even if the skill or ability exists
+	 * @param {int} id to clean
+	 */
+	public void CleanNoCheck(int id)
+	{
+		this.exp.remove(id);
+		this.specialised.remove(id);
+		Iterator<Entry<String, Integer>> it = this.chatKeys.entrySet().iterator();
+		 while (it.hasNext()) 
+		 {
+			 Entry<String, Integer> pairs = it.next();
+			 if(pairs.getKey().equals(new Integer(id)))
+				 this.chatKeys.remove(pairs.getKey());
+			 it.remove();
+		 }
+	}
+	
+	/**
+	 * Cleans player for skills & abilities with this id
+	 * doesn't clean if skill or ability exists
+	 * @param {int} id to clean
+	 */
+	public void CleanWithCheck(int id)
+	{
+		if(Skill.GetSkillById(id) == null)
+		{
+			this.exp.remove(id);
+			this.specialised.remove(id);
+		}
+		
+		if(Ability.GetAbilityById(id) == null)
+		{
+			Iterator<Entry<String, Integer>> it = this.chatKeys.entrySet().iterator();
+			while (it.hasNext()) 
+			{
+				Entry<String, Integer> pairs = it.next();
+				if(pairs.getKey().equals(new Integer(id)))
+					this.chatKeys.remove(pairs.getKey());
+				it.remove();
+			}
+		}
+	}
+	
+	/**
+	 * Cleans player for all skills and abilities
+	 * even if those skills/abilities exists
+	 */
+	public void CleanAllNoCheck()
+	{
+		for(int id: this.exp.keySet())
+			this.CleanNoCheck(id);
+		for(int id: this.specialised)
+			this.CleanNoCheck(id);
+		for(int id: this.chatKeys.values())
+			this.CleanNoCheck(id);
+	}
+	
+	/**
+	 * Cleans player for all skills and abilities
+	 * but not if those skills/abilities exists
+	 */
+	public void CleanAllWithCheck()
+	{
+		for(int id: this.exp.keySet())
+			this.CleanWithCheck(id);
+		for(int id: this.specialised)
+			this.CleanWithCheck(id);
+		for(int id: this.chatKeys.values())
+			this.CleanWithCheck(id);
+	}
+	
 	
 	// -------------------------------------------- //
 	// SPECIALISATION
@@ -500,7 +582,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void addChatKeys(String key, Ability ability)
 	{
-		this.chatKeys.put(key, ability);
+		this.chatKeys.put(key, ability.getId());
 	}
 	
 	/**
@@ -581,7 +663,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public Ability getAbilityfromChatKey(String key)
 	{
-		return this.chatKeys.get(key);
+		Integer i = this.chatKeys.get(key);
+		if(null == i)
+			return null;
+		return Ability.GetAbilityById(i);
 	}
 	
 	/**

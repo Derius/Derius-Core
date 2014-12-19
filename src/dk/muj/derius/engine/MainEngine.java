@@ -50,6 +50,8 @@ public class MainEngine extends EngineAbstract
 		MPlayer p = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
 		for(Skill s: Skill.GetAllSkills())
 			p.InstantiateSkill(s);
+		if(p.getSpecialisationCooldownExpire() == 0)
+			p.setSpecialisationChangeMillis(System.currentTimeMillis());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)

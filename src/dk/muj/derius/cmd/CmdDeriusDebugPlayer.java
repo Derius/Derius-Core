@@ -42,10 +42,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 			field.setAccessible(true);
 			value = (Collection<? extends Object>) field.get(target);
 		}
-		catch (NoSuchFieldException e)		{	e.printStackTrace();	}
-		catch (SecurityException e)			{	e.printStackTrace();	}
-		catch (IllegalArgumentException e)	{	e.printStackTrace();	}
-		catch (IllegalAccessException e)	{	e.printStackTrace();	}
+		catch (Exception e)		{	msender.sendMessage(Txt.parse("<b>An error occured"));	e.printStackTrace();	}
 		
 		Field field2 = null;
 		HashMap<Integer,Long> value2 = null;
@@ -56,15 +53,14 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 			field2.setAccessible(true);
 			value2 = (HashMap<Integer,Long>) field2.get(target);
 		}
-		catch (NoSuchFieldException e)		{	e.printStackTrace();	}
-		catch (SecurityException e)			{	e.printStackTrace();	}
-		catch (IllegalArgumentException e)	{	e.printStackTrace();	}
-		catch (IllegalAccessException e)	{	e.printStackTrace();	}
+		catch (Exception e)		{	msender.sendMessage(Txt.parse("<b>An error occured"));	e.printStackTrace();	}
+		
 
 		
 		msgLines.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
 		msgLines.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
-		msgLines.add(Txt.parse("<i>Specialised millis: <lime>" + System.currentTimeMillis()));
+		//msgLines.add(Txt.parse("<i>Specialised millis: <lime>" + target.getSpecialisationChangeMillis()));
+		//Srew this, it didn't work it makes no sense and I'm confused
 		msgLines.add(Txt.parse("<i>Prepared tool: <lime>" + target.getPreparedTool()));
 		
 		msgLines.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( value, ",", "&")));
