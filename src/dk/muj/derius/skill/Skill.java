@@ -2,6 +2,7 @@ package dk.muj.derius.skill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,13 +30,13 @@ public abstract class Skill
 	private String name;
 	
 	// The list of existing skills in a class-variable
-	private static List<Skill> skillList = new ArrayList<Skill>();
+	private static List<Skill> skillList = new CopyOnWriteArrayList<Skill>();
 	
 	// The lists of of active and passive abilities
-	private List<Ability> passiveAbilities = new ArrayList<Ability>();
-	private List<Ability> activeAbilities = new ArrayList<Ability>();
+	private List<Ability> passiveAbilities = new CopyOnWriteArrayList<Ability>();
+	private List<Ability> activeAbilities = new CopyOnWriteArrayList<Ability>();
 	
-	private List<String> earnExpDesc = new ArrayList<String>();
+	private List<String> earnExpDesc = new CopyOnWriteArrayList<String>();
 	
 	// -------------------------------------------- //
 	// STATIC
@@ -48,13 +49,35 @@ public abstract class Skill
 	 * @return{Skill} The skill which has this id
 	 */
 	public static Skill GetSkillById(int skillId)
-	{
+	{	//Just a test for now
+		Skill binary = binarySkillLookup(skillId);
+		if(binary != null) return binary;
+		
 		for(Skill skill: Skill.skillList)
 		{
 			if(skill.getId() == skillId)
+			{	//If binary didn't work there is an issue
+				Bukkit.broadcastMessage("SOMETHING IS WRONG");
 				return skill;
+			}
 		}
 		return null;
+	}
+	
+	private static Skill binarySkillLookup(int idLookup)
+	{
+		int lower = 0;
+		int upper = skillList.size()-1;
+		
+		while(true)
+		{
+			int middle = (upper-lower)/2 + lower;
+			Skill skill = skillList.get(middle);
+			int id = skill.getId();
+            if      (idLookup < id) upper = middle - 1;
+            else if (idLookup > id) lower = middle + 1;
+            else return skillList.get(middle);;
+		}
 	}
 	
 	/**
@@ -109,6 +132,7 @@ public abstract class Skill
 			}
 		}
 		skillList.add(this);
+		skillList.sort(SkillComparator.get());
 		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
