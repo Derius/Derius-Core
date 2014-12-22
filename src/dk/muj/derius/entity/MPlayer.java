@@ -696,6 +696,17 @@ public class MPlayer extends SenderEntity<MPlayer>
 		this.type = newType;
 	}
 
+	/**
+	 * Checks whether a player qualifies for chatListening
+	 * @return {boolean} are the conditions met?
+	 */
+	public boolean isChatListeningOk()
+	{
+		if (this.getIsListeningToChat() && this.hasAnyChatKeys())
+			return true;
+		return false;
+	}
+	
 	// -------------------------------------------- //
 	// MANAGING COOLDOWN
 	// -------------------------------------------- //
@@ -841,20 +852,34 @@ public class MPlayer extends SenderEntity<MPlayer>
 		return ret;
 	}
 	
-	/**
-	 * Checks whether a player qualifies for chatListening
-	 * @return {boolean} are the conditions met?
-	 */
-	public boolean isChatListeningOk()
-	{
-		if (this.getIsListeningToChat() && this.hasAnyChatKeys())
-			return true;
-		return false;
-	}
-	
 	private int RandomBetween(int from, int to)
 	{
 		int range = to - from + 1;
 		return (int) (Math.random()*range) + to;
 	}
+	
+	// -------------------------------------------- //
+	// RAW DATA
+	// -------------------------------------------- //
+	
+	/**
+	 * DANGER DANGER. DON'T USE THIS
+	 * IT IS EXTREMELY DANGEROUS USE
+	 * THIS IS ONLY FOR INTERNAL USE
+	 */
+	public Map<Integer,Long> getRawExpData()
+	{
+		return this.exp;
+	}
+	
+	/**
+	 * DANGER DANGER. DON'T USE THIS
+	 * IT IS EXTREMELY DANGEROUS TO USE
+	 * THIS IS ONLY FOR INTERNAL USE
+	 */
+	public List<Integer> getRawSpecialisedData()
+	{
+		return this.specialised;
+	}
+	
 }

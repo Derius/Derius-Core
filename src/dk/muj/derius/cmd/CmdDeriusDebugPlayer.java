@@ -1,10 +1,8 @@
 package dk.muj.derius.cmd;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.massivecraft.massivecore.util.Txt;
 
@@ -23,7 +21,6 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		super.addAliases("player");
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void perform() 
 	{
@@ -33,40 +30,20 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		List<String> msgLines = new ArrayList<String>();
 		
 		
-		Field field = null;
-		Collection<? extends Object> value = null;
-		//Reflect my way into the data
-		try
-		{
-			field = target.getClass().getDeclaredField("specialised");
-			field.setAccessible(true);
-			value = (Collection<? extends Object>) field.get(target);
-		}
-		catch (Exception e)		{	msender.sendMessage(Txt.parse("<b>An error occured"));	e.printStackTrace();	}
+		List<Integer> specialised = target.getRawSpecialisedData();
 		
-		Field field2 = null;
-		HashMap<Integer,Long> value2 = null;
-		//Reflect my way into the data
-		try
-		{
-			field2 = target.getClass().getDeclaredField("exp");
-			field2.setAccessible(true);
-			value2 = (HashMap<Integer,Long>) field2.get(target);
-		}
-		catch (Exception e)		{	msender.sendMessage(Txt.parse("<b>An error occured"));	e.printStackTrace();	}
-		
+		Map<Integer,Long> exp = target.getRawExpData();
 
-		
 		msgLines.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
 		msgLines.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
 		//msgLines.add(Txt.parse("<i>Specialised millis: <lime>" + target.getSpecialisationChangeMillis()));
 		//Srew this, it didn't work it makes no sense and I'm confused
 		msgLines.add(Txt.parse("<i>Prepared tool: <lime>" + target.getPreparedTool()));
 		
-		msgLines.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( value, ",", "&")));
+		msgLines.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( specialised, ",", "&")));
 		msgLines.add(Txt.parse("<red>Exp:"));
-		for(Integer i: value2.keySet())
-			msgLines.add(Txt.parse("<i>" + i + "  <lime>" + value2.get(i)));
+		for(Integer i: exp.keySet())
+			msgLines.add(Txt.parse("<i>" + i + "  <lime>" + exp.get(i)));
 		
 		msender.msg(msgLines);
 	}
