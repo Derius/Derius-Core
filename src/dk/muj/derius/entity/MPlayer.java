@@ -70,7 +70,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	private transient long cooldown = 0;
 	
 	// An int that stores which Ability is currently activated.
-	private transient int activatedAbility = 0;
+	private transient Ability activatedAbility = null;
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
@@ -443,13 +443,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if(e.isCancelled())
 			return;
 		
-		this.activatedAbility = ability.getId();
+		this.activatedAbility = ability;
 
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
 			public void run()
 			{
-				DeactivateActiveAbility(ability);
+				DeactivateActiveAbility();
 				setCooldownExpireIn(ability.getCooldownTime(get()));
 			}
 		}, ability.getTicksLast(this.getLvl(ability.getSkill())));
@@ -461,15 +461,14 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * This should however automatically be done by our scheduled tasks.
 	 * @param {Ability} the ability to deactivate
 	 */
-	public void DeactivateActiveAbility(Ability ability)
+	public void DeactivateActiveAbility()
 	{
-		AbilityDeactivateEvent e = new AbilityDeactivateEvent(ability, this);
+		AbilityDeactivateEvent e = new AbilityDeactivateEvent(this.activatedAbility, this);
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
 			return;
-		this.activatedAbility = 0;
-		ability.onDeactivate(this);
-		
+		this.activatedAbility.onDeactivate(this);
+		this.activatedAbility = null;
 	}
 	
 	/**
@@ -480,7 +479,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean HasActivated(Ability ability)
 	{
-		return this.activatedAbility == ability.getId();
+		return this.activatedAbility == ability;
 	}
 	
 	/**
@@ -489,15 +488,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean HasActivatedAny()
 	{
-		return this.activatedAbility != 0;
+		return this.activatedAbility != null;
 	}
 	
 	/**
 	 * Gets the id of the activated ability
-	 * 0 if no ability is activated
-	 * @return {int} id of activated ability. 0 if none
+	 * null if no ability is activated
+	 * @return {Ability} the ability which is activated. null if none
 	 */
-	public int getActivated()
+	public Ability getActivated()
 	{
 		return this.activatedAbility;
 	}
@@ -539,7 +538,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 				public void run()
 				{
 					preparedTool = null;
-					if(getActivated() == 0)
+					if(getActivated() == null)
 						ChatUtil.msgToolNotPrepared(get(), tool);
 					
 				}
