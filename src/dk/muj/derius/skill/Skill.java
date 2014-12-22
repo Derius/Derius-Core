@@ -3,6 +3,7 @@ package dk.muj.derius.skill;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Function;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -38,6 +39,16 @@ public abstract class Skill
 	
 	private List<String> earnExpDesc = new CopyOnWriteArrayList<String>();
 	
+	//Lambda sw@g
+	Function<Long, LvlStatus> expToLvlStatus = (Long exp) -> 	
+	{	//This is the default algorithm
+		int level = 0, nextLvlExp;
+		for(nextLvlExp = 1024; nextLvlExp < exp; nextLvlExp *= 1.01, level++)
+			exp -= nextLvlExp;
+		
+		return new LvlStatusDefault(level, exp.intValue(), nextLvlExp);
+	};
+	
 	// -------------------------------------------- //
 	// STATIC
 	// -------------------------------------------- //
@@ -52,6 +63,8 @@ public abstract class Skill
 	{	//Just a test for now
 		Skill binary = binarySkillLookup(skillId);
 		if(binary != null) return binary;
+		
+
 		
 		for(Skill skill: Skill.skillList)
 		{
@@ -238,21 +251,31 @@ public abstract class Skill
 	 * @param {long} the amount of exp to convert to level
 	 * @return {int} The level equivalent to the amount of exp passed.
 	 */
-	public LvlStatus LvlStatusFromExp(long exp)
+	public final LvlStatus LvlStatusFromExp(long exp)
 	{
-		return Skill.DefaultExpToLvlStatus(exp);
+		return this.expToLvlStatus.apply(exp);
 	}
-
-	private static LvlStatus DefaultExpToLvlStatus(long exp)
+	
+	/**
+	 * Each skill can have a different way of calculating levels.
+	 * We don't know it, but we store the exp.
+	 * This will change the algorithm
+	 * @param {Function<Long, LvlStatus} The new algorithm to calculate levels for this skill
+	 */
+	public final void setLvlStatusAlgorithm(Function<Long, LvlStatus> algorithm)
 	{
-		int level = 0;
-		int nextLvlExp;
-		for(nextLvlExp = 1024; nextLvlExp < exp; nextLvlExp *= 1.1)
-		{
-			exp = exp-nextLvlExp;
-			level++;
-		}
-		return new LvlStatus(level,(int)exp,nextLvlExp);
+		this.expToLvlStatus = algorithm;
+	}
+	
+	/**
+	 * Each skill can have a different way of calculating levels.
+	 * We don't know it, but we store the exp.
+	 * This will get the level calculation algorithm for this skill
+	 * @param {Function<Long, LvlStatus} The new algorithm to calculate levels for this skill
+	 */
+	public final Function<Long, LvlStatus> getLvlStatusAlgorithm()
+	{
+		return this.expToLvlStatus;
 	}
 
 	// -------------------------------------------- //
