@@ -53,7 +53,7 @@ public abstract class Skill
 	// STATIC
 	// -------------------------------------------- //
 	
-	/*
+	/**
 	 * Gets a skill from its id. 
 	 * This is the best way to get a skill, since the id never changes.
 	 * @param {String} The id of the skill you wanted to get.
