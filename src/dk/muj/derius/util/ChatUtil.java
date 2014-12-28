@@ -3,9 +3,13 @@ package dk.muj.derius.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
@@ -95,24 +99,30 @@ public final class ChatUtil
 		
 	}
 	
-	public static void msgToolPrepared(MPlayer player, Material tool)
+	public static void msgToolPrepared(MPlayer mplayer, Material tool)
 	{
-		CommandSender sender = Bukkit.getConsoleSender();
-		String name = player.getName();
+		//this only works on players
+		if (!mplayer.isPlayer()) return;
+		Player player = mplayer.getPlayer();
 		
-		switch(player.getMsgType())
+		//Get item stack, we will display msg as itemstack name
+		final ItemStack inHand = player.getItemInHand();
+		final ItemMeta meta = inHand.getItemMeta();
+		final String originalName = meta.getDisplayName();
+		meta.setDisplayName(Txt.parse(MConf.get().msgToolPrepared, ToolToString(tool)));
+		inHand.setItemMeta(meta);
+		
+		//Change name back
+		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable()
 		{
-			case CHAT:
-				player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolPrepared, ToolToString(tool)));
-			case TITLE:
-				// Change fade in, stay and fade out times to according values
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
-				// Add in actual message ....man thats so weird stuff
-			case SCOREBOARD:
-				
-				break;
-		}
+			@Override
+			public void run()
+			{
+				meta.setDisplayName(originalName);
+				inHand.setItemMeta(meta);
+			}
+
+		}, 2*20L);
 		
 	}
 	
