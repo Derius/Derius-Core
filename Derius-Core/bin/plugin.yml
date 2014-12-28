@@ -1,8 +1,0 @@
-name: Derius-Core
-version: 0.1_dev
-main: dk.muj.derius.Derius
-#website: http://muj.dk/Derius
-authors: [madus, ulumulu1510]
-description: §eDerius is an open skill framework
-depend: [MassiveCore]
-softdepend: [Factions]
