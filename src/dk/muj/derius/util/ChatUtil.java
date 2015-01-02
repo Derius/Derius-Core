@@ -4,16 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
+import dk.muj.spigot.chat.ActionBar_v1_8_R1;
 
 public final class ChatUtil
 {
@@ -101,29 +99,10 @@ public final class ChatUtil
 	
 	public static void msgToolPrepared(MPlayer mplayer, Material tool)
 	{
-		//this only works on players
-		if (!mplayer.isPlayer()) return;
-		Player player = mplayer.getPlayer();
-		
-		//Get item stack, we will display msg as itemstack name
-		final ItemStack inHand = player.getItemInHand();
-		final ItemMeta meta = inHand.getItemMeta();
-		final String originalName = meta.getDisplayName();
-		meta.setDisplayName(Txt.parse(MConf.get().msgToolPrepared, ToolToString(tool)));
-		inHand.setItemMeta(meta);
-		
-		//Change name back
-		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				meta.setDisplayName(originalName);
-				inHand.setItemMeta(meta);
-			}
-
-		}, 2*20L);
-		
+		Bukkit.broadcastMessage("Util 1");
+		sendActionBar(mplayer.getPlayer(), Txt.parse(MConf.get().msgToolPrepared, toolToString(tool)));
+		Bukkit.broadcastMessage(Bukkit.getServer().getVersion());
+		Bukkit.broadcastMessage("Util 2");
 	}
 	
 	public static void msgToolNotPrepared(MPlayer player, Material tool)
@@ -134,7 +113,7 @@ public final class ChatUtil
 		switch(player.getMsgType())
 		{
 			case CHAT:
-				player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolNotPrepared, ToolToString(tool)));
+				player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolNotPrepared, toolToString(tool)));
 			case TITLE:
 				// Change fade in, stay and fade out times to according values
 				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
@@ -146,7 +125,20 @@ public final class ChatUtil
 		}
 	}
 	
-	private static String ToolToString(Material tool)
+	// -------------------------------------------- //
+	// MSG TYPES (NMS $W@G)
+	// -------------------------------------------- //
+	
+	public static boolean sendActionBar(Player player, String msg)
+	{
+		return (new ActionBar_v1_8_R1()).send(player, msg);
+	}
+	
+	// -------------------------------------------- //
+	// PRIVATE
+	// -------------------------------------------- //
+	
+	private static String toolToString(Material tool)
 	{
 		return Txt.upperCaseFirst(tool.name().substring(tool.name().indexOf("_")+1).toLowerCase());
 	}

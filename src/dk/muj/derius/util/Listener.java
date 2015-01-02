@@ -10,28 +10,21 @@ import org.bukkit.block.Block;
 
 import dk.muj.derius.entity.MPlayer;
 
-public abstract class Listener
+public interface Listener
 {
-	// -------------------------------------------- //
-	// FIELDS
-	// -------------------------------------------- //
 	
-	private static Collection<Material> registeredInteractTools = new ArrayList<>();
-	private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
-	
-	// -------------------------------------------- //
-	// STATIC METHODS
-	// -------------------------------------------- //
-	
-	/**
-	 * Gets the listener that are called when
-	 * a block with this material is broken
-	 * @param {Material} block type to get
-	 * @return {Listener} The listener listening to this block
-	 */
-	public static Listener getListener(Material material)
+	static class ListenerFields
 	{
-		return blockBreakKeys.get(material);
+		// -------------------------------------------- //
+		// FIELDS
+		// -------------------------------------------- //
+	
+		private static Collection<Material> registeredInteractTools = new ArrayList<>();
+		private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
+		
+		static Map<Material, Listener> getBlockBreakKeys() { return blockBreakKeys; }
+		static Collection<Material> getRegisteredInteractTools() { return registeredInteractTools; }
+	
 	}
 	
 	// -------------------------------------------- //
@@ -42,7 +35,7 @@ public abstract class Listener
 	 * Registers the listener
 	 * currently unused
 	 */
-	public void register()
+	public default void registerListener()
 	{
 
 	}
@@ -55,20 +48,31 @@ public abstract class Listener
 	 * Registers a block type to listen for (when broken)
 	 * @param {Material} block type to listen for
 	 */
-	public void registerBlockBreakKey(Material... materials)
+	public default void registerBlockBreakKey(Material... materials)
 	{
 		for(Material material: materials)
-			blockBreakKeys.put(material,this);
+			ListenerFields.getBlockBreakKeys().put(material,this);
 	}
 	
 	/**
 	 * Registers a collection of block types to listen for (when broken)
 	 * @param {Collection<Material>} collection of block types to listen for
 	 */
-	public void registerBlockBreakKeys(Collection<Material> materials)
+	public default void registerBlockBreakKeys(Collection<Material> materials)
 	{
 		for(Material material: materials)
 			this.registerBlockBreakKey(material);
+	}
+	
+	/**
+	 * Gets the listener that are called when
+	 * a block with this material is broken
+	 * @param {Material} block type to get
+	 * @return {Listener} The listener listening to this block
+	 */
+	public static Listener getListener(Material material)
+	{
+		return ListenerFields.getBlockBreakKeys().get(material);
 	}
 	
 	// -------------------------------------------- //
@@ -83,7 +87,7 @@ public abstract class Listener
 	public static void registerTools(Collection<Material> materials)
 	{
 		for(Material material : materials)
-			registeredInteractTools.add(material);
+			ListenerFields.getRegisteredInteractTools().add(material);
 	}
 	
 	/**
@@ -92,7 +96,7 @@ public abstract class Listener
 	 */
 	public static void registerTool(Material material)
 	{
-		registeredInteractTools.add(material);
+		ListenerFields.getRegisteredInteractTools().add(material);
 	}
 	
 	/**
@@ -102,7 +106,7 @@ public abstract class Listener
 	 */
 	public static boolean isRegistered(Material material)
 	{
-		return registeredInteractTools.contains(material);
+		return ListenerFields.getRegisteredInteractTools().contains(material);
 	}
 	
 	/**
@@ -111,7 +115,7 @@ public abstract class Listener
 	 */
 	public static void unregisterTool(Material material)
 	{
-		registeredInteractTools.add(material);
+		ListenerFields.getRegisteredInteractTools().add(material);
 	}
 	
 	// -------------------------------------------- //
@@ -123,7 +127,7 @@ public abstract class Listener
 	 * @param {MPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
-	public abstract void onBlockBreak(MPlayer player, Block block);
+	public void onBlockBreak(MPlayer player, Block block);
 
 
 }

@@ -88,7 +88,7 @@ public class MainEngine extends EngineAbstract
 		Listener listener = Listener.getListener(e.getBlock().getType());
 		if(listener == null)
 			return;
-		listener.onBlockBreak(MPlayer.get(e.getPlayer().getUniqueId().toString()), e.getBlock());
+		listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock());
 		
 	}
 

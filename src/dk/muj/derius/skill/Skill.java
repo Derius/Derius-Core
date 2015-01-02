@@ -2,6 +2,7 @@ package dk.muj.derius.skill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
@@ -61,8 +62,8 @@ public abstract class Skill
 	 */
 	public static Skill GetSkillById(int skillId)
 	{	//Just a test for now
-		Skill binary = binarySkillLookup(skillId);
-		if(binary != null) return binary;
+		Optional<Skill> binary = binarySkillLookup(skillId);
+		if(binary.isPresent()) return binary.get();
 		
 
 		
@@ -77,10 +78,13 @@ public abstract class Skill
 		return null;
 	}
 	
-	private static Skill binarySkillLookup(int idLookup)
+	private static Optional<Skill> binarySkillLookup(int idLookup)
 	{
 		int lower = 0;
 		int upper = skillList.size()-1;
+		
+		if(skillList.size() < 1)
+			return Optional.empty();
 		
 		while(true)
 		{
@@ -89,7 +93,7 @@ public abstract class Skill
 			int id = skill.getId();
             if      (idLookup < id) upper = middle - 1;
             else if (idLookup > id) lower = middle + 1;
-            else return skillList.get(middle);;
+            else return Optional.of(skillList.get(middle));
 		}
 	}
 	

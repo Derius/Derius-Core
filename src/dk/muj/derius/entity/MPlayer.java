@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
@@ -74,7 +75,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
-	private transient Material preparedTool = null;
+	private transient Optional<Material> preparedTool = Optional.empty();
 	
 
 	
@@ -510,7 +511,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * this is used for activating active abilities
 	 * @return {Material} the tool the player has prepared
 	 */
-	public Material getPreparedTool()
+	public Optional<Material> getPreparedTool()
 	{
 		return preparedTool;
 	}
@@ -520,17 +521,17 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * this is used for activating active abilities
 	 * @param {Material} the tool the player will have prepared
 	 */
-	public void setPreparedTool(final Material tool)
+	public void setPreparedTool(final Optional<Material> tool)
 	{
-		if(this.HasActivatedAny())
+		if (this.HasActivatedAny())
 			return;
-		if(this.getPreparedTool() != null)
+		if (this.getPreparedTool().isPresent())
 			return;
-		if(!Listener.isRegistered(tool))
-			return;
-		if(tool != null)
+		if (tool.isPresent())
 		{
-			ChatUtil.msgToolPrepared(this, tool);
+			if (!Listener.isRegistered(tool.get()))
+				return;
+			ChatUtil.msgToolPrepared(this, tool.get());
 			this.preparedTool = tool;
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable()
 			{
@@ -539,13 +540,12 @@ public class MPlayer extends SenderEntity<MPlayer>
 				{
 					preparedTool = null;
 					if(getActivated() == null)
-						ChatUtil.msgToolNotPrepared(get(), tool);
+						ChatUtil.msgToolNotPrepared(get(), tool.get());
 					
 				}
 			}, 20*2);
 		}
-		else
-			this.preparedTool = null;
+		else this.preparedTool = Optional.empty();
 		
 	}
 

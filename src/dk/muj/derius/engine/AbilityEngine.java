@@ -1,5 +1,7 @@
 package dk.muj.derius.engine;
 
+import java.util.Optional;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -68,9 +70,9 @@ public class AbilityEngine extends EngineAbstract
 		if(action != Action.RIGHT_CLICK_AIR)
 			return;
 		
-		MPlayer mplayer = MPlayer.get(p.getUniqueId().toString());
+		MPlayer mplayer = MPlayer.get(p);
 		
-		mplayer.setPreparedTool(e.getMaterial());
+		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.of(e.getMaterial()) : Optional.empty());
 	}
 	
 	/*@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
