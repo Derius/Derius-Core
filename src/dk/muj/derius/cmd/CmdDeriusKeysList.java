@@ -14,6 +14,10 @@ import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysList extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusKeysList()
 	{
 		this.addOptionalArg("player", "yourself");
@@ -49,4 +53,5 @@ public class CmdDeriusKeysList extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusKeysList;
     }
+	
 }

@@ -31,9 +31,14 @@ public class DeriusCommand extends MassiveCommand
 		this.msender = null;
 	}
 	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	// In the constructor we call the Visibility Mode of the Commands. Visible means, it is visible to all players.
 	public DeriusCommand()
 	{
 		this.setVisibilityMode(VisibilityMode.VISIBLE);
 	}
+	
 }

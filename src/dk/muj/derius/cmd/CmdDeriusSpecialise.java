@@ -10,10 +10,18 @@ import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusSpecialise extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
 	public CmdDeriusSpLearn innerCmdDeriusSpLearn = new CmdDeriusSpLearn();
 	public CmdDeriusSpUnlearn innerCmdDeriusSpUnlearn = new CmdDeriusSpUnlearn();
 	public CmdDeriusSpInfo innerCmdDeriusSpInfo = new CmdDeriusSpInfo();
 	public CmdDeriusSpList innerCmdDeriusSpList = new CmdDeriusSpList();
+	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 	
 	public CmdDeriusSpecialise()
 	{
@@ -31,4 +39,5 @@ public class CmdDeriusSpecialise extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusSpecialise;
     }
+	
 }

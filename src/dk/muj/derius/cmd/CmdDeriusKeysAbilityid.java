@@ -14,6 +14,10 @@ import dk.muj.derius.skill.Skill;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusKeysAbilityid()
 	{
 		this.addOptionalArg("skill", "all skills");
@@ -36,7 +40,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		Skill skill = this.arg(0, ARSkill.get(), null);
 		
 		// Which abilities should be shown
-		if(skill == null)
+		if (skill == null)
 			for(Ability ability: Ability.getAllAbilities())
 				list.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
 		else
@@ -52,4 +56,5 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusKeyAbilityId;
     }
+	
 }

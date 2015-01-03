@@ -86,4 +86,5 @@ public class CmdDeriusSkill extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusSkill;
     }
+	
 }

@@ -62,4 +62,5 @@ public class CmdDeriusList extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusList;
     }
+	
 }

@@ -12,6 +12,10 @@ import dk.muj.derius.entity.MPlayer;
 public class CmdDeriusDebugPlayer extends DeriusCommand
 {
 
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusDebugPlayer()
 	{
 		super.setDesc("info about player");
@@ -20,6 +24,10 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		
 		super.addAliases("player");
 	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
 	
 	@Override
 	public void perform() 
@@ -47,4 +55,5 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		
 		msender.msg(msgLines);
 	}
+	
 }

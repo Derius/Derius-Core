@@ -10,6 +10,11 @@ import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusSpInfo extends DeriusCommand
 {
+	
+	// -------------------------------------------- //
+	// CLASS FIELDS
+	// -------------------------------------------- //
+	
 	public static String specialisationInfo = Txt.parse("When you specialise in a skill you are able to exceed level %s, and reach level %s."
 			+ " You can only specialise in %s skills. If you unlearn/unspecialise in a skill you get reset back to level 0",
 			

@@ -1,5 +1,7 @@
 package dk.muj.derius.skill;
 
+import javax.annotation.concurrent.Immutable;
+
 
 /**
  * This class is used for passing data about a players progress
@@ -17,6 +19,7 @@ package dk.muj.derius.skill;
  * 
  * The getters & setters should be obvious.
  */
+@Immutable
 public interface LvlStatus
 {
 	// -------------------------------------------- //

@@ -11,12 +11,19 @@ import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusKeys extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
 	public CmdDeriusKeysAdd innerCmdDeriusKeysAdd= new CmdDeriusKeysAdd();
 	public CmdDeriusKeysRemove innerCmdDeriusKeysRemove= new CmdDeriusKeysRemove();
 	public CmdDeriusKeysList innerCmdDeriusKeysList= new CmdDeriusKeysList();
 	public CmdDeriusKeysClear innerCmdDeriusKeysClear= new CmdDeriusKeysClear();
 	public CmdDeriusKeysAbilityid innerCmdDeriusKeysAbilityid= new CmdDeriusKeysAbilityid();
 	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 	
 	public CmdDeriusKeys()
 	{
@@ -36,4 +43,5 @@ public class CmdDeriusKeys extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusKeys;
     }
+	
 }

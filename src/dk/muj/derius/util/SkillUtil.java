@@ -29,7 +29,7 @@ public class SkillUtil
 	 */
 	public static boolean shouldPlayerGetDoubleDrop(MPlayer mplayer, Skill skill, int levelsPerPercent)
 	{
-		return SkillUtil.shouldPlayerGetDoubleDrop(mplayer.getLvl(skill), skill);
+		return SkillUtil.shouldPlayerGetDoubleDrop(mplayer.getLvl(skill), skill, levelsPerPercent);
 	}
 	
 	/**
@@ -63,5 +63,7 @@ public class SkillUtil
 		}
 		return false;
 	}
+	
+	
 	
 }

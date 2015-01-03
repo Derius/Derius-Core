@@ -9,6 +9,9 @@ import dk.muj.derius.util.ChatUtil;
 
 public class CmdDeriusDebugTitle extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 
 	public CmdDeriusDebugTitle()
 	{
@@ -19,6 +22,10 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 		super.addAliases("title");
 		super.addRequirements(ReqIsPlayer.get());
 	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
 	
 	@Override
 	public void perform()
@@ -53,5 +60,7 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 				msender.sendMessage("An error occured");
 				break;
 		}
+		
 	}
+	
 }

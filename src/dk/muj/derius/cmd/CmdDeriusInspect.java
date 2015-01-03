@@ -75,4 +75,5 @@ public class CmdDeriusInspect extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusInspect;
     }
+	
 }

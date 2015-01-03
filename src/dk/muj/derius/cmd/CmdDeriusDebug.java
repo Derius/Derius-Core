@@ -11,9 +11,17 @@ import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusDebug extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
 	public CmdDeriusDebugInfo innerCmdDeriusDebugInfo = new CmdDeriusDebugInfo();
 	public CmdDeriusDebugTitle innerCmdDeriusDebugTitle = new CmdDeriusDebugTitle();
 	public CmdDeriusDebugPlayer innerCmdDeriusDebugPlayer = new CmdDeriusDebugPlayer();
+	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 	
 	public CmdDeriusDebug()
 	{
@@ -26,9 +34,14 @@ public class CmdDeriusDebug extends DeriusCommand
 		super.addRequirements(ReqHasPerm.get(Perm.DEBUG.node));
 	}
 	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
+	
 	@Override
     public List<String> getAliases()
     {
     	return MConf.get().innerAliasesDeriusDebug;
     }
+	
 }

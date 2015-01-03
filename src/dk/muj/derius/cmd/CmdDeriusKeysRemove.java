@@ -11,6 +11,11 @@ import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysRemove extends DeriusCommand
 {
+	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusKeysRemove()
 	{
 		this.addRequiredArg("key");
@@ -48,4 +53,5 @@ public class CmdDeriusKeysRemove extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusKeysRemove;
     }
+	
 }

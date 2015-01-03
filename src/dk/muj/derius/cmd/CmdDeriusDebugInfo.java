@@ -12,12 +12,20 @@ import dk.muj.derius.util.Listener;
 
 public class CmdDeriusDebugInfo extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusDebugInfo()
 	{
 		super.setDesc("info for debugging");
 		
 		super.addAliases("info");
 	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
 	
 	@Override
 	public void perform()
@@ -37,4 +45,5 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		
 		msg(msgLines);
 	}
+	
 }

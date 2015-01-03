@@ -83,4 +83,5 @@ public class CmdDeriusSpLearn extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusSpLearn;
     }
+	
 }

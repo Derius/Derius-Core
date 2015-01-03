@@ -5,9 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.DeriusSender;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
@@ -77,7 +77,7 @@ public final class ChatUtil
 	{
 		if(player == null || msg == null) return false;
 		
-		CommandSender sender = IdUtil.getConsole();
+		CommandSender sender = new DeriusSender();
 		
 		String name = sender.getName();
 		msg = Txt.parse(msg);
@@ -93,9 +93,12 @@ public final class ChatUtil
 	public static boolean sendSubTitle(Player player, String msg, int fadeIn, int stay, int fadeOut)
 	{
 		if(player == null || msg == null) return false;
-		CommandSender sender = IdUtil.getConsole();
+		
+		CommandSender sender = new DeriusSender();
 		
 		String name = player.getName();
+		if(name == null) return false;
+		
 		msg = Txt.parse(msg);
 		msg = "{\"text\":\"\",\"extra\":[{\"text\":\""+msg+"\"}]}";
 		

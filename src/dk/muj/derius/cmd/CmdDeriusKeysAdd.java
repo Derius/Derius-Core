@@ -13,6 +13,10 @@ import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysAdd extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusKeysAdd()
 	{
 		this.addRequiredArg("keys");
@@ -34,7 +38,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		
 		String key = this.arg(0).toLowerCase();
 		
-		if(mplayer.isAlreadyChatKey(key))
+		if (mplayer.isAlreadyChatKey(key))
 		{
 			mplayer.msg(Txt.parse(MConf.get().msgKeyAddIsAlready, key));
 			return;
@@ -42,7 +46,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		
 		Integer id = this.arg(1, ARInteger.get());
 		Ability ability = Ability.getAbilityById(id);
-		if( (ability == null))
+		if ( (ability == null))
 		{
 			mplayer.msg(Txt.parse(MConf.get().msgKeyAddInvalid));
 			return;
@@ -59,4 +63,5 @@ public class CmdDeriusKeysAdd extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusKeysAdd;
     }
+	
 }
