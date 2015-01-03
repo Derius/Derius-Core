@@ -7,6 +7,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.Listener;
 
 
 public class CmdDeriusDebugInfo extends DeriusCommand
@@ -31,9 +32,9 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		for(Ability ability: Ability.getAllAbilities())
 			msgLines.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName()+"          "+ability.getSkill().getId());
 
-		for (String string : msgLines)
-		{
-			sender.sendMessage(string);
-		}
+		msgLines.add(Txt.parse("<art>REGISTERED INTERACT MATERIALS"));
+		msgLines.add("<red>"+Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>"));
+		
+		msg(msgLines);
 	}
 }

@@ -436,8 +436,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if(this.hasActivatedAny())
 			return;
 
-		if (!this.hasCooldownExpired(true))
+		if ( ! this.hasCooldownExpired(true))
+		{
+			this.setPreparedTool(Optional.empty());
 			return;
+		}
 		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
@@ -523,14 +526,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void setPreparedTool(final Optional<Material> tool)
 	{
-		if (this.hasActivatedAny())
-			return;
-		if (this.getPreparedTool().isPresent())
-			return;
 		if (tool.isPresent())
 		{
-			if (!Listener.isRegistered(tool.get()))
-				return;
+			if (this.hasActivatedAny())	return;
+			if (this.getPreparedTool().isPresent())	return;
+			if (!Listener.isRegistered(tool.get())) return;
 			ChatUtil.msgToolPrepared(this, tool.get());
 			this.preparedTool = tool;
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable()
@@ -538,14 +538,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 				@Override
 				public void run()
 				{
-					preparedTool = null;
-					if(getActivated() == null)
-						ChatUtil.msgToolNotPrepared(get(), tool.get());
-					
+					setPreparedTool(Optional.empty());
 				}
 			}, 20*2);
 		}
-		else this.preparedTool = Optional.empty();
+		else 
+		{
+			if(this.getPreparedTool().isPresent())
+			{
+				ChatUtil.msgToolNotPrepared(this, this.getPreparedTool().get());
+			}
+			this.preparedTool = Optional.empty();
+		}
 		
 	}
 

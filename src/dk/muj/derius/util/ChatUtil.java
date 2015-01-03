@@ -99,30 +99,12 @@ public final class ChatUtil
 	
 	public static void msgToolPrepared(MPlayer mplayer, Material tool)
 	{
-		Bukkit.broadcastMessage("Util 1");
 		sendActionBar(mplayer.getPlayer(), Txt.parse(MConf.get().msgToolPrepared, toolToString(tool)));
-		Bukkit.broadcastMessage(Bukkit.getServer().getVersion());
-		Bukkit.broadcastMessage("Util 2");
 	}
 	
-	public static void msgToolNotPrepared(MPlayer player, Material tool)
+	public static void msgToolNotPrepared(MPlayer mplayer, Material tool)
 	{
-		CommandSender sender = Bukkit.getConsoleSender();
-		String name = player.getName();
-		
-		switch(player.getMsgType())
-		{
-			case CHAT:
-				player.msg(Txt.parse(MConf.get().msgPrefix + MConf.get().msgToolNotPrepared, toolToString(tool)));
-			case TITLE:
-				// Change fade in, stay and fade out times to according values
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
-				// Add in actual message
-			case SCOREBOARD:
-				
-				break;
-		}
+		sendActionBar(mplayer.getPlayer(), Txt.parse(MConf.get().msgToolNotPrepared, toolToString(tool)));
 	}
 	
 	// -------------------------------------------- //

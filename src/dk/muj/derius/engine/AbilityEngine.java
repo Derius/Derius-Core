@@ -72,7 +72,7 @@ public class AbilityEngine extends EngineAbstract
 		
 		MPlayer mplayer = MPlayer.get(p);
 		
-		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.of(e.getMaterial()) : Optional.empty());
+		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.empty() : Optional.of(e.getMaterial()));
 	}
 	
 	/*@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

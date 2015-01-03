@@ -1,8 +1,8 @@
 package dk.muj.derius.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ public interface Listener
 		// FIELDS
 		// -------------------------------------------- //
 	
-		private static Collection<Material> registeredInteractTools = new ArrayList<>();
+		private static Collection<Material> registeredInteractTools = new HashSet<>();
 		private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
 		
 		static Map<Material, Listener> getBlockBreakKeys() { return blockBreakKeys; }
@@ -41,7 +41,7 @@ public interface Listener
 	}
 	
 	// -------------------------------------------- //
-	// KEYS
+	// BLOCK BREAK KEYS
 	// -------------------------------------------- //
 
 	/**
@@ -116,6 +116,16 @@ public interface Listener
 	public static void unregisterTool(Material material)
 	{
 		ListenerFields.getRegisteredInteractTools().add(material);
+	}
+	
+	/**
+	 * Gets the tools which is registered as interact tools.
+	 * Meaning pl,ayers can prepare them
+	 * return {Collection<Material>} list of registered interact tools.
+	 */
+	public static Collection<Material> getRegisteredInteractTools()
+	{
+		return ListenerFields.getRegisteredInteractTools();
 	}
 	
 	// -------------------------------------------- //

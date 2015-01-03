@@ -56,8 +56,8 @@ public class MConf extends Entity<MConf>
 	public String msgSettingsMsgChangeInvalid = "<i>The parameter %s is invalid as a Msg type.";
 	public String msgSettingsMsgChangeSuccess = "<i>You have succesfully changed your messsage appearance to %s.";
 			
-	public String msgToolPrepared = "<i>You prepared your %s";
-	public String msgToolNotPrepared = "<i>You lowered your %s";
+	public String msgToolPrepared = "<i>You prepared your <h>%s";
+	public String msgToolNotPrepared = "<i>You lowered your <h>%s";
 	
 	public String msgLvlStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
 	public String msgAbilityDisplayedDescription = "%s: <i>%s";
