@@ -342,6 +342,26 @@ public abstract class Ability
 	public abstract Skill getSkill();
 	
 	// -------------------------------------------- //
+	// EQUALS & HASH CODE
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		return obj == this;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		
+		result += this.getId()*31;
+		
+		return result;
+	}
+	
+	// -------------------------------------------- //
 	// TO STRING
 	// -------------------------------------------- //
 	

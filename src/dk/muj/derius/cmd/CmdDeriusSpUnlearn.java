@@ -62,7 +62,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAlreadyHasNot),skill.getDisplayName(msender));
 				return;
 			case DONT_HAVE_NOW : 
-				msender.msg(Txt.parse(MConf.get().msgSpecialisationRemoveSuceed, skill.getDisplayName(msender)));
+				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationRemoveSuceed, skill.getDisplayName(msender)));
 				return;
 			default:
 				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationError, skill.getDisplayName(msender)));

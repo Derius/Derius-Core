@@ -48,6 +48,21 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	// -------------------------------------------- //
+	// OVERRIDE: ENTITY
+	// -------------------------------------------- //
+	
+	@Override
+	public MPlayer load(MPlayer that)
+	{
+		this.exp = that.exp;
+		this.specialised = that.specialised;
+		this.specialisedMillis = that.specialisedMillis;
+		this.isListeningToChat = that.isListeningToChat;
+		this.chatKeys = that.chatKeys;
+		return this;
+	}
+	
+	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
@@ -64,9 +79,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	// A Map that stores which string a player types in chat should activate what ability.
 	private Map<String, Integer> chatKeys = new HashMap<String, Integer>();
-	
-	// The players choice on how he wants his messages sent.
-	private MsgType type = MsgType.TITLE;
 	
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
@@ -448,6 +460,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return;
 		
 		this.activatedAbility = ability;
+		
+		this.setPreparedTool(Optional.empty());
 
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
 			@Override
@@ -544,7 +558,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		}
 		else 
 		{
-			if(this.getPreparedTool().isPresent())
+			if(this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
 			{
 				ChatUtil.msgToolNotPrepared(this, this.getPreparedTool().get());
 			}
@@ -687,18 +701,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		return msgLines;
 	}
-	
-	// get/set msgType
-	
-	public MsgType getMsgType()
-	{
-		return this.type;
-	}
-	
-	public void setMsgType(MsgType newType)
-	{
-		this.type = newType;
-	}
 
 	/**
 	 * Checks whether a player qualifies for chatListening
@@ -801,6 +803,26 @@ public class MPlayer extends SenderEntity<MPlayer>
 		int difference = randomBetween(ticksMin, ticksMax);
 
 		setCooldownExpire(currentTime+difference/20*1000);
+	}
+	
+	// -------------------------------------------- //
+	// EQUALS & HASH CODE
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		return obj == this;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		
+		result += this.getId().hashCode();
+		
+		return result;
 	}
 
 	// -------------------------------------------- //

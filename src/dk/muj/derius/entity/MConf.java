@@ -25,9 +25,10 @@ public class MConf extends Entity<MConf>
 	
 	public String msgPrefix = "<green>[DERIUS]";
 	
+	public String msgSkillLvlUp ="<i>You leveled up to level <lime>%s<i> in <aqua>%s<i>.";
 	public String msgAbilityCooldown = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
-	public String msgAbilityActivated = "<green>[DERIUS] <i>You activated <lime>%s";
-	public String msgAbilityDeactivated = "<green>[DERIUS] <i>The ability <lime>%s <i>ran out";
+	public String msgAbilityActivated = "<i>You activated %s";
+	public String msgAbilityDeactivated = "<i>The ability %s <i>ran out";
 	
 	public String colorAbilityCanPlayerUse = "<pink>";
 	public String colorAbilityCanPlayerNotUse = "<grey>";
@@ -43,7 +44,7 @@ public class MConf extends Entity<MConf>
 	public String msgSkillSpecialisationAddSucceed = "<i>You are now specialised in %s";
 	public String msgSkillSpecialisationError = "<b>An error occured while trying to specialise";
 	public String msgSkillSpecialisationAlreadyHasNot = "<b>You do not have the Skill %s <b>specialised";
-	public String msgSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
+	public String msgSkillSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
 	
 	public String msgKeyAddSuccess = "<i>You have succesfully registered the key %s to the ability %s.";
 	public String msgKeyAddIsAlready = "<i>The key %s is already in use. Please use another one.";

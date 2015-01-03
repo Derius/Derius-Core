@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
@@ -33,67 +34,23 @@ public final class ChatUtil
 	
 	public static void msgLevelUp(MPlayer p, Skill s, int level)
 	{
-		CommandSender sender = Bukkit.getConsoleSender();
-		String name = p.getName();
-		switch(p.getMsgType())
-		{
-			case CHAT:
-				p.msg(Txt.parse("<i>You leveled up to level <lime>%s<i> in <aqua>%s.",level,s.getName()));
-				break;
-			case TITLE:
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name + " reset");
-				
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeLvlUpFadeIn + space + MConf.get().timeLvlUpStay + space + MConf.get().timeLvlUpFadeOut);
-				Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name + " subtitle {\"text\":\"\",\"extra\":[{\"text\":\"You leveled up to lvl \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" in \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"aqua\"}]}",level,s.getName()));
-				break;
-			case SCOREBOARD:
-				
-				break;
-		}
+		MConf c = MConf.get();
+		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(c.msgSkillLvlUp, level, s.getDisplayName(p)), 
+				c.timeLvlUpFadeIn, c.timeLvlUpStay, c.timeLvlUpFadeOut);
 	}
 	
 	public static void msgAbilityActivate(MPlayer p, Ability a)
 	{
-		CommandSender sender = Bukkit.getConsoleSender();
-		String name = p.getName();
-		
-		switch(p.getMsgType())
-		{
-			case CHAT:
-				p.msg(Txt.parse("<i>The Ability <lime>%s<i> was activated.",a.getName()));			
-				break;
-			case TITLE:
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityActivateFadeIn + space + MConf.get().timeAbilityActivateStay + space + MConf.get().timeAbilityActivateFadeOut);
-				
-				Bukkit.getServer().dispatchCommand(sender, Txt.parse("title "+name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" was activated\",\"color\":\"yellow\"}]}",a.getName()));
-				break;
-			case SCOREBOARD:
-				
-				break;
-		}
+		MConf c = MConf.get();
+		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(c.msgAbilityActivated, a.getDisplayName(p)), 
+				c.timeAbilityActivateFadeIn, c.timeAbilityActivateStay, c.timeAbilityActivateFadeOut);
 	}
 	
 	public static void msgAbilityDeactivate(MPlayer p, Ability a)
 	{
-		CommandSender sender = Bukkit.getConsoleSender();
-		String name = p.getName();
-		
-		switch(p.getMsgType())
-		{
-			case CHAT:
-				p.msg(Txt.parse("<i>The Ability <lime>%s<i> ran out.",a.getName()));					
-				break;
-			case TITLE:
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-				Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + MConf.get().timeAbilityDeactivateFadeIn + space + MConf.get().timeAbilityDeactivateStay + space + MConf.get().timeAbilityDeactivateFadeOut);
-				
-				Bukkit.getServer().dispatchCommand(sender, Txt.parse(titleCmd + name+" subtitle {\"text\":\"\",\"extra\":[{\"text\":\"The ability \",\"color\":\"yellow\"},{\"text\":\"%s\",\"color\":\"green\"},{\"text\":\" ran out\",\"color\":\"yellow\"}]}",a.getName()));
-				break;
-			case SCOREBOARD:
-				
-				break;
-		}
+		MConf c = MConf.get();
+		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(c.msgAbilityDeactivated, a.getDisplayName(p)), 
+				c.timeAbilityDeactivateFadeIn, c.timeAbilityDeactivateStay, c.timeAbilityDeactivateFadeOut);
 		
 	}
 	
@@ -114,6 +71,39 @@ public final class ChatUtil
 	public static boolean sendActionBar(Player player, String msg)
 	{
 		return (new ActionBar_v1_8_R1()).send(player, msg);
+	}
+	
+	public static boolean sendTitle(Player player, String msg, int fadeIn, int stay, int fadeOut)
+	{
+		if(player == null || msg == null) return false;
+		
+		CommandSender sender = IdUtil.getConsole();
+		
+		String name = sender.getName();
+		msg = Txt.parse(msg);
+		msg = "{\"text\":\"\",\"extra\":[{\"text\":\""+msg+"\"}]}";
+		
+		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
+		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + fadeIn + space + stay + space + fadeOut);
+		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" title "+ msg);
+		
+		return true;
+	}
+	
+	public static boolean sendSubTitle(Player player, String msg, int fadeIn, int stay, int fadeOut)
+	{
+		if(player == null || msg == null) return false;
+		CommandSender sender = IdUtil.getConsole();
+		
+		String name = player.getName();
+		msg = Txt.parse(msg);
+		msg = "{\"text\":\"\",\"extra\":[{\"text\":\""+msg+"\"}]}";
+		
+		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
+		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + fadeIn + space + stay + space + fadeOut);
+		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ msg);
+		
+		return true;
 	}
 	
 	// -------------------------------------------- //

@@ -380,6 +380,26 @@ public abstract class Skill
 	public abstract boolean canPlayerLearnSkillInner(MPlayer p);
 	
 	// -------------------------------------------- //
+	// EQUALS & HASH CODE
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean equals(Object obj)
+	{		
+		return obj == this;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		
+		result += this.getId()*31;
+		
+		return result;
+	}
+	
+	// -------------------------------------------- //
 	// TO STRING
 	// -------------------------------------------- //
 	
@@ -387,23 +407,6 @@ public abstract class Skill
 	public String toString()
 	{
 		return getName();
-	}
-	
-	// -------------------------------------------- //
-	// EQUALS
-	// -------------------------------------------- //
-	
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (obj == null)
-			return false;
-		if ( ! (obj instanceof Skill))
-			return false;
-		Skill that = (Skill) obj;
-		if (that.getId() == this.getId() && that.getName().equals(this.getName()))
-			return true;
-		return false;
 	}
 	
 }
