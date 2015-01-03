@@ -137,10 +137,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 		int lvlBefore = this.getLvl(skill);
 		
 		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this,skill,exp);
-		Bukkit.getPluginManager().callEvent(event);
-		if(!event.isCancelled())
-			this.setExp(skill, this.getExp(skill)+exp);
-		
+		event.run();
+		if(event.isCancelled()) return;
 		int lvlAfter = this.getLvl(skill);
 		if(lvlBefore != lvlAfter)
 			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled down <b>%s <yellow>level in <aqua>%s", lvlBefore-lvlAfter+"", skill.getName()));

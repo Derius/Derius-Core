@@ -10,9 +10,17 @@ import dk.muj.derius.skill.Skill;
  */
 public class SkillRegisteredEvent extends SkillEvent
 {
+	// -------------------------------------------- //
+	// REQUIRED EVENT CODE
+	// -------------------------------------------- //
+	
 	private static final HandlerList handlers = new HandlerList();
 	public HandlerList getHandlers() {    return handlers;	} 
 	public static HandlerList getHandlerList() {    return handlers;	}
+	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 	
 	public SkillRegisteredEvent(Skill registeredSkill)
 	{
@@ -30,21 +38,29 @@ public class SkillRegisteredEvent extends SkillEvent
 	}
 	
 	// -------------------------------------------- //
-	// EQUALS
+	// EQUALS & HASH CODE
 	// -------------------------------------------- //
 	
 	@Override
 	public boolean equals(Object obj)
 	{		
-		if(obj == null)
-			return false;
-		if(!(obj instanceof SkillRegisteredEvent))
-			return false;
+		if (obj == null) return false;
+		if ( ! (obj instanceof SkillRegisteredEvent)) return false;
 		SkillRegisteredEvent that = (SkillRegisteredEvent) obj;
 	
-		if(that.skill == this.skill)
-			return true;
+		if (that.skill == this.skill) return true;
 		
 		return false;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		
+		result += skill.hashCode();
+		
+		return result;
+	}
+	
 }

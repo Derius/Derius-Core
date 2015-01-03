@@ -6,9 +6,17 @@ import dk.muj.derius.ability.Ability;
 
 public class AbilityRegisteredEvent extends AbilityEvent
 {
+	// -------------------------------------------- //
+	// REQUIRED EVENT CODE
+	// -------------------------------------------- //
+	
 	private static final HandlerList handlers = new HandlerList();
 	public HandlerList getHandlers() {    return handlers;	} 
 	public static HandlerList getHandlerList() {    return handlers;	}
+	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 	
 	public AbilityRegisteredEvent(Ability ability)
 	{
@@ -26,22 +34,29 @@ public class AbilityRegisteredEvent extends AbilityEvent
 	}
 	
 	// -------------------------------------------- //
-	// EQUALS
+	// EQUALS & HASH CODE
 	// -------------------------------------------- //
 	
 	@Override
 	public boolean equals(Object obj)
 	{		
-		if(obj == null)
-			return false;
-		if(!(obj instanceof AbilityRegisteredEvent))
-			return false;
+		if (obj == null) return false;
+		if ( ! (obj instanceof AbilityRegisteredEvent)) return false;
 		AbilityRegisteredEvent that = (AbilityRegisteredEvent) obj;
 	
-		if(that.ability == this.ability)
-			return true;
+		if (that.ability == this.ability) return true;
 		
 		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		
+		result += ability.hashCode();
+		
+		return result;
 	}
 	
 }

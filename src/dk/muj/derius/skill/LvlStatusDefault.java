@@ -14,23 +14,23 @@ public class LvlStatusDefault implements LvlStatus
 	/**
 	 * This is the current lvl
 	 */
-	private final int lvl = 0;
+	private final int lvl;
 	public int getLvl () {	return lvl;	}
-	public LvlStatus setLvl (int level) { return new LvlStatusDefault(level ,exp, this.expToNextLvl); }
+	public LvlStatus setLvl (int level) { return new LvlStatusDefault(level, this.exp, this.expToNextLvl); }
 	
 	/**
 	 * This is the exp left after calculating the lvl.
 	 * This is /not/ the total exp
 	 */
-	private final int exp = 0;
+	private final int exp;
 	public int getExp () {	return exp;	}
-	public LvlStatus setExp (int exp) { return new LvlStatusDefault(this.lvl,exp, this.expToNextLvl); }
+	public LvlStatus setExp (int exp) { return new LvlStatusDefault(this.lvl, exp, this.expToNextLvl); }
 	
 	/**
 	 * This is how much exp is required to reach next lvl
 	 * It ignores the current exp
 	 */
-	private final int expToNextLvl = 0;
+	private final int expToNextLvl;
 	public int getExpToNextLvl () { return expToNextLvl; }
 	public LvlStatus setExpToNextLvl (int expToNextLvl) { return new LvlStatusDefault(this.lvl,this.exp, expToNextLvl); }
 	
@@ -40,9 +40,9 @@ public class LvlStatusDefault implements LvlStatus
 	
 	public LvlStatusDefault(int level, int currentExperience, int expToNextLvl)
 	{
-		this.setLvl(level);
-		this.setExp(currentExperience);
-		this.setExpToNextLvl(expToNextLvl);
+		this.lvl = level;
+		this.exp = currentExperience;
+		this.expToNextLvl = expToNextLvl;
 	}
 	
 	// -------------------------------------------- //

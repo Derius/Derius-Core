@@ -4,6 +4,7 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.cmd.VisibilityMode;
 
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.entity.MPlayerColl;
 
 
 public class DeriusCommand extends MassiveCommand
@@ -21,7 +22,7 @@ public class DeriusCommand extends MassiveCommand
 	@Override
 	public void fixSenderVars() 
 	{
-		this.msender = MPlayer.get(sender);
+		this.msender = MPlayerColl.get().get(sender, true);
 	}
 	
 	@Override

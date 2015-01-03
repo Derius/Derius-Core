@@ -11,59 +11,38 @@ import dk.muj.derius.skill.Skill;
  */
 public class PlayerAddExpEvent extends SkillEvent implements Cancellable
 {
+	// -------------------------------------------- //
+	// REQUIRED EVENT CODE
+	// -------------------------------------------- //
+	
 	private static final HandlerList handlers = new HandlerList();
 	public HandlerList getHandlers() {    return handlers;	} 
 	public static HandlerList getHandlerList() {    return handlers;	}
 	
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
 	private final MPlayer player;
+	public MPlayer getPlayer() { return player; }
+	
 	private long amount;
+	public long getExpAmount() { return amount; }
+	public void setExpAmount(long expamount) { this.amount = expamount; }
+	
 	private boolean cancelled = false;
+	public boolean isCancelled() { return cancelled; }
+	public void setCancelled(boolean cancelled) { this.cancelled = cancelled; }
+	
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
 	
 	public PlayerAddExpEvent(MPlayer player, Skill skill, long expAmount)
 	{
 		super(skill);
 		this.player = player;
 		this.amount = expAmount;
-		
-	}
-
-	/**
-	 * Get the player who is getting exp
-	 * @return {MPlayer} player getting exp
-	 */
-	public MPlayer getPlayer()
-	{
-		return player;
-	}
-
-	/**
-	 * Gets the amount of exp being added
-	 * @return {long} the amount of added exp
-	 */
-	public long getExpAmount()
-	{
-		return amount;
-	}
-
-	/**
-	 * Sets the amount of exp being added
-	 * @param {long} the amount of exp added
-	 */
-	public void setExpAmount(long expamount)
-	{
-		this.amount = expamount;
-	}
-
-	@Override
-	public boolean isCancelled()
-	{
-		return cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancelled)
-	{
-		this.cancelled = cancelled;
 		
 	}
 	
@@ -78,21 +57,31 @@ public class PlayerAddExpEvent extends SkillEvent implements Cancellable
 	}
 	
 	// -------------------------------------------- //
-	// EQUALS
+	// EQUALS & HASH CODE
 	// -------------------------------------------- //
 	
 	@Override
 	public boolean equals(Object obj)
 	{		
-		if(obj == null)
-			return false;
-		if(!(obj instanceof PlayerAddExpEvent))
-			return false;
+		if (obj == null) return false;
+		if ( ! (obj instanceof PlayerAddExpEvent)) return false;
 		PlayerAddExpEvent that = (PlayerAddExpEvent) obj;
 	
-		if(that.player == this.player && that.amount == this.amount && that.skill == this.skill)
-			return true;
+		if (that.skill == this.skill && this.player == that.player && this.amount == that.amount) return true;
 		
 		return false;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		
+		result += skill.hashCode();
+		result += amount *31;
+		result += player.hashCode();
+		
+		return result;
+	}
+	
 }
