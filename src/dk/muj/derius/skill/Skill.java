@@ -12,9 +12,11 @@ import org.bukkit.Location;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Const;
+import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
@@ -283,7 +285,7 @@ public abstract class Skill
 	}
 
 	// -------------------------------------------- //
-	// AREA RESTRICTION
+	// RESTRICTION
 	// -------------------------------------------- //
 	
 	/**
@@ -306,6 +308,19 @@ public abstract class Skill
 			
 		}
 		return MConf.get().worldSkillsEarn.get(this.getId()).contains(loc.getWorld());
+	}
+	
+	/**
+	 * Tells whether or not the player can learn said skill.
+	 * The skill can have different reasons the player might not.
+	 * Bukkit permission is also checked here.
+	 * @param {MPlayer} the player you want to check
+	 * @return {boolean} true if the player can learn said skill
+	 */
+	public final boolean canPlayerLearnSkill(MPlayer p)
+	{
+		if ( ! PermUtil.has(p.getSender(), Perm.SKILL_LEARN.node + this.getId())) return false;
+		return this.canPlayerLearnSkillInner(p);
 	}
 	
 	// -------------------------------------------- //
@@ -356,12 +371,13 @@ public abstract class Skill
 	public abstract int getId();
 	
 	/**
-	 * Tells whether or not the player can learn said skill.
-	 * The skill can have different reasons the player might not.
-	 * @param {MPlayer} the player you want to check
-	 * @return {boolean} true if the player can learn said skill
+	 * This is an inner version of canPlayerLearnSkill
+	 * used if the skill developer wants to add extra checks,
+	 * beside the ones we made.
+	 * @param {MPlayer} the player to check for
+	 * @return {boolean} true if player can learn skill (without default checks)
 	 */
-	public abstract boolean canPlayerLearnSkill(MPlayer p);
+	public abstract boolean canPlayerLearnSkillInner(MPlayer p);
 	
 	// -------------------------------------------- //
 	// TO STRING
@@ -380,12 +396,12 @@ public abstract class Skill
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(obj == null)
+		if (obj == null)
 			return false;
-		if(!(obj instanceof Skill))
+		if ( ! (obj instanceof Skill))
 			return false;
 		Skill that = (Skill) obj;
-		if(that.getId() == this.getId() && that.getName().equals(this.getName()))
+		if (that.getId() == this.getId() && that.getName().equals(this.getName()))
 			return true;
 		return false;
 	}

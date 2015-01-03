@@ -13,9 +13,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import com.massivecraft.massivecore.store.SenderEntity;
+import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
+import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.events.AbilityActivateEvent;
@@ -825,13 +827,25 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	/**
 	 * Tells whether or not this player can learn said skill.
-	 * The requirements is set up by the skill not the core plugin
+	 * The requirements is set up by the skill
+	 * and bukkit permissions (also checked here) by the core plugin
 	 * @param {String} id of the skill
 	 * @return true if the player can learn this skill
 	 */
 	public boolean canLearnSkill(Skill skill)
 	{
 		return skill.canPlayerLearnSkill(this);
+	}
+	
+	/**
+	 * Tells whether or not this player can see said skill.
+	 * This is used in command arguments and such.
+	 * @param {Skill} skill to check for
+	 * @return {boolean} true if player can see skill
+	 */
+	public boolean canSeeSkill(Skill skill)
+	{
+		return PermUtil.has(this.getSender(), Perm.SKILL_SEE.node + skill.getId());
 	}
 	
 	/**

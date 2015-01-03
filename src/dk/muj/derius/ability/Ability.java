@@ -10,9 +10,11 @@ import org.bukkit.Location;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Const;
+import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityRegisteredEvent;
@@ -261,7 +263,7 @@ public abstract class Ability
 	}
 
 	// -------------------------------------------- //
-	// AREA RESTRICTION
+	// RESTRICTION
 	// -------------------------------------------- //
 	
 	/**
@@ -280,6 +282,12 @@ public abstract class Ability
 			
 		}
 		return MConf.get().worldAbilityUse.get(this.getId()).contains(loc.getWorld());
+	}
+	
+	public final boolean canPlayerActivateAbility(MPlayer p)
+	{
+		if ( ! PermUtil.has(p.getSender(), Perm.ABILITY_USE.node + this.getId())) return false;
+		return this.canPlayerActivateAbilityInner(p);
 	}
 	
 	// -------------------------------------------- //
@@ -309,7 +317,7 @@ public abstract class Ability
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can use said ability
 	 */
-	public abstract boolean canPlayerActivateAbility(MPlayer p);
+	public abstract boolean canPlayerActivateAbilityInner(MPlayer p);
 	
 	// Ability Execution methods
 	/**

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 
+import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
 public class ARSkill extends ARAbstractSelect<Skill>
@@ -38,16 +39,13 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		{
 			if (skill.getName().toLowerCase().startsWith(skillstr))
 			{
+				if ( ! MPlayer.get(sender).canSeeSkill(skill)) continue;
 				return skill;
 			}
 		}
 		
 		return null;
 	}
-	
-	// -------------------------------------------- //
-	// UTIL
-	// -------------------------------------------- //
 
 	@Override
 	public Collection<String> altNames(CommandSender sender)
