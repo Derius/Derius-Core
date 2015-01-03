@@ -8,9 +8,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.WorldException;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
@@ -62,7 +62,7 @@ public class MainEngine extends EngineAbstract
 		for (MPlayer p: MPlayerColl.get().getAll())
 			p.InstantiateSkill(skill);
 		if(!MConf.get().worldSkillsEarn.containsKey(id))
-			MConf.get().worldSkillsEarn.put(id, new WorldException());
+			MConf.get().worldSkillsEarn.put(id, new WorldExceptionSet());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)

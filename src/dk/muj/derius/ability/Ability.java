@@ -279,7 +279,7 @@ public abstract class Ability
 					return f.getFlag(Const.FACTION_FLAG_ABILITIES_USE);
 			
 		}
-		return MConf.get().worldAbilityUse.get(this.getId()).EnabledInWorld(loc.getWorld());
+		return MConf.get().worldAbilityUse.get(this.getId()).contains(loc.getWorld());
 	}
 	
 	// -------------------------------------------- //

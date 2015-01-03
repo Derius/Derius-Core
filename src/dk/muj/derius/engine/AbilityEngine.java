@@ -10,9 +10,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.WorldException;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.entity.MConf;
@@ -59,7 +59,7 @@ public class AbilityEngine extends EngineAbstract
 			s.getPassiveAbilities().add(a);
 		
 		if(MConf.get().worldAbilityUse.get(new Integer(a.getId())) == null)
-			MConf.get().worldAbilityUse.put(a.getId(), new WorldException());
+			MConf.get().worldAbilityUse.put(a.getId(), new WorldExceptionSet());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)

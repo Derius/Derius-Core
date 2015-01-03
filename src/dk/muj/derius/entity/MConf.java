@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
-
-import dk.muj.derius.WorldException;
 
 public class MConf extends Entity<MConf>
 {
@@ -174,6 +173,6 @@ public class MConf extends Entity<MConf>
 	// WORLD SETTINGS
 	// -------------------------------------------- //
 	
-	public Map<Integer, WorldException> worldSkillsEarn = new HashMap<Integer, WorldException>();
-	public Map<Integer, WorldException> worldAbilityUse = new HashMap<Integer, WorldException>();
+	public Map<Integer, WorldExceptionSet> worldSkillsEarn = new HashMap<Integer, WorldExceptionSet>();
+	public Map<Integer, WorldExceptionSet> worldAbilityUse = new HashMap<Integer, WorldExceptionSet>();
 }

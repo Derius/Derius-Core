@@ -225,7 +225,7 @@ public abstract class Skill
 	 */
 	public String getDisplayedDescription(MPlayer watcherObject)
 	{
-		return Txt.parse("%s: <i>%s",this.getDisplayName(watcherObject), this.getDescription());
+		return Txt.parse("%s: <i>%s", this.getDisplayName(watcherObject), this.getDescription());
 	}
 	
 	/**
@@ -297,11 +297,15 @@ public abstract class Skill
 		{
 			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
 			if(f != null)
+			{
 				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
+				{
 					return f.getFlag(Const.FACTION_FLAG_SKILLS_EARN);
+				}
+			}
 			
 		}
-		return MConf.get().worldSkillsEarn.get(this.getId()).EnabledInWorld(loc.getWorld());
+		return MConf.get().worldSkillsEarn.get(this.getId()).contains(loc.getWorld());
 	}
 	
 	// -------------------------------------------- //
