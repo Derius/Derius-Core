@@ -39,7 +39,6 @@ public class Derius extends MassivePlugin
 	public void onEnable()
 	{
 		this.preEnable();
-		
 		// Initializing Database
 		MConfColl.get().init();
 		MPlayerColl.get().init();
@@ -49,7 +48,7 @@ public class Derius extends MassivePlugin
 		AbilityEngine.get().activate();
 		MainEngine.get().activate();
 		
-		FactionIntegration.EstablishIntegration();
+		FactionIntegration.establishIntegration();
 		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius();

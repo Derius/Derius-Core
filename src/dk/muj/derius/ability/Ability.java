@@ -50,7 +50,7 @@ public abstract class Ability
 	 * @param {int} The id of the ability you wanted to get.
 	 * @return{Ability} The ability which has this id
 	 */
-	public static Ability GetAbilityById(int abilityId)
+	public static Ability getAbilityById(int abilityId)
 	{
 		for(Ability ability: Ability.abilityList)
 		{
@@ -66,7 +66,7 @@ public abstract class Ability
 	 * @param {String} The name of the ability you wanted to get.
 	 * @return{Ability} The ability which starts with this name
 	 */
-	public static Ability GetAbilityByName(String abilityName)
+	public static Ability getAbilityByName(String abilityName)
 	{
 		for(Ability ability: Ability.abilityList)
 		{
@@ -80,7 +80,7 @@ public abstract class Ability
 	 * Gets all registered abilities.
 	 * @return {List<Ability>} all registered skills
 	 */
-	public static List<Ability> GetAllAbilities()
+	public static List<Ability> getAllAbilities()
 	{
 		return new ArrayList<Ability>(Ability.abilityList);
 	}
@@ -98,7 +98,7 @@ public abstract class Ability
 	public void register()
 	{
 		Ability ability = this;
-		Ability before = GetAbilityById(ability.getId());
+		Ability before = getAbilityById(ability.getId());
 		if(before != null)
 		{
 			int id = ability.getId();
@@ -208,7 +208,7 @@ public abstract class Ability
 	 */
 	public String getDisplayedDescription(MPlayer watcherObject)
 	{
-		String color = CanPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		String color = canPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
 		return Txt.parse(MConf.get().msgAbilityDisplayedDescription, color + this.getName(), this.getDescription());
 	}
 	
@@ -219,7 +219,7 @@ public abstract class Ability
 	 */
 	public String getDisplayName(MPlayer watcherObject)
 	{
-		String color = CanPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		String color = canPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
 		return color + this.getName();
 	}
 	
@@ -269,9 +269,9 @@ public abstract class Ability
 	 * @param {Location} the are you want to check for
 	 * @return {boolean} true if the skill can be used
 	 */
-	public boolean CanAbilityBeUsedInArea(Location loc)
+	public boolean canAbilityBeUsedInArea(Location loc)
 	{
-		if(FactionIntegration.EstablishIntegration())
+		if(FactionIntegration.establishIntegration())
 		{
 			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
 			if(f != null)
@@ -309,7 +309,7 @@ public abstract class Ability
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can use said ability
 	 */
-	public abstract boolean CanPlayerActivateAbility(MPlayer p);
+	public abstract boolean canPlayerActivateAbility(MPlayer p);
 	
 	// Ability Execution methods
 	/**

@@ -58,7 +58,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		}
 		
 		// Evaluates if the user has leveled the skill and adds it to the List
-		for (Skill skill: Skill.GetAllSkills())
+		for (Skill skill: Skill.getAllSkills())
 		{
 			LvlStatus status = mplayer.getLvlStatus(skill);
 			

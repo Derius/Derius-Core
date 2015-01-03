@@ -29,21 +29,21 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 		switch(arg)
 		{
 			case "activate" : 
-				Ability a1 = Ability.GetAbilityById(id);
+				Ability a1 = Ability.getAbilityById(id);
 				if(a1 != null)
 				{
 				ChatUtil.msgAbilityActivate(msender, a1);
 				break;
 				}
 			case "deactivate" : 
-				Ability a2 = Ability.GetAbilityById(id);
+				Ability a2 = Ability.getAbilityById(id);
 				if(a2 != null)
 				{
 				ChatUtil.msgAbilityDeactivate(msender, a2);
 				break;
 				}
 			case "up" : 
-				Skill skill = Skill.GetSkillById(id);
+				Skill skill = Skill.getSkillById(id);
 				if(skill != null)
 				{
 				ChatUtil.msgLevelUp(msender, skill, msender.getLvl(skill));

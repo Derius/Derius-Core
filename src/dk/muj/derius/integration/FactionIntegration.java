@@ -21,7 +21,7 @@ public class FactionIntegration
 	 * Does nothing if already enabled.
 	 * @return True if faction is working
 	 */
-	public static boolean EstablishIntegration()
+	public static boolean establishIntegration()
 	{
 		if(FactionIntegration.enabled == true)
 			;

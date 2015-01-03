@@ -37,7 +37,7 @@ public class CmdDeriusClearAll extends DeriusCommand
 		if(!force.equals(forceYes))
 			return;
 		
-		for (Skill skill: Skill.GetAllSkills())
+		for (Skill skill: Skill.getAllSkills())
 		{
 			for(MPlayer target: MPlayerColl.get().getAll())
 			{

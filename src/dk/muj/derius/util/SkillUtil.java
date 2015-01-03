@@ -14,9 +14,9 @@ public class SkillUtil
 	 * @param {int} levels required to get 1% chance, twice that amount means 2%
 	 * @return {boolean} true if a double drop should occur. This is random
 	 */
-	public static boolean PlayerGetDoubleDrop(MPlayer mplayer, Skill skill)
+	public static boolean shouldPlayerGetDoubleDrop(MPlayer mplayer, Skill skill)
 	{
-		return SkillUtil.PlayerGetDoubleDrop(mplayer, skill, 10);
+		return SkillUtil.shouldPlayerGetDoubleDrop(mplayer, skill, 10);
 	}
 	
 	/**
@@ -27,9 +27,9 @@ public class SkillUtil
 	 * @param {Skill} the skill
 	 * @return {boolean} true if a double drop should occur. This is random
 	 */
-	public static boolean PlayerGetDoubleDrop(MPlayer mplayer, Skill skill, int levelsPerPercent)
+	public static boolean shouldPlayerGetDoubleDrop(MPlayer mplayer, Skill skill, int levelsPerPercent)
 	{
-		return SkillUtil.PlayerGetDoubleDrop(mplayer.getLvl(skill), skill);
+		return SkillUtil.shouldPlayerGetDoubleDrop(mplayer.getLvl(skill), skill);
 	}
 	
 	/**
@@ -40,9 +40,9 @@ public class SkillUtil
 	 * @param {Skill} the skill
 	 * @return {boolean} true if a double drop should occur. This is random
 	 */
-	public static boolean PlayerGetDoubleDrop(int level, Skill skill)
+	public static boolean shouldPlayerGetDoubleDrop(int level, Skill skill)
 	{
-		return SkillUtil.PlayerGetDoubleDrop(level,skill,10);
+		return SkillUtil.shouldPlayerGetDoubleDrop(level,skill,10);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class SkillUtil
 	 * @param {int} levels required to get 1% chance, twice that amount means 2%
 	 * @return {boolean} true if a double drop should occur. This is random
 	 */
-	public static boolean PlayerGetDoubleDrop(int level, Skill skill, int levelsPerPercent)
+	public static boolean shouldPlayerGetDoubleDrop(int level, Skill skill, int levelsPerPercent)
 	{
 		double chance = (double) level/levelsPerPercent;
 		double random = (int) ((Math.random()*100)+1);

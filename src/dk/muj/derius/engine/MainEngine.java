@@ -48,7 +48,7 @@ public class MainEngine extends EngineAbstract
 	public void onJoin(PlayerJoinEvent e)
 	{
 		MPlayer p = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
-		for(Skill s: Skill.GetAllSkills())
+		for(Skill s: Skill.getAllSkills())
 			p.InstantiateSkill(s);
 		if(p.getSpecialisationCooldownExpire() == 0)
 			p.setSpecialisationChangeMillis(System.currentTimeMillis());

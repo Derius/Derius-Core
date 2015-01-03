@@ -41,7 +41,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		}
 		
 		Integer id = this.arg(1, ARInteger.get());
-		Ability ability = Ability.GetAbilityById(id);
+		Ability ability = Ability.getAbilityById(id);
 		if( (ability == null))
 		{
 			mplayer.msg(Txt.parse(MConf.get().msgKeyAddInvalid));

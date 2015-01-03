@@ -37,7 +37,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		
 		// Which abilities should be shown
 		if(skill == null)
-			for(Ability ability: Ability.GetAllAbilities())
+			for(Ability ability: Ability.getAllAbilities())
 				list.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
 		else
 			for(Ability ability: skill.getAllAbilities())

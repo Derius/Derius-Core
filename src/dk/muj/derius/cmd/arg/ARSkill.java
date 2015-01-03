@@ -32,13 +32,11 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	@Override
 	public Skill select(String arg, CommandSender sender)
 	{
-		arg = getComparable(arg);
 		
-		String skillstr;
-		for (Skill skill : Skill.GetAllSkills())
+		String skillstr = arg.toLowerCase();
+		for (Skill skill : Skill.getAllSkills())
 		{
-			skillstr = getComparable(arg);
-			if(skill.getName().toLowerCase().startsWith(skillstr.toLowerCase()))
+			if (skill.getName().toLowerCase().startsWith(skillstr))
 			{
 				return skill;
 			}
@@ -50,21 +48,13 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	// -------------------------------------------- //
 	// UTIL
 	// -------------------------------------------- //
-	
-	public static String getComparable(String str)
-	{
-		str = str.toLowerCase();
-		str = str.replace("_", "");
-		str = str.replace(" ", "");
-		return str;
-	}
 
 	@Override
 	public Collection<String> altNames(CommandSender sender)
 	{
 		List<String> ret = new ArrayList<String>();
 		
-		for (Skill skill : Skill.GetAllSkills())
+		for (Skill skill : Skill.getAllSkills())
 		{
 			ret.add(skill.getName());
 		}

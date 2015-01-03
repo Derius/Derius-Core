@@ -47,7 +47,7 @@ public class CmdDeriusClearPlayer extends DeriusCommand
 		List<Skill> skillList = new ArrayList<Skill>();
 		
 		if (skill == null)
-			skillList.addAll(Skill.GetAllSkills());
+			skillList.addAll(Skill.getAllSkills());
 		else
 			skillList.add(skill);
 		

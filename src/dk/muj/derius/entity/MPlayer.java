@@ -108,11 +108,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} the skill
 	 * @param {long} the amount to add to players exp
 	 */
-	public void AddExp(Skill skill, long exp)
+	public void addExp(Skill skill, long exp)
 	{
 		int lvlBefore = this.getLvl(skill);
 		
-		if(lvlBefore >= this.MaxLevel(skill))
+		if(lvlBefore >= this.getMaxLevel(skill))
 			return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
@@ -130,7 +130,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} the skill
 	 * @param {long} the amount of exp to take away.
 	 */
-	public void TakeExp(Skill skill, long exp)
+	public void takeExp(Skill skill, long exp)
 	{
 		int lvlBefore = this.getLvl(skill);
 		
@@ -153,7 +153,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} the skill
 	 * @return true if the player has something in this skill (even 0)
 	 */
-	public boolean HasSkill(Skill skill)
+	public boolean hasSkill(Skill skill)
 	{
 		return this.exp.containsKey(skill.getId());
 	}
@@ -165,7 +165,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void InstantiateSkill(Skill skill)
 	{
-		if(!this.HasSkill(skill))
+		if(!this.hasSkill(skill))
 			this.exp.put(skill.getId(), new Long(0));
 	}
 	
@@ -174,7 +174,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} skill to check for
 	 * @return {int} the level the player can reach
 	 */
-	public int MaxLevel(Skill skill)
+	public int getMaxLevel(Skill skill)
 	{
 		SpecialisationStatus status = this.isSpecialisedIn(skill);
 		if(status == SpecialisationStatus.HAD || status == SpecialisationStatus.AUTO_ASSIGNED)
@@ -187,7 +187,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * cleans even if the skill or ability exists
 	 * @param {int} id to clean
 	 */
-	public void CleanNoCheck(int id)
+	public void cleanNoCheck(int id)
 	{
 		this.exp.remove(id);
 		this.specialised.remove(id);
@@ -206,15 +206,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * doesn't clean if skill or ability exists
 	 * @param {int} id to clean
 	 */
-	public void CleanWithCheck(int id)
+	public void cleanWithCheck(int id)
 	{
-		if(Skill.GetSkillById(id) == null)
+		if(Skill.getSkillById(id) == null)
 		{
 			this.exp.remove(id);
 			this.specialised.remove(id);
 		}
 		
-		if(Ability.GetAbilityById(id) == null)
+		if(Ability.getAbilityById(id) == null)
 		{
 			Iterator<Entry<String, Integer>> it = this.chatKeys.entrySet().iterator();
 			while (it.hasNext()) 
@@ -231,28 +231,28 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Cleans player for all skills and abilities
 	 * even if those skills/abilities exists
 	 */
-	public void CleanAllNoCheck()
+	public void cleanAllNoCheck()
 	{
 		for(int id: this.exp.keySet())
-			this.CleanNoCheck(id);
+			this.cleanNoCheck(id);
 		for(int id: this.specialised)
-			this.CleanNoCheck(id);
+			this.cleanNoCheck(id);
 		for(int id: this.chatKeys.values())
-			this.CleanNoCheck(id);
+			this.cleanNoCheck(id);
 	}
 	
 	/**
 	 * Cleans player for all skills and abilities
 	 * but not if those skills/abilities exists
 	 */
-	public void CleanAllWithCheck()
+	public void cleanAllWithCheck()
 	{
 		for(int id: this.exp.keySet())
-			this.CleanWithCheck(id);
+			this.cleanWithCheck(id);
 		for(int id: this.specialised)
-			this.CleanWithCheck(id);
+			this.cleanWithCheck(id);
 		for(int id: this.chatKeys.values())
-			this.CleanWithCheck(id);
+			this.cleanWithCheck(id);
 	}
 	
 	
@@ -337,7 +337,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		List<Skill> ret = new ArrayList<Skill>();
 		for(int i: specialised)
 		{
-			Skill s = Skill.GetSkillById(i);
+			Skill s = Skill.getSkillById(i);
 					if(s != null)
 						ret.add(s);
 		}
@@ -394,21 +394,21 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Ability} the ability to activate
 	 * @param {Object} some abilities need another object. Check for the individual ability
 	 */
-	public void ActivateAbility(final Ability ability, Object other)
+	public void activateAbility(final Ability ability, Object other)
 	{	
 		//CHECKS
-		if(!ability.CanPlayerActivateAbility(this))
+		if(!ability.canPlayerActivateAbility(this))
 			return;
-		if(this.isPlayer() && !ability.CanAbilityBeUsedInArea(this.getPlayer().getLocation()))
+		if(this.isPlayer() && !ability.canAbilityBeUsedInArea(this.getPlayer().getLocation()))
 			return;
 		
 		
 		//ACTIVATE
 		if(ability.getType() == AbilityType.PASSIVE)
-			this.ActivatePassiveAbility(ability, other);
+			this.activatePassiveAbility(ability, other);
 		
 		if(ability.getType() == AbilityType.ACTIVE)
-			this.ActivateActiveAbility(ability, other);
+			this.activateActiveAbility(ability, other);
 	}
 	
 	/**
@@ -416,12 +416,12 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * this is the proper way to activate an ability
 	 * @param {Ability} the ability to activate
 	 */
-	public void ActivateAbility(final Ability ability)
+	public void activateAbility(final Ability ability)
 	{
-		this.ActivateAbility(ability, null);
+		this.activateAbility(ability, null);
 	}
 	
-	private void ActivatePassiveAbility(final Ability ability, Object other)
+	private void activatePassiveAbility(final Ability ability, Object other)
 	{
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
@@ -431,9 +431,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 		ability.onActivate(this, other);
 	}
 	
-	private void ActivateActiveAbility(final Ability ability, Object other)
+	private void activateActiveAbility(final Ability ability, Object other)
 	{
-		if(this.HasActivatedAny())
+		if(this.hasActivatedAny())
 			return;
 
 		if (!this.hasCooldownExpired(true))
@@ -450,7 +450,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 			@Override
 			public void run()
 			{
-				DeactivateActiveAbility();
+				deactivateActiveAbility();
 				setCooldownExpireIn(ability.getCooldownTime(get()));
 			}
 		}, ability.getTicksLast(this.getLvl(ability.getSkill())));
@@ -462,7 +462,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * This should however automatically be done by our scheduled tasks.
 	 * @param {Ability} the ability to deactivate
 	 */
-	public void DeactivateActiveAbility()
+	public void deactivateActiveAbility()
 	{
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(this.activatedAbility, this);
 		Bukkit.getPluginManager().callEvent(e);
@@ -478,7 +478,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * & making storing of data easier for you
 	 * @param {int} id of the ability
 	 */
-	public boolean HasActivated(Ability ability)
+	public boolean hasActivated(Ability ability)
 	{
 		return this.activatedAbility == ability;
 	}
@@ -487,7 +487,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Tells whether or not the player has ANY abilities activated.
 	 * @return {boolean} true if the player has ANY abilities activated.
 	 */
-	public boolean HasActivatedAny()
+	public boolean hasActivatedAny()
 	{
 		return this.activatedAbility != null;
 	}
@@ -523,7 +523,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void setPreparedTool(final Optional<Material> tool)
 	{
-		if (this.HasActivatedAny())
+		if (this.hasActivatedAny())
 			return;
 		if (this.getPreparedTool().isPresent())
 			return;
@@ -665,7 +665,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		Integer i = this.chatKeys.get(key);
 		if(null == i)
 			return null;
-		return Ability.GetAbilityById(i);
+		return Ability.getAbilityById(i);
 	}
 	
 	/**
@@ -735,7 +735,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Adds millis to the users cooldown.
 	 * @param {int} the amount of ticks to add to players global cooldown
 	 */
-	public void ExtendCooldown(int ticksToAdd)
+	public void extendCooldown(int ticksToAdd)
 	{
 		this.setCooldownExpire(getCooldownExpire()+ticksToAdd/20*1000);
 	}
@@ -744,7 +744,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Lowers users cooldown expire time.
 	 * @param {int} the amount of millis to lower the  global cooldown.
 	 */
-	public void ReduceCooldown(int ticksToReduce)
+	public void reduceCooldown(int ticksToReduce)
 	{
 		this.setCooldownExpire(getCooldownExpire()-ticksToReduce/20*1000);
 	}
@@ -761,14 +761,14 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return true;
 		
 		if (sendMessage) 
-			AbilityCooldownMsg(currentTime); 
+			getAbilityCooldownMsg(currentTime); 
 		return false;
 	}
 	
 	/**
 	 * Sends out the Cooldown message to the player. The Message itself can be changed in the MConf.
 	 */
-	public void AbilityCooldownMsg (long timeNow)
+	public void getAbilityCooldownMsg (long timeNow)
 	{
 		long currentTime = timeNow;
 		long timeRemainingSeconds = (getCooldownExpire()-currentTime)/1000;
@@ -794,7 +794,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void setCooldownExpireBetween (int ticksMin, int ticksMax)
 	{
 		long currentTime = System.currentTimeMillis();
-		int difference = RandomBetween(ticksMin, ticksMax);
+		int difference = randomBetween(ticksMin, ticksMax);
 
 		setCooldownExpire(currentTime+difference/20*1000);
 	}
@@ -810,7 +810,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public LvlStatus getLvlStatus(Skill skill)
 	{
-		return skill.LvlStatusFromExp(this.getExp(skill));
+		return skill.getLvlStatusFromExp(this.getExp(skill));
 	}
 	
 	/**
@@ -820,7 +820,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getLvl(Skill skill)
 	{
-		return skill.LvlStatusFromExp(this.getExp(skill)).getLvl();
+		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
 	}
 	
 	/**
@@ -829,9 +829,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return true if the player can learn this skill
 	 */
-	public boolean CanLearnSkill(Skill skill)
+	public boolean canLearnSkill(Skill skill)
 	{
-		return skill.CanPlayerLearnSkill(this);
+		return skill.canPlayerLearnSkill(this);
 	}
 	
 	/**
@@ -852,7 +852,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		return ret;
 	}
 	
-	private int RandomBetween(int from, int to)
+	private int randomBetween(int from, int to)
 	{
 		int range = to - from + 1;
 		return (int) (Math.random()*range) + to;

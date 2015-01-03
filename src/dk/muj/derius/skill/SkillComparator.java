@@ -12,6 +12,10 @@ public class SkillComparator implements Comparator<Skill>
 	public static SkillComparator get(){return i;}
 	private SkillComparator(){}
 	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
+	
 	@Override
 	public int compare(Skill s1, Skill s2)
 	{

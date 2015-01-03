@@ -48,6 +48,6 @@ public class ChatEngine extends EngineAbstract
 		if (ability == null)
 			return;
 		
-		mplayer.ActivateAbility(ability);
+		mplayer.activateAbility(ability);
 	}
 }

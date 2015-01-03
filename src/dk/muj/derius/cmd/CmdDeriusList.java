@@ -47,7 +47,7 @@ public class CmdDeriusList extends DeriusCommand
 		msgLines.add(Txt.titleize("Skills")); // Titel
 		
 		// Put the skill into the list, colored accordingly to players ability to learn them.
-		for (Skill skill: Skill.GetAllSkills())
+		for (Skill skill: Skill.getAllSkills())
 		{
 			// Example Output (before before applying the colors): "<aqua>Mining: <i>Makes you better at mining."
 			msgLines.add(Txt.parse("%s: <i>%s", skill.getDisplayName(msender), skill.getDescription()));

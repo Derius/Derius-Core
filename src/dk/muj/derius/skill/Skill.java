@@ -60,7 +60,7 @@ public abstract class Skill
 	 * @param {String} The id of the skill you wanted to get.
 	 * @return{Skill} The skill which has this id
 	 */
-	public static Skill GetSkillById(int skillId)
+	public static Skill getSkillById(int skillId)
 	{	//Just a test for now
 		Optional<Skill> binary = binarySkillLookup(skillId);
 		if(binary.isPresent()) return binary.get();
@@ -103,7 +103,7 @@ public abstract class Skill
 	 * @param {String} The name of the skill you wanted to get.
 	 * @return{Skill} The skill which starts with this name
 	 */
-	public static Skill GetSkillByName(String skillName)
+	public static Skill getSkillByName(String skillName)
 	{
 		for(Skill skill: Skill.skillList)
 		{
@@ -117,7 +117,7 @@ public abstract class Skill
 	 * Gets a list of ALL skills
 	 * @return {List<Skill>} all registered skills
 	 */
-	public static List<Skill> GetAllSkills()
+	public static List<Skill> getAllSkills()
 	{
 		return new ArrayList<Skill>(skillList);
 	}
@@ -134,7 +134,7 @@ public abstract class Skill
 	 */
 	public void register()
 	{
-		Skill before = GetSkillById(this.getId());
+		Skill before = getSkillById(this.getId());
 		if(before != null)
 		{
 			int id = this.getId();
@@ -238,7 +238,7 @@ public abstract class Skill
 	{
 		if (watcherObject.isSpecialisedIn(this) == SpecialisationStatus.HAD)
 			return Txt.parse(MConf.get().colorSkillIsPlayerSpecialised + this.getName());
-		else if (this.CanPlayerLearnSkill(watcherObject))
+		else if (this.canPlayerLearnSkill(watcherObject))
 			return Txt.parse(MConf.get().colorSkillCanPlayerUse + this.getName());
 		else
 			return  Txt.parse(MConf.get().colorSkillCanPlayerNotUse + this.getName());
@@ -255,7 +255,7 @@ public abstract class Skill
 	 * @param {long} the amount of exp to convert to level
 	 * @return {int} The level equivalent to the amount of exp passed.
 	 */
-	public final LvlStatus LvlStatusFromExp(long exp)
+	public final LvlStatus getLvlStatusFromExp(long exp)
 	{
 		return this.expToLvlStatus.apply(exp);
 	}
@@ -291,9 +291,9 @@ public abstract class Skill
 	 * @param {Location} the are you want to check for
 	 * @return {boolean} true if experience in this skill can be earned in the area
 	 */
-	public boolean CanSkillBeEarnedInArea(Location loc)
+	public boolean canSkillBeEarnedInArea(Location loc)
 	{
-		if(FactionIntegration.EstablishIntegration())
+		if(FactionIntegration.establishIntegration())
 		{
 			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
 			if(f != null)
@@ -361,7 +361,7 @@ public abstract class Skill
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can learn said skill
 	 */
-	public abstract boolean CanPlayerLearnSkill(MPlayer p);
+	public abstract boolean canPlayerLearnSkill(MPlayer p);
 	
 	// -------------------------------------------- //
 	// TO STRING
