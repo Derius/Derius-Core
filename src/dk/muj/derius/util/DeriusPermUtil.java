@@ -19,6 +19,7 @@ public class DeriusPermUtil
 			// derius.ability.use.
 			int index = perm.lastIndexOf(".");
 			String id = perm.substring(index);
+			String.
 		}
 		return PermUtil.getDeniedMessage(perm);
 	}

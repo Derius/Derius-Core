@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
@@ -88,11 +89,22 @@ public class MainEngine extends EngineAbstract
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e)
 	{	
-		Listener listener = Listener.getListener(e.getBlock().getType());
+		Listener listener = Listener.getBlockBreakListener(e.getBlock().getType());
 		if(listener == null)
 			return;
 		listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock());
 		
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerAttack(EntityDamageByEntityEvent event)
+	{
+		if( ! (event.getDamager() instanceof Player)) return;
+		Player player = (Player) event.getDamager();
+		Listener listener = Listener.getPlayerAttackKeyListener(player.getItemInHand().getType());
+		if(listener == null)
+			return;
+		listener.onPlayerAttack(MPlayer.get(player), event);
 	}
 
 

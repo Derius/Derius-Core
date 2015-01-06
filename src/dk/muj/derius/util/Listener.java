@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import dk.muj.derius.entity.MPlayer;
 
@@ -18,12 +19,17 @@ public interface Listener
 	
 	static class ListenerFields
 	{
+		// Interact tools
 		private static Collection<Material> registeredInteractTools = new HashSet<>();
-		private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
-		
-		static Map<Material, Listener> getBlockBreakKeys() { return blockBreakKeys; }
 		static Collection<Material> getRegisteredInteractTools() { return registeredInteractTools; }
-	
+		
+		// Block break
+		private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
+		static Map<Material, Listener> getBlockBreakKeys() { return blockBreakKeys; }
+
+		// Player deal damage
+		private static Map<Material, Listener> dealDamageKeys = new EnumMap<>(Material.class);
+		static Map<Material, Listener> getDealDamageKeys() { return dealDamageKeys; }
 	}
 	
 	// -------------------------------------------- //
@@ -59,23 +65,56 @@ public interface Listener
 	 */
 	public default void registerBlockBreakKeys(Collection<Material> materials)
 	{
-		for(Material material: materials)
-			this.registerBlockBreakKey(material);
+		this.registerBlockBreakKey(materials.toArray(new Material[materials.size()]));
 	}
 	
 	/**
 	 * Gets the listener that are called when
 	 * a block with this material is broken
-	 * @param {Material} block type to get
+	 * @param {Material} block type key to get
 	 * @return {Listener} The listener listening to this block
 	 */
-	public static Listener getListener(Material material)
+	public static Listener getBlockBreakListener(Material material)
 	{
 		return ListenerFields.getBlockBreakKeys().get(material);
 	}
+
+	// -------------------------------------------- //
+	// BLOCK BREAK KEYS
+	// -------------------------------------------- //
+
+	/**
+	 * Registers a weapon type to listen for when player deals damage
+	 * @param {Material} weapon type to listen for
+	 */
+	public default void registerPlayerAttackKey(Material... materials)
+	{
+		for(Material material: materials)
+			ListenerFields.getDealDamageKeys().put(material,this);
+	}
+	
+	/**
+	 * Registers a collection of weapons to listen for player deals damage
+	 * @param {Collection<Material>} collection of block types to listen for
+	 */
+	public default void registerPlayerAttackKey(Collection<Material> materials)
+	{
+		this.registerPlayerAttackKey(materials.toArray(new Material[materials.size()]));
+	}
+	
+	/**
+	 * Gets the listener that are called when
+	 * a player deals damage
+	 * @param {Material} weapon key to get
+	 * @return {Listener} The listener listening for this weapon
+	 */
+	public static Listener getPlayerAttackKeyListener(Material material)
+	{
+		return ListenerFields.getDealDamageKeys().get(material);
+	}
 	
 	// -------------------------------------------- //
-	// INTERACT
+	// INTERACT TOOLS
 	// -------------------------------------------- //
 	
 	
@@ -132,10 +171,17 @@ public interface Listener
 	// -------------------------------------------- //
 	
 	/**
-	 * Called when a block is broken if the toye is registered for that listener
+	 * Called when a block is broken if the block is registered for that listener
 	 * @param {MPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
 	default void onBlockBreak(MPlayer player, Block block) {};
+	
+	/**
+	 * 
+	 * @param attacker
+	 * @param target
+	 */
+	default void onPlayerAttack(MPlayer attacker, EntityDamageByEntityEvent event) {};
 
 }
