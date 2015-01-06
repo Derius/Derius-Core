@@ -26,7 +26,7 @@ public class MConf extends Entity<MConf>
 	public String msgPrefix = "<green>[DERIUS]";
 	
 	public String msgSkillLvlUp ="<i>You leveled up to level <lime>%s<i> in <aqua>%s<i>.";
-	public String msgAbilityCooldown = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
+	public String msgExhausted = "<i> You are still exhausted. You will be ready again in %s";
 	public String msgAbilityActivated = "<i>You activated %s";
 	public String msgAbilityDeactivated = "<i>The ability %s <i>ran out";
 	public String msgAbilityCantBeUsedInArea = "<b>Sorry, %s<b> can't be used in this area";

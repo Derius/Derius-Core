@@ -5,7 +5,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
@@ -17,7 +16,8 @@ import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
-import dk.muj.derius.req.ReqAreaIsOkForAbility;
+import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
+import dk.muj.derius.req.ReqHasPerm;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.ChatUtil;
 
@@ -59,7 +59,7 @@ public class AbilityEngine extends EngineAbstract
 		if(MConf.get().worldAbilityUse.get(new Integer(ability.getId())) == null)
 			MConf.get().worldAbilityUse.put(ability.getId(), new WorldExceptionSet());
 		// Requirements
-		ability.addActivateRequirements(ReqAreaIsOkForAbility.get(ability));
+		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
 		ability.addActivateRequirements(ReqHasPerm.get(Perm.ABILITY_USE.node + ability.getId()));
 		ability.addSeeRequirements(ReqHasPerm.get(Perm.ABILITY_SEE.node + ability.getId()));
 	}

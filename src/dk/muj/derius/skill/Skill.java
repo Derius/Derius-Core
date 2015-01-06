@@ -12,7 +12,6 @@ import org.bukkit.Location;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.massivecore.cmd.req.Req;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -23,6 +22,7 @@ import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
 import dk.muj.derius.integration.FactionIntegration;
+import dk.muj.derius.req.Req;
 
 public abstract class Skill
 {

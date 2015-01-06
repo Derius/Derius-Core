@@ -485,14 +485,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void activateAbility(final Ability ability, Object other)
 	{	
 		//CHECKS
-		if(!ability.canPlayerActivateAbility(this))
-			return;
+		if ( ! ability.canPlayerActivateAbility(this, true)) return;
 		
 		//ACTIVATE
-		if(ability.getType() == AbilityType.PASSIVE)
+		if (ability.getType() == AbilityType.PASSIVE)
 			this.activatePassiveAbility(ability, other);
 		
-		if(ability.getType() == AbilityType.ACTIVE)
+		else if (ability.getType() == AbilityType.ACTIVE)
 			this.activateActiveAbility(ability, other);
 	}
 	
@@ -520,12 +519,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		if(this.hasActivatedAny())
 			return;
-
-		if ( ! this.hasCooldownExpired(true))
-		{
-			this.setPreparedTool(Optional.empty());
-			return;
-		}
 		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
 		Bukkit.getPluginManager().callEvent(e);
@@ -812,6 +805,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
+	 * Gets amount of milliseconds till cooldown expire
+	 * @return {long} amount of milliseconds till cooldown expire
+	 */
+	public long getCooldownExpireIn()
+	{
+		return cooldown - System.currentTimeMillis();
+	}
+	
+	/**
 	 * Adds millis to the users cooldown.
 	 * @param {int} the amount of ticks to add to players global cooldown
 	 */
@@ -830,30 +832,12 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Checks whether the cooldown has expired and if sendMessage is true
-	 * send the cooldown message along.
-	 * @return {boolean} whether the cooldown has expired or not
+	 * Checks whether the cooldown has expired or not
+	 * @return {boolean} true if cooldown has expired
 	 */
-	public boolean hasCooldownExpired (boolean sendMessage)
+	public boolean hasCooldownExpired ()
 	{
-		long currentTime = System.currentTimeMillis();
-		if (currentTime >= getCooldownExpire()) 
-			return true;
-		
-		if (sendMessage) 
-			getAbilityCooldownMsg(currentTime); 
-		return false;
-	}
-	
-	/**
-	 * Sends out the Cooldown message to the player. The Message itself can be changed in the MConf.
-	 */
-	public void getAbilityCooldownMsg (long timeNow)
-	{
-		long currentTime = timeNow;
-		long timeRemainingSeconds = (getCooldownExpire()-currentTime)/1000;
-		
-		msg(Txt.parse(MConf.get().msgAbilityCooldown, timeRemainingSeconds));
+		return System.currentTimeMillis() >= getCooldownExpire();
 	}
 	
 	/**

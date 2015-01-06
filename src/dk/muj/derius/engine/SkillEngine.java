@@ -5,7 +5,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
@@ -14,6 +13,7 @@ import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.events.SkillRegisteredEvent;
+import dk.muj.derius.req.ReqHasPerm;
 import dk.muj.derius.skill.Skill;
 
 public class SkillEngine extends EngineAbstract

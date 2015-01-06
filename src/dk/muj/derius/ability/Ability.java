@@ -7,13 +7,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 
-import com.massivecraft.massivecore.cmd.req.Req;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
+import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.Skill;
 
 public abstract class Ability
@@ -218,9 +218,10 @@ public abstract class Ability
 	 * @param {MPlayer} player to see description
 	 * @return {String} how the player should see the description
 	 */
-	public String getDisplayName(MPlayer watcherObject)
+	public String getDisplayName(Object watcherObject)
 	{
-		String color = canPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		MPlayer player = MPlayer.get(watcherObject);
+		String color = canPlayerActivateAbility(player) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
 		return color + this.getName();
 	}
 	
@@ -273,9 +274,25 @@ public abstract class Ability
 	 */
 	public final boolean canPlayerActivateAbility(MPlayer p)
 	{
+		return this.canPlayerActivateAbility(p, false);
+	}
+	
+	/**
+	 * Tells whether or not the player can use said ability.
+	 * This is based on the ability requirements
+	 * @param {MPlayer} the player you want to check
+	 * @param {boolean} true if error message should be sent
+	 * @return {boolean} true if the player can use said ability
+	 */
+	public boolean canPlayerActivateAbility(MPlayer p, boolean sendMessage)
+	{
 		for (Req req : this.getActivateRequirements())
 		{
-			if ( ! req.apply(p.getSender())) return false;
+			if ( ! req.apply(p.getSender(), this)) 
+			{
+				if (sendMessage) p.sendMessage(req.createErrorMessage(p.getSender(), this));
+				return false;
+			}
 		}
 		return true;
 	}
@@ -288,9 +305,25 @@ public abstract class Ability
 	 */
 	public final boolean canPlayerSeeAbility(MPlayer p)
 	{
+		return this.canPlayerSeeAbility(p, false);
+	}
+	
+	/**
+	 * Tells whether or not the player can see said ability.
+	 * This is based on the skill requirements
+	 * @param {MPlayer} the player you want to check
+	 * @param {boolean} true if error message should be sent
+	 * @return {boolean} true if the player can see said ability
+	 */
+	public boolean canPlayerSeeAbility(MPlayer p, boolean sendMessage)
+	{
 		for (Req req : this.getSeeRequirements())
 		{
-			if ( ! req.apply(p.getSender())) return false;
+			if ( ! req.apply(p.getSender(), this)) 
+			{
+				if (sendMessage) p.sendMessage(req.createErrorMessage(p.getSender(), this));
+				return false;
+			}
 		}
 		return true;
 	}
@@ -416,4 +449,6 @@ public abstract class Ability
 	{
 		return getName();
 	}
+
+
 }
