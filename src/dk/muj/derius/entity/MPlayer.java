@@ -284,8 +284,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 		 {
 			 Entry<String, Integer> pairs = it.next();
 			 if(pairs.getKey().equals(new Integer(id)))
+			 {
 				 this.chatKeys.remove(pairs.getKey());
-			 it.remove();
+		
+			 }
 		 }
 	}
 	
@@ -309,8 +311,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 			{
 				Entry<String, Integer> pairs = it.next();
 				if(pairs.getKey().equals(new Integer(id)))
+				{
 					this.chatKeys.remove(pairs.getKey());
-				it.remove();
+				}
 			}
 		}
 	}

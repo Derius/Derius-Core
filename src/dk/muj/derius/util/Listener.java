@@ -12,13 +12,12 @@ import dk.muj.derius.entity.MPlayer;
 
 public interface Listener
 {
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
 	
 	static class ListenerFields
 	{
-		// -------------------------------------------- //
-		// FIELDS
-		// -------------------------------------------- //
-	
 		private static Collection<Material> registeredInteractTools = new HashSet<>();
 		private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
 		
@@ -129,7 +128,7 @@ public interface Listener
 	}
 	
 	// -------------------------------------------- //
-	// ABSTRACT
+	// LISTENER METHODS
 	// -------------------------------------------- //
 	
 	/**
@@ -137,7 +136,6 @@ public interface Listener
 	 * @param {MPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
-	public void onBlockBreak(MPlayer player, Block block);
-
+	default void onBlockBreak(MPlayer player, Block block) {};
 
 }
