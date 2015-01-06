@@ -41,6 +41,8 @@ public class MConf extends Entity<MConf>
 	public String colorSkillCanPlayerUse = "<aqua>";
 	public String colorSkillCanPlayerNotUse = "<grey>";
 	public String colorSkillIsPlayerSpecialised = "<gold>";
+	
+	public String msgInspectOthersInvalid = "<i>You don't have the Permissions to inspect others!";	
 
 	public String msgSkillSpecialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
 	public String msgSkillSpecialisationBlackList = "<b>It is not possible to specialise in %s";
@@ -68,6 +70,10 @@ public class MConf extends Entity<MConf>
 	public String msgLvlStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
 	public String msgLvlStatusFormatMini = "<navy>LVL: <lime>%s";
 	public String msgAbilityDisplayedDescription = "%s: <i>%s";
+
+	// -------------------------------------------- //
+	// TIMING SETTINGS
+	// -------------------------------------------- //
 	
 	public int timeLvlUpFadeIn = 5;
 	public int timeLvlUpStay = 60;

@@ -1,0 +1,112 @@
+main: dk.muj.derius.Derius
+name: Derius-Core
+version: 0.1_dev
+#website: http://muj.dk/Derius
+authors: [madus, ulumulu1510]
+description: §eDerius is an open skill framework
+depend: [MassiveCore]
+softdepend: [Factions]
+# -------------------------------------------- #
+# THE REAL NODES
+# -------------------------------------------- #
+  derius.ability.use: {description: use ability, default: false}
+  derius.ability.see: {description: see ability, default: false}
+  derius.admin: {description: admin mode, default: false}
+  derius.basecommand: {description: derius basecommand, default: false}
+  derius.clear: {description: clear data, default: false}
+  derius.clear.all: {description: clear everything, default: false}
+  derius.clear.player: {description: clear a player, default: false}
+  derius.clear.skill: {description: clear a skill, default: false}
+  derius.debug: {description: debug information, default: false}
+  derius.inspect: {description: inspect player, default: false}
+  derius.inspect.other: {description: inspect other players, default: false}
+  derius.keys: {description: ability activation keys, default: false}
+  derius.keys.abilityid: {description: get all ability ids, default: false}
+  derius.keys.add: {description: add key, default: false}
+  derius.keys.clear: {description: clear keys, default: false}
+  derius.keys.list: {description: list keys, default: false}
+  derius.keys.remove: {description: remove key, default: false}
+  derius.list: {description: list skills, default: false}
+  derius.skill: {description: skill information, default: false}
+  derius.skill.learn: {description: learn skill, default: false}
+  derius.skill.see: {description: see skill, default: false}
+  derius.sp: {description: specialisation basecommand, default: false}
+  derius.sp.info: {description: specialisation info, default: false}
+  derius.sp.learn: {description: specialise in skill, default: false}
+  derius.sp.list: {description: list specialisation, default: false}
+  derius.sp.list.other: {description: list others specialisations, default: false}
+  derius.sp.unlearn: {description: unspecialise in skill, default: false}
+  derius.version: {description: show plugin version, default: false}
+# -------------------------------------------- #
+# STAR NOTATION
+# -------------------------------------------- #
+  derius.*:
+    default: false
+    children:
+      derius.ability.use: true
+      derius.ability.see: true
+      derius.admin: true
+      derius.basecommand: true
+      derius.clear: true
+      derius.clear.all: true
+      derius.clear.player: true
+      derius.clear.skill: true
+      derius.debug: true
+      derius.inspect: true
+      derius.inspect.other: true
+      derius.keys: true
+      derius.keys.abilityid: true
+      derius.keys.add: true
+      derius.keys.clear: true
+      derius.keys.list: true
+      derius.keys.remove: true
+      derius.list: true
+      derius.skill: true
+      derius.skill.learn: true
+      derius.skill.see: true
+      derius.sp: true
+      derius.sp.info: true
+      derius.sp.learn: true
+      derius.sp.list: true
+      derius.sp.list.other: true
+      derius.sp.unlearn: true
+# -------------------------------------------- #
+# KITS
+# -------------------------------------------- #
+  derius.kit.op:
+    default: op
+    children:
+      derius.*: true
+  derius.kit.rank3:
+    default: false
+    children:
+      derius.kit.rank2: true
+  derius.kit.rank2:
+    default: false
+    children:
+      derius.debug: true
+      derius.kit.rank1: true
+  derius.kit.rank1:
+    default: false
+    children:
+      derius.kit.rank0: true
+  derius.kit.rank0:
+    default: false
+    children:
+      derius.basecommand: true
+      derius.inspect: true
+      derius.inspect.other: true
+      derius.list: true
+      derius.sp: true
+      derius.sp.info: true
+      derius.sp.learn: true
+      derius.sp.list: true
+      derius.sp.list.other: true
+      derius.sp.unlearn: true
+# -------------------------------------------- #
+# DEFAULT
+# -------------------------------------------- #
+  derius.kit.default:
+    default: true
+    children:
+      derius.kit.rank0: true
