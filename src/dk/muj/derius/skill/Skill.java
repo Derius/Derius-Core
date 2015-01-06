@@ -135,13 +135,13 @@ public abstract class Skill
 	 */
 	public void register()
 	{
-		Skill before = getSkillById(this.getId());
+		Object before = getSkillById(this.getId());
 		if(before != null)
 		{
 			int id = this.getId();
 			try
 			{
-				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.toString()
 						+ " but "+this.getName() + " is trying to use it");
 			}
 			catch (IdAlreadyInUseException e)

@@ -97,13 +97,13 @@ public abstract class Ability
 	public void register()
 	{
 		Ability ability = this;
-		Ability before = getAbilityById(ability.getId());
+		Object before = getAbilityById(ability.getId());
 		if(before != null)
 		{
 			int id = ability.getId();
 			try
 			{
-				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.getName()
+				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.toString()
 						+ " but "+ability.getName() + " is trying to use it");
 			}
 			catch (IdAlreadyInUseException e)
