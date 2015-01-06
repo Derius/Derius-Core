@@ -31,7 +31,7 @@ public abstract class Skill
 	// -------------------------------------------- //
 	
 	private String desc = "";
-	private String name;
+	private String name = "";
 	
 	// The list of existing skills in a class-variable
 	private static List<Skill> skillList = new CopyOnWriteArrayList<Skill>();
@@ -42,8 +42,8 @@ public abstract class Skill
 	
 	private List<String> earnExpDesc = new CopyOnWriteArrayList<String>();
 	
-	protected List<Req> seeRequirements;
-	protected List<Req> learnRequirements;
+	protected List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
+	protected List<Req> learnRequirements = new CopyOnWriteArrayList<Req>();
 	
 	//Lambda sw@g
 	Function<Long, LvlStatus> expToLvlStatus = (Long exp) -> 	
