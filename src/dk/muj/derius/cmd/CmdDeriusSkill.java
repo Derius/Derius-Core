@@ -38,6 +38,7 @@ public class CmdDeriusSkill extends DeriusCommand
 	@Override
 	public void perform()
 	{
+		
 		List<String> msgLines = new ArrayList<String>();
 		
 		// Args
@@ -51,7 +52,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		
 		
 		// Message construction
-		msgLines.add(Txt.titleize(Txt.parse("<green>" + skill.toString()))); // Titel
+		msgLines.add(Txt.titleize(Txt.parse(skill.getDisplayName(msender)))); // Titel
 		msgLines.add("<lime>"+skill.getDescription());
 		
 		// Swapping between default and user inserted value
@@ -63,18 +64,27 @@ public class CmdDeriusSkill extends DeriusCommand
 		}
 		else
 		{
-			msgLines.add(Txt.parse("<navy>LVL: <lime>"+level));
+			msgLines.add(Txt.parse(MConf.get().msgLvlStatusFormatMini, level));
 		}
 
-		msgLines.add("<red>[<green>Passive abilities<red>]");
+		msgLines.add(MConf.get().msgSkillInfoPassiveAbilities);
 		for(Ability a :skill.getPassiveAbilities())
+		{
+			if ( ! msender.canSeeAbility(a)) continue;
 			msgLines.add(a.getDisplayedDescription(msender));
-		msgLines.add("<red>[<green>Active abilities<red>]");
+		}
+		msgLines.add(MConf.get().msgSkillInfoActiveAbilities);
 		for(Ability a :skill.getActiveAbilities())
+		{
+			if ( ! msender.canSeeAbility(a)) continue;
 			msgLines.add(a.getDisplayedDescription(msender));
-		msgLines.add("<red>[<green>Level stats<red>]");
-		for(Ability a :skill.getActiveAbilities())
+		}
+		msgLines.add(MConf.get().msgSkillInfoLvlStats);
+		for(Ability a :skill.getAllAbilities())
+		{
+			if ( ! msender.canSeeAbility(a)) continue;
 			msgLines.add(Txt.parse("%s: <i>%s", a.getDisplayName(msender), a.getLvlDescription(level)));
+		}
 
 		
 		// Send Message

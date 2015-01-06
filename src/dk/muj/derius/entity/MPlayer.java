@@ -156,6 +156,26 @@ public class MPlayer extends SenderEntity<MPlayer>
 			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled down <b>%s <yellow>level in <aqua>%s", lvlBefore-lvlAfter+"", skill.getName()));
 	}
 	
+	/**
+	 * Gets a LvlStatus for said skill in this MPlayer
+	 * @param {String} id of the skill
+	 * @return {LvlStatus} The LvlStatus for said skill & this player
+	 */
+	public LvlStatus getLvlStatus(Skill skill)
+	{
+		return skill.getLvlStatusFromExp(this.getExp(skill));
+	}
+	
+	/**
+	 * Gets level for said skill in this MPlayer
+	 * @param {String} id of the skill
+	 * @return {int} players level in said skill
+	 */
+	public int getLvl(Skill skill)
+	{
+		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
+	}
+	
 	// -------------------------------------------- //
 	// MANAGE SKILLS
 	// -------------------------------------------- //
@@ -178,7 +198,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void InstantiateSkill(Skill skill)
 	{
 		if(!this.hasSkill(skill))
+		{
 			this.exp.put(skill.getId(), new Long(0));
+		}
 	}
 	
 	/**
@@ -193,6 +215,60 @@ public class MPlayer extends SenderEntity<MPlayer>
 			return MConf.get().hardCap;
 		return MConf.get().softCap;
 	}
+	
+	// -------------------------------------------- //
+	// PERMISSION
+	// -------------------------------------------- //
+	
+	/**
+	 * Tells whether or not this player can learn said skill.
+	 * The requirements is set up by the skill
+	 * and bukkit permissions (also checked here) by the core plugin
+	 * @param {Skill} the skill to check for
+	 * @return true if the player can learn this skill
+	 */
+	public boolean canLearnSkill(Skill skill)
+	{
+		return skill.canPlayerLearnSkill(this);
+	}
+	
+	/**
+	 * Tells whether or not this player can see said skill.
+	 * This is used in command arguments and such.
+	 * @param {Skill} skill to check for
+	 * @return {boolean} true if player can see skill
+	 */
+	public boolean canSeeSkill(Skill skill)
+	{
+		return PermUtil.has(this.getSender(), Perm.SKILL_SEE.node + skill.getId());
+	}
+	
+	/**
+	 * Tells whether or not this player can use said ability.
+	 * The requirements is set up by the skill
+	 * and bukkit permissions (also checked here) by the core plugin
+	 * @param {Ability} ability to check for
+	 * @return true if the player can use this ability
+	 */
+	public boolean canUseAbility(Ability ability)
+	{
+		return ability.canPlayerActivateAbility(this);
+	}
+	
+	/**
+	 * Tells whether or not this player can see said skill.
+	 * This is used in command arguments and such.
+	 * @param {Ability} ability to check for
+	 * @return {boolean} true if player can see this ability
+	 */
+	public boolean canSeeAbility(Ability ability)
+	{
+		return ability.canPlayerSeeAbility(this);
+	}
+	
+	// -------------------------------------------- //
+	// CLEAN
+	// -------------------------------------------- //
 	
 	/**
 	 * Cleans player for skills & abilities with this id
@@ -411,9 +487,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 		//CHECKS
 		if(!ability.canPlayerActivateAbility(this))
 			return;
-		if(this.isPlayer() && !ability.canAbilityBeUsedInArea(this.getPlayer().getLocation()))
-			return;
-		
 		
 		//ACTIVATE
 		if(ability.getType() == AbilityType.PASSIVE)
@@ -718,6 +791,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// -------------------------------------------- //
 	
 	/**
+	 * This cooldown is for activating abilities.
 	 * Sets users time when the global cooldown should expire.
 	 * this is system millis
 	 * @param {long} the cooldown to set it to
@@ -828,49 +902,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// -------------------------------------------- //
 	// CONVENIENCE METHODS
 	// -------------------------------------------- //
-	
-	/**
-	 * Gets a LvlStatus for said skill in this MPlayer
-	 * @param {String} id of the skill
-	 * @return {LvlStatus} The LvlStatus for said skill & this player
-	 */
-	public LvlStatus getLvlStatus(Skill skill)
-	{
-		return skill.getLvlStatusFromExp(this.getExp(skill));
-	}
-	
-	/**
-	 * Gets level for said skill in this MPlayer
-	 * @param {String} id of the skill
-	 * @return {int} players level in said skill
-	 */
-	public int getLvl(Skill skill)
-	{
-		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
-	}
-	
-	/**
-	 * Tells whether or not this player can learn said skill.
-	 * The requirements is set up by the skill
-	 * and bukkit permissions (also checked here) by the core plugin
-	 * @param {String} id of the skill
-	 * @return true if the player can learn this skill
-	 */
-	public boolean canLearnSkill(Skill skill)
-	{
-		return skill.canPlayerLearnSkill(this);
-	}
-	
-	/**
-	 * Tells whether or not this player can see said skill.
-	 * This is used in command arguments and such.
-	 * @param {Skill} skill to check for
-	 * @return {boolean} true if player can see skill
-	 */
-	public boolean canSeeSkill(Skill skill)
-	{
-		return PermUtil.has(this.getSender(), Perm.SKILL_SEE.node + skill.getId());
-	}
 	
 	/**
 	 * Gets a list of descriptions for the different abilities in said skill.

@@ -1,21 +1,22 @@
 package dk.muj.derius.engine;
 
+import java.util.Optional;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.events.PlayerAddExpEvent;
-import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.Listener;
 
@@ -54,15 +55,17 @@ public class MainEngine extends EngineAbstract
 			p.setSpecialisationChangeMillis(System.currentTimeMillis());
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onSkillRegistered(SkillRegisteredEvent e)
-	{
-		Skill skill = e.getSkill();
-		int id = skill.getId();
-		for (MPlayer p: MPlayerColl.get().getAll())
-			p.InstantiateSkill(skill);
-		if(!MConf.get().worldSkillsEarn.containsKey(id))
-			MConf.get().worldSkillsEarn.put(id, new WorldExceptionSet());
+	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
+	public void onInteract(PlayerInteractEvent e)
+	{	
+		Player p = e.getPlayer();
+		Action action = e.getAction();
+		if(action != Action.RIGHT_CLICK_AIR)
+			return;
+		
+		MPlayer mplayer = MPlayer.get(p);
+		
+		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.empty() : Optional.of(e.getMaterial()));
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)

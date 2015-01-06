@@ -76,4 +76,5 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusSpUnlearn;
     }
+	
 }

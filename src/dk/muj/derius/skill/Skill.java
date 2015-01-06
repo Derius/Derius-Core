@@ -1,6 +1,7 @@
 package dk.muj.derius.skill;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,12 +12,11 @@ import org.bukkit.Location;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.massivecore.cmd.req.Req;
 import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Const;
-import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
@@ -41,6 +41,9 @@ public abstract class Skill
 	private List<Ability> activeAbilities = new CopyOnWriteArrayList<Ability>();
 	
 	private List<String> earnExpDesc = new CopyOnWriteArrayList<String>();
+	
+	protected List<Req> seeRequirements;
+	protected List<Req> learnRequirements;
 	
 	//Lambda sw@g
 	Function<Long, LvlStatus> expToLvlStatus = (Long exp) -> 	
@@ -109,8 +112,7 @@ public abstract class Skill
 	{
 		for(Skill skill: Skill.skillList)
 		{
-			if(skill.getName().startsWith(skillName))
-				return skill;
+			if(skill.getName().startsWith(skillName)) return skill;
 		}
 		return null;
 	}
@@ -119,10 +121,7 @@ public abstract class Skill
 	 * Gets a list of ALL skills
 	 * @return {List<Skill>} all registered skills
 	 */
-	public static List<Skill> getAllSkills()
-	{
-		return new ArrayList<Skill>(skillList);
-	}
+	public static List<Skill> getAllSkills(){ return new ArrayList<Skill>(skillList); }
 	
 	// -------------------------------------------- //
 	// REGISTER
@@ -150,10 +149,12 @@ public abstract class Skill
 				e.printStackTrace();
 			}
 		}
+
+		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
+		event.run();
+		if (event.isCancelled()) return;
 		skillList.add(this);
 		skillList.sort(SkillComparator.get());
-		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
-		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 	
 	// -------------------------------------------- //
@@ -312,16 +313,82 @@ public abstract class Skill
 	
 	/**
 	 * Tells whether or not the player can learn said skill.
-	 * The skill can have different reasons the player might not.
-	 * Bukkit permission is also checked here.
+	 * This is based on the skill requirements
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can learn said skill
 	 */
 	public final boolean canPlayerLearnSkill(MPlayer p)
 	{
-		if ( ! PermUtil.has(p.getSender(), Perm.SKILL_LEARN.node + this.getId())) return false;
-		return this.canPlayerLearnSkillInner(p);
+		for (Req req : this.getLearnRequirements())
+		{
+			if ( ! req.apply(p.getSender())) return false;
+		}
+		return true;
 	}
+	
+	/**
+	 * Tells whether or not the player can see said skill.
+	 * This is based on the skill requirements
+	 * @param {MPlayer} the player you want to check
+	 * @return {boolean} true if the player can see said skill
+	 */
+	public final boolean canPlayerSeeSkill(MPlayer p)
+	{
+		for (Req req : this.getSeeRequirements())
+		{
+			if ( ! req.apply(p.getSender())) return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * This will give the list of requirements
+	 * that must be filled in order for a player to see the skill
+	 * if they can't see the skill, they should not see it anywhere.
+	 * @return {List<Req>} list of requirements to see the skill
+	 */
+	public List<Req> getSeeRequirements() { return this.seeRequirements; }
+	
+	/**
+	 * This will set the list of requirements
+	 * that must be filled in order for a player to see the skill
+	 * if they can't see the skill, they should not see it anywhere.
+	 * (old requirements will NOT be kept)
+	 * @param {List<Req>} list of requirements to see the skill 
+	 */
+	public void setSeeRequirements(List<Req> requirements) { this.seeRequirements = requirements; }
+	
+	/**
+	 * This will add  to the list of requirements
+	 * that must be filled in order for a player to see the skill
+	 * if they can't see the skill, they should not see it anywhere.
+	 * (old requirements WILL be kept)
+	 * @param {List<Req>} added requirements to see the skill
+	 */
+	public void addSeeRequirements(Req... requirements) { this.seeRequirements.addAll(Arrays.asList(requirements)); }
+	
+	/**
+	 * This will give the list of requirements
+	 * that must be filled in order for a player to learn the skill (earn exp)
+	 * @return {List<Req>} list of requirements to learn the skill
+	 */
+	public List<Req> getLearnRequirements() { return this.learnRequirements; }
+	
+	/**
+	 * This will set the list of requirements
+	 * that must be filled in order for a player to learn the skill (earn exp)
+	 * (old requirements will NOT be kept)
+	 * @param {List<Req>} list of requirements to learn the skill 
+	 */
+	public void setLearnRequirements(List<Req> requirements) { this.learnRequirements = requirements; }
+	
+	/**
+	 * This will add  to the list of requirements
+	 * that must be filled in order for a player to learn the skill (earn exp)
+	 * (old requirements WILL be kept)
+	 * @param {List<Req>} added requirements to learn the skill
+	 */
+	public void addLearnRequirements(Req... requirements) { this.learnRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// -------------------------------------------- //
 	// ABILITIES
@@ -369,15 +436,6 @@ public abstract class Skill
 	 * @return {int} the skills unique id.
 	 */
 	public abstract int getId();
-	
-	/**
-	 * This is an inner version of canPlayerLearnSkill
-	 * used if the skill developer wants to add extra checks,
-	 * beside the ones we made.
-	 * @param {MPlayer} the player to check for
-	 * @return {boolean} true if player can learn skill (without default checks)
-	 */
-	public abstract boolean canPlayerLearnSkillInner(MPlayer p);
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE

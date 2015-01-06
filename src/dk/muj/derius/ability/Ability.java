@@ -1,25 +1,19 @@
 package dk.muj.derius.ability;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.massivecore.util.PermUtil;
+import com.massivecraft.massivecore.cmd.req.Req;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Const;
-import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
-import dk.muj.derius.integration.FactionIntegration;
 import dk.muj.derius.skill.Skill;
 
 public abstract class Ability
@@ -38,6 +32,9 @@ public abstract class Ability
 	
 	private String desc = "";
 	private String name;
+	
+	protected List<Req> seeRequirements;
+	protected List<Req> activateRequirements;
 	
 	//A list of ability which we get from different sources.
 	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
@@ -208,9 +205,11 @@ public abstract class Ability
 	 * @param {MPlayer} player to see description
 	 * @return {String} how the player should see the description
 	 */
-	public String getDisplayedDescription(MPlayer watcherObject)
+	public String getDisplayedDescription(Object watcherObject)
 	{
-		String color = canPlayerActivateAbility(watcherObject) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		MPlayer player = MPlayer.get(watcherObject);
+		if (player == null) return null;
+		String color = canPlayerActivateAbility(player) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
 		return Txt.parse(MConf.get().msgAbilityDisplayedDescription, color + this.getName(), this.getDescription());
 	}
 	
@@ -267,28 +266,83 @@ public abstract class Ability
 	// -------------------------------------------- //
 	
 	/**
-	 * Tells whether or not this skill can be used in said area
-	 * @param {Location} the are you want to check for
-	 * @return {boolean} true if the skill can be used
+	 * Tells whether or not the player can use said ability.
+	 * This is based on the ability requirements
+	 * @param {MPlayer} the player you want to check
+	 * @return {boolean} true if the player can use said ability
 	 */
-	public boolean canAbilityBeUsedInArea(Location loc)
-	{
-		if(FactionIntegration.establishIntegration())
-		{
-			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
-			if(f != null)
-				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
-					return f.getFlag(Const.FACTION_FLAG_ABILITIES_USE);
-			
-		}
-		return MConf.get().worldAbilityUse.get(this.getId()).contains(loc.getWorld());
-	}
-	
 	public final boolean canPlayerActivateAbility(MPlayer p)
 	{
-		if ( ! PermUtil.has(p.getSender(), Perm.ABILITY_USE.node + this.getId())) return false;
-		return this.canPlayerActivateAbilityInner(p);
+		for (Req req : this.getActivateRequirements())
+		{
+			if ( ! req.apply(p.getSender())) return false;
+		}
+		return true;
 	}
+	
+	/**
+	 * Tells whether or not the player can see said ability.
+	 * This is based on the skill requirements
+	 * @param {MPlayer} the player you want to check
+	 * @return {boolean} true if the player can see said ability
+	 */
+	public final boolean canPlayerSeeAbility(MPlayer p)
+	{
+		for (Req req : this.getSeeRequirements())
+		{
+			if ( ! req.apply(p.getSender())) return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * This will give the list of requirements
+	 * that must be filled in order for a player to see the ability
+	 * if they can't see the skill, they should not see it anywhere.
+	 * @return {List<Req>} list of requirements to see the ability
+	 */
+	public List<Req> getSeeRequirements() { return this.seeRequirements; }
+	
+	/**
+	 * This will set the list of requirements
+	 * that must be filled in order for a player to see the ability
+	 * if they can't see the skill, they should not see it anywhere.
+	 * (old requirements will NOT be kept)
+	 * @param {List<Req>} list of requirements to see the ability 
+	 */
+	public void setSeeRequirements(List<Req> requirements) { this.seeRequirements = requirements; }
+	
+	/**
+	 * This will add  to the list of requirements
+	 * that must be filled in order for a player to see the ability
+	 * if they can't see the skill, they should not see it anywhere.
+	 * (old requirements WILL be kept)
+	 * @param {List<Req>} added requirements to see the ability
+	 */
+	public void addSeeRequirements(Req... requirements) { this.seeRequirements.addAll(Arrays.asList(requirements)); }
+	
+	/**
+	 * This will give the list of requirements
+	 * that must be filled in order for a player to activate the ability
+	 * @return {List<Req>} list of requirements to activate the ability
+	 */
+	public List<Req> getActivateRequirements() { return this.activateRequirements; }
+	
+	/**
+	 * This will set the list of requirements
+	 * that must be filled in order for a player to activate the ability
+	 * (old requirements will NOT be kept)
+	 * @param {List<Req>} list of requirements to activate the ability
+	 */
+	public void setActivateRequirements(List<Req> requirements) { this.activateRequirements = requirements; }
+	
+	/**
+	 * This will add  to the list of requirements
+	 * that must be filled in order for a player to activate the ability
+	 * (old requirements WILL be kept)
+	 * @param {List<Req>} added requirements to activate the ability
+	 */
+	public void addActivateRequirements(Req... requirements) { this.activateRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// -------------------------------------------- //
 	// ABSTRACT
@@ -310,14 +364,6 @@ public abstract class Ability
 	 * @return {String} the actual string message
 	 */
 	public abstract String getLvlDescription(int lvl);
-	
-	/**
-	 * Tells whether or not the player can use the ability .
-	 * The ability can have different reasons the player might not.
-	 * @param {MPlayer} the player you want to check
-	 * @return {boolean} true if the player can use said ability
-	 */
-	public abstract boolean canPlayerActivateAbilityInner(MPlayer p);
 	
 	// Ability Execution methods
 	/**

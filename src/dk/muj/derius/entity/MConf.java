@@ -29,6 +29,11 @@ public class MConf extends Entity<MConf>
 	public String msgAbilityCooldown = "<green>[DERIUS] <i>You are still exhausted. You will be ready again in <lime>%s <i>seconds!";
 	public String msgAbilityActivated = "<i>You activated %s";
 	public String msgAbilityDeactivated = "<i>The ability %s <i>ran out";
+	public String msgAbilityCantBeUsedInArea = "<b>Sorry, %s<b> can't be used in this area";
+	
+	public String msgSkillInfoPassiveAbilities ="<art>____[<aqua>Passive abilities<art>]____";
+	public String msgSkillInfoActiveAbilities =	"<art>____[<aqua> Active abilities <art>]____";
+	public String msgSkillInfoLvlStats ="<art>____[<aqua>Level stats<art>]____";
 	
 	public String colorAbilityCanPlayerUse = "<pink>";
 	public String colorAbilityCanPlayerNotUse = "<grey>";
@@ -61,6 +66,7 @@ public class MConf extends Entity<MConf>
 	public String msgToolNotPrepared = "<i>You lowered your <h>%s";
 	
 	public String msgLvlStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
+	public String msgLvlStatusFormatMini = "<navy>LVL: <lime>%s";
 	public String msgAbilityDisplayedDescription = "%s: <i>%s";
 	
 	public int timeLvlUpFadeIn = 5;
@@ -176,4 +182,5 @@ public class MConf extends Entity<MConf>
 	
 	public Map<Integer, WorldExceptionSet> worldSkillsEarn = new HashMap<Integer, WorldExceptionSet>();
 	public Map<Integer, WorldExceptionSet> worldAbilityUse = new HashMap<Integer, WorldExceptionSet>();
+	
 }
