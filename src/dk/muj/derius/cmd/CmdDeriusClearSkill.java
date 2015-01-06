@@ -1,7 +1,5 @@
 package dk.muj.derius.cmd;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
@@ -29,7 +27,6 @@ public class CmdDeriusClearSkill extends DeriusCommand
 	// OVERRIDE
 	// -------------------------------------------- //
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void perform()
 	{
@@ -42,22 +39,7 @@ public class CmdDeriusClearSkill extends DeriusCommand
 		
 		for(MPlayer target: MPlayerColl.get().getAll())
 		{
-			Field field = null;
-			HashMap<Integer,Long> value = null;
-			//Reflect my way into the data
-			try
-			{
-				field = target.getClass().getDeclaredField("exp");
-				field.setAccessible(true);
-				value = (HashMap<Integer,Long>) field.get(target);
-				
-				value.put(skill.getId(), 0L);
-				field.set(target, value);
-			}
-			catch (NoSuchFieldException e)		{	e.printStackTrace();	}
-			catch (SecurityException e)			{	e.printStackTrace();	}
-			catch (IllegalArgumentException e)	{	e.printStackTrace();	}
-			catch (IllegalAccessException e)	{	e.printStackTrace();	}
+			target.cleanNoCheck(skill.getId());
 		}
 		
 	}

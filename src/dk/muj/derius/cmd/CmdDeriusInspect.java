@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
+import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
@@ -53,8 +54,13 @@ public class CmdDeriusInspect extends DeriusCommand
 		}
 		else
 		{
-			
-			msgLines.add(Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender))));
+			if (PermUtil.has(msender.getSender(), Perm.INSPECT_OTHERS.node))
+				msgLines.add(Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender))));				
+			else
+			{
+				this.msg(Txt.parse(MConf.get().msgInspectOthersInvalid));
+				return;
+			}
 		}
 		
 		// Evaluates if the user has leveled the skill and adds it to the List
