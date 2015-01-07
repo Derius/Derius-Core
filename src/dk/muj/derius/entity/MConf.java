@@ -87,6 +87,8 @@ public class MConf extends Entity<MConf>
 	public int timeAbilityDeactivateStay = 50;
 	public int timeAbilityDeactivateFadeOut = 5;
 	
+	public double timingMax = 4.999999;
+	
 	// -------------------------------------------- //
 	// SKILL SETTINGS
 	// -------------------------------------------- //
