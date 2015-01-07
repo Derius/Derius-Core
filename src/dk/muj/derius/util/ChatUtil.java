@@ -39,6 +39,12 @@ public final class ChatUtil
 				c.timeLvlUpFadeIn, c.timeLvlUpStay, c.timeLvlUpFadeOut);
 	}
 	
+	public static void msgLevelDown(MPlayer mPlayer, Skill skill, int lvlAfter)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public static void msgAbilityActivate(MPlayer p, Ability a)
 	{
 		MConf c = MConf.get();
@@ -117,4 +123,6 @@ public final class ChatUtil
 	{
 		return Txt.upperCaseFirst(tool.name().substring(tool.name().indexOf("_")+1).toLowerCase());
 	}
+
+
 }

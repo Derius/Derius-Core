@@ -19,14 +19,11 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.Derius;
 import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
-import dk.muj.derius.ability.AbilityType;
-import dk.muj.derius.events.AbilityActivateEvent;
-import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.PlayerAddExpEvent;
-import dk.muj.derius.events.PlayerTakeExpEvent;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.skill.SpecialisationStatus;
+import dk.muj.derius.util.AbilityUtil;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.Listener;
 
@@ -124,15 +121,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void addExp(Skill skill, long exp)
 	{
+		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if(lvlBefore >= this.getMaxLevel(skill))
-			return;
+		if(lvlBefore >= this.getMaxLevel(skill)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
-		Bukkit.getPluginManager().callEvent(event);
-		if(!event.isCancelled())
-			this.setExp(skill, this.getExp(skill)+exp);
+		event.run();
+		if(event.isCancelled()) return;
+		this.setExp(skill, this.getExp(skill)+event.getExpAmount());
 		
 		int lvlAfter = this.getLvl(skill);
 		if(lvlBefore != lvlAfter)
@@ -146,14 +143,19 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void takeExp(Skill skill, long exp)
 	{
+		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this,skill,exp);
+		if(lvlBefore >= this.getMaxLevel(skill)) return;
+		
+		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
 		if(event.isCancelled()) return;
+		this.setExp(skill, this.getExp(skill)-event.getExpAmount());
+		
 		int lvlAfter = this.getLvl(skill);
 		if(lvlBefore != lvlAfter)
-			this.sendMessage(Txt.parse("<green>[DERIUS] <yellow>You leveled down <b>%s <yellow>level in <aqua>%s", lvlBefore-lvlAfter+"", skill.getName()));
+			ChatUtil.msgLevelDown(this, skill, lvlAfter);
 	}
 	
 	/**
@@ -487,15 +489,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void activateAbility(final Ability ability, Object other)
 	{	
-		//CHECKS
-		if ( ! ability.canPlayerActivateAbility(this, true)) return;
-		
-		//ACTIVATE
-		if (ability.getType() == AbilityType.PASSIVE)
-			this.activatePassiveAbility(ability, other);
-		
-		else if (ability.getType() == AbilityType.ACTIVE)
-			this.activateActiveAbility(ability, other);
+		AbilityUtil.activateAbility(this, ability, other);
 	}
 	
 	/**
@@ -505,42 +499,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void activateAbility(final Ability ability)
 	{
-		this.activateAbility(ability, null);
-	}
-	
-	private void activatePassiveAbility(final Ability ability, Object other)
-	{
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
-		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-	
-		ability.onActivate(this, other);
-	}
-	
-	private void activateActiveAbility(final Ability ability, Object other)
-	{
-		if(this.hasActivatedAny())
-			return;
-		
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, this);
-		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-		
-		this.activatedAbility = ability;
-		
-		this.setPreparedTool(Optional.empty());
-
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable(){
-			@Override
-			public void run()
-			{
-				deactivateActiveAbility();
-				setCooldownExpireIn(ability.getCooldownTime(get()));
-			}
-		}, ability.getTicksLast(this.getLvl(ability.getSkill())));
-		ability.onActivate(this, other);
+		AbilityUtil.activateAbility(this, ability);
 	}
 	
 	/**
@@ -550,12 +509,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void deactivateActiveAbility()
 	{
-		AbilityDeactivateEvent e = new AbilityDeactivateEvent(this.activatedAbility, this);
-		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-		this.activatedAbility.onDeactivate(this);
-		this.activatedAbility = null;
+		AbilityUtil.deactivateActiveAbility(this);
 	}
 	
 	/**
@@ -583,9 +537,19 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * null if no ability is activated
 	 * @return {Ability} the ability which is activated. null if none
 	 */
-	public Ability getActivated()
+	public Ability getActivatedAbility()
 	{
 		return this.activatedAbility;
+	}
+	
+	/**
+	 * Gets the id of the activated ability
+	 * null if no ability is activated
+	 * @return {Ability} the ability which is activated. null if none
+	 */
+	public void setActivatedAbility(Ability ability)
+	{
+		this.activatedAbility = ability;
 	}
 	
 	// -------------------------------------------- //
