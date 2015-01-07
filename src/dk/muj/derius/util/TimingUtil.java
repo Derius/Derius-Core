@@ -9,6 +9,17 @@ import dk.muj.derius.entity.MConf;
 public class TimingUtil
 {	
 	// -------------------------------------------- //
+	// Construct
+	// -------------------------------------------- //
+	
+	public TimingUtil(String className, String methodName)
+	{
+		declaringClass = className;
+		this.methodName = methodName;
+	}
+	
+	
+	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
@@ -17,9 +28,10 @@ public class TimingUtil
 	 * Without this info, it would be impossible to keep track
 	 * of multiple timings in the project.
 	 */
-	private static long startTime;
-	private static String declaringClass = "";
-	private static String methodName = "";
+	private long startTime;
+	private long endTime;
+	private String declaringClass = "";
+	private String methodName = "";
 	
 	
 	// -------------------------------------------- //
@@ -28,15 +40,10 @@ public class TimingUtil
 	
 	/**
 	 * Starts the timing process.
-	 * @param {String} The Name of the class this timer is placed.
-	 * @param {String} The Name of the method this timer is placed.
 	 */
-	public static void startTiming(String className, String methodName)
+	public  void startTiming()
 	{
-		TimingUtil.declaringClass = className;
-		TimingUtil.methodName = methodName;
-		
-		TimingUtil.startTime = System.nanoTime();
+		startTime = System.nanoTime();
 	}
 	
 	/**
@@ -45,35 +52,14 @@ public class TimingUtil
 	 * @param {String} The Name of the class this timer is placed.
 	 * @param {String} The Name of the method this timer is placed.
 	 */
-	public static void endTiming(String className, String methodName)
+	public  void endTiming()
 	{
-		if (TimingUtil.hasError(className, methodName)) { return; }
-		
-		long startTime = TimingUtil.startTime;
-		long endTime = System.nanoTime();
-		
 		double difference = (endTime - startTime) / 1000_000.0;
 		
 		if (difference > MConf.get().timingMax)
 		{
 			MassivePlugin p = Derius.get();
-			p.log(Txt.parse("<i>The Timing in class <lime>%s <i>and method <lime>%s <i>has shown a run time of <lime>&s <i>seconds. It might be of value to take a look at it.", TimingUtil.declaringClass, TimingUtil.methodName, difference));
+			p.log(Txt.parse("<i>The Timing in class <lime>%s <i>and method <lime>%s <i>has shown a run time of <lime>&s <i>seconds. It might be of value to take a look at it.", declaringClass, methodName, difference));
 		}
-	}
-	
-	// -------------------------------------------- //
-	// PRIVAT
-	// -------------------------------------------- //
-
-	private static boolean hasError (String className, String methodName)
-	{
-		if (TimingUtil.declaringClass != className || TimingUtil.methodName != methodName) 
-		{ 
-			return true; 
-		}
-		else
-		{
-			return false;
-		}	
 	}
 }
