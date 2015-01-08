@@ -212,8 +212,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getMaxLevel(Skill skill)
 	{
-		SpecialisationStatus status = this.isSpecialisedIn(skill);
-		if(status == SpecialisationStatus.HAD || status == SpecialisationStatus.AUTO_ASSIGNED)
+		if(this.isSpecialisedIn(skill))
 			return MConf.get().hardCap;
 		return MConf.get().softCap;
 	}
@@ -358,18 +357,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} the skill
 	 * @return {boolean} true if the player is specialised in the skill
 	 */
-	public SpecialisationStatus isSpecialisedIn(Skill skill)
+	public boolean isSpecialisedIn(Skill skill)
 	{
 		if( specialised.contains(skill.getId()))
-			return SpecialisationStatus.HAD;
+			return true;
 		
 		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return SpecialisationStatus.AUTO_ASSIGNED;
+			return true;
 		
-		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
-			return SpecialisationStatus.BLACK_LISTED;
-		
-		return SpecialisationStatus.DIDNT_HAVE;
+		return false;
 	}
 	
 	/**
@@ -422,7 +418,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	/**
-	 * Gets an array of the skills this player has specialised in
+	 * Gets an array of the skills this player has explicitely specialised in
+	 * not the ones they are automatically specialised in.
 	 * @return {Skill[]} the skills this player has specialised in
 	 */
 	public List<Skill> getSpecialisedSkills()
@@ -436,6 +433,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 		}
 		return ret;
 	}
+	
+	// -------------------------------------------- //
+	// SPECIALISATION COOLDOWN
+	// -------------------------------------------- //
 	
 	/**
 	 * Gets the last time a player either specialised or unspecialised in a skill

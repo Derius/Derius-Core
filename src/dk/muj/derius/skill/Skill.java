@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -44,6 +45,7 @@ public abstract class Skill
 	
 	protected List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
 	protected List<Req> learnRequirements = new CopyOnWriteArrayList<Req>();
+	protected List<Req> specialiseRequirements = new CopyOnWriteArrayList<Req>();
 	
 	//Lambda sw@g
 	Function<Long, LvlStatus> expToLvlStatus = (Long exp) -> 	
@@ -237,11 +239,12 @@ public abstract class Skill
 	 * @param {MPlayer} The MPlayer we want to check for.
 	 * @return {String} The colorcode for the txt.parse method.
 	 */
-	public String getDisplayName ( MPlayer watcherObject)
+	public String getDisplayName ( Object watcherObject)
 	{
-		if (watcherObject.isSpecialisedIn(this) == SpecialisationStatus.HAD)
+		MPlayer player = MPlayer.get(watcherObject);
+		if (player.isSpecialisedIn(this))
 			return Txt.parse(MConf.get().colorSkillIsPlayerSpecialised + this.getName());
-		else if (this.canPlayerLearnSkill(watcherObject))
+		else if (this.canPlayerLearnSkill(player))
 			return Txt.parse(MConf.get().colorSkillCanPlayerUse + this.getName());
 		else
 			return  Txt.parse(MConf.get().colorSkillCanPlayerNotUse + this.getName());
@@ -389,6 +392,29 @@ public abstract class Skill
 	 * @param {List<Req>} added requirements to learn the skill
 	 */
 	public void addLearnRequirements(Req... requirements) { this.learnRequirements.addAll(Arrays.asList(requirements)); }
+	
+	/**
+	 * This will give the list of requirements
+	 * that must be filled in order for a player to specialise in the skill
+	 * @return {List<Req>} list of requirements to specialise the skill
+	 */
+	public List<Req> getSpecialiseRequirements() { return this.specialiseRequirements; }
+	
+	/**
+	 * This will set the list of requirements
+	 * that must be filled in order for a player to specialise in the skill
+	 * (old requirements will NOT be kept)
+	 * @param {List<Req>} list of requirements to specialise the skill 
+	 */
+	public void setSpecialiseRequirements(List<Req> requirements) { this.specialiseRequirements = requirements; }
+	
+	/**
+	 * This will add  to the list of requirements
+	 * that must be filled in order for a player to specialise in the skill
+	 * (old requirements WILL be kept)
+	 * @param {List<Req>} added requirements to specialise the skill
+	 */
+	public void addSpecialiseRequirements(Req... requirements) { this.specialiseRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// -------------------------------------------- //
 	// ABILITIES
