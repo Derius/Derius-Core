@@ -19,9 +19,8 @@ public class CmdDeriusClean extends DeriusCommand
 	public CmdDeriusClean()
 	{
 		this.addRequiredArg("id of skill/ability or all");
-		this.addOptionalArg("force it", "no");
 		this.addOptionalArg("player/all", "you");
-		
+		this.addOptionalArg("force it", "no");
 		
 		this.setDesc("Dangerous! Resets ALL of the level data for said player/s for said skill/s!");
 		
@@ -55,14 +54,8 @@ public class CmdDeriusClean extends DeriusCommand
 			skillList.add(Skill.getSkillById(this.arg(0, ARInteger.get())));
 		}
 
-		// Arg 1: force or not
-		String force = this.argConcatFrom(1, ARString.get(), "no");
-		String forceYes = "Yes, I want to force this";
-		if(!force.equals(forceYes))
-			return;
-		
-		// Arg 2: player, yourself or all
-		if (this.arg(2).equals("all"))
+		// Arg 1: player, yourself or all
+		if (this.arg(1).equals("all"))
 		{
 			if (Perm.CLEAN_PLAYER_ALL.has(sender, true) )
 			{
@@ -75,7 +68,7 @@ public class CmdDeriusClean extends DeriusCommand
 		}
 		else
 		{
-			MPlayer target = this.arg(2, ARMPlayer.getAny(), msender);
+			MPlayer target = this.arg(1, ARMPlayer.getAny(), msender);
 			if(target == null) return;
 			
 			// Target permission check
@@ -104,6 +97,14 @@ public class CmdDeriusClean extends DeriusCommand
 				}	
 			}
 		}
+		
+		// Arg 2: force or not
+		String force = this.argConcatFrom(2, ARString.get(), "no");
+		String forceYes = "Yes, I want to force this";
+		if(!force.equals(forceYes))
+			return;
+		
+
 		
 		// Execute the cleaning
 		for (Skill skill: skillList)
