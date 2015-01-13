@@ -33,8 +33,8 @@ public abstract class Ability
 	private String desc = "";
 	private String name;
 	
-	protected List<Req> seeRequirements;
-	protected List<Req> activateRequirements;
+	protected List<Req> seeRequirements= new CopyOnWriteArrayList<Req>();
+	protected List<Req> activateRequirements= new CopyOnWriteArrayList<Req>();
 	
 	//A list of ability which we get from different sources.
 	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
