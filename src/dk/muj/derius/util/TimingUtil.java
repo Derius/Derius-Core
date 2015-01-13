@@ -18,7 +18,6 @@ public class TimingUtil
 		this.methodName = methodName;
 	}
 	
-	
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
