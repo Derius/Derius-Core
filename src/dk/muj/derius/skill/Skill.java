@@ -8,20 +8,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Const;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
-import dk.muj.derius.integration.FactionIntegration;
 import dk.muj.derius.req.Req;
 
 public abstract class Skill
@@ -296,21 +291,10 @@ public abstract class Skill
 	 * @param {Location} the are you want to check for
 	 * @return {boolean} true if experience in this skill can be earned in the area
 	 */
-	public boolean canSkillBeEarnedInArea(Location loc)
+	public boolean canSkillBeEarnedInArea(PS ps)
 	{
-		if(FactionIntegration.establishIntegration())
-		{
-			Faction f = BoardColl.get().getFactionAt(PS.valueOf(loc));
-			if(f != null)
-			{
-				if(f.getFlag(Const.FACTION_FLAG_SKILLS_OVERRIDE_WORLD))
-				{
-					return f.getFlag(Const.FACTION_FLAG_SKILLS_EARN);
-				}
-			}
-			
-		}
-		return MConf.get().worldSkillsEarn.get(this.getId()).contains(loc.getWorld());
+		if (ps.getWorld() == null) throw new IllegalStateException("PS must include world");
+		return MConf.get().worldSkillsEarn.get(this.getId()).contains(ps.getWorld());
 	}
 	
 	/**

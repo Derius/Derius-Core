@@ -159,27 +159,6 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusSeMsgSet = MUtil.list( "msgtype");
 	
 	// -------------------------------------------- //
-	// FACTION SETTINGS
-	// -------------------------------------------- //
-	
-	public boolean factionFlagUseSkillsDefaultValue = true;
-	public boolean factionFlagUseSkillsEditableByUser = false;
-	public boolean factionFlagUseSkillsVisibleByUser = false;
-	
-	public boolean factionFlagEarnDefaultValue = true;
-	public boolean factionFlagEarnEditableByUser = false;
-	public boolean factionFlagEarnVisibleByUser = false;
-	
-	public boolean factionFlagUseAbilitiesDefaultValue = true;
-	public boolean factionFlagUseAbilitiesEditableByUser = false;
-	public boolean factionFlagUseAbilitiesVisibleByUser = false;
-	
-	public boolean factionFlagOverrideWorldDefaultValue = false;
-	public boolean factionFlagOverrideWorldEditableByUser = false;
-	public boolean factionFlagOverrideWorldVisibleByUser = false;
-	
-	
-	// -------------------------------------------- //
 	// WORLD SETTINGS
 	// -------------------------------------------- //
 	

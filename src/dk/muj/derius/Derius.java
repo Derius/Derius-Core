@@ -9,7 +9,6 @@ import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.integration.FactionIntegration;
 
 
 public class Derius extends MassivePlugin
@@ -51,8 +50,6 @@ public class Derius extends MassivePlugin
 		MainEngine.get().activate();
 		ChatEngine.get().activate();
 		SkillEngine.get().activate();
-		
-		FactionIntegration.establishIntegration();
 		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius();
