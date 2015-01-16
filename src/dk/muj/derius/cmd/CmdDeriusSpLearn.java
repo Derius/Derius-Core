@@ -14,7 +14,6 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.skill.Skill;
-import dk.muj.derius.skill.SpecialisationStatus;
 
 public class CmdDeriusSpLearn extends DeriusCommand
 {
@@ -44,38 +43,14 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		
 		if(moveMillis > 0)
 		{
-			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
+			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAll()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 			msender.sendMessage(Txt.parse("<b>You cannot change specialisation right now"));
 			msender.sendMessage(Txt.parse("<b> please stand still for %s <b>more",moveDesc));
 			return;
 		}
 		
-		SpecialisationStatus status = msender.setSpecialisedIn(skill);
-		switch(status)
-		{
-			case AUTO_ASSIGNED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAutoAssigned),skill.getDisplayName(msender));
-				return;
-			case BLACK_LISTED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationBlackList),skill.getDisplayName(msender));
-				return;
-			case HAD : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAlreadyHas),skill.getDisplayName(msender));
-				return;
-			case TOO_MANY : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationTooMany),skill.getDisplayName(msender));
-				return;
-			case HAS_NOW : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAddSucceed, skill.getDisplayName(msender)));
-				return;
-			default:
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationError, skill.getDisplayName(msender)));
-				break;
-				
-		}
-		
-		
+		msender.setSpecialisedIn(skill, true);
 	}
 	
 	@Override

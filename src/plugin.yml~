@@ -1,11 +1,12 @@
 main: dk.muj.derius.Derius
 name: Derius-Core
-version: 0.1_dev
+version: 0.2_dev
 #website: http://muj.dk/Derius
 authors: [madus, ulumulu1510]
 description: §eDerius is an open skill framework
 depend: [MassiveCore]
 softdepend: [Factions]
+permissions:
 # -------------------------------------------- #
 # THE REAL NODES
 # -------------------------------------------- #
@@ -13,10 +14,11 @@ softdepend: [Factions]
   derius.ability.see: {description: see ability, default: false}
   derius.admin: {description: admin mode, default: false}
   derius.basecommand: {description: derius basecommand, default: false}
-  derius.clear: {description: clear data, default: false}
-  derius.clear.all: {description: clear everything, default: false}
-  derius.clear.player: {description: clear a player, default: false}
-  derius.clear.skill: {description: clear a skill, default: false}
+  derius.clean: {description: clean data, default: false}
+  derius.clean.skill.all: {description: clean every skill, default: false}
+  derius.clean.player: {description: clean yourself, default: false}
+  derius.clean.player.other: {description: clean another player, default: false}
+  derius.clean.player.all: {description: clean all players, default: false}
   derius.debug: {description: debug information, default: false}
   derius.inspect: {description: inspect player, default: false}
   derius.inspect.other: {description: inspect other players, default: false}
@@ -47,10 +49,11 @@ softdepend: [Factions]
       derius.ability.see: true
       derius.admin: true
       derius.basecommand: true
-      derius.clear: true
-      derius.clear.all: true
+      derius.clean: true
+      derius.clean.skill.all: true
       derius.clear.player: true
-      derius.clear.skill: true
+      derius.clear.player.other: true
+      derius.clean.player.all: true
       derius.debug: true
       derius.inspect: true
       derius.inspect.other: true
@@ -97,6 +100,7 @@ softdepend: [Factions]
       derius.inspect: true
       derius.inspect.other: true
       derius.list: true
+      derius.clean.player: true
       derius.sp: true
       derius.sp.info: true
       derius.sp.learn: true

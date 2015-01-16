@@ -14,6 +14,10 @@ import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.req.ReqHasPerm;
+import dk.muj.derius.req.sp.ReqHasOpenSlot;
+import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
+import dk.muj.derius.req.sp.ReqIsntBlacklisted;
+import dk.muj.derius.req.sp.ReqIsntSpecialised;
 import dk.muj.derius.skill.Skill;
 
 public class SkillEngine extends EngineAbstract
@@ -24,7 +28,7 @@ public class SkillEngine extends EngineAbstract
 	
     private static SkillEngine i = new SkillEngine();
 	public static SkillEngine get() { return i; }
-	public SkillEngine() {}
+	private SkillEngine() {}
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -49,11 +53,18 @@ public class SkillEngine extends EngineAbstract
 		{
 			p.InstantiateSkill(skill);
 		}
-		if(!MConf.get().worldSkillsEarn.containsKey(id))
+		if ( ! MConf.get().worldSkillsEarn.containsKey(id))
 		{
 			MConf.get().worldSkillsEarn.put(id, new WorldExceptionSet());
 		}
+		
 		skill.addLearnRequirements(ReqHasPerm.get(Perm.SKILL_LEARN.node + skill.getId()));
 		skill.addSeeRequirements(ReqHasPerm.get(Perm.SKILL_SEE.node + skill.getId()));
+		
+		skill.addSpecialiseRequirements(ReqHasPerm.get(Perm.SKILL_SPECIALISE.node + skill.getId()));
+		skill.addSpecialiseRequirements(ReqIsntAutoAssigned.get());
+		skill.addSpecialiseRequirements(ReqIsntBlacklisted.get());
+		skill.addSpecialiseRequirements(ReqIsntSpecialised.get());
+		skill.addSpecialiseRequirements(ReqHasOpenSlot.get());
 	}
 }

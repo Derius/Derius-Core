@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import com.massivecraft.massivecore.EngineAbstract;
 
 import dk.muj.derius.Derius;
+import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.events.PlayerAddExpEvent;
@@ -73,7 +74,7 @@ public class MainEngine extends EngineAbstract
 	public void onExpGain(PlayerAddExpEvent e)
 	{
 		Player p = e.getPlayer().getPlayer();
-		String perm = "derius.multiplier.";
+		String perm = Perm.EXP_MULTIPLIER.node;
 		for(int i = 100; i > 0; i--)
 		{
 			if(p.hasPermission(perm + i))

@@ -3,6 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.massivecraft.massivecore.util.Txt;
 
@@ -38,7 +39,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		List<String> msgLines = new ArrayList<String>();
 		
 		
-		List<Integer> specialised = target.getRawSpecialisedData();
+		Set<Integer> specialised = target.getRawSpecialisedData();
 		
 		Map<Integer,Long> exp = target.getRawExpData();
 

@@ -21,6 +21,7 @@ public enum Perm
 	CLEAN_PLAYER_OTHER("clean.player.other"),
 	CLEAN_PLAYER_ALL("clean.player.all"),
 	DEBUG("debug"),
+	EXP_MULTIPLIER("derius.multiplier."),
 	INSPECT("inspect"),
 	INSPECT_OTHERS("inspect.other"),
 	KEYS("keys"),
@@ -33,12 +34,14 @@ public enum Perm
 	SKILL("skill"),
 	SKILL_LEARN("skill.learn."),
 	SKILL_SEE("skill.see."),
+	SKILL_SPECIALISE("skill.sp."),
 	SPECIALISATION("sp"),
 	SPECIALISATION_INFO("sp.info"),
 	SPECIALISATION_LEARN("sp.learn"),
 	SPECIALISATION_LIST("sp.list"), 
 	SPECIALISATION_LIST_OTHER("sp.list.other"),
-	SPECIALISATION_UNLEARN("sp.unlearn"),  
+	SPECIALISATION_SLOTS("sp.slots."),
+	SPECIALISATION_UNLEARN("sp.unlearn"), 
 	VERSION("version"),
 	// END OF LIST
 	;

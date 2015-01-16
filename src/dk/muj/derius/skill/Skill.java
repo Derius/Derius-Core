@@ -9,7 +9,6 @@ import java.util.function.Function;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -343,6 +342,52 @@ public abstract class Skill
 		}
 		return true;
 	}
+	
+	/**
+	 * Tells whether or a player can specialise in this skill
+	 * @param {MPlayer} player to check for
+	 * @param {boolean} inform them if they can't
+	 * @return {boolean} true if player can specialise in skill
+	 */
+	public boolean canPlayerSpecialiseSkill(MPlayer p, boolean informIfNot)
+	{
+		for (Req req : this.getSpecialiseRequirements())
+		{
+			if ( ! req.apply(p.getSender()))
+			{
+				if (informIfNot)
+				{
+					p.sendMessage(req.createErrorMessage(p.getSender(), this));
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	// -------------------------------------------- //
+	// MCONF
+	// -------------------------------------------- //
+	
+	/**
+	 * @return {boolean} true if a player is automatically specialised in this skill
+	 */
+	public boolean isSpAutoAssigned()
+	{
+		return MConf.get().specialisationAutomatic.contains(this.getId());
+	}
+	
+	/**
+	 * @return {boolean} true if this skill can not be specialised.
+	 */
+	public boolean isSpBlackListed()
+	{
+		return MConf.get().specialisationBlacklist.contains(this.getId());
+	}
+	
+	// -------------------------------------------- //
+	// REQ GETTERS & SETTERS
+	// -------------------------------------------- //
 	
 	/**
 	 * This will give the list of requirements

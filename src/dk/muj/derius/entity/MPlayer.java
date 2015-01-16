@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.PermUtil;
@@ -20,9 +22,9 @@ import dk.muj.derius.Derius;
 import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.events.PlayerAddExpEvent;
+import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
-import dk.muj.derius.skill.SpecialisationStatus;
 import dk.muj.derius.util.AbilityUtil;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.Listener;
@@ -67,7 +69,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// Long is the exp
 	private Map<Integer, Long> exp = new HashMap<Integer,Long>();
 	
-	private List<Integer> specialised = new CopyOnWriteArrayList<Integer>();
+	private Set<Integer> specialised = new CopyOnWriteArraySet<Integer>();
 	
 	private long specialisedMillis = 0;
 	
@@ -373,48 +375,34 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * This will not succeed if the player is filled with specialisations already
 	 * or the skill is on the spcialisationAutomatic or black list.
 	 * @param {Skill} the skill
-	 * @return Whether or not the player is ,specialised in the skill now.
+	 * @return {boolean} true if the player is explicitely specialised in the skill now.
+	 * by explicitly we do not mean auto assigning.
 	 */
-	public SpecialisationStatus setSpecialisedIn(Skill skill)
+	public boolean setSpecialisedIn(Skill skill, boolean informWhyNot)
 	{
-		if( specialised.contains(skill.getId()) )
-			return SpecialisationStatus.HAD;
-		
-		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return SpecialisationStatus.AUTO_ASSIGNED;
-		
-		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
-			return SpecialisationStatus.BLACK_LISTED;
-		
-		if(MConf.get().specialisationMax <= specialised.size())
-			return SpecialisationStatus.TOO_MANY;
+		for (Req req : skill.getSpecialiseRequirements())
+		{
+			if ( ! req.apply(this.getSender(), skill))
+			{
+				if (informWhyNot) this.sendMessage(req.createErrorMessage(this.sender, skill));
+				return false;
+			}
+		}
 		
 		specialised.add(skill.getId());
-		return SpecialisationStatus.HAS_NOW;
+		return true;
 	}
 	
 	
 	/**
 	 * Sets the player to not be specialised in the skill.
-	 * This will not succeed if the player isn't specialised beforehand
-	 * or the skill is on the spcialisationAutomatic or black list.
+	 * you must do all checks yourself.
 	 * @param {Skill} the skill
-	 * @return {SpecialisationStatus} Whether or not the player is, specialised in the skill now.
 	 */
-	public SpecialisationStatus setNotSpecialisedIn(Skill skill)
+	public void setNotSpecialisedIn(Skill skill)
 	{	
-		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return SpecialisationStatus.AUTO_ASSIGNED;
-		
-		if(MConf.get().specialisationBlacklist.contains(skill.getId()))
-			return SpecialisationStatus.BLACK_LISTED;
-		
-		if(!this.specialised.contains(skill.getId()))
-			return SpecialisationStatus.DIDNT_HAVE;
-		
 		specialised.remove(skill.getId());
-		exp.put(skill.getId(), 0l);
-		return SpecialisationStatus.DONT_HAVE_NOW;
+		this.setExp(skill, 0);
 	}
 	
 	/**
@@ -425,13 +413,42 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public List<Skill> getSpecialisedSkills()
 	{		
 		List<Skill> ret = new ArrayList<Skill>();
-		for(int i: specialised)
+		for(int i : specialised)
 		{
-			Skill s = Skill.getSkillById(i);
-					if(s != null)
-						ret.add(s);
+			Skill skill = Skill.getSkillById(i);
+			if (skill != null) ret.add(skill);
 		}
 		return ret;
+	}
+	
+	// -------------------------------------------- //
+	// SPECIALISATION: SLOTS
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets the maximum amount of specialisation slots
+	 * this player could have open at once, based on permissions.
+	 * @return {int} maximum possible amount of open specialisation slots
+	 */
+	public int getSpecialisationSlots()
+	{
+		Player p = this.getPlayer();
+		String perm = Perm.SPECIALISATION_SLOTS.node;
+		for (int i = 50; i > 0; i--)
+		{
+			if ( ! p.hasPermission(perm + i)) continue;
+			return i;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Gets the amount of open specialisation slots this player has
+	 * @return
+	 */
+	public int getOpenSpecialisationSlots()
+	{
+		return this.getSpecialisationSlots() - this.getSpecialisedSkills().size();
 	}
 	
 	// -------------------------------------------- //
@@ -898,7 +915,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * IT IS EXTREMELY DANGEROUS TO USE
 	 * THIS IS ONLY FOR INTERNAL USE
 	 */
-	public List<Integer> getRawSpecialisedData()
+	public Set<Integer> getRawSpecialisedData()
 	{
 		return this.specialised;
 	}

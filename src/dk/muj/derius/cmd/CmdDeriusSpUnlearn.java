@@ -13,7 +13,6 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.skill.Skill;
-import dk.muj.derius.skill.SpecialisationStatus;
 
 public class CmdDeriusSpUnlearn extends DeriusCommand
 {
@@ -49,26 +48,21 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 			return;
 		}
 		
-		SpecialisationStatus status = msender.setNotSpecialisedIn(skill);
-		switch(status)
+		if (skill.isSpAutoAssigned())
 		{
-			case AUTO_ASSIGNED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAutoAssigned),skill.getDisplayName(msender));
-				return;
-			case BLACK_LISTED : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationBlackList),skill.getDisplayName(msender));
-				return;
-			case DIDNT_HAVE : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAlreadyHasNot),skill.getDisplayName(msender));
-				return;
-			case DONT_HAVE_NOW : 
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationRemoveSuceed, skill.getDisplayName(msender)));
-				return;
-			default:
-				msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationError, skill.getDisplayName(msender)));
-				break;
-				
+			
+			msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAutoAssigned), skill.getDisplayName(msender));
+			return;
 		}
+		else if ( ! msender.isSpecialisedIn(skill))
+		{
+			msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationIsnt), skill.getDisplayName(msender));
+			return;
+		}
+		
+		msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationRemoveSuceed, skill.getDisplayName(msender)));
+		return;
+				
 	}
 	
 	@Override

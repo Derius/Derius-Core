@@ -47,10 +47,10 @@ public class MConf extends Entity<MConf>
 	public String msgSkillSpecialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
 	public String msgSkillSpecialisationBlackList = "<b>It is not possible to specialise in %s";
 	public String msgSkillSpecialisationAlreadyHas = "<b>You already have %s";
-	public String msgSkillSpecialisationTooMany = "<b>You cannot add %s <b>because you don't have room for more specialised";
+	public String msgSkillSpecialisationTooMany = "<b>You don't have room for more specialisations";
 	public String msgSkillSpecialisationAddSucceed = "<i>You are now specialised in %s";
 	public String msgSkillSpecialisationError = "<b>An error occured while trying to specialise";
-	public String msgSkillSpecialisationAlreadyHasNot = "<b>You do not have the Skill %s <b>specialised";
+	public String msgSkillSpecialisationIsnt = "<b>You do not have the Skill %s <b>specialised";
 	public String msgSkillSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
 	
 	public String msgKeyAddSuccess = "<i>You have succesfully registered the key %s to the ability %s.";

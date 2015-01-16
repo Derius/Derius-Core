@@ -73,6 +73,7 @@ permissions:
       derius.sp.list: true
       derius.sp.list.other: true
       derius.sp.unlearn: true
+      derius.version: true
 # -------------------------------------------- #
 # KITS
 # -------------------------------------------- #
