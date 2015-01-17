@@ -1,13 +1,13 @@
 package dk.muj.derius.req;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
 
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.PermUtil;
 
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.skill.Skill;
-import dk.muj.derius.util.DeriusPermUtil;
 
 public class ReqHasPerm implements Req
 {	
@@ -17,6 +17,9 @@ public class ReqHasPerm implements Req
 	
 	public static ReqHasPerm get(String perm) { return new ReqHasPerm(perm); }
 	public ReqHasPerm(String perm) { this.perm = perm; }
+	
+	public static ReqHasPerm get(Permission perm) { return new ReqHasPerm(perm); }
+	public ReqHasPerm(Permission perm) { this.perm = perm.getName(); }
 	
 	// -------------------------------------------- //
 	// FIELDS
@@ -38,7 +41,7 @@ public class ReqHasPerm implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		return DeriusPermUtil.getDeniedMessage(perm);
+		return PermUtil.getDeniedMessage(perm);
 	}
 	
 	// -------------------------------------------- //

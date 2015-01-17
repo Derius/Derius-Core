@@ -2,6 +2,8 @@ package dk.muj.derius.engine;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -58,10 +60,16 @@ public class SkillEngine extends EngineAbstract
 			MConf.get().worldSkillsEarn.put(id, new WorldExceptionSet());
 		}
 		
-		skill.addLearnRequirements(ReqHasPerm.get(Perm.SKILL_LEARN.node + skill.getId()));
-		skill.addSeeRequirements(ReqHasPerm.get(Perm.SKILL_SEE.node + skill.getId()));
+		String name = skill.getName();
 		
-		skill.addSpecialiseRequirements(ReqHasPerm.get(Perm.SKILL_SPECIALISE.node + skill.getId()));
+		Permission learnPerm = new Permission(Perm.SKILL_LEARN.node + id, "learn the skill " + name, PermissionDefault.FALSE);
+		Permission seePerm = new Permission(Perm.SKILL_SEE.node + id, "see the skill " + name, PermissionDefault.FALSE);
+		Permission spPerm = new Permission(Perm.SKILL_SPECIALISE.node + id, "specialise in the skill " + name, PermissionDefault.FALSE);
+		
+		skill.addLearnRequirements(ReqHasPerm.get(learnPerm));
+		skill.addSeeRequirements(ReqHasPerm.get(seePerm));
+		
+		skill.addSpecialiseRequirements(ReqHasPerm.get(spPerm));
 		skill.addSpecialiseRequirements(ReqIsntAutoAssigned.get());
 		skill.addSpecialiseRequirements(ReqIsntBlacklisted.get());
 		skill.addSpecialiseRequirements(ReqIsntSpecialised.get());
