@@ -1,55 +1,57 @@
 package dk.muj.derius.req;
 
-import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.MassiveCommand;
-import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
-public class ReqIsGameMode implements Req
+public class ReqIsAtleastLevel implements Req
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-	public static ReqIsGameMode get(GameMode gameMode) { return new ReqIsGameMode(gameMode); }
-	public ReqIsGameMode(GameMode gameMode) { this.gameMode = gameMode; }
+	public static ReqIsAtleastLevel get(int level) { return new ReqIsAtleastLevel(level); }
+	public ReqIsAtleastLevel(int level) { this.level = level; }
 	
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private final GameMode gameMode;
-	public GameMode getGameMode() { return this.gameMode; }
+	private final int level;
+	public int getlevel() { return this.level; }
 	
 	// -------------------------------------------- //
-	// OVERRIDE: DEFAULT
+	// OVERRIDE
 	// -------------------------------------------- //
 	
+
 	@Override
-	public boolean apply(CommandSender sender)
+	public boolean apply(CommandSender arg0)
 	{
-		return IdUtil.isGameMode(sender, gameMode, true);
+		return false;
 	}
 	
+
 	@Override
-	public String createErrorMessage(CommandSender sender)
+	public String createErrorMessage(CommandSender arg0)
 	{
-		return Txt.parse("<b>You are not in the required gamemode.");
+		return Txt.parse("<b>You are no the required level to do this.");
 	}
 
 	// -------------------------------------------- //
-	// OVERRIDE: OTHER
+	// OVERRIDE: SKILL
 	// -------------------------------------------- //
 	
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		return this.apply(sender);
+		if (skill.getLvlStatusFromExp(MPlayer.get(sender).getExp(skill)).getLvl() >= level) return true;
+		return false;
 	}
 
 	@Override
@@ -58,10 +60,14 @@ public class ReqIsGameMode implements Req
 		return this.createErrorMessage(sender);
 	}
 	
+	// -------------------------------------------- //
+	// OVERRIDE: ABILITY
+	// -------------------------------------------- //
+	
 	@Override
 	public boolean apply(CommandSender sender, Ability ability)
 	{
-		return this.apply(sender);
+		return this.apply(sender, ability.getSkill());	
 	}
 
 	@Override
@@ -70,16 +76,20 @@ public class ReqIsGameMode implements Req
 		return this.createErrorMessage(sender);
 	}
 	
-	@Override
-	public boolean apply(CommandSender sender, MassiveCommand arg1)
-	{
-		return this.apply(sender);
-	}
+	// -------------------------------------------- //
+	// OVERRIDE: MASSIVECOMMAND
+	// -------------------------------------------- //
 	
 	@Override
-	public String createErrorMessage(CommandSender sender, MassiveCommand arg1)
+	public boolean apply(CommandSender arg0, MassiveCommand arg1)
 	{
-		return this.createErrorMessage(sender);
+		return false;
 	}
-	
+
+	@Override
+	public String createErrorMessage(CommandSender arg0, MassiveCommand arg1)
+	{
+		return Txt.parse("<b>This should not happen, a bug occured. A COMMAND WAS PASSED INSTEAD OF SKILL");
+	}
+
 }

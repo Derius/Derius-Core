@@ -45,7 +45,7 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		return Txt.parse("<i>You can't do this in this gamemode.");
+		return Txt.parse("<b>You can't do this in this gamemode.");
 	}
 
 	// -------------------------------------------- //
@@ -61,7 +61,7 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
-		return Txt.parse("<i>You can't level %s <i>in this gamemode.", skill.getDisplayName(sender));
+		return Txt.parse("<b>You can't level %s <b>in this gamemode.", skill.getDisplayName(sender));
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Ability ability)
 	{
-		return Txt.parse("<i>You can't use %s <i>in this gamemode.", ability.getDisplayName(sender));
+		return Txt.parse("<b>You can't use %s <b>in this gamemode.", ability.getDisplayName(sender));
 	}
 	
 	@Override
@@ -85,6 +85,6 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, MassiveCommand arg1)
 	{
-		return Txt.parse("<i>You can't perform this command in this GameMode.");
+		return Txt.parse("<b>You can't perform this command in this GameMode.");
 	}
 }

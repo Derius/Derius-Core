@@ -22,8 +22,6 @@ public class CmdDeriusClean extends DeriusCommand
 		this.addOptionalArg("player/all", "you");
 		this.addOptionalArg("force it", "no");
 		
-		this.setDesc("Dangerous! Resets ALL of the level data for said player/s for said skill/s!");
-		
 		this.addRequirements(ReqHasPerm.get(Perm.CLEAN.node));
 	}
 	
