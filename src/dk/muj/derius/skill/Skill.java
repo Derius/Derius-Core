@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Function;
 
 import org.bukkit.Bukkit;
 
@@ -42,13 +41,15 @@ public abstract class Skill
 	protected List<Req> specialiseRequirements = new CopyOnWriteArrayList<Req>();
 	
 	//Lambda sw@g
-	Function<Long, LvlStatus> expToLvlStatus = (Long exp) -> 	
+	LvlStatusCalculator expToLvlStatus = (long exp) -> 	
 	{	//This is the default algorithm
 		int level = 0, nextLvlExp;
 		for(nextLvlExp = 1024; nextLvlExp < exp; nextLvlExp *= 1.01, level++)
+		{
 			exp -= nextLvlExp;
+		}
 		
-		return new LvlStatusDefault(level, exp.intValue(), nextLvlExp);
+		return new LvlStatusDefault(level, (int) exp, nextLvlExp);
 	};
 	
 	// -------------------------------------------- //
@@ -264,9 +265,9 @@ public abstract class Skill
 	 * Each skill can have a different way of calculating levels.
 	 * We don't know it, but we store the exp.
 	 * This will change the algorithm
-	 * @param {Function<Long, LvlStatus} The new algorithm to calculate levels for this skill
+	 * @param {LvlStatusCalculator} The new algorithm to calculate levels for this skill
 	 */
-	public final void setLvlStatusAlgorithm(Function<Long, LvlStatus> algorithm)
+	public final void setLvlStatusAlgorithm(LvlStatusCalculator algorithm)
 	{
 		this.expToLvlStatus = algorithm;
 	}
@@ -275,9 +276,9 @@ public abstract class Skill
 	 * Each skill can have a different way of calculating levels.
 	 * We don't know it, but we store the exp.
 	 * This will get the level calculation algorithm for this skill
-	 * @param {Function<Long, LvlStatus} The new algorithm to calculate levels for this skill
+	 * @param {LvlStatusCalculator} The new algorithm to calculate levels for this skill
 	 */
-	public final Function<Long, LvlStatus> getLvlStatusAlgorithm()
+	public final LvlStatusCalculator getLvlStatusAlgorithm()
 	{
 		return this.expToLvlStatus;
 	}
