@@ -523,11 +523,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	/**
 	 * Deactivates an ability for this player.
 	 * This should however automatically be done by our scheduled tasks.
-	 * @param {Ability} the ability to deactivate
+	 * @param {Object} object passed from onActivate
 	 */
-	public void deactivateActiveAbility()
+	public void deactivateActiveAbility(Optional<Object> other)
 	{
-		AbilityUtil.deactivateActiveAbility(this);
+		AbilityUtil.deactivateActiveAbility(this, other);
 	}
 	
 	/**

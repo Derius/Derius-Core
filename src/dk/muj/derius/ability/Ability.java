@@ -3,6 +3,7 @@ package dk.muj.derius.ability;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
@@ -404,15 +405,17 @@ public abstract class Ability
 	 * It is similar to bukkits onEnable method.
 	 * @param {MPlayer} the player to use the ability
 	 * @param {Object} other parameter used in some abilities
+	 * @return {Object} this object will be passed to onDeactivate for data transfering.
 	 */
-	public abstract void onActivate(MPlayer p, Object other);
+	public abstract Optional<Object> onActivate(MPlayer p, Object other);
 	
 	/**
 	 * This is the method called by Derius when your ability
 	 * is deactivated. It is similar to bukkits onDisable method.
 	 * @param {MPlayer} the player to stop using the ability
+	 * @param {Object} object received from onActivate
 	 */
-	public abstract void onDeactivate(MPlayer p);
+	public abstract void onDeactivate(MPlayer p, Optional<Object> other);
 	
 	/**
 	 * Gets the skill associated with this ability
@@ -435,7 +438,7 @@ public abstract class Ability
 	{
 		int result = 1;
 		
-		result += this.getId()*31;
+		result += this.getId();
 		
 		return result;
 	}

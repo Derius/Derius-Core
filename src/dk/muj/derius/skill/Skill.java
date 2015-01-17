@@ -508,7 +508,7 @@ public abstract class Skill
 	{
 		int result = 1;
 		
-		result += this.getId()*31;
+		result += this.getId();
 		
 		return result;
 	}

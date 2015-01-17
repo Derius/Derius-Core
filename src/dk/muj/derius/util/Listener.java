@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import dk.muj.derius.entity.MPlayer;
@@ -175,7 +175,7 @@ public interface Listener
 	 * @param {MPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
-	default void onBlockBreak(MPlayer player, Block block) {};
+	default void onBlockBreak(MPlayer player, BlockState block) {};
 	
 	/**
 	 * 

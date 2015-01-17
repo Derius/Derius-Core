@@ -51,7 +51,7 @@ public class BlockEngine extends EngineAbstract
 		Listener listener = Listener.getBlockBreakListener(e.getBlock().getType());
 		if(listener != null)
 		{
-			listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock());
+			listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock().getState());
 		}
 		
 		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
