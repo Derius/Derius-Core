@@ -2,11 +2,13 @@ package dk.muj.derius.engine;
 
 import java.util.Optional;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,6 +22,7 @@ import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.BlockUtil;
 import dk.muj.derius.util.Listener;
 
 public class MainEngine extends EngineAbstract
@@ -91,10 +94,20 @@ public class MainEngine extends EngineAbstract
 	public void onBlockBreak(BlockBreakEvent e)
 	{	
 		Listener listener = Listener.getBlockBreakListener(e.getBlock().getType());
-		if(listener == null)
-			return;
-		listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock());
+		if(listener != null)
+		{
+			listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock());
+		}
 		
+		Bukkit.broadcastMessage("Event 1");
+		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onBlockPlace(BlockPlaceEvent e)
+	{	
+		Bukkit.broadcastMessage("Event 2");
+		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), true);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
