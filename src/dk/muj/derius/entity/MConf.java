@@ -36,7 +36,7 @@ public class MConf extends Entity<MConf>
 	public String msgSkillInfoLvlStats ="<art>____[<aqua>Level stats<art>]____";
 	
 	public String colorAbilityCanPlayerUse = "<pink>";
-	public String colorAbilityCanPlayerNotUse = "<grey>";
+	public String colorAbilityCanPlayerNotUse = "<gray>";
 	
 	public String colorSkillCanPlayerUse = "<aqua>";
 	public String colorSkillCanPlayerNotUse = "<grey>";

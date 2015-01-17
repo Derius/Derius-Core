@@ -34,10 +34,10 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	public Skill select(String arg, CommandSender sender)
 	{
 		
-		String skillstr = arg.toLowerCase();
+		arg = arg.toLowerCase();
 		for (Skill skill : Skill.getAllSkills())
 		{
-			if (skill.getName().toLowerCase().startsWith(skillstr))
+			if (skill.getName().toLowerCase().startsWith(arg))
 			{
 				if ( ! MPlayer.get(sender).canSeeSkill(skill)) continue;
 				return skill;
@@ -54,6 +54,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		
 		for (Skill skill : Skill.getAllSkills())
 		{
+			if ( ! MPlayer.get(sender).canSeeSkill(skill)) continue;
 			ret.add(skill.getName());
 		}
 		return ret;
