@@ -39,7 +39,6 @@ public final class BlockUtil
 	
 	public static void setBlockPlacedByPlayer(Block block, boolean isPlaced)
 	{	
-		Bukkit.broadcastMessage("Util 1");
 		PS ps = PS.valueOf(block);
 		ps = ps.with(ps.getBlock(true).with(ps.getChunk(true)));
 		MChunk chunk = MChunkColl.get().get(ps.getChunk(true).toString(PSFormatFormal.get()), true);
@@ -47,8 +46,7 @@ public final class BlockUtil
 		if (isPlaced)
 		{
 			// We wil always like to remove, but not always add
-			//if ( ! getBlocksTypesToListenFor().contains(block.getType())) return;
-			Bukkit.broadcastMessage("Util 2");
+			if ( ! getBlocksTypesToListenFor().contains(block.getType())) return;
 			chunk.addBlock(ps);
 		}
 		else

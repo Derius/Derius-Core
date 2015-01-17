@@ -4,6 +4,7 @@ import com.massivecraft.massivecore.MassivePlugin;
 
 import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.engine.AbilityEngine;
+import dk.muj.derius.engine.BlockEngine;
 import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
@@ -50,6 +51,7 @@ public class Derius extends MassivePlugin
 		MainEngine.get().activate();
 		ChatEngine.get().activate();
 		SkillEngine.get().activate();
+		BlockEngine.get().activate();
 		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius();

@@ -1,6 +1,6 @@
 package dk.muj.derius.engine;
 
-import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -53,40 +54,39 @@ public class BlockEngine extends EngineAbstract
 			listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock());
 		}
 		
-		// Unset Block
-		Bukkit.broadcastMessage("Event 1");
 		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e)
 	{	
-		Bukkit.broadcastMessage("Event 2");
 		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), true);
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onFade(BlockFadeEvent e)
-	{
-		// Placed by player?
-		if ( ! BlockUtil.isBlockPlacedByPlayer(e.getBlock())) return;
-		
+	{	
 		// Unset Block
 		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
-		
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBurn(BlockBurnEvent e)
 	{
-		// Placed by player?
-		if ( ! BlockUtil.isBlockPlacedByPlayer(e.getBlock())) return;
-		
 		// Unset Block
 		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onExplode(EntityExplodeEvent event)
+	{
+		for (Block block : event.blockList())
+		{
+			BlockUtil.setBlockPlacedByPlayer(block, false);
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPistonExtend(BlockPistonExtendEvent e)
 	{
 		// Placed by player?
@@ -98,7 +98,7 @@ public class BlockEngine extends EngineAbstract
 		
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPistonRetract(BlockPistonRetractEvent e)
 	{
 		// Placed by player?
