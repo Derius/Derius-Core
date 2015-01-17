@@ -33,20 +33,22 @@ public final class AbilityUtil
 	 * @param {Ability} the ability to activate
 	 * @param {Object} some abilities need another object. Check for the individual ability
 	 */
-	public static void activateAbility(MPlayer mplayer, final Ability ability, Object other)
+	public static Optional<Object> activateAbility(MPlayer mplayer, final Ability ability, Object other)
 	{	
-		//CHECKS
-		if ( ! ability.canPlayerActivateAbility(mplayer, true)) return;
+		// CHECKS
+		if ( ! ability.canPlayerActivateAbility(mplayer, true)) return Optional.empty();
 		
-		//ACTIVATE
+		// ACTIVATE
 		if (ability.getType() == AbilityType.PASSIVE)
 		{
-			activatePassiveAbility(mplayer, ability, other);
+			return activatePassiveAbility(mplayer, ability, other);
 		}
 		else if (ability.getType() == AbilityType.ACTIVE)
 		{
-			activateActiveAbility(mplayer, ability, other);
+			return activateActiveAbility(mplayer, ability, other);
 		}
+		
+		return Optional.empty();
 	}
 	
 	/**
@@ -59,25 +61,25 @@ public final class AbilityUtil
 		activateAbility(mplayer, ability, null);
 	}
 	
-	private static void activatePassiveAbility(MPlayer mplayer, final Ability ability, Object other)
+	private static Optional<Object> activatePassiveAbility(MPlayer mplayer, final Ability ability, Object other)
 	{
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, mplayer);
 		e.run();
 		if(e.isCancelled())
-			return;
+			return Optional.empty();
 	
-		ability.onActivate(mplayer, other);
+		return ability.onActivate(mplayer, other);
 	}
 	
-	private static void activateActiveAbility(final MPlayer mplayer, final Ability ability, Object other)
+	private static Optional<Object> activateActiveAbility(final MPlayer mplayer, final Ability ability, Object other)
 	{
 		if(mplayer.hasActivatedAny())
-			return;
+			return Optional.empty();
 		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, mplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled())
-			return;
+			return Optional.empty();
 		
 		mplayer.setActivatedAbility(ability);
 		
@@ -94,6 +96,7 @@ public final class AbilityUtil
 			}
 		}, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
 		
+		return obj;
 	}
 	
 	/**
