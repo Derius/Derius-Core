@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -54,7 +53,6 @@ public final class BlockUtil
 		}
 		else
 		{
-			Bukkit.broadcastMessage("Util 3");
 			chunk.removeBlock(ps);
 		}
 	}
