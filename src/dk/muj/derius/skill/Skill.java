@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.Txt;
@@ -82,6 +83,9 @@ public abstract class Skill
 	
 	private static Optional<Skill> binarySkillLookup(int idLookup)
 	{
+		//TODO Doesn't work
+		return Optional.empty();
+		/*
 		int lower = 0;
 		int upper = skillList.size()-1;
 		
@@ -96,7 +100,7 @@ public abstract class Skill
             if      (idLookup < id) upper = middle - 1;
             else if (idLookup > id) lower = middle + 1;
             else return Optional.of(skillList.get(middle));
-		}
+		}*/
 	}
 	
 	/**
@@ -132,26 +136,45 @@ public abstract class Skill
 	 */
 	public void register()
 	{
+		CommandSender sender = Bukkit.getConsoleSender();
+		sender.sendMessage("REGISTER 1");
 		Object before = getSkillById(this.getId());
+		sender.sendMessage("REGISTER 2");
 		if(before != null)
 		{
+			sender.sendMessage("REGISTER 3");
 			int id = this.getId();
+			sender.sendMessage("REGISTER 4");
 			try
 			{
+				sender.sendMessage("REGISTER 5");
 				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.toString()
 						+ " but "+this.getName() + " is trying to use it");
+				
 			}
 			catch (IdAlreadyInUseException e)
 			{
+				sender.sendMessage("REGISTER 6");
 				e.printStackTrace();
+				return;
+			}
+			finally
+			{
+				sender.sendMessage("REGISTER 7");
 			}
 		}
-
+		
+		sender.sendMessage("REGISTER 8");
 		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
+		sender.sendMessage("REGISTER 9");
 		event.run();
+		sender.sendMessage("REGISTER 10");
 		if (event.isCancelled()) return;
+		sender.sendMessage("REGISTER 11");
 		skillList.add(this);
+		sender.sendMessage("REGISTER 12");
 		skillList.sort(SkillComparator.get());
+		sender.sendMessage("REGISTER 13");
 	}
 	
 	// -------------------------------------------- //

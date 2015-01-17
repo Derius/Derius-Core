@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.massivecraft.massivecore.store.SenderEntity;
+import com.massivecraft.massivecore.util.IntervalUtil;
 import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -843,7 +844,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public void setCooldownExpireBetween (int ticksMin, int ticksMax)
 	{
 		long currentTime = System.currentTimeMillis();
-		int difference = randomBetween(ticksMin, ticksMax);
+		int difference = IntervalUtil.randomIntegerFromInterval(ticksMin, ticksMax);
 
 		setCooldownExpire(currentTime+difference/20*1000);
 	}
@@ -888,12 +889,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 		for(Ability a: skill.getAllAbilities())
 			ret.add(a.getLvlDescription(level));
 		return ret;
-	}
-	
-	private int randomBetween(int from, int to)
-	{
-		int range = to - from + 1;
-		return (int) (Math.random()*range) + to;
 	}
 	
 	// -------------------------------------------- //

@@ -285,13 +285,13 @@ public abstract class Ability
 	 * @param {boolean} true if error message should be sent
 	 * @return {boolean} true if the player can use said ability
 	 */
-	public boolean canPlayerActivateAbility(MPlayer p, boolean sendMessage)
+	public boolean canPlayerActivateAbility(MPlayer p, boolean verboseNot)
 	{
 		for (Req req : this.getActivateRequirements())
 		{
 			if ( ! req.apply(p.getSender(), this)) 
 			{
-				if (sendMessage) p.sendMessage(req.createErrorMessage(p.getSender(), this));
+				if (verboseNot) p.sendMessage(req.createErrorMessage(p.getSender(), this));
 				return false;
 			}
 		}
@@ -316,13 +316,13 @@ public abstract class Ability
 	 * @param {boolean} true if error message should be sent
 	 * @return {boolean} true if the player can see said ability
 	 */
-	public boolean canPlayerSeeAbility(MPlayer p, boolean sendMessage)
+	public boolean canPlayerSeeAbility(MPlayer p, boolean verboseNot)
 	{
 		for (Req req : this.getSeeRequirements())
 		{
 			if ( ! req.apply(p.getSender(), this)) 
 			{
-				if (sendMessage) p.sendMessage(req.createErrorMessage(p.getSender(), this));
+				if (verboseNot) p.sendMessage(req.createErrorMessage(p.getSender(), this));
 				return false;
 			}
 		}
@@ -452,6 +452,5 @@ public abstract class Ability
 	{
 		return getName();
 	}
-
 
 }
