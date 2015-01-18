@@ -87,10 +87,11 @@ public final class AbilityUtil
 	{
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(mplayer.getActivatedAbility(), mplayer);
 		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-		mplayer.getActivatedAbility().onDeactivate(mplayer, other);
+		if(e.isCancelled()) return;
+		Ability ability = mplayer.getActivatedAbility();
+		ability.onDeactivate(mplayer, other);
 		mplayer.setActivatedAbility(null);
+		mplayer.setCooldownExpireIn(ability.getCooldownTime());
 	}
 	
 	// -------------------------------------------- //
@@ -126,7 +127,6 @@ public final class AbilityUtil
 			public void run()
 			{
 				deactivateActiveAbility(mplayer, obj);
-				mplayer.setCooldownExpireIn(ability.getCooldownTime(mplayer));
 			}
 		}, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
 		
