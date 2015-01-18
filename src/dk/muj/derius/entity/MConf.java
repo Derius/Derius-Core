@@ -23,17 +23,7 @@ public class MConf extends Entity<MConf>
 	// TIMING SETTINGS
 	// -------------------------------------------- //
 	
-	public int timeLvlUpFadeIn = 5;
-	public int timeLvlUpStay = 60;
-	public int timeLvlUpFadeOut = 5;
-	
-	public int timeAbilityActivateFadeIn = 5;
-	public int timeAbilityActivateStay = 50;
-	public int timeAbilityActivateFadeOut = 5;
-	
-	public int timeAbilityDeactivateFadeIn = 5;
-	public int timeAbilityDeactivateStay = 50;
-	public int timeAbilityDeactivateFadeOut = 5;
+
 	
 	public double timingMax = 4.999999;
 	
