@@ -18,58 +18,6 @@ public class MConf extends Entity<MConf>
 	
 	protected static transient MConf i;
 	public static MConf get() { return i; }
-	
-	// -------------------------------------------- //
-	// MESSAGES
-	// -------------------------------------------- //
-	
-	public String msgPrefix = "<green>[DERIUS]";
-	
-	public String msgSkillLvlUp ="<i>You leveled up to level <lime>%s<i> in <aqua>%s<i>.";
-	public String msgExhausted = "<i> You are still exhausted. You will be ready again in %s";
-	public String msgAbilityActivated = "<i>You activated %s";
-	public String msgAbilityDeactivated = "<i>The ability %s <i>ran out";
-	public String msgAbilityCantBeUsedInArea = "<b>Sorry, %s<b> can't be used in this area";
-	
-	public String msgSkillInfoPassiveAbilities ="<art>____[<aqua>Passive abilities<art>]____";
-	public String msgSkillInfoActiveAbilities =	"<art>____[<aqua> Active abilities <art>]____";
-	public String msgSkillInfoLvlStats ="<art>____[<aqua>Level stats<art>]____";
-	
-	public String colorAbilityCanPlayerUse = "<pink>";
-	public String colorAbilityCanPlayerNotUse = "<gray>";
-	
-	public String colorSkillCanPlayerUse = "<aqua>";
-	public String colorSkillCanPlayerNotUse = "<grey>";
-	public String colorSkillIsPlayerSpecialised = "<gold>";
-	
-	public String msgInspectOthersInvalid = "<i>You don't have the Permissions to inspect others!";	
-
-	public String msgSkillSpecialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
-	public String msgSkillSpecialisationBlackList = "<b>It is not possible to specialise in %s";
-	public String msgSkillSpecialisationAlreadyHas = "<b>You already have %s";
-	public String msgSkillSpecialisationTooMany = "<b>You don't have room for more specialisations";
-	public String msgSkillSpecialisationAddSucceed = "<i>You are now specialised in %s";
-	public String msgSkillSpecialisationError = "<b>An error occured while trying to specialise";
-	public String msgSkillSpecialisationIsnt = "<b>You do not have the Skill %s <b>specialised";
-	public String msgSkillSpecialisationRemoveSuceed = "<i>You are no longer specialised in %s";
-	
-	public String msgKeyAddSuccess = "<i>You have succesfully registered the key %s to the ability %s.";
-	public String msgKeyAddIsAlready = "<i>The key %s is already in use. Please use another one.";
-	public String msgKeyAddInvalid = "<i>This Ability Id is not valid/not in use.";
-	public String msgKeyRemoveInvalid = "<i>This key doesn't exist, so it cannot be removed";
-	public String msgKeyRemoveSuccess = "<i>You have succesfully removed the key %s from your list of keys.";
-	public String msgKeyClearWarning = "<i>Do you really want to clear all your entries?  Type <aqua> /d k c true";
-	public String msgKeyClearSuccess = "<i>You have successfully cleared your chat activation keys.";
-	
-	public String msgSettingsMsgChangeInvalid = "<i>The parameter %s is invalid as a Msg type.";
-	public String msgSettingsMsgChangeSuccess = "<i>You have succesfully changed your messsage appearance to %s.";
-			
-	public String msgToolPrepared = "<i>You prepared your <h>%s";
-	public String msgToolNotPrepared = "<i>You lowered your <h>%s";
-	
-	public String msgLvlStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
-	public String msgLvlStatusFormatMini = "<navy>LVL: <lime>%s";
-	public String msgAbilityDisplayedDescription = "%s: <i>%s";
 
 	// -------------------------------------------- //
 	// TIMING SETTINGS

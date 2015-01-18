@@ -14,6 +14,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
@@ -261,11 +262,17 @@ public abstract class Skill
 	{
 		MPlayer player = MPlayer.get(watcherObject);
 		if (player.isSpecialisedIn(this))
-			return Txt.parse(MConf.get().colorSkillIsPlayerSpecialised + this.getName());
+		{
+			return Txt.parse(MLang.get().skillColorPlayerIsSpecialised + this.getName());
+		}
 		else if (this.canPlayerLearnSkill(player))
-			return Txt.parse(MConf.get().colorSkillCanPlayerUse + this.getName());
+		{
+			return Txt.parse(MLang.get().skillColorPlayerCanUse + this.getName());
+		}
 		else
-			return  Txt.parse(MConf.get().colorSkillCanPlayerNotUse + this.getName());
+		{
+			return  Txt.parse(MLang.get().skillColorPlayerCantUse + this.getName());
+		}
 	}
 	
 	// -------------------------------------------- //

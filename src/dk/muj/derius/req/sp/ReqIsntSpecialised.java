@@ -6,7 +6,7 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.Skill;
@@ -35,7 +35,7 @@ public class ReqIsntSpecialised implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
-		return Txt.parse(MConf.get().msgSkillSpecialisationAlreadyHas, skill.getDisplayName(sender));
+		return Txt.parse(MLang.get().specialisationHasAlready, skill.getDisplayName(sender));
 	}
 	
 	// -------------------------------------------- //

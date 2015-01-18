@@ -9,7 +9,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.DeriusSender;
 import dk.muj.derius.ability.Ability;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 import dk.muj.spigot.chat.ActionBar_v1_8_R1;
@@ -34,9 +34,9 @@ public final class ChatUtil
 	
 	public static void msgLevelUp(MPlayer p, Skill s, int level)
 	{
-		MConf c = MConf.get();
-		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(c.msgSkillLvlUp, level, s.getDisplayName(p)), 
-				c.timeLvlUpFadeIn, c.timeLvlUpStay, c.timeLvlUpFadeOut);
+		MLang lang = MLang.get();
+		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(lang.levelUp, level, s.getDisplayName(p)), 
+				lang.timeLvlUpFadeIn, lang.timeLvlUpStay, lang.timeLvlUpFadeOut);
 	}
 	
 	public static void msgLevelDown(MPlayer mPlayer, Skill skill, int lvlAfter)
@@ -47,27 +47,27 @@ public final class ChatUtil
 	
 	public static void msgAbilityActivate(MPlayer p, Ability a)
 	{
-		MConf c = MConf.get();
-		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(c.msgAbilityActivated, a.getDisplayName(p)), 
-				c.timeAbilityActivateFadeIn, c.timeAbilityActivateStay, c.timeAbilityActivateFadeOut);
+		MLang lang = MLang.get();
+		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(lang.abilityActivated, a.getDisplayName(p)), 
+				lang.timeAbilityActivateFadeIn, lang.timeAbilityActivateStay, lang.timeAbilityActivateFadeOut);
 	}
 	
 	public static void msgAbilityDeactivate(MPlayer p, Ability a)
 	{
-		MConf c = MConf.get();
-		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(c.msgAbilityDeactivated, a.getDisplayName(p)), 
-				c.timeAbilityDeactivateFadeIn, c.timeAbilityDeactivateStay, c.timeAbilityDeactivateFadeOut);
+		MLang lang = MLang.get();
+		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(lang.abilityDeactivated, a.getDisplayName(p)), 
+				lang.timeAbilityDeactivateFadeIn, lang.timeAbilityDeactivateStay, lang.timeAbilityDeactivateFadeOut);
 		
 	}
 	
 	public static void msgToolPrepared(MPlayer mplayer, Material tool)
 	{
-		sendActionBar(mplayer.getPlayer(), Txt.parse(MConf.get().msgToolPrepared, toolToString(tool)));
+		sendActionBar(mplayer.getPlayer(), Txt.parse(MLang.get().toolPrepared, toolToString(tool)));
 	}
 	
 	public static void msgToolNotPrepared(MPlayer mplayer, Material tool)
 	{
-		sendActionBar(mplayer.getPlayer(), Txt.parse(MConf.get().msgToolNotPrepared, toolToString(tool)));
+		sendActionBar(mplayer.getPlayer(), Txt.parse(MLang.get().toolNotPrepared, toolToString(tool)));
 	}
 	
 	// -------------------------------------------- //

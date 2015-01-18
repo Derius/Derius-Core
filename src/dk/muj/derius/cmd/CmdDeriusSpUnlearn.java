@@ -12,6 +12,7 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.skill.Skill;
 
 public class CmdDeriusSpUnlearn extends DeriusCommand
@@ -51,16 +52,16 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		if (skill.isSpAutoAssigned())
 		{
 			
-			msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationAutoAssigned), skill.getDisplayName(msender));
+			msender.msg(Txt.parse(MLang.get().specialisationAutoAssigned), skill.getDisplayName(msender));
 			return;
 		}
 		else if ( ! msender.isSpecialisedIn(skill))
 		{
-			msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationIsnt), skill.getDisplayName(msender));
+			msender.msg(Txt.parse(MLang.get().specialisationIsnt), skill.getDisplayName(msender));
 			return;
 		}
 		
-		msender.msg(Txt.parse(MConf.get().msgSkillSpecialisationRemoveSuceed, skill.getDisplayName(msender)));
+		msender.msg(Txt.parse(MLang.get().specialisationRemoved, skill.getDisplayName(msender)));
 		return;
 				
 	}

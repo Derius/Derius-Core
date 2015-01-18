@@ -10,7 +10,7 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
@@ -42,7 +42,7 @@ public class ReqIsntExhausted implements Req
 		LinkedHashMap<TimeUnit, Long> expireUnit = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(expire, TimeUnit.getAll()), 2);
 		String expireDesc = TimeDiffUtil.formatedVerboose(expireUnit, "<i>");
 		
-		return Txt.parse(MConf.get().msgPrefix + MConf.get().msgExhausted, expireDesc);
+		return Txt.parse(MLang.get().prefix + MLang.get().exhausted, expireDesc);
 	}
 	
 	// -------------------------------------------- //

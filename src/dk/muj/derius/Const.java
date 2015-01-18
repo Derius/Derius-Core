@@ -12,6 +12,7 @@ public class Const
 	
 	public static final String COLLECTION_MPLAYER = BASENAME_+"mplayer";
 	public static final String COLLECTION_MCONF = BASENAME_+"mconf";
+	public static final String COLLECTION_MLANG = BASENAME_+"mlang";
 	public static final String COLLECTION_CHUNKS = BASENAME_ + "chunks";
 
 }

@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.exceptions.IdAlreadyInUseException;
@@ -187,8 +187,8 @@ public abstract class Ability
 	{
 		MPlayer player = MPlayer.get(watcherObject);
 		if (player == null) return null;
-		String color = canPlayerActivateAbility(player) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
-		return Txt.parse(MConf.get().msgAbilityDisplayedDescription, color + this.getName(), this.getDescription());
+		String name = this.getDisplayName(watcherObject);
+		return Txt.parse(MLang.get().abilityDisplayedDescription, name, this.getDescription());
 	}
 	
 	/**
@@ -199,7 +199,8 @@ public abstract class Ability
 	public String getDisplayName(Object watcherObject)
 	{
 		MPlayer player = MPlayer.get(watcherObject);
-		String color = canPlayerActivateAbility(player) ? MConf.get().colorAbilityCanPlayerUse : MConf.get().colorAbilityCanPlayerUse;
+		if (player == null) return null;
+		String color = canPlayerActivateAbility(player) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
 		return color + this.getName();
 	}
 	

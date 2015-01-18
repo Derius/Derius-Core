@@ -9,6 +9,7 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysAdd extends DeriusCommand
@@ -40,7 +41,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		
 		if (mplayer.isAlreadyChatKey(key))
 		{
-			mplayer.msg(Txt.parse(MConf.get().msgKeyAddIsAlready, key));
+			mplayer.msg(Txt.parse(MLang.get().keysAlreadyHas, key));
 			return;
 		}
 		
@@ -48,13 +49,13 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		Ability ability = Ability.getAbilityById(id);
 		if ( (ability == null))
 		{
-			mplayer.msg(Txt.parse(MConf.get().msgKeyAddInvalid));
+			mplayer.msg(Txt.parse(MLang.get().abilityInvalidId));
 			return;
 		}
 		
 		mplayer.addChatKeys(key, ability);
 		
-		mplayer.msg(Txt.parse(MConf.get().msgKeyAddSuccess, key, ability.toString()));
+		mplayer.msg(Txt.parse(MLang.get().keyAddSuccess, key, ability.toString()));
 	}
 	
 	

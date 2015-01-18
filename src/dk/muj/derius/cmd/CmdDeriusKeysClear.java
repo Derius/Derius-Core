@@ -8,13 +8,14 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysClear extends DeriusCommand
 {
 	public CmdDeriusKeysClear()
 	{	
-		this.addOptionalArg("force", "false");
+		this.addOptionalArg("force", "no");
 		this.setDesc("Removes all of your entries in your list of activation keys.");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.KEYS_CLEAR.node));
@@ -34,11 +35,11 @@ public class CmdDeriusKeysClear extends DeriusCommand
 		if (force)
 		{
 			mplayer.clearChatKeys();
-			mplayer.msg(Txt.parse(MConf.get().msgKeyClearSuccess));
+			mplayer.msg(Txt.parse(MLang.get().keysClearSuccess));
 		}
 		else
 		{
-			mplayer.msg(Txt.parse(MConf.get().msgKeyClearWarning));
+			mplayer.msg(Txt.parse(MLang.get().keysClearWarning));
 		}
 	}
 	

@@ -2,7 +2,7 @@ package dk.muj.derius.skill;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 
 
 public class LvlStatusDefault implements LvlStatus
@@ -53,7 +53,7 @@ public class LvlStatusDefault implements LvlStatus
 	public String toString()
 	{
 		//  Example Output (before applying the colors): "<navy>LVL: <lime>1 <navy>XP: <lime>120<yellow>/<lime>5000"
-		return Txt.parse(MConf.get().msgLvlStatusFormat, this.getLvl(), this.getExp(), this.getExpToNextLvl());
+		return Txt.parse(MLang.get().levelStatusFormat, this.getLvl(), this.getExp(), this.getExpToNextLvl());
 	}
 	
 	// -------------------------------------------- //

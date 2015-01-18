@@ -6,7 +6,7 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.Skill;
@@ -34,7 +34,7 @@ public class ReqHasOpenSlot implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
-		return Txt.parse(MConf.get().msgSkillSpecialisationTooMany);
+		return this.createErrorMessage(sender);
 	}
 	
 	// -------------------------------------------- //
@@ -50,7 +50,7 @@ public class ReqHasOpenSlot implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Ability ability)
 	{
-		return Txt.parse(MConf.get().msgSkillSpecialisationTooMany);
+		return this.createErrorMessage(sender);
 	}
 	
 	// -------------------------------------------- //
@@ -66,7 +66,7 @@ public class ReqHasOpenSlot implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		return Txt.parse(MConf.get().msgSkillSpecialisationTooMany);
+		return Txt.parse(MLang.get().specialisationTooMany);
 	}
 
 	// -------------------------------------------- //
@@ -82,7 +82,7 @@ public class ReqHasOpenSlot implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, MassiveCommand cmd)
 	{
-		return Txt.parse(MConf.get().msgSkillSpecialisationTooMany);
+		return this.createErrorMessage(sender);
 	}
 
 }

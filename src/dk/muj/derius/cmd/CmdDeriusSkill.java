@@ -11,6 +11,7 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 
@@ -64,22 +65,22 @@ public class CmdDeriusSkill extends DeriusCommand
 		}
 		else
 		{
-			msgLines.add(Txt.parse(MConf.get().msgLvlStatusFormatMini, level));
+			msgLines.add(Txt.parse(MLang.get().levelStatusFormatMini, level));
 		}
 
-		msgLines.add(MConf.get().msgSkillInfoPassiveAbilities);
+		msgLines.add(MLang.get().skillInfoPassiveAbilities);
 		for(Ability a :skill.getPassiveAbilities())
 		{
 			if ( ! msender.canSeeAbility(a)) continue;
 			msgLines.add(a.getDisplayedDescription(msender));
 		}
-		msgLines.add(MConf.get().msgSkillInfoActiveAbilities);
+		msgLines.add(MLang.get().skillInfoActiveAbilities);
 		for(Ability a :skill.getActiveAbilities())
 		{
 			if ( ! msender.canSeeAbility(a)) continue;
 			msgLines.add(a.getDisplayedDescription(msender));
 		}
-		msgLines.add(MConf.get().msgSkillInfoLvlStats);
+		msgLines.add(MLang.get().skillInfoLevelStats);
 		for(Ability a :skill.getAllAbilities())
 		{
 			if ( ! msender.canSeeAbility(a)) continue;

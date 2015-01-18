@@ -7,6 +7,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysRemove extends DeriusCommand
@@ -36,15 +37,15 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		
 		String key = this.arg(0).toLowerCase();
 		
-		if(!mplayer.isAlreadyChatKey(key))
+		if ( ! mplayer.isAlreadyChatKey(key))
 		{
-			mplayer.msg(Txt.parse(MConf.get().msgKeyRemoveInvalid));
+			mplayer.msg(Txt.parse(MLang.get().keysAlreadyHas));
 			return;
 		}
 		
 		mplayer.removeChatKeys(key);
 		
-		mplayer.msg(Txt.parse(MConf.get().msgKeyRemoveSuccess, key));
+		mplayer.msg(Txt.parse(MLang.get().keysRemoveSuccess, key));
 	}
 	
 	
