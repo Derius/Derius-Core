@@ -87,10 +87,11 @@ public final class AbilityUtil
 	{
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(mplayer.getActivatedAbility(), mplayer);
 		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())
-			return;
-		mplayer.getActivatedAbility().onDeactivate(mplayer, other);
+		if(e.isCancelled()) return;
+		Ability ability = mplayer.getActivatedAbility();
+		ability.onDeactivate(mplayer, other);
 		mplayer.setActivatedAbility(null);
+		mplayer.setCooldownExpireIn(ability.getCooldownTime());
 	}
 	
 	// -------------------------------------------- //
@@ -120,12 +121,12 @@ public final class AbilityUtil
 
 		final Optional<Object> obj = ability.onActivate(mplayer, other);
 		
-		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable(){
+		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable()
+		{
 			@Override
 			public void run()
 			{
 				deactivateActiveAbility(mplayer, obj);
-				mplayer.setCooldownExpireIn(ability.getCooldownTime());
 			}
 		}, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
 		
