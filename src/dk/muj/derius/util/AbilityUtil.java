@@ -120,7 +120,8 @@ public final class AbilityUtil
 
 		final Optional<Object> obj = ability.onActivate(mplayer, other);
 		
-		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable(){
+		Bukkit.getScheduler().runTaskLater(Derius.get(), new Runnable()
+		{
 			@Override
 			public void run()
 			{

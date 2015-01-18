@@ -10,6 +10,7 @@ import com.massivecraft.massivecore.EngineAbstract;
 import dk.muj.derius.Derius;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.util.AbilityUtil;
 
 public class ChatEngine extends EngineAbstract
 {
@@ -41,13 +42,11 @@ public class ChatEngine extends EngineAbstract
 	{
 		MPlayer mplayer = MPlayer.get(event.getPlayer());
 		
-		if (!mplayer.isChatListeningOk())
-			return;
+		if (!mplayer.isChatListeningOk()) return;
 		
 		Ability ability = mplayer.getAbilityBySubString(event.getMessage());
-		if (ability == null)
-			return;
+		if (ability == null) return;
 		
-		mplayer.activateAbility(ability);
+		AbilityUtil.activateAbility(mplayer, ability, null, true);
 	}
 }

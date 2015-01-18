@@ -26,7 +26,6 @@ import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
-import dk.muj.derius.util.AbilityUtil;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.Listener;
 
@@ -499,37 +498,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// -------------------------------------------- //
 	// ABILITIES
 	// -------------------------------------------- //
-
-	/**
-	 * Activates an ability
-	 * this is the proper way to activate an ability
-	 * @param {Ability} the ability to activate
-	 * @param {Object} some abilities need another object. Check for the individual ability
-	 */
-	public void activateAbility(final Ability ability, Object other)
-	{	
-		AbilityUtil.activateAbility(this, ability, other);
-	}
-	
-	/**
-	 * Activates an ability
-	 * this is the proper way to activate an ability
-	 * @param {Ability} the ability to activate
-	 */
-	public void activateAbility(final Ability ability)
-	{
-		AbilityUtil.activateAbility(this, ability);
-	}
-	
-	/**
-	 * Deactivates an ability for this player.
-	 * This should however automatically be done by our scheduled tasks.
-	 * @param {Object} object passed from onActivate
-	 */
-	public void deactivateActiveAbility(Optional<Object> other)
-	{
-		AbilityUtil.deactivateActiveAbility(this, other);
-	}
 	
 	/**
 	 * Checks if the player has ability activated.
