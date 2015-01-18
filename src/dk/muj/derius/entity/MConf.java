@@ -23,8 +23,6 @@ public class MConf extends Entity<MConf>
 	// TIMING SETTINGS
 	// -------------------------------------------- //
 	
-
-	
 	public double timingMax = 4.999999;
 	
 	// -------------------------------------------- //

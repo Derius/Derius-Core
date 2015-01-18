@@ -7,6 +7,7 @@ import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
@@ -37,7 +38,10 @@ public class ReqCooldownIsExpired implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		return Txt.parse("<b>You are still too exhausted to do this.");
+		MPlayer mplayer = MPlayer.get(IdUtil.getId(sender.getName()));
+		int seconds = (int) mplayer.getCooldownExpireIn() / 1000;
+		
+		return Txt.parse(Txt.parse(MLang.get().exhausted, seconds));
 	}
 
 	// -------------------------------------------- //

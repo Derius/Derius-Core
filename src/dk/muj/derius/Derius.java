@@ -10,6 +10,7 @@ import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.MChunkColl;
 import dk.muj.derius.entity.MConfColl;
+import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
 
 
@@ -45,6 +46,7 @@ public class Derius extends MassivePlugin
 		MConfColl.get().init();
 		MPlayerColl.get().init();
 		MChunkColl.get().init();
+		MLangColl.get().init();
 		
 		//ENGINE
 		AbilityEngine.get().activate();

@@ -90,6 +90,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// A tool is prepared by right clicking, then can activate abilities
 	private transient Optional<Material> preparedTool = Optional.empty();
 	
+	private transient long toolWaitTime = 0;
+	
 
 	
 	
@@ -565,6 +567,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 			if (this.hasActivatedAny())	return;
 			if (this.getPreparedTool().isPresent())	return;
 			if (!Listener.isRegistered(tool.get())) return;
+			
+			if ( ! this.hasCooldownExpired())
+			{
+				informOrNot();
+				return;
+			}
+			
 			ChatUtil.msgToolPrepared(this, tool.get());
 			this.preparedTool = tool;
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable()
@@ -585,6 +594,17 @@ public class MPlayer extends SenderEntity<MPlayer>
 			this.preparedTool = Optional.empty();
 		}
 		
+	}
+	
+	private void informOrNot()
+	{
+		long timeNow = System.currentTimeMillis();
+		
+		if (timeNow >= this.toolWaitTime + 5000)
+		{
+			msg(Txt.parse(MLang.get().exhausted, (int) this.getCooldownExpireIn() / 1000));
+			this.toolWaitTime = timeNow;
+		}
 	}
 
 	// -------------------------------------------- //
@@ -816,6 +836,12 @@ public class MPlayer extends SenderEntity<MPlayer>
 
 		setCooldownExpire(currentTime+difference/20*1000);
 	}
+	
+	public long getToolTime()
+	{
+		return this.toolWaitTime;
+	}
+	
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE
