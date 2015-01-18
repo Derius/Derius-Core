@@ -28,6 +28,9 @@ public abstract class Ability
 	private String desc = "";
 	private String name;
 	
+	private int ticksLast = 2 * 20;
+	private int ticksCooldown = 20*60*2;
+	
 	protected List<Req> seeRequirements= new CopyOnWriteArrayList<Req>();
 	protected List<Req> activateRequirements= new CopyOnWriteArrayList<Req>();
 	
@@ -205,36 +208,39 @@ public abstract class Ability
 	// -------------------------------------------- //
 	
 	/**
-	 * Gets how many ticks this ability will last
-	 * on passed mplayer, in ticks
-	 * @param {MPlayer} player to check
-	 * @return {int} amount of ticks, this ability would last.
+	 * Sets how many ticks this ability will last.
+	 * @param {int} The ticks it will last
 	 */
-	public int getTicksLast(int lvl)
+	protected void setTicksLast(int ticks)
 	{
-		return this.getTicksLastDefault(lvl);
+		this.ticksLast = ticks;
 	}
 	
-	
-	private int getTicksLastDefault(int level)
+	/**
+	 * Gets how many ticks this ability will last
+	 * @return {int} amount of ticks, this ability would last.
+	 */
+	public int getTicksLast()
 	{
-		return (2 + level/50)*20;
+		return this.ticksLast;
+	}
+
+	/**
+	 * Sets how many ticks the cooldown will last.
+	 * @param {int} The ticks it will last
+	 */
+	protected void setTicksCooldown(int ticks)
+	{
+		this.ticksCooldown = ticks;
 	}
 	
 	/**
 	 * Gets how many ticks the cooldown will last
-	 * after using this ability on passed mplayer
-	 * @param {MPlayer} player to check
 	 * @return {int} amount of ticks, the cooldown will be.
 	 */
-	public int getCooldownTime(MPlayer p)
+	public int getCooldownTime()
 	{
-		return this.getCooldownTimedefault();
-	}
-	
-	private int getCooldownTimedefault()
-	{
-		return 20*60*2;
+		return this.ticksCooldown;
 	}
 
 	// -------------------------------------------- //
