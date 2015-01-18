@@ -28,7 +28,6 @@ public abstract class Ability
 	private String desc = "";
 	private String name;
 	
-	private int ticksLast = 2 * 20;
 	private int ticksCooldown = 20*60*2;
 	
 	protected List<Req> seeRequirements= new CopyOnWriteArrayList<Req>();
@@ -36,6 +35,12 @@ public abstract class Ability
 	
 	//A list of ability which we get from different sources.
 	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
+	
+	// Lambda
+	TicksLastCalculator levelToTicks = (int level) ->
+	{
+		return (2 + level/50) * 20;
+	};
 	
 	// -------------------------------------------- //
 	// STATIC
@@ -206,25 +211,40 @@ public abstract class Ability
 	// -------------------------------------------- //
 	// TIME
 	// -------------------------------------------- //
-	
-	/**
-	 * Sets how many ticks this ability will last.
-	 * @param {int} The ticks it will last
-	 */
-	protected void setTicksLast(int ticks)
-	{
-		this.ticksLast = ticks;
-	}
-	
+
 	/**
 	 * Gets how many ticks this ability will last
 	 * @return {int} amount of ticks, this ability would last.
 	 */
-	public int getTicksLast()
+	public int getTicksLast(int level)
 	{
-		return this.ticksLast;
+		return this.levelToTicks.apply(level);
 	}
 
+	// Lambda
+	/**
+	 * Each ability can have a different way to calculate the cooldowntime.
+	 * We don't know it, but we store the level, which this is depending on.
+	 * This will change the algorithm for this ability.
+	 * @param algorithm
+	 */
+	public final void setTicksLastAlgorithm(TicksLastCalculator algorithm)
+	{
+		this.levelToTicks = algorithm;
+	}
+	
+	/**
+	 * Each ability can have a different way to calculate the cooldowntime.
+	 * We don't know it, but we store the level, which this is depending on.
+	 * This will get the cooldown calculation algorithm for this ability.
+	 * @return {TicksLastCalculator} The algorithm which is being used for this ability.
+	 */
+	public final TicksLastCalculator getTicksLastAlgorithm()
+	{
+		return this.levelToTicks;
+	}
+	
+	// Cooldown
 	/**
 	 * Sets how many ticks the cooldown will last.
 	 * @param {int} The ticks it will last
@@ -242,7 +262,7 @@ public abstract class Ability
 	{
 		return this.ticksCooldown;
 	}
-
+	
 	// -------------------------------------------- //
 	// RESTRICTION
 	// -------------------------------------------- //

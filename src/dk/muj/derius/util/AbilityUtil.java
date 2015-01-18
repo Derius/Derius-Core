@@ -127,7 +127,7 @@ public final class AbilityUtil
 				deactivateActiveAbility(mplayer, obj);
 				mplayer.setCooldownExpireIn(ability.getCooldownTime());
 			}
-		}, ability.getTicksLast());
+		}, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
 		
 		return obj;
 	}
