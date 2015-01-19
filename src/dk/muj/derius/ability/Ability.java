@@ -408,7 +408,7 @@ public abstract class Ability
 	 * @param {Object} other parameter used in some abilities
 	 * @return {Object} this object will be passed to onDeactivate for data transfering.
 	 */
-	public abstract Optional<Object> onActivate(MPlayer p, Object other);
+	public abstract Object onActivate(MPlayer p, Object other);
 	
 	/**
 	 * This is the method called by Derius when your ability
