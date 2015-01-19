@@ -416,7 +416,7 @@ public abstract class Ability
 	 * @param {MPlayer} the player to stop using the ability
 	 * @param {Object} object received from onActivate
 	 */
-	public abstract void onDeactivate(MPlayer p, Optional<Object> other);
+	public abstract void onDeactivate(MPlayer p, Object other);
 	
 	/**
 	 * Gets the skill associated with this ability
