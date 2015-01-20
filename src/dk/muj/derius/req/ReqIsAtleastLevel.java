@@ -16,7 +16,7 @@ public class ReqIsAtleastLevel implements Req
 	// -------------------------------------------- //
 	
 	public static ReqIsAtleastLevel get(int level) { return new ReqIsAtleastLevel(level); }
-	public ReqIsAtleastLevel(int level) { this.level = level; }
+	private ReqIsAtleastLevel(int level) { this.level = level; }
 	
 	// -------------------------------------------- //
 	// FIELDS
