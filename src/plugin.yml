@@ -29,6 +29,7 @@ permissions:
   derius.keys.list: {description: list keys, default: false}
   derius.keys.remove: {description: remove key, default: false}
   derius.list: {description: list skills, default: false}
+  derius.notify.chunk: {description: get notified on chunk cleanup, default: false}
   derius.skill: {description: skill information, default: false}
   derius.skill.learn: {description: learn skill, default: false}
   derius.skill.see: {description: see skill, default: false}
@@ -64,6 +65,7 @@ permissions:
       derius.keys.list: true
       derius.keys.remove: true
       derius.list: true
+      derius.notify.chunk: true
       derius.skill: true
       derius.skill.learn: true
       derius.skill.see: true
@@ -93,6 +95,7 @@ permissions:
   derius.kit.rank1:
     default: false
     children:
+      derius.notify.chunk: true
       derius.kit.rank0: true
   derius.kit.rank0:
     default: false

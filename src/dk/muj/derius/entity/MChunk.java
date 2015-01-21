@@ -3,6 +3,8 @@ package dk.muj.derius.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Chunk;
+
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.ps.PSFormatFormal;
 import com.massivecraft.massivecore.store.Entity;
@@ -17,6 +19,7 @@ public class MChunk extends Entity<MChunk>
 	public MChunk load(MChunk that)
 	{
 		this.blocks = that.blocks;
+		this.lastActive = that.lastActive;
 		
 		return this;
 	}
@@ -34,6 +37,10 @@ public class MChunk extends Entity<MChunk>
 	
 	private Set<PS> blocks;
 	
+	private long lastActive = System.currentTimeMillis();
+	public long getLastActive() { return lastActive; }
+	public void setLastActive(long lastActive) { this.lastActive = lastActive; }
+	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
@@ -47,12 +54,14 @@ public class MChunk extends Entity<MChunk>
 	// BLOCK GETTERS & SETTERS
 	// -------------------------------------------- //
 	
-	public boolean addBlock(final PS ps)
+	public boolean addBlock(final PS ps, Chunk c)
 	{
 		PS block = ps.getBlockCoords(true);
 		PS chunk = ps.getChunkCoords(true).withWorld(ps.getWorld());
 		if ( ! chunk.toString(PSFormatFormal.get()).equals(this.getId())) return false;
 		this.blocks.add(block);
+		
+		this.lastActive = System.currentTimeMillis();
 		
 		return true;
 	}
@@ -65,12 +74,19 @@ public class MChunk extends Entity<MChunk>
 		
 		this.blocks.remove(block);
 		
+		this.lastActive = System.currentTimeMillis();
+		
 		return true;
 	}
 	
 	public Set<PS> getBlocks()
 	{
 		return this.blocks;
+	}
+
+	public void clear()
+	{
+		this.blocks.clear();	
 	}
 	
 }

@@ -31,6 +31,7 @@ public enum Perm
 	KEYS_LIST("keys.list"),
 	KEYS_REMOVE("keys.remove"),
 	LIST("list"),
+	NOTIFY_CHUNK("notify.chunk"),
 	SKILL("skill"),
 	SKILL_LEARN("skill.learn."),
 	SKILL_SEE("skill.see."),

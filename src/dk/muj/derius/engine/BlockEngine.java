@@ -13,9 +13,15 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
+import dk.muj.derius.Perm;
+import dk.muj.derius.entity.MChunk;
+import dk.muj.derius.entity.MChunkColl;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.util.BlockUtil;
 import dk.muj.derius.util.Listener;
 
@@ -41,7 +47,46 @@ public class BlockEngine extends EngineAbstract
 	}
 	
 	// -------------------------------------------- //
-	// EVENTS
+	// OVERRIDE: RUNNABLE
+	// -------------------------------------------- //
+	
+	@Override
+	public void run()
+	{
+		for (MPlayer mplayer : MPlayerColl.get().getAll(p -> Perm.NOTIFY_CHUNK.has(p.getSender())))
+		{
+			mplayer.msg(MLang.get().prefix+" <i>Chunk cleanup is about to happen \n <i>lag might occur");
+		}
+		cleanWorlds();
+	}
+	
+	@Override
+	public Long getPeriod()
+	{
+		//Every 12 hours we perform a cleanup
+		//It is also done on startup
+		//				1Sec	1min	1hour	12hours
+		return (long) (	20 *	60 *	60 *	12);
+	}
+	
+	// -------------------------------------------- //
+	// WORLDS
+	// -------------------------------------------- //
+	
+	public void cleanWorlds()
+	{
+		for (MChunk mchunk : MChunkColl.get().getAll())
+		{
+			if (mchunk.getLastActive() < System.currentTimeMillis() - Txt.millisPerDay * 20)
+			{
+				mchunk.clear();
+			}
+		}
+	}
+	
+	
+	// -------------------------------------------- //
+	// BLOCK EVENTS
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
