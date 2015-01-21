@@ -51,7 +51,7 @@ public final class BlockUtil
 		{
 			// We wil always like to remove, but not always add
 			if ( ! getBlocksTypesToListenFor().contains(block.getType())) return;
-			chunk.addBlock(ps);
+			chunk.addBlock(ps, ps.asBukkitChunk());
 		}
 		else
 		{
