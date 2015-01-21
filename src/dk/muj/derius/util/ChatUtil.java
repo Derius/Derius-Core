@@ -95,13 +95,13 @@ public final class ChatUtil
 		if (title.isPresent())
 		{	
 			String theTitle = "{\"text\":\"\",\"extra\":[{\"text\":\""+Txt.parse(title.get())+"\"}]}";
-			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" theTitle "+ title);
+			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" title "+ theTitle);
 		}
 		
-		if (title.isPresent())
+		if (subTitle.isPresent())
 		{	
 			String theSubTitle = "{\"text\":\"\",\"extra\":[{\"text\":\""+Txt.parse(subTitle.get())+"\"}]}";
-			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ subTitle);
+			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ theSubTitle);
 		}
 
 		return true;
