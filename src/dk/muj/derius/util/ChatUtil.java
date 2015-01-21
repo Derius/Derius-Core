@@ -1,5 +1,7 @@
 package dk.muj.derius.util;
 
+import java.util.Optional;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -79,20 +81,29 @@ public final class ChatUtil
 		return (new ActionBar_v1_8_R1()).send(player, msg);
 	}
 	
-	public static boolean sendTitle(Player player, String msg, int fadeIn, int stay, int fadeOut)
+	public static boolean sendTitle(Player player, Optional<String> title, Optional<String> subTitle, int fadeIn, int stay, int fadeOut)
 	{
-		if(player == null || msg == null) return false;
+		if(player == null || title == null) return false;
 		
 		CommandSender sender = new DeriusSender();
 		
-		String name = sender.getName();
-		msg = Txt.parse(msg);
-		msg = "{\"text\":\"\",\"extra\":[{\"text\":\""+msg+"\"}]}";
+		String name = player.getName();
 		
 		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
 		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + fadeIn + space + stay + space + fadeOut);
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" title "+ msg);
 		
+		if (title.isPresent())
+		{	
+			String theTitle = "{\"text\":\"\",\"extra\":[{\"text\":\""+Txt.parse(title.get())+"\"}]}";
+			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" theTitle "+ title);
+		}
+		
+		if (title.isPresent())
+		{	
+			String theSubTitle = "{\"text\":\"\",\"extra\":[{\"text\":\""+Txt.parse(subTitle.get())+"\"}]}";
+			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ subTitle);
+		}
+
 		return true;
 	}
 	

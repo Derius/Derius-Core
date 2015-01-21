@@ -1,5 +1,8 @@
 package dk.muj.derius.util;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
@@ -20,6 +23,29 @@ public final class AbilityUtil
 	private AbilityUtil()
 	{
 		
+	}
+	
+	// -------------------------------------------- //
+	// LEVEL SETTINGS
+	// -------------------------------------------- //
+	
+	public static <S> S getLevelSetting(Map<Integer, S> settings, int level)
+	{
+		Iterator<Entry<Integer, S>> entries = settings.entrySet().iterator();
+		
+		Entry<Integer, S> most = null;
+		
+		while (entries.hasNext())
+		{
+			Entry<Integer, S> entry = entries.next();
+			
+			if ( ! (entry.getKey() <= level)) continue;
+			if ( most != null && entry.getKey() < most.getKey()) continue;
+			most = entry;
+			
+		}
+		
+		return most.getValue();
 	}
 	
 	// -------------------------------------------- //
