@@ -37,7 +37,7 @@ public final class ChatUtil
 	public static void msgLevelUp(MPlayer p, Skill s, int level)
 	{
 		MLang lang = MLang.get();
-		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(lang.levelUp, level, s.getDisplayName(p)), 
+		ChatUtil.sendTitle(p.getPlayer(), Optional.empty(), Optional.of(Txt.parse(lang.levelUp, level, s.getDisplayName(p))), 
 				lang.timeLvlUpFadeIn, lang.timeLvlUpStay, lang.timeLvlUpFadeOut);
 	}
 	
@@ -50,14 +50,14 @@ public final class ChatUtil
 	public static void msgAbilityActivate(MPlayer p, Ability a)
 	{
 		MLang lang = MLang.get();
-		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(lang.abilityActivated, a.getDisplayName(p)), 
+		ChatUtil.sendTitle(p.getPlayer(), Optional.empty(), Optional.of(Txt.parse(lang.abilityActivated, a.getDisplayName(p))), 
 				lang.timeAbilityActivateFadeIn, lang.timeAbilityActivateStay, lang.timeAbilityActivateFadeOut);
 	}
 	
 	public static void msgAbilityDeactivate(MPlayer p, Ability a)
 	{
 		MLang lang = MLang.get();
-		ChatUtil.sendSubTitle(p.getPlayer(), Txt.parse(lang.abilityDeactivated, a.getDisplayName(p)), 
+		ChatUtil.sendTitle(p.getPlayer(), Optional.empty(), Optional.of(Txt.parse(lang.abilityDeactivated, a.getDisplayName(p))), 
 				lang.timeAbilityDeactivateFadeIn, lang.timeAbilityDeactivateStay, lang.timeAbilityDeactivateFadeOut);
 		
 	}
@@ -104,25 +104,6 @@ public final class ChatUtil
 			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ subTitle);
 		}
 
-		return true;
-	}
-	
-	public static boolean sendSubTitle(Player player, String msg, int fadeIn, int stay, int fadeOut)
-	{
-		if(player == null || msg == null) return false;
-		
-		CommandSender sender = new DeriusSender();
-		
-		String name = player.getName();
-		if(name == null) return false;
-		
-		msg = Txt.parse(msg);
-		msg = "{\"text\":\"\",\"extra\":[{\"text\":\""+msg+"\"}]}";
-		
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + fadeIn + space + stay + space + fadeOut);
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ msg);
-		
 		return true;
 	}
 	
