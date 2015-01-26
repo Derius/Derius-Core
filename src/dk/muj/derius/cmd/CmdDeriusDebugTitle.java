@@ -15,7 +15,6 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 
 	public CmdDeriusDebugTitle()
 	{
-		super.setDesc("test titles");
 		super.addRequiredArg("activate/deactive/up");
 		super.addRequiredArg("id");
 		
@@ -39,28 +38,27 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 				Ability a1 = Ability.getAbilityById(id);
 				if(a1 != null)
 				{
-				ChatUtil.msgAbilityActivate(msender, a1);
-				break;
+					ChatUtil.msgAbilityActivate(msender, a1);
+					break;
 				}
 			case "deactivate" : 
 				Ability a2 = Ability.getAbilityById(id);
 				if(a2 != null)
 				{
-				ChatUtil.msgAbilityDeactivate(msender, a2);
-				break;
+					ChatUtil.msgAbilityDeactivate(msender, a2);
+					break;
 				}
 			case "up" : 
 				Skill skill = Skill.getSkillById(id);
 				if(skill != null)
 				{
-				ChatUtil.msgLevelUp(msender, skill, msender.getLvl(skill));
-				break;
+					ChatUtil.msgLevelUp(msender, skill, msender.getLvl(skill));
+					break;
 				}
 			default:
 				msender.sendMessage("An error occured");
 				break;
 		}
-		
 	}
 	
 }

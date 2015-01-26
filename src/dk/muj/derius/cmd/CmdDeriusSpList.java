@@ -20,8 +20,6 @@ public class CmdDeriusSpList  extends DeriusCommand
 		
 	public CmdDeriusSpList()
 	{
-		super.setDesc("lists specialised skills");
-		
 		super.addOptionalArg("player", "you");
 		
 		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LIST.node));
@@ -34,20 +32,25 @@ public class CmdDeriusSpList  extends DeriusCommand
 	@Override
 	public void perform()
 	{
+		List<String> messages = new ArrayList<String>();
+		
+		// Args
 		MPlayer target = super.arg(0, ARMPlayer.getAny(), msender);
-		if(target == null) return;
-		if(args.size() == 1 && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true))
-			return;
-		List<Skill> skills = target.getSpecialisedSkills();
+		if (target == null) return;
+		
+		if (args.size() == 1 && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 
-		List<String> msgLines = new ArrayList<String>();
-		this.msg(Txt.titleize(target.getDisplayName(msender)+ "'s specilisations"));
-		for(Skill s: skills)
-			msgLines.add(s.getDisplayName(msender)+": "+target.getLvlStatus(s).toString());
-		msender.msg(msgLines);
+		msg(Txt.titleize(target.getDisplayName(msender)+ "'s specilisations"));
+		
+		for (Skill s : target.getSpecialisedSkills())
+		{
+			messages.add(Txt.parse(s.getDisplayName(msender)+": "+target.getLvlStatus(s).toString()));
+		}
+		
+		// Send Message
+		sendMessage(messages);
 	}
 	
-
 	@Override
     public List<String> getAliases()
     {

@@ -20,11 +20,9 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	
 	public CmdDeriusKeysAbilityid()
 	{
-		this.addOptionalArg("skill", "all skills");
+		super.addOptionalArg("skill", "all skills");
 		
-		this.setDesc("Shows you the ability Id of a list of abilities.");
-		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.node));
+		super.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.node));
 	}
 	
 	// -------------------------------------------- //
@@ -34,20 +32,26 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		List<String> list = new ArrayList<String>();
+		List<String> messages = new ArrayList<String>();
 		
 		//Args
 		Skill skill = this.arg(0, ARSkill.get(), null);
 		
 		// Which abilities should be shown
 		if (skill == null)
-			for(Ability ability: Ability.getAllAbilities())
-				list.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
+		{
+			for (Ability ability : Ability.getAllAbilities())
+			{
+				messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
+			}
+		}
 		else
-			for(Ability ability: skill.getAllAbilities())
-				list.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
+		{
+			for (Ability ability : skill.getAllAbilities())
+				messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
+		}
 		
-		msender.msg(list);
+		sendMessage(messages);
 	}
 	
 	

@@ -24,7 +24,6 @@ public class CmdDeriusSpLearn extends DeriusCommand
 	public CmdDeriusSpLearn()
 	{
 		super.addRequiredArg("skill");
-		super.setDesc("specialises in said skill");
 		
 		super.addRequirements(ReqIsPlayer.get());
 		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LEARN.node));
@@ -37,16 +36,18 @@ public class CmdDeriusSpLearn extends DeriusCommand
 	@Override
 	public void perform()
 	{
+		// Args
 		Skill skill = super.arg(0, ARSkill.get());
-		if(skill == null) return;
+		if (skill == null) return;
+		
 		long moveMillis = PlayerUtil.getLastMoveMillis(msender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		
 		if(moveMillis > 0)
 		{
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAll()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
-			msender.sendMessage(Txt.parse("<b>You cannot change specialisation right now"));
-			msender.sendMessage(Txt.parse("<b> please stand still for %s <b>more",moveDesc));
+			msg("<b>You cannot change specialisation right now");
+			msg("<b> please stand still for %s <b>more", moveDesc);
 			return;
 		}
 		

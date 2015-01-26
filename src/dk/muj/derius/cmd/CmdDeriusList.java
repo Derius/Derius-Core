@@ -1,9 +1,11 @@
 package dk.muj.derius.cmd;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
+import com.massivecraft.massivecore.pager.PagerSimple;
+import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
@@ -12,8 +14,6 @@ import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
-// Shows you a list of all the available skills (color coded for state) and a short description of them.
-// Color code of skill: grey = locked, you can't learn it | aqua = You have started learning it and are on some level
 public class CmdDeriusList extends DeriusCommand
 {
 	// -------------------------------------------- //
@@ -22,11 +22,10 @@ public class CmdDeriusList extends DeriusCommand
 	
 	public CmdDeriusList()
 	{
-		this.addOptionalArg("player", "you");
+		super.addOptionalArg("player", "you");
+		super.addOptionalArg("page", "1");
 		
-		this.setDesc("lists skills");
-		
-		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
+		super.addRequirements(ReqHasPerm.get(Perm.LIST.node));
 	}
 	
 	// -------------------------------------------- //
@@ -36,25 +35,27 @@ public class CmdDeriusList extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		List<String> msgLines = new ArrayList<String>();
-		
 		// Args
-		// Player args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
 		if (mplayer == null) return;
+		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
+		if (pageHumanBased == null) return;
 		
-		// Message construction
-		msgLines.add(Txt.titleize("Skills")); // Titel
+		// Create Pager
+		final List<Skill> skills = Skill.getAllSkills();
+		final PagerSimple<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		
-		// Put the skill into the list, colored accordingly to players ability to learn them.
-		for (Skill skill: Skill.getAllSkills())
-		{
-			// Example Output (before before applying the colors): "<aqua>Mining: <i>Makes you better at mining."
-			msgLines.add(Txt.parse("%s: <i>%s", skill.getDisplayName(msender), skill.getDescription()));
-		}
+		// Use Pager
+		List<String> messages = pager.getPageTxt(pageHumanBased, "List of skills", new Stringifier<Skill>() {
+			@Override
+			public String toString(Skill skill)
+			{
+				return Txt.parse("%s: %s", skill.getDisplayName(msender), skill.getDescription());
+			}
+		});
 		
 		// Send Message
-		this.msg(msgLines);
+		sendMessage(messages);
 	}
 	
 	@Override

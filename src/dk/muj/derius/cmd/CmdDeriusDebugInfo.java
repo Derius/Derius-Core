@@ -18,8 +18,6 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 	
 	public CmdDeriusDebugInfo()
 	{
-		super.setDesc("info for debugging");
-		
 		super.addAliases("info");
 	}
 	
@@ -30,20 +28,24 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		List<String> msgLines = new ArrayList<String>();
+		List<String> messages = new ArrayList<String>();
 		
-		msgLines.add(Txt.parse("<art>REGISTERED SKILLS"));
-		for(Skill skill: Skill.getAllSkills())
-			msgLines.add(Txt.parse("<red>")+skill.getId() +" "+ skill.getName());
+		messages.add(Txt.parse("<art>REGISTERED SKILLS"));
+		for (Skill skill : Skill.getAllSkills())
+		{
+			messages.add(Txt.parse("<red>")+skill.getId() +" "+ skill.getName());
+		}
 		
-		msgLines.add(Txt.parse("<art>REGISTERED ABILITIES"));
-		for(Ability ability: Ability.getAllAbilities())
-			msgLines.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName()+"          "+ability.getSkill().getId());
+		messages.add(Txt.parse("<art>REGISTERED ABILITIES"));
+		for (Ability ability : Ability.getAllAbilities())
+		{
+			messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName()+"          "+ability.getSkill().getId());
+		}
 
-		msgLines.add(Txt.parse("<art>REGISTERED INTERACT MATERIALS"));
-		msgLines.add("<red>"+Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>"));
+		messages.add(Txt.parse("<art>REGISTERED INTERACT MATERIALS"));
+		messages.add("<red>"+Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>"));
 		
-		msg(msgLines);
+		sendMessage(messages);
 	}
 	
 }

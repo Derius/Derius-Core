@@ -8,22 +8,18 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysRemove extends DeriusCommand
 {
-	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
 	public CmdDeriusKeysRemove()
 	{
-		this.addRequiredArg("key");
+		super.addRequiredArg("key/all");
 		
-		this.setDesc("Removes a key from your list of activation keys.");
-		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.node));
+		super.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.node));
 	}
 	
 	// -------------------------------------------- //
@@ -33,21 +29,27 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		MPlayer mplayer = this.msender;
-		
+		// Args
 		String key = this.arg(0).toLowerCase();
 		
-		if ( ! mplayer.isAlreadyChatKey(key))
+		// All case?
+		if (key.equals("all"))
 		{
-			mplayer.msg(Txt.parse(MLang.get().keysAlreadyHas));
+			msender.clearChatKeys();
+			sendMessage(Txt.parse(MLang.get().keysClearSuccess));
 			return;
 		}
 		
-		mplayer.removeChatKeys(key);
+		// Isn't chat key
+		if ( ! msender.isAlreadyChatKey(key))
+		{
+			sendMessage(Txt.parse(MLang.get().keyHanst, key));
+			return;
+		}
 		
-		mplayer.msg(Txt.parse(MLang.get().keysRemoveSuccess, key));
+		msender.removeChatKey(key);
+		sendMessage(Txt.parse(MLang.get().keyRemoveSuccess, key));
 	}
-	
 	
 	@Override
     public List<String> getAliases()

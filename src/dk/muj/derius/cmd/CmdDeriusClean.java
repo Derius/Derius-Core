@@ -18,11 +18,11 @@ public class CmdDeriusClean extends DeriusCommand
 {
 	public CmdDeriusClean()
 	{
-		this.addRequiredArg("id of skill/ability or all");
-		this.addOptionalArg("player/all", "you");
-		this.addOptionalArg("force it", "no");
+		super.addRequiredArg("id of skill/ability or all");
+		super.addOptionalArg("player/all", "you");
+		super.addOptionalArg("force it", "no");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.CLEAN.node));
+		super.addRequirements(ReqHasPerm.get(Perm.CLEAN.node));
 	}
 	
 	// -------------------------------------------- //
@@ -36,9 +36,9 @@ public class CmdDeriusClean extends DeriusCommand
 		List<MPlayer> playerList = new ArrayList<MPlayer>();
 		
 		// Arg 0: ID or all
-		if (this.arg(0).equals("all"))
+		if (this.arg(0).equalsIgnoreCase("all"))
 		{
-			if (Perm.CLEAN_SKILL_ALL.has(sender, true) )
+			if (Perm.CLEAN_SKILL_ALL.has(sender, true))
 			{
 				skillList.addAll(Skill.getAllSkills());
 			}
@@ -53,7 +53,7 @@ public class CmdDeriusClean extends DeriusCommand
 		}
 
 		// Arg 1: player, yourself or all
-		if (this.arg(1).equals("all"))
+		if (this.arg(1).equalsIgnoreCase("all"))
 		{
 			if (Perm.CLEAN_PLAYER_ALL.has(sender, true) )
 			{
@@ -67,7 +67,7 @@ public class CmdDeriusClean extends DeriusCommand
 		else
 		{
 			MPlayer target = this.arg(1, ARMPlayer.getAny(), msender);
-			if(target == null) return;
+			if (target == null) return;
 			
 			// Target permission check
 			if (target == msender)
@@ -101,13 +101,11 @@ public class CmdDeriusClean extends DeriusCommand
 		String forceYes = "Yes, I want to force this";
 		if(!force.equals(forceYes))
 			return;
-		
-
-		
+	
 		// Execute the cleaning
-		for (Skill skill: skillList)
+		for (Skill skill : skillList)
 		{
-			for(MPlayer target: playerList)
+			for (MPlayer target : playerList)
 			{
 				target.cleanNoCheck(skill.getId());
 			}

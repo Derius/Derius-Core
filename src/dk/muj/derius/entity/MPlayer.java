@@ -618,7 +618,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} The key that the Chat should listen for
 	 * @param {Ability} the ability it should activate
 	 */
-	public void addChatKeys(String key, Ability ability)
+	public void addChatKey(String key, Ability ability)
 	{
 		this.chatKeys.put(key, ability.getId());
 	}
@@ -627,7 +627,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Removes an entry to the mplayers chatkey map
 	 * @param {String} The key and its ability that should be removed
 	 */
-	public void removeChatKeys (String key)
+	public void removeChatKey (String key)
 	{
 		this.chatKeys.remove(key);
 	}

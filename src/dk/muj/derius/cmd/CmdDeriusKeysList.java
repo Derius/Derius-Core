@@ -1,10 +1,11 @@
 package dk.muj.derius.cmd;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
+import com.massivecraft.massivecore.pager.PagerSimple;
+import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
@@ -20,11 +21,10 @@ public class CmdDeriusKeysList extends DeriusCommand
 	
 	public CmdDeriusKeysList()
 	{
-		this.addOptionalArg("player", "yourself");
-		this.addOptionalArg("page", "1");
-		this.setDesc("Shows your list of activation keys.");
+		super.addOptionalArg("player", "yourself");
+		super.addOptionalArg("page", "1");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.node));
+		super.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.node));
 	}
 	
 	// -------------------------------------------- //
@@ -34,17 +34,28 @@ public class CmdDeriusKeysList extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		List<String> msgLines = new ArrayList<String>();
-		
 		// Args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);	
-		if(mplayer == null)
-			return;
+		if(mplayer == null) return;
+		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
+		if (pageHumanBased == null) return;
 		
-		int page = this.arg(1, ARInteger.get(), 1);
+		// Create Pager
+		String title = mplayer == msender ? Txt.parse("<i>Your list of Keys") : Txt.parse("%s's <i>list of Keys", mplayer.getDisplayName(msender));
+		final List<String> keysToAbility = mplayer.chatKeysToString();
+		final PagerSimple<String> pager = new PagerSimple<String>(keysToAbility, sender);
 		
-		msgLines.addAll(mplayer.chatKeysToString());
-		msender.msg(Txt.getPage(msgLines, page, "List of Keys"));
+		// Use Pager
+		List<String> messages = pager.getPageTxt(pageHumanBased, title, new Stringifier<String>() {
+			@Override
+			public String toString(String string)
+			{
+				return string;
+			}
+		});
+		
+		// Send Message
+		sendMessage(messages);
 	}
 	
 	
