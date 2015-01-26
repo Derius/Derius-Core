@@ -42,13 +42,14 @@ public class Derius extends MassivePlugin
 	public void onEnable()
 	{
 		this.preEnable();
+		
 		// Initializing Database
 		MConfColl.get().init();
 		MPlayerColl.get().init();
 		MChunkColl.get().init();
 		MLangColl.get().init();
 		
-		//ENGINE
+		// Engine activation
 		AbilityEngine.get().activate();
 		MainEngine.get().activate();
 		ChatEngine.get().activate();
@@ -57,7 +58,7 @@ public class Derius extends MassivePlugin
 		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius();
-		this.outerCmdDerius.register(this); // "this" passes "Derius" to Massivecore, that can be usefull for other plugins
+		this.outerCmdDerius.register(this);
 		
 		this.postEnable();
 	}

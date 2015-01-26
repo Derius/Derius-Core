@@ -4,7 +4,6 @@ import org.bukkit.permissions.Permissible;
 
 import com.massivecraft.massivecore.util.PermUtil;
 
-// The Permissions Enum of Derius
 public enum Perm
 {
 	// -------------------------------------------- //
