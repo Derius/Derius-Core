@@ -52,12 +52,16 @@ public class AbilityEngine extends EngineAbstract
 	{
 		Ability ability = e.getAbility();
 		Skill skill = ability.getSkill();
-		if(ability.getType() == AbilityType.ACTIVE)
+		if (ability.getType() == AbilityType.ACTIVE)
+		{
 			skill.getActiveAbilities().add(ability);
-		else if(ability.getType() == AbilityType.PASSIVE)
+		}
+		else if (ability.getType() == AbilityType.PASSIVE)
+		{
 			skill.getPassiveAbilities().add(ability);
+		}
 		
-		if(MConf.get().worldAbilityUse.get(new Integer(ability.getId())) == null)
+		if (MConf.get().worldAbilityUse.get(new Integer(ability.getId())) == null)
 		{
 			MConf.get().worldAbilityUse.put(ability.getId(), new WorldExceptionSet());
 		}
@@ -78,17 +82,21 @@ public class AbilityEngine extends EngineAbstract
 	public void onActivate(AbilityActivateEvent event)
 	{
 		Ability ability = event.getAbility();
-		MPlayer player = event.getMPlayer();
-		if(ability.getType() == AbilityType.ACTIVE)
-			ChatUtil.msgAbilityActivate(player, ability);
+		MPlayer mplayer = event.getMPlayer();
+		if (ability.getType() == AbilityType.ACTIVE)
+		{
+			ChatUtil.msgAbilityActivate(mplayer, ability);
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onDeactivate(AbilityDeactivateEvent event)
 	{
 		Ability ability = event.getAbility();
-		MPlayer player = event.getMPlayer();
-		if(ability.getType() == AbilityType.ACTIVE)
-			ChatUtil.msgAbilityDeactivate(player, ability);
+		MPlayer mplayer = event.getMPlayer();
+		if (ability.getType() == AbilityType.ACTIVE)
+		{
+			ChatUtil.msgAbilityDeactivate(mplayer, ability);
+		}
 	}
 }

@@ -30,16 +30,16 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	/**
-	 * The maximum amount of skills you can specialize in
+	 * The maximum amount of skills you can specialise in
 	 */
 	public int specialisationMax = 3;
 	
 	/**
-	 * The maximum level you can reach without specialization
+	 * The maximum level you can reach without specialisation
 	 */
 	public int softCap = 1000;
 	/**
-	 * The maximum level you can reach with specialization
+	 * The maximum level you can reach with specialisation
 	 */
 	public int hardCap = 2000;
 	

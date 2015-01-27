@@ -2,7 +2,6 @@ package dk.muj.derius.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,6 +27,7 @@ import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.Listener;
+import dk.muj.derius.util.SkillUtil;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
@@ -80,7 +80,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	private Map<String, Integer> chatKeys = new HashMap<String, Integer>();
 	
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
-	// Long is the millis (starting 1 January 1970), when the abilitys cooldown expires.
+	// Long is the millis when the abilitys cooldown expires.
 	private transient long cooldown = 0;
 	
 	// An int that stores which Ability is currently activated.
@@ -91,27 +91,22 @@ public class MPlayer extends SenderEntity<MPlayer>
 	private transient Optional<Material> preparedTool = Optional.empty();
 	
 	// -------------------------------------------- //
-	// MANAGING EXP
+	// FIELD: EXP
 	// -------------------------------------------- //
+	
 	/**
 	 * Sets users exp in said skill.
 	 * @param {Skill} the skill
 	 * @param {long} the exp to set it to
 	 */
-	private void setExp(Skill skill, long exp)
-	{
-		this.exp.put(skill.getId(), exp);
-	}
+	private void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); }
 	
 	/**
 	 * Gets players exp in said skill.
 	 * @param {Skill} the skill
 	 * @return {long} players exp in said skill
 	 */
-	public long getExp(Skill skill)
-	{
-		return this.exp.get(skill.getId());
-	}
+	public long getExp(Skill skill) { return this.exp.get(skill.getId()); }
 	
 	/**
 	 * Adds exp to user in said skill
@@ -123,16 +118,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if(lvlBefore >= this.getMaxLevel(skill)) return;
+		if (lvlBefore >= SkillUtil.getMaxLevel(skill, this)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
-		if(event.isCancelled()) return;
+		if (event.isCancelled()) return;
 		this.setExp(skill, this.getExp(skill)+event.getExpAmount());
 		
 		int lvlAfter = this.getLvl(skill);
-		if(lvlBefore != lvlAfter)
+		if (lvlBefore != lvlAfter)
+		{
 			ChatUtil.msgLevelUp(this, skill, lvlAfter);
+		}
 	}
 	
 	/**
@@ -145,16 +142,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if(lvlBefore >= this.getMaxLevel(skill)) return;
+		if (lvlBefore >= SkillUtil.getMaxLevel(skill, this)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
-		if(event.isCancelled()) return;
+		if (event.isCancelled()) return;
 		this.setExp(skill, this.getExp(skill)-event.getExpAmount());
 		
 		int lvlAfter = this.getLvl(skill);
-		if(lvlBefore != lvlAfter)
+		if (lvlBefore != lvlAfter)
+		{
 			ChatUtil.msgLevelDown(this, skill, lvlAfter);
+		}
 	}
 	
 	/**
@@ -162,64 +161,20 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {LvlStatus} The LvlStatus for said skill & this player
 	 */
-	public LvlStatus getLvlStatus(Skill skill)
-	{
-		return skill.getLvlStatusFromExp(this.getExp(skill));
-	}
+	public LvlStatus getLvlStatus(Skill skill) { return skill.getLvlStatusFromExp(this.getExp(skill)); }
 	
 	/**
 	 * Gets level for said skill in this MPlayer
 	 * @param {String} id of the skill
 	 * @return {int} players level in said skill
 	 */
-	public int getLvl(Skill skill)
-	{
-		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
-	}
-	
-	// -------------------------------------------- //
-	// MANAGE SKILLS
-	// -------------------------------------------- //
-	
-	/**
-	 * Tells whether or not the player has this skill initiated.
-	 * @param {Skill} the skill
-	 * @return true if the player has something in this skill (even 0)
-	 */
-	public boolean hasSkill(Skill skill)
-	{
-		return this.exp.containsKey(skill.getId());
-	}
-	
-	/**
-	 * Instantiates this skill for the player
-	 * if not already instantiated
-	 * @param {Skill} the skill
-	 */
-	public void InstantiateSkill(Skill skill)
-	{
-		if(!this.hasSkill(skill))
-		{
-			this.exp.put(skill.getId(), new Long(0));
-		}
-	}
-	
-	/**
-	 * The maximum level a player can reach in said skill
-	 * @param {Skill} skill to check for
-	 * @return {int} the level the player can reach
-	 */
-	public int getMaxLevel(Skill skill)
-	{
-		if(this.isSpecialisedIn(skill))
-			return MConf.get().hardCap;
-		return MConf.get().softCap;
-	}
-	
+	public int getLvl(Skill skill) { return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl(); }
+
 	// -------------------------------------------- //
 	// PERMISSION
 	// -------------------------------------------- //
 	
+	// TODO: Do we need this?
 	/**
 	 * Tells whether or not this player can learn said skill.
 	 * The requirements is set up by the skill
@@ -227,10 +182,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} the skill to check for
 	 * @return true if the player can learn this skill
 	 */
-	public boolean canLearnSkill(Skill skill)
-	{
-		return skill.canPlayerLearnSkill(this);
-	}
+	public boolean canLearnSkill(Skill skill) { return skill.canPlayerLearnSkill(this); }
 	
 	/**
 	 * Tells whether or not this player can see said skill.
@@ -238,11 +190,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} skill to check for
 	 * @return {boolean} true if player can see skill
 	 */
-	public boolean canSeeSkill(Skill skill)
-	{
-		return PermUtil.has(this.getSender(), Perm.SKILL_SEE.node + skill.getId());
-	}
+	public boolean canSeeSkill(Skill skill) { return PermUtil.has(this.getSender(), Perm.SKILL_SEE.node + skill.getId()); }
 	
+	// TODO: Do we need this?
 	/**
 	 * Tells whether or not this player can use said ability.
 	 * The requirements is set up by the skill
@@ -250,21 +200,16 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Ability} ability to check for
 	 * @return true if the player can use this ability
 	 */
-	public boolean canUseAbility(Ability ability)
-	{
-		return ability.canPlayerActivateAbility(this);
-	}
+	public boolean canUseAbility(Ability ability) { return ability.canPlayerActivateAbility(this); }
 	
+	// TODO: Do we need this?
 	/**
 	 * Tells whether or not this player can see said skill.
 	 * This is used in command arguments and such.
 	 * @param {Ability} ability to check for
 	 * @return {boolean} true if player can see this ability
 	 */
-	public boolean canSeeAbility(Ability ability)
-	{
-		return ability.canPlayerSeeAbility(this);
-	}
+	public boolean canSeeAbility(Ability ability) { return ability.canPlayerSeeAbility(this); }
 	
 	// -------------------------------------------- //
 	// CLEAN
@@ -279,16 +224,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		this.exp.remove(id);
 		this.specialised.remove(id);
-		Iterator<Entry<String, Integer>> it = this.chatKeys.entrySet().iterator();
-		 while (it.hasNext()) 
-		 {
-			 Entry<String, Integer> pairs = it.next();
-			 if(pairs.getKey().equals(new Integer(id)))
+		for (Entry<String, Integer> entry : this.chatKeys.entrySet())
+		{
+			if (entry.getKey().equals(new Integer(id)))
 			 {
-				 this.chatKeys.remove(pairs.getKey());
-		
+				 this.chatKeys.remove(entry.getKey());
 			 }
-		 }
+		}
 	}
 	
 	/**
@@ -298,22 +240,20 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void cleanWithCheck(int id)
 	{
-		if(Skill.getSkillById(id) == null)
+		if (Skill.getSkillById(id) == null)
 		{
 			this.exp.remove(id);
 			this.specialised.remove(id);
 		}
 		
-		if(Ability.getAbilityById(id) == null)
+		if (Ability.getAbilityById(id) == null)
 		{
-			Iterator<Entry<String, Integer>> it = this.chatKeys.entrySet().iterator();
-			while (it.hasNext()) 
+			for (Entry<String, Integer> entry : this.chatKeys.entrySet())
 			{
-				Entry<String, Integer> pairs = it.next();
-				if(pairs.getKey().equals(new Integer(id)))
-				{
-					this.chatKeys.remove(pairs.getKey());
-				}
+				if (entry.getKey().equals(new Integer(id)))
+				 {
+					 this.chatKeys.remove(entry.getKey());
+				 }
 			}
 		}
 	}
@@ -324,12 +264,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void cleanAllNoCheck()
 	{
-		for(int id: this.exp.keySet())
+		for (int id : this.exp.keySet())
+		{
 			this.cleanNoCheck(id);
-		for(int id: this.specialised)
+		}
+		for (int id : this.specialised)
+		{
 			this.cleanNoCheck(id);
-		for(int id: this.chatKeys.values())
+		}
+		for (int id : this.chatKeys.values())
+		{
 			this.cleanNoCheck(id);
+		}
 	}
 	
 	/**
@@ -338,12 +284,18 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void cleanAllWithCheck()
 	{
-		for(int id: this.exp.keySet())
+		for (int id : this.exp.keySet())
+		{
 			this.cleanWithCheck(id);
-		for(int id: this.specialised)
+		}
+		for (int id : this.specialised)
+		{
 			this.cleanWithCheck(id);
-		for(int id: this.chatKeys.values())
+		}
+		for (int id : this.chatKeys.values())
+		{
 			this.cleanWithCheck(id);
+		}
 	}
 	
 	
@@ -358,11 +310,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean isSpecialisedIn(Skill skill)
 	{
-		if( specialised.contains(skill.getId()))
-			return true;
+		if (this.specialised.contains(skill.getId())) return true;
 		
-		if(MConf.get().specialisationAutomatic.contains(skill.getId()))
-			return true;
+		if (MConf.get().specialisationAutomatic.contains(skill.getId())) return true;
 		
 		return false;
 	}
@@ -386,7 +336,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 			}
 		}
 		
-		specialised.add(skill.getId());
+		this.specialised.add(skill.getId());
 		return true;
 	}
 	
@@ -398,7 +348,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void setNotSpecialisedIn(Skill skill)
 	{	
-		specialised.remove(skill.getId());
+		this.specialised.remove(skill.getId());
 		this.setExp(skill, 0);
 	}
 	
@@ -410,7 +360,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public List<Skill> getSpecialisedSkills()
 	{		
 		List<Skill> ret = new ArrayList<Skill>();
-		for(int i : specialised)
+		for (int i : this.specialised)
 		{
 			Skill skill = Skill.getSkillById(i);
 			if (skill != null) ret.add(skill);
@@ -449,7 +399,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	
 	// -------------------------------------------- //
-	// SPECIALISATION COOLDOWN
+	// FIELD: COOLDOWN
 	// -------------------------------------------- //
 	
 	/**
@@ -457,20 +407,14 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * This is used so players don't change their specialisation all the time.
 	 * @return {long} system millis for last specialisation change
 	 */
-	public long getSpecialisationChangeMillis()
-	{
-		return this.specialisedMillis;
-	}
+	public long getSpecialisationChangeMillis() { return this.specialisedMillis; }
 	
 	/**
 	 * Sets the last time a player either specialised or unspecialised in a skill
 	 * This is used so players don't change their specialisation all the time.
 	 * @param {long} system millis for last specialisation change
 	 */
-	public void setSpecialisationChangeMillis(long millis)
-	{
-		this.specialisedMillis = millis;
-	}
+	public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; }
 	
 	/**
 	 * Gets when the specialisation cooldown will expire
@@ -478,19 +422,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * This is used so players don't change their specialisation all the time.
 	 * @return {long} system millis for last specialisation change + some cooldown
 	 */
-	public long getSpecialisationCooldownExpire()
-	{
-		return this.specialisedMillis + MConf.get().specialisationCooldown;
-	}
+	public long getSpecialisationCooldownExpire() { return this.specialisedMillis + MConf.get().specialisationCooldown; }
 	
 	/**
 	 * Checks whether the specialisation cooldown has expired
 	 * @return {boolean} true if specialisation cooldown has expired
 	 */
-	public boolean hasSpecialisationCooldownExpired()
-	{
-		return this.getSpecialisationCooldownExpire() < System.currentTimeMillis();
-	}
+	public boolean hasSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
 	
 	// -------------------------------------------- //
 	// ABILITIES
@@ -502,42 +440,30 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * & making storing of data easier for you
 	 * @param {int} id of the ability
 	 */
-	public boolean hasActivated(Ability ability)
-	{
-		return this.activatedAbility == ability;
-	}
+	public boolean hasActivated(Ability ability) { return this.activatedAbility == ability; }
 	
 	/**
 	 * Tells whether or not the player has ANY abilities activated.
 	 * @return {boolean} true if the player has ANY abilities activated.
 	 */
-	public boolean hasActivatedAny()
-	{
-		return this.activatedAbility != null;
-	}
+	public boolean hasActivatedAny() { return this.activatedAbility != null; }
 	
 	/**
 	 * Gets the id of the activated ability
 	 * null if no ability is activated
 	 * @return {Ability} the ability which is activated. null if none
 	 */
-	public Ability getActivatedAbility()
-	{
-		return this.activatedAbility;
-	}
+	public Ability getActivatedAbility() { return this.activatedAbility; }
 	
 	/**
 	 * Gets the id of the activated ability
 	 * null if no ability is activated
 	 * @return {Ability} the ability which is activated. null if none
 	 */
-	public void setActivatedAbility(Ability ability)
-	{
-		this.activatedAbility = ability;
-	}
+	public void setActivatedAbility(Ability ability) { this.activatedAbility = ability; }
 	
 	// -------------------------------------------- //
-	// PREPARED TOOL
+	// FIELD: PREPARED TOOL
 	// -------------------------------------------- //
 	
 	/**
@@ -545,10 +471,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * this is used for activating active abilities
 	 * @return {Material} the tool the player has prepared
 	 */
-	public Optional<Material> getPreparedTool()
-	{
-		return preparedTool;
-	}
+	public Optional<Material> getPreparedTool() { return preparedTool; }
 
 	/**
 	 * Sets the tool which the user has prepared
@@ -563,9 +486,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 			if (this.hasActivatedAny())	return;
 			if (this.getPreparedTool().isPresent())	return;
 			if ( ! Listener.isRegistered(tool.get())) return;
-			
-
-			
+		
 			ChatUtil.msgToolPrepared(this, tool.get());
 			this.preparedTool = tool;
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Derius.get(), new Runnable()
@@ -589,7 +510,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 
 	// -------------------------------------------- //
-	// MANAGING CHAT | ACTIVATION & MSGTYPE
+	// MANAGING CHAT | ACTIVATION
 	// -------------------------------------------- //
 	
 	// set and get for isListeningToChat boolean
@@ -597,19 +518,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Gets the boolean if someone is listening to ability activation through chat
 	 * @return {Boolean} returns if listening.
 	 */
-	public boolean getIsListeningToChat()
-	{
-		return this.isListeningToChat;
-	}
+	public boolean getIsListeningToChat() { return this.isListeningToChat; }
 	
 	/**
 	 * Sets the boolean if someone is listening to ability activation through chat
 	 * @param {boolean} set whether it should listen to chat or not.
 	 */
-	public void setIsListeningToChat (boolean state)
-	{
-		this.isListeningToChat = state;
-	}
+	public void setIsListeningToChat (boolean state) { this.isListeningToChat = state; }
 	
 	// Adding, getting, setting to the chatKeys map
 	
@@ -618,19 +533,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} The key that the Chat should listen for
 	 * @param {Ability} the ability it should activate
 	 */
-	public void addChatKey(String key, Ability ability)
-	{
-		this.chatKeys.put(key, ability.getId());
-	}
+	public void addChatKey(String key, Ability ability) { this.chatKeys.put(key, ability.getId()); }
 	
 	/**
 	 * Removes an entry to the mplayers chatkey map
 	 * @param {String} The key and its ability that should be removed
 	 */
-	public void removeChatKey (String key)
-	{
-		this.chatKeys.remove(key);
-	}
+	public void removeChatKey (String key) { this.chatKeys.remove(key); }
 	
 	/**
 	 * Gets all the keys from the chatKeys map
@@ -646,10 +555,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	/**
 	 * Removes all entries of this mplayers map.
 	 */
-	public void clearChatKeys()
-	{
-		this.chatKeys.clear();
-	}
+	public void clearChatKeys() { this.chatKeys.clear(); }
 	
 	/**
 	 * Checks whether this String is already in use or not
@@ -658,10 +564,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean isAlreadyChatKey(String key)
 	{
-		for(String string:  this.chatKeys.keySet())
+		for (String string :  this.chatKeys.keySet())
 		{
-			if (string.equals(key))
-				return true;
+			if (string.equals(key)) return true;
 		}
 		return false;
 	}
@@ -669,10 +574,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * Has the mplayer any chat keys registered?
 	 * @return {boolean} whether it is empty or not
 	 */
-	public boolean hasAnyChatKeys ()
-	{
-		return !this.chatKeys.isEmpty();
-	}
+	public boolean hasAnyChatKeys () { return ! this.chatKeys.isEmpty(); }
 	
 	/**
 	 * 
@@ -683,7 +585,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		int pos = -1;
 		
-		for (String key: this.getChatKeys())
+		for (String key : this.getChatKeys())
 		{
 			pos = message.indexOf(key);
 			if (pos != -1)
@@ -702,8 +604,8 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public Ability getAbilityfromChatKey(String key)
 	{
 		Integer i = this.chatKeys.get(key);
-		if(null == i)
-			return null;
+		if (null == i) return null;
+		
 		return Ability.getAbilityById(i);
 	}
 	
@@ -713,14 +615,14 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public List<String> chatKeysToString()
 	{
-		List<String> msgLines = new ArrayList<String>();
+		List<String> messages = new ArrayList<String>();
 		
 		for(String str: chatKeys.keySet())
 		{
-			msgLines.add(Txt.parse("<lime>" + str + "<i> activates " + getAbilityfromChatKey(str).toString()));
+			messages.add(Txt.parse("<lime>" + str + "<i> activates " + getAbilityfromChatKey(str).toString()));
 		}
 		
-		return msgLines;
+		return messages;
 	}
 
 	/**
@@ -729,13 +631,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean isChatListeningOk()
 	{
-		if (this.getIsListeningToChat() && this.hasAnyChatKeys())
-			return true;
+		if (this.getIsListeningToChat() && this.hasAnyChatKeys()) return true;
+		
 		return false;
 	}
 	
 	// -------------------------------------------- //
-	// MANAGING COOLDOWN
+	// FIELD: COOLDOWN
 	// -------------------------------------------- //
 	
 	/**
@@ -744,29 +646,20 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * this is system millis
 	 * @param {long} the cooldown to set it to
 	 */
-	public void setCooldownExpire( long cooldownTime)
-	{
-		this.cooldown = cooldownTime;
-	}
+	public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; }
 	
 	/**
 	 * Gets players cooldown.
 	 * this is system millis
 	 * @return {long} players global cooldown
 	 */
-	public long getCooldownExpire()
-	{
-		return cooldown;
-	}
+	public long getCooldownExpire() { return cooldown; }
 	
 	/**
 	 * Gets amount of milliseconds till cooldown expire
 	 * @return {long} amount of milliseconds till cooldown expire
 	 */
-	public long getCooldownExpireIn()
-	{
-		return cooldown - System.currentTimeMillis();
-	}
+	public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
 	
 	/**
 	 * Adds millis to the users cooldown.
@@ -855,8 +748,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		List<String> ret = new ArrayList<String>();
 		int level = this.getLvl(skill);
-		for(Ability a: skill.getAllAbilities())
+		for (Ability a : skill.getAllAbilities())
+		{
 			ret.add(a.getLvlDescription(level));
+		}
 		return ret;
 	}
 	

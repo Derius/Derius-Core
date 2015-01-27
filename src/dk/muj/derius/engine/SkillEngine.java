@@ -21,6 +21,7 @@ import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
 import dk.muj.derius.req.sp.ReqIsntBlacklisted;
 import dk.muj.derius.req.sp.ReqIsntSpecialised;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.SkillUtil;
 
 public class SkillEngine extends EngineAbstract
 {
@@ -51,9 +52,9 @@ public class SkillEngine extends EngineAbstract
 	{
 		Skill skill = e.getSkill();
 		int id = skill.getId();
-		for (MPlayer p: MPlayerColl.get().getAll())
+		for (MPlayer mplayer : MPlayerColl.get().getAll())
 		{
-			p.InstantiateSkill(skill);
+			SkillUtil.InstantiateSkill(skill, mplayer);
 		}
 		if ( ! MConf.get().worldSkillsEarn.containsKey(id))
 		{
