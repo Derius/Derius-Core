@@ -2,14 +2,12 @@ package dk.muj.derius.util;
 
 import java.util.Optional;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.massivecraft.massivecore.mixin.Mixin;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.DeriusSender;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
@@ -21,14 +19,8 @@ public final class ChatUtil
 	// -------------------------------------------- //
 	// CONSTRUCTOR (FORBIDDEN)
 	// -------------------------------------------- //
-	private ChatUtil(){}
 	
-	// -------------------------------------------- //
-	// CONSTANTS
-	// -------------------------------------------- //
-	
-	private final static String space = " ";
-	private final static String titleCmd = "title ";
+	private ChatUtil() {}
 	
 	// -------------------------------------------- //
 	// MSG
@@ -81,30 +73,9 @@ public final class ChatUtil
 		return (new ActionBar_v1_8_R1()).send(player, msg);
 	}
 	
-	public static boolean sendTitle(Player player, Optional<String> title, Optional<String> subTitle, int fadeIn, int stay, int fadeOut)
+	public static boolean sendTitle(Player player, Optional<String> title, Optional<String> subtitle, int fadeIn, int stay, int fadeOut)
 	{
-		if(player == null || title == null) return false;
-		
-		CommandSender sender = new DeriusSender();
-		
-		String name = player.getName();
-		
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" reset");
-		Bukkit.getServer().dispatchCommand(sender, titleCmd + name +" times " + fadeIn + space + stay + space + fadeOut);
-		
-		if (title.isPresent())
-		{	
-			String theTitle = "{\"text\":\"\",\"extra\":[{\"text\":\""+Txt.parse(title.get())+"\"}]}";
-			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" title "+ theTitle);
-		}
-		
-		if (subTitle.isPresent())
-		{	
-			String theSubTitle = "{\"text\":\"\",\"extra\":[{\"text\":\""+Txt.parse(subTitle.get())+"\"}]}";
-			Bukkit.getServer().dispatchCommand(sender, titleCmd + name+" subtitle "+ theSubTitle);
-		}
-
-		return true;
+		return Mixin.sendTitleMessage(player, 10, 1000, 2, "Title", "SubTitle");
 	}
 	
 	// -------------------------------------------- //
