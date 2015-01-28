@@ -10,7 +10,6 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysAdd extends DeriusCommand
 {
@@ -20,12 +19,10 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 	
 	public CmdDeriusKeysAdd()
 	{
-		this.addRequiredArg("keys");
-		this.addRequiredArg("ability Id");
+		super.addRequiredArg("keys");
+		super.addRequiredArg("ability Id");
 		
-		this.setDesc("Adds a new key to your list of activation keys.");
-		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ADD.node));
+		super.addRequirements(ReqHasPerm.get(Perm.KEYS_ADD.node));
 	}
 	
 	// -------------------------------------------- //
@@ -35,30 +32,29 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		MPlayer mplayer = this.msender;
-		
+		// Args
 		String key = this.arg(0).toLowerCase();
-		
-		if (mplayer.isAlreadyChatKey(key))
-		{
-			mplayer.msg(Txt.parse(MLang.get().keysAlreadyHas, key));
-			return;
-		}
-		
 		Integer id = this.arg(1, ARInteger.get());
-		Ability ability = Ability.getAbilityById(id);
-		if ( (ability == null))
+		if (id == null)	return;
+		
+		// Already a chat key?
+		if (msender.isAlreadyChatKey(key))
 		{
-			mplayer.msg(Txt.parse(MLang.get().abilityInvalidId));
+			sendMessage(Txt.parse(MLang.get().keyAlreadyHas, key));
 			return;
 		}
 		
-		mplayer.addChatKeys(key, ability);
+		Ability ability = Ability.getAbilityById(id);
+		if (ability == null)
+		{
+			sendMessage(Txt.parse(MLang.get().abilityInvalidId, id));
+			return;
+		}
 		
-		mplayer.msg(Txt.parse(MLang.get().keyAddSuccess, key, ability.toString()));
+		msender.addChatKey(key, ability);
+		sendMessage(Txt.parse(MLang.get().keyAddSuccess, key, ability.toString()));
 	}
-	
-	
+
 	@Override
     public List<String> getAliases()
     {

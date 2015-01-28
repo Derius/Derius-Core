@@ -3,7 +3,6 @@ package dk.muj.derius.ability;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
@@ -56,15 +55,14 @@ public abstract class Ability
 	{
 		for(Ability ability: Ability.abilityList)
 		{
-			if(ability.getId() == abilityId)
-				return ability;
+			if(ability.getId() == abilityId) return ability;
 		}
 		return null;
 	}
 	
 	/**
 	 * Gets an ability from its name.
-	 * This should only be done by players. Since they don't know the id
+	 * This should only be done by players, since they don't know the id
 	 * @param {String} The name of the ability you wanted to get.
 	 * @return{Ability} The ability which starts with this name
 	 */
@@ -72,8 +70,7 @@ public abstract class Ability
 	{
 		for(Ability ability: Ability.abilityList)
 		{
-			if(ability.getName().startsWith(abilityName))
-				return ability;
+			if(ability.getName().startsWith(abilityName)) return ability;
 		}
 		return null;
 	}
@@ -128,19 +125,13 @@ public abstract class Ability
 	 * Gets the ability type (passive/active) of this ability
 	 * @return {AbilityType} the type of this ability
 	 */
-	public AbilityType getType()
-	{
-		return this.type;
-	}
+	public AbilityType getType() { return this.type; }
 	
 	/**
 	 * Sets the ability type (passive/active) of this ability
 	 * @param {AbilityType} the new type of this ability
 	 */
-	protected void setType(AbilityType newType)
-	{
-		this.type = newType;
-	}
+	protected void setType(AbilityType newType) { this.type = newType; }
 	
 	// -------------------------------------------- //
 	// DESCRIPTION
@@ -150,37 +141,25 @@ public abstract class Ability
 	 * Sets the name of the ability
 	 * @param {String} new name for this ability
 	 */
-	protected void setName(String str)
-	{
-		this.name = str;
-	}
+	protected void setName(String str) { this.name = str; }
 	
 	/**
 	 * Gets the name of the ability
 	 * @param {String} name for this ability
 	 */
-	public String getName()
-	{
-		return this.name;
-	}
+	public String getName() { return this.name; }
 	
 	/**
 	 * Sets the description of the ability
 	 * @param {String} new description for this ability
 	 */
-	protected void setDescription(String str)
-	{
-		this.desc = str;
-	}
+	protected void setDescription(String str) { this.desc = str; }
 	
 	/**
 	 * Gets the description of the ability
 	 * @param {String} description for this ability
 	 */
-	public String getDescription()
-	{
-		return this.desc;
-	}
+	public String getDescription() { return this.desc; }
 
 	/**
 	 * Gets the name & description, as it would be displayed
@@ -217,10 +196,7 @@ public abstract class Ability
 	 * Gets how many ticks this ability will last
 	 * @return {int} amount of ticks, this ability would last.
 	 */
-	public int getTicksLast(int level)
-	{
-		return this.levelToTicks.apply(level);
-	}
+	public int getTicksLast(int level) { return this.levelToTicks.apply(level); }
 
 	// Lambda
 	/**
@@ -229,10 +205,7 @@ public abstract class Ability
 	 * This will change the algorithm for this ability.
 	 * @param algorithm
 	 */
-	public final void setTicksLastAlgorithm(TicksLastCalculator algorithm)
-	{
-		this.levelToTicks = algorithm;
-	}
+	public final void setTicksLastAlgorithm(TicksLastCalculator algorithm) { this.levelToTicks = algorithm; }
 	
 	/**
 	 * Each ability can have a different way to calculate the cooldowntime.
@@ -240,29 +213,20 @@ public abstract class Ability
 	 * This will get the cooldown calculation algorithm for this ability.
 	 * @return {TicksLastCalculator} The algorithm which is being used for this ability.
 	 */
-	public final TicksLastCalculator getTicksLastAlgorithm()
-	{
-		return this.levelToTicks;
-	}
+	public final TicksLastCalculator getTicksLastAlgorithm() { return this.levelToTicks; }
 	
 	// Cooldown
 	/**
 	 * Sets how many ticks the cooldown will last.
 	 * @param {int} The ticks it will last
 	 */
-	protected void setTicksCooldown(int ticks)
-	{
-		this.ticksCooldown = ticks;
-	}
+	protected void setTicksCooldown(int ticks) { this.ticksCooldown = ticks; }
 	
 	/**
 	 * Gets how many ticks the cooldown will last
 	 * @return {int} amount of ticks, the cooldown will be.
 	 */
-	public int getCooldownTime()
-	{
-		return this.ticksCooldown;
-	}
+	public int getCooldownTime() { return this.ticksCooldown; }
 	
 	// -------------------------------------------- //
 	// RESTRICTION
@@ -274,10 +238,7 @@ public abstract class Ability
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can use said ability
 	 */
-	public final boolean canPlayerActivateAbility(MPlayer p)
-	{
-		return this.canPlayerActivateAbility(p, false);
-	}
+	public final boolean canPlayerActivateAbility(MPlayer p) { return this.canPlayerActivateAbility(p, false); }
 	
 	/**
 	 * Tells whether or not the player can use said ability.
@@ -305,10 +266,7 @@ public abstract class Ability
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can see said ability
 	 */
-	public final boolean canPlayerSeeAbility(MPlayer p)
-	{
-		return this.canPlayerSeeAbility(p, false);
-	}
+	public final boolean canPlayerSeeAbility(MPlayer p) { return this.canPlayerSeeAbility(p, false); }
 	
 	/**
 	 * Tells whether or not the player can see said ability.
@@ -449,9 +407,6 @@ public abstract class Ability
 	// -------------------------------------------- //
 	
 	@Override
-	public String toString()
-	{
-		return getName();
-	}
+	public String toString() { return getName(); }
 
 }

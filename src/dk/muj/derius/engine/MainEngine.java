@@ -23,6 +23,7 @@ import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerDamageEvent;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.Listener;
+import dk.muj.derius.util.SkillUtil;
 
 public class MainEngine extends EngineAbstract
 {
@@ -52,22 +53,24 @@ public class MainEngine extends EngineAbstract
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onJoin(PlayerJoinEvent e)
 	{
-		MPlayer p = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
-		for(Skill s: Skill.getAllSkills())
-			p.InstantiateSkill(s);
-		if(p.getSpecialisationCooldownExpire() == 0)
-			p.setSpecialisationChangeMillis(System.currentTimeMillis());
+		MPlayer mplayer = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
+		for (Skill s : Skill.getAllSkills())
+		{
+			SkillUtil.InstantiateSkill(s, mplayer);
+		}
+		if (mplayer.getSpecialisationCooldownExpire() == 0)
+		{
+			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e)
 	{	
-		Player p = e.getPlayer();
 		Action action = e.getAction();
-		if(action != Action.RIGHT_CLICK_AIR)
-			return;
+		if(action != Action.RIGHT_CLICK_AIR) return;
 		
-		MPlayer mplayer = MPlayer.get(p);
+		MPlayer mplayer = MPlayer.get(e.getPlayer());
 		
 		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.empty() : Optional.of(e.getMaterial()));
 	}
@@ -77,9 +80,9 @@ public class MainEngine extends EngineAbstract
 	{
 		Player p = e.getPlayer().getPlayer();
 		String perm = Perm.EXP_MULTIPLIER.node;
-		for(int i = 100; i > 0; i--)
+		for (int i = 100; i > 0; i--)
 		{
-			if(p.hasPermission(perm + i))
+			if (p.hasPermission(perm + i))
 			{
 				long startExp = e.getExpAmount();
 				float multiplier = i/10;
@@ -92,12 +95,15 @@ public class MainEngine extends EngineAbstract
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerAttack(EntityDamageByEntityEvent event)
 	{
-		if( ! (event.getDamager() instanceof Player)) return;
-		Player player = (Player) event.getDamager();
-		Listener listener = Listener.getPlayerAttackKeyListener(player.getItemInHand().getType());
-		if(listener == null)
+		if ( ! (event.getDamager() instanceof Player)) return;
+		Player p = (Player) event.getDamager();
+		Listener listener = Listener.getPlayerAttackKeyListener(p.getItemInHand().getType());
+		if (listener == null)
+		{
 			return;
-		listener.onPlayerAttack(MPlayer.get(player), event);
+		}
+		
+		listener.onPlayerAttack(MPlayer.get(p), event);
 	}
 	
 	// -------------------------------------------- //

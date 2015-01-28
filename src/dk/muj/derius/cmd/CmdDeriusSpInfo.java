@@ -26,17 +26,13 @@ public class CmdDeriusSpInfo extends DeriusCommand
 		
 	public CmdDeriusSpInfo()
 	{
-		super.setDesc("info about specialisation");
-		
 		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_INFO.node));
 	}
-		
-
 	
 	@Override
 	public void perform()
 	{
-		this.msg(Txt.parse("<i>"+specialisationInfo));
+		msg("<i>"+specialisationInfo);
 	}
 	
 	// -------------------------------------------- //
@@ -48,4 +44,5 @@ public class CmdDeriusSpInfo extends DeriusCommand
     {
     	return MConf.get().innerAliasesDeriusSpInfo;
     }
+	
 }

@@ -19,8 +19,6 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	
 	public CmdDeriusDebugPlayer()
 	{
-		super.setDesc("info about player");
-		
 		super.addRequiredArg("player");
 		
 		super.addAliases("player");
@@ -36,25 +34,24 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		MPlayer target = super.arg(0, ARMPlayer.getAny());
 		if(null == target)	return;
 		
-		List<String> msgLines = new ArrayList<String>();
-		
+		List<String> messages = new ArrayList<String>();
 		
 		Set<Integer> specialised = target.getRawSpecialisedData();
 		
 		Map<Integer,Long> exp = target.getRawExpData();
 
-		msgLines.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
-		msgLines.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
-		//msgLines.add(Txt.parse("<i>Specialised millis: <lime>" + target.getSpecialisationChangeMillis()));
-		//Srew this, it didn't work it makes no sense and I'm confused
-		msgLines.add(Txt.parse("<i>Prepared tool: <lime>" + target.getPreparedTool()));
+		messages.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
+		messages.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
+		messages.add(Txt.parse("<i>Prepared tool: <lime>" + target.getPreparedTool()));
+		messages.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( specialised, ",", "&")));
+		messages.add(Txt.parse("<red>Exp:"));
 		
-		msgLines.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( specialised, ",", "&")));
-		msgLines.add(Txt.parse("<red>Exp:"));
-		for(Integer i: exp.keySet())
-			msgLines.add(Txt.parse("<i>" + i + "  <lime>" + exp.get(i)));
+		for (Integer i : exp.keySet())
+		{
+			messages.add(Txt.parse("<i>" + i + "  <lime>" + exp.get(i)));
+		}
 		
-		msender.msg(msgLines);
+		sendMessage(messages);
 	}
 	
 }

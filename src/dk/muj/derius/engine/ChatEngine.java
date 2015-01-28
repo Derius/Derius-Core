@@ -42,9 +42,9 @@ public class ChatEngine extends EngineAbstract
 	{
 		MPlayer mplayer = MPlayer.get(event.getPlayer());
 		
-		if (!mplayer.isChatListeningOk()) return;
+		if ( ! mplayer.isChatListeningOk()) return;
 		
-		Ability ability = mplayer.getAbilityBySubString(event.getMessage());
+		Ability ability = mplayer.getAbilityBySubString(event.getMessage().toLowerCase());
 		if (ability == null) return;
 		
 		AbilityUtil.activateAbility(mplayer, ability, null, true);

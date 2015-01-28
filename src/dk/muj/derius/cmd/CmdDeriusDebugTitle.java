@@ -11,8 +11,6 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 
 	public CmdDeriusDebugTitle()
 	{
-		super.setDesc("test titles");
-
 		super.addAliases("title");
 		
 		super.addRequiredArg("fadeIn");

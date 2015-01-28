@@ -66,9 +66,9 @@ public class MLang extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	public String keyAddSuccess = "<i>You have succesfully registered the key %s to the ability %s.";
-	public String keysAlreadyHas = "<i>The key %s is already in use. Please use another one.";
-	public String keysRemoveSuccess = "<i>You have succesfully removed the key %s from your list of keys.";
-	public String keysClearWarning = "<i>Do you really want to clear all your entries?  Type <aqua> /d k c true";
+	public String keyRemoveSuccess = "<i>You have succesfully removed the key %s from your list of keys.";
+	public String keyAlreadyHas = "<i>The key %s is already in use. Please use another one.";
+	public String keyHanst = "<i>The key %s is not in use.";
 	public String keysClearSuccess = "<i>You have successfully cleared your chat activation keys.";
 	
 	// -------------------------------------------- //

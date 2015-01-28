@@ -15,11 +15,10 @@ public class CmdDeriusKeys extends DeriusCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public CmdDeriusKeysAdd innerCmdDeriusKeysAdd= new CmdDeriusKeysAdd();
-	public CmdDeriusKeysRemove innerCmdDeriusKeysRemove= new CmdDeriusKeysRemove();
-	public CmdDeriusKeysList innerCmdDeriusKeysList= new CmdDeriusKeysList();
-	public CmdDeriusKeysClear innerCmdDeriusKeysClear= new CmdDeriusKeysClear();
-	public CmdDeriusKeysAbilityid innerCmdDeriusKeysAbilityid= new CmdDeriusKeysAbilityid();
+	public CmdDeriusKeysAdd innerCmdDeriusKeysAdd = new CmdDeriusKeysAdd();
+	public CmdDeriusKeysList innerCmdDeriusKeysList = new CmdDeriusKeysList();
+	public CmdDeriusKeysRemove innerCmdDeriusKeysRemove = new CmdDeriusKeysRemove();
+	public CmdDeriusKeysAbilityid innerCmdDeriusKeysAbilityid = new CmdDeriusKeysAbilityid();
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -29,9 +28,8 @@ public class CmdDeriusKeys extends DeriusCommand
 	{
 		super.addSubCommand(HelpCommand.get());
 		super.addSubCommand(this.innerCmdDeriusKeysAdd);
-		super.addSubCommand(this.innerCmdDeriusKeysRemove);
 		super.addSubCommand(this.innerCmdDeriusKeysList);
-		super.addSubCommand(this.innerCmdDeriusKeysClear);
+		super.addSubCommand(this.innerCmdDeriusKeysRemove);
 		super.addSubCommand(this.innerCmdDeriusKeysAbilityid);
 		
 		super.setVisibilityMode(VisibilityMode.VISIBLE);
