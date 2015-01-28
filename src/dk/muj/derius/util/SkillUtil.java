@@ -78,20 +78,6 @@ public class SkillUtil
 	public static boolean hasSkill(Skill skill, MPlayer mplayer) { return mplayer.getRawExpData().containsKey(skill.getId()); }
 	
 	/**
-	 * Instantiates this skill for the player
-	 * if not already instantiated
-	 * @param {Skill} the skill
-	 * @param {MPlayer} the player we want to check for
-	 */
-	public static void InstantiateSkill(Skill skill, MPlayer mplayer)
-	{
-		if ( ! SkillUtil.hasSkill(skill, mplayer))
-		{
-			mplayer.getRawExpData().put(skill.getId(), new Long(0));
-		}
-	}
-	
-	/**
 	 * The maximum level a player can reach in said skill
 	 * @param {Skill} skill to check for
 	 * @return {int} the level the player can reach

@@ -3,7 +3,6 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
@@ -18,7 +17,7 @@ public class CmdDeriusClean extends DeriusCommand
 {
 	public CmdDeriusClean()
 	{
-		super.addRequiredArg("id of skill/ability or all");
+		super.addRequiredArg("id/all");
 		super.addOptionalArg("player/all", "you");
 		super.addOptionalArg("force it", "no");
 		
@@ -49,7 +48,7 @@ public class CmdDeriusClean extends DeriusCommand
 		}
 		else
 		{
-			skillList.add(Skill.getSkillById(this.arg(0, ARInteger.get())));
+			skillList.add(Skill.getSkillById(this.arg(0)));
 		}
 
 		// Arg 1: player, yourself or all

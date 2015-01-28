@@ -2,7 +2,6 @@ package dk.muj.derius.cmd;
 
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -34,7 +33,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 	{
 		// Args
 		String key = this.arg(0).toLowerCase();
-		Integer id = this.arg(1, ARInteger.get());
+		String id = this.arg(1);
 		if (id == null)	return;
 		
 		// Already a chat key?

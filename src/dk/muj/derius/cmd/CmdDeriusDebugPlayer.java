@@ -36,9 +36,9 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		
 		List<String> messages = new ArrayList<String>();
 		
-		Set<Integer> specialised = target.getRawSpecialisedData();
+		Set<String> specialised = target.getRawSpecialisedData();
 		
-		Map<Integer,Long> exp = target.getRawExpData();
+		Map<String,Long> exp = target.getRawExpData();
 
 		messages.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
 		messages.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
@@ -46,7 +46,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		messages.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( specialised, ",", "&")));
 		messages.add(Txt.parse("<red>Exp:"));
 		
-		for (Integer i : exp.keySet())
+		for (String i : exp.keySet())
 		{
 			messages.add(Txt.parse("<i>" + i + "  <lime>" + exp.get(i)));
 		}

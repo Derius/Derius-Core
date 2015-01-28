@@ -23,7 +23,6 @@ import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerDamageEvent;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.Listener;
-import dk.muj.derius.util.SkillUtil;
 
 public class MainEngine extends EngineAbstract
 {
@@ -54,9 +53,9 @@ public class MainEngine extends EngineAbstract
 	public void onJoin(PlayerJoinEvent e)
 	{
 		MPlayer mplayer = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
-		for (Skill s : Skill.getAllSkills())
+		for (Skill skill : Skill.getAllSkills())
 		{
-			SkillUtil.InstantiateSkill(s, mplayer);
+			mplayer.instantiateSkill(skill);
 		}
 		if (mplayer.getSpecialisationCooldownExpire() == 0)
 		{

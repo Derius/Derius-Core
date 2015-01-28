@@ -98,7 +98,7 @@ public class MConf extends Entity<MConf>
 	// WORLD SETTINGS
 	// -------------------------------------------- //
 	
-	public Map<Integer, WorldExceptionSet> worldSkillsEarn = new HashMap<Integer, WorldExceptionSet>();
-	public Map<Integer, WorldExceptionSet> worldAbilityUse = new HashMap<Integer, WorldExceptionSet>();
+	public Map<String, WorldExceptionSet> worldSkillsEarn = new HashMap<String, WorldExceptionSet>();
+	public Map<String, WorldExceptionSet> worldAbilityUse = new HashMap<String, WorldExceptionSet>();
 	
 }

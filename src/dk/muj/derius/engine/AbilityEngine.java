@@ -67,7 +67,7 @@ public class AbilityEngine extends EngineAbstract
 		}
 		
 		String name = ability.getName();
-		int id = ability.getId();
+		String id = ability.getId();
 		
 		Permission usePerm = new Permission(Perm.ABILITY_USE.node + id, "use the ability " + name, PermissionDefault.FALSE);
 		Permission seePerm = new Permission(Perm.ABILITY_SEE.node + id, "see the ability " + name, PermissionDefault.FALSE);

@@ -48,10 +48,10 @@ public abstract class Ability
 	/**
 	 * Gets an ability from its id. 
 	 * This is the best way to get an ability, since the id never changes.
-	 * @param {int} The id of the ability you wanted to get.
+	 * @param {String} The id of the ability you wanted to get.
 	 * @return{Ability} The ability which has this id
 	 */
-	public static Ability getAbilityById(int abilityId)
+	public static Ability getAbilityById(String abilityId)
 	{
 		for(Ability ability: Ability.abilityList)
 		{
@@ -100,7 +100,7 @@ public abstract class Ability
 		Object before = getAbilityById(ability.getId());
 		if(before != null)
 		{
-			int id = ability.getId();
+			String id = ability.getId();
 			try
 			{
 				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.toString()
@@ -345,9 +345,9 @@ public abstract class Ability
 	 * Gets the id of the ability. This id is only used by plugins
 	 * & is never seen by the player/user.
 	 * MUST be unique & should never be changed
-	 * @return {int} the abilities unique id.
+	 * @return {String} the abilities unique id.
 	 */
-	public abstract int getId();
+	public abstract String getId();
 	
 	/**
 	 * Gets a description based on passed level
@@ -397,7 +397,7 @@ public abstract class Ability
 	{
 		int result = 1;
 		
-		result += this.getId();
+		result += this.getId().hashCode();
 		
 		return result;
 	}

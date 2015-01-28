@@ -67,9 +67,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	
 	// Integer is id for the skill
 	// Long is the exp
-	private Map<Integer, Long> exp = new HashMap<Integer,Long>();
+	private Map<String, Long> exp = new HashMap<String, Long>();
 	
-	private Set<Integer> specialised = new CopyOnWriteArraySet<Integer>();
+	private Set<String> specialised = new CopyOnWriteArraySet<String>();
 	
 	private long specialisedMillis = 0;
 	
@@ -77,7 +77,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	private boolean isListeningToChat = false;
 	
 	// A Map that stores which string a player types in chat should activate what ability.
-	private Map<String, Integer> chatKeys = new HashMap<String, Integer>();
+	private Map<String, String> chatKeys = new HashMap<String, String>();
 	
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
@@ -161,14 +161,25 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {LvlStatus} The LvlStatus for said skill & this player
 	 */
-	public LvlStatus getLvlStatus(Skill skill) { return skill.getLvlStatusFromExp(this.getExp(skill)); }
+	public LvlStatus getLvlStatus(Skill skill)
+	{
+		return skill.getLvlStatusFromExp(this.getExp(skill));
+	}
 	
 	/**
 	 * Gets level for said skill in this MPlayer
 	 * @param {String} id of the skill
 	 * @return {int} players level in said skill
 	 */
-	public int getLvl(Skill skill) { return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl(); }
+	public int getLvl(Skill skill)
+	{
+		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
+	}
+	
+	public void instantiateSkill(Skill skill)
+	{
+		this.exp.put(skill.getId(), 0L);
+	}
 
 	// -------------------------------------------- //
 	// PERMISSION
@@ -220,11 +231,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * cleans even if the skill or ability exists
 	 * @param {int} id to clean
 	 */
-	public void cleanNoCheck(int id)
+	public void cleanNoCheck(String id)
 	{
 		this.exp.remove(id);
 		this.specialised.remove(id);
-		for (Entry<String, Integer> entry : this.chatKeys.entrySet())
+		for (Entry<String, String> entry : this.chatKeys.entrySet())
 		{
 			if (entry.getKey().equals(new Integer(id)))
 			 {
@@ -238,7 +249,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * doesn't clean if skill or ability exists
 	 * @param {int} id to clean
 	 */
-	public void cleanWithCheck(int id)
+	public void cleanWithCheck(String id)
 	{
 		if (Skill.getSkillById(id) == null)
 		{
@@ -248,7 +259,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		if (Ability.getAbilityById(id) == null)
 		{
-			for (Entry<String, Integer> entry : this.chatKeys.entrySet())
+			for (Entry<String, String> entry : this.chatKeys.entrySet())
 			{
 				if (entry.getKey().equals(new Integer(id)))
 				 {
@@ -264,15 +275,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void cleanAllNoCheck()
 	{
-		for (int id : this.exp.keySet())
+		for (String id : this.exp.keySet())
 		{
 			this.cleanNoCheck(id);
 		}
-		for (int id : this.specialised)
+		for (String id : this.specialised)
 		{
 			this.cleanNoCheck(id);
 		}
-		for (int id : this.chatKeys.values())
+		for (String id : this.chatKeys.values())
 		{
 			this.cleanNoCheck(id);
 		}
@@ -284,15 +295,15 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void cleanAllWithCheck()
 	{
-		for (int id : this.exp.keySet())
+		for (String id : this.exp.keySet())
 		{
 			this.cleanWithCheck(id);
 		}
-		for (int id : this.specialised)
+		for (String id : this.specialised)
 		{
 			this.cleanWithCheck(id);
 		}
-		for (int id : this.chatKeys.values())
+		for (String id : this.chatKeys.values())
 		{
 			this.cleanWithCheck(id);
 		}
@@ -360,7 +371,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public List<Skill> getSpecialisedSkills()
 	{		
 		List<Skill> ret = new ArrayList<Skill>();
-		for (int i : this.specialised)
+		for (String i : this.specialised)
 		{
 			Skill skill = Skill.getSkillById(i);
 			if (skill != null) ret.add(skill);
@@ -572,7 +583,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	}
 	/**
 	 * Has the mplayer any chat keys registered?
-	 * @return {boolean} whether it is empty or not
+	 * @return {boolean} whether it is empty or nottil.InstantiateSkill(skill, mplayer);
 	 */
 	public boolean hasAnyChatKeys () { return ! this.chatKeys.isEmpty(); }
 	
@@ -603,10 +614,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public Ability getAbilityfromChatKey(String key)
 	{
-		Integer i = this.chatKeys.get(key);
-		if (null == i) return null;
+		String id = this.chatKeys.get(key);
+		if (null == id) return null;
 		
-		return Ability.getAbilityById(i);
+		return Ability.getAbilityById(id);
 	}
 	
 	/**
@@ -762,9 +773,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	/**
 	 * DANGER DANGER. DON'T USE THIS
 	 * IT IS EXTREMELY DANGEROUS USE
-	 * THIS IS ONLY FOR INTERNAL USE
+	 * THIS IS ONLY FOR INTERNAL DEBUG USE
 	 */
-	public Map<Integer,Long> getRawExpData()
+	public Map<String, Long> getRawExpData()
 	{
 		return this.exp;
 	}
@@ -772,9 +783,9 @@ public class MPlayer extends SenderEntity<MPlayer>
 	/**
 	 * DANGER DANGER. DON'T USE THIS
 	 * IT IS EXTREMELY DANGEROUS TO USE
-	 * THIS IS ONLY FOR INTERNAL USE
+	 * THIS IS ONLY FOR INTERNAL DEBUG USE
 	 */
-	public Set<Integer> getRawSpecialisedData()
+	public Set<String> getRawSpecialisedData()
 	{
 		return this.specialised;
 	}
