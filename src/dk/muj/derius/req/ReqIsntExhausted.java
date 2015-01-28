@@ -37,8 +37,8 @@ public class ReqIsntExhausted implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		MPlayer p = MPlayer.get(sender);
-		long expire = p.getCooldownExpireIn();
+		MPlayer mplayer = MPlayer.get(sender);
+		long expire = mplayer.getCooldownExpireIn();
 		LinkedHashMap<TimeUnit, Long> expireUnit = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(expire, TimeUnit.getAll()), 2);
 		String expireDesc = TimeDiffUtil.formatedVerboose(expireUnit, "<i>");
 		

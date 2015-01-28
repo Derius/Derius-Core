@@ -62,9 +62,9 @@ public abstract class Skill
 	 */
 	public static Skill getSkillById(String skillId)
 	{	
-		for(Skill skill: Skill.skillList)
+		for (Skill skill : Skill.skillList)
 		{
-			if(skill.getId().equals(skillId))
+			if (skill.getId().equals(skillId))
 			{
 				return skill;
 			}
@@ -80,9 +80,9 @@ public abstract class Skill
 	 */
 	public static Skill getSkillByName(String skillName)
 	{
-		for(Skill skill: Skill.skillList)
+		for (Skill skill : Skill.skillList)
 		{
-			if(skill.getName().startsWith(skillName)) return skill;
+			if (skill.getName().startsWith(skillName)) return skill;
 		}
 		return null;
 	}
@@ -106,7 +106,7 @@ public abstract class Skill
 	public void register()
 	{
 		Object before = getSkillById(this.getId());
-		if(before != null)
+		if (before != null)
 		{
 			String id = this.getId();
 			try
@@ -137,46 +137,34 @@ public abstract class Skill
 	 * This MUST be unique but can always be changed.
 	 * @return {String} The skills name
 	 */
-	protected void setName(String str)
-	{
-		this.name = str;
-	}
+	protected void setName(String str) { this.name = str; }
 	
 	/**
 	 * Sets the name of the skill. This is seen by players.
 	 * This MUST be unique but can always be changed.
 	 * @return {String} The skills name
 	 */
-	public String getName()
-	{
-		return this.name;
-	}
+	public String getName() { return this.name; }
 	
 	/**
 	 * Gives a short description of the skill.
 	 * Should not be more than one or two minecraft chat lines long
 	 * @return {String} a short description of the skill
 	 */
-	protected void setDescription(String str)
-	{
-		this.desc = str;
-	}
+	protected void setDescription(String str) { this.desc = str; }
 	
 	/**
 	 * Gives a short description of the skill.
 	 * Should not be more than one or two minecraft chat lines long
 	 * @return {String} a short description of the skill
 	 */
-	public String getDescription()
-	{
-		return this.desc;
-	}
+	public String getDescription() { return this.desc; }
 
 	/**
 	 * Adds a description of how to earn exp in this skill
 	 * @param {String} The description to add
 	 */
-	protected void addEarnExpDesc (String desc) {	this.earnExpDesc.add(desc);	}
+	protected void addEarnExpDesc (String desc) { this.earnExpDesc.add(desc); }
 	
 	/**
 	 * Gets a list of the descriptions to earn exp
@@ -186,8 +174,10 @@ public abstract class Skill
 	{
 		//Yeah it will be immutable
 		List<String> descs = new ArrayList<String>();
-		for(String desc : earnExpDesc)
+		for (String desc : earnExpDesc)
+		{
 			descs.add(desc);
+		}
 		return descs;
 	}
 	
@@ -236,10 +226,7 @@ public abstract class Skill
 	 * @param {long} the amount of exp to convert to level
 	 * @return {int} The level equivalent to the amount of exp passed.
 	 */
-	public final LvlStatus getLvlStatusFromExp(long exp)
-	{
-		return this.expToLvlStatus.apply(exp);
-	}
+	public final LvlStatus getLvlStatusFromExp(long exp) { return this.expToLvlStatus.apply(exp); }
 	
 	/**
 	 * Each skill can have a different way of calculating levels.
@@ -247,10 +234,7 @@ public abstract class Skill
 	 * This will change the algorithm
 	 * @param {LvlStatusCalculator} The new algorithm to calculate levels for this skill
 	 */
-	public final void setLvlStatusAlgorithm(LvlStatusCalculator algorithm)
-	{
-		this.expToLvlStatus = algorithm;
-	}
+	public final void setLvlStatusAlgorithm(LvlStatusCalculator algorithm) { this.expToLvlStatus = algorithm; }
 	
 	/**
 	 * Each skill can have a different way of calculating levels.
@@ -258,10 +242,7 @@ public abstract class Skill
 	 * This will get the level calculation algorithm for this skill
 	 * @param {LvlStatusCalculator} The new algorithm to calculate levels for this skill
 	 */
-	public final LvlStatusCalculator getLvlStatusAlgorithm()
-	{
-		return this.expToLvlStatus;
-	}
+	public final LvlStatusCalculator getLvlStatusAlgorithm() { return this.expToLvlStatus; }
 
 	// -------------------------------------------- //
 	// RESTRICTION
@@ -284,11 +265,11 @@ public abstract class Skill
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can learn said skill
 	 */
-	public final boolean canPlayerLearnSkill(MPlayer p)
+	public final boolean canPlayerLearnSkill(MPlayer mplayer)
 	{
 		for (Req req : this.getLearnRequirements())
 		{
-			if ( ! req.apply(p.getSender())) return false;
+			if ( ! req.apply(mplayer.getSender())) return false;
 		}
 		return true;
 	}
@@ -299,11 +280,11 @@ public abstract class Skill
 	 * @param {MPlayer} the player you want to check
 	 * @return {boolean} true if the player can see said skill
 	 */
-	public final boolean canPlayerSeeSkill(MPlayer p)
+	public final boolean canPlayerSeeSkill(MPlayer mplayer)
 	{
 		for (Req req : this.getSeeRequirements())
 		{
-			if ( ! req.apply(p.getSender())) return false;
+			if ( ! req.apply(mplayer.getSender())) return false;
 		}
 		return true;
 	}
@@ -314,15 +295,15 @@ public abstract class Skill
 	 * @param {boolean} inform them if they can't
 	 * @return {boolean} true if player can specialise in skill
 	 */
-	public boolean canPlayerSpecialiseSkill(MPlayer p, boolean informIfNot)
+	public boolean canPlayerSpecialiseSkill(MPlayer mplayer, boolean informIfNot)
 	{
 		for (Req req : this.getSpecialiseRequirements())
 		{
-			if ( ! req.apply(p.getSender()))
+			if ( ! req.apply(mplayer.getSender()))
 			{
 				if (informIfNot)
 				{
-					p.sendMessage(req.createErrorMessage(p.getSender(), this));
+					mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), this));
 				}
 				return false;
 			}
@@ -434,19 +415,13 @@ public abstract class Skill
 	 * Gets the list of active abilities
 	 * @return {List<Ability>} all active abilities related to this skill
 	 */
-	public List<Ability> getActiveAbilities()
-	{
-		return this.activeAbilities;
-	}
+	public List<Ability> getActiveAbilities() { return this.activeAbilities; }
 	
 	/**
 	 * Gets the list of passive abilities
 	 * @return {List<Ability>} all passive abilities related to this skill
 	 */
-	public List<Ability> getPassiveAbilities()
-	{
-		return this.passiveAbilities;
-	}
+	public List<Ability> getPassiveAbilities() { return this.passiveAbilities; }
 	
 	/**
 	 * Gets the list of all abilities related to skill

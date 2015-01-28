@@ -1,6 +1,5 @@
 package dk.muj.derius.util;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -31,18 +30,13 @@ public final class AbilityUtil
 	
 	public static <S> S getLevelSetting(Map<Integer, S> settings, int level)
 	{
-		Iterator<Entry<Integer, S>> entries = settings.entrySet().iterator();
-		
 		Entry<Integer, S> most = null;
 		
-		while (entries.hasNext())
+		for (Entry<Integer, S> entry : settings.entrySet())
 		{
-			Entry<Integer, S> entry = entries.next();
-			
 			if ( ! (entry.getKey() <= level)) continue;
 			if ( most != null && entry.getKey() < most.getKey()) continue;
 			most = entry;
-			
 		}
 		
 		return most.getValue();
@@ -114,6 +108,7 @@ public final class AbilityUtil
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(mplayer.getActivatedAbility(), mplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled()) return;
+		
 		Ability ability = mplayer.getActivatedAbility();
 		ability.onDeactivate(mplayer, other);
 		mplayer.setActivatedAbility(null);

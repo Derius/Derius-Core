@@ -46,8 +46,8 @@ public class ItemUtil
 		 * Remember, durability in minecraft counts upwards till it 
 		 * reaches the maximum. In this case, it destroys the itemstack.
 		 */
-		if(item == null || item.getType() == Material.AIR) return false;
-		if(damage < 0)
+		if (item == null || item.getType() == Material.AIR) return false;
+		if (damage < 0)
 		{
 			damage = (short) -damage;
 		}
@@ -76,8 +76,8 @@ public class ItemUtil
 	 */
 	public static boolean reduceDamage(ItemStack item, short reduce)
 	{
-		if(item == null || item.getType() == Material.AIR) return false;
-		if(reduce < 0)
+		if (item == null || item.getType() == Material.AIR) return false;
+		if (reduce < 0)
 		{
 			reduce = (short) -reduce;
 		}
@@ -171,7 +171,7 @@ public class ItemUtil
 			List<String> itemLore = meta.getLore();
 			boolean contains = itemLore.containsAll(lore);
 			
-			if (!contains)
+			if ( ! contains)
 			{
 				ItemUtil.addLore(item, lore);
 			}

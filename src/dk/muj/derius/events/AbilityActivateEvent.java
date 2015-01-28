@@ -56,10 +56,10 @@ public class AbilityActivateEvent extends AbilityEvent implements Cancellable
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if (!(obj instanceof AbilityActivateEvent)) return false;
+		if ( ! (obj instanceof AbilityActivateEvent)) return false;
 		AbilityActivateEvent that = (AbilityActivateEvent) obj;
 	
-		if(that.mplayer == this.mplayer && that.ability == this.ability) return true;
+		if (that.mplayer == this.mplayer && that.ability == this.ability) return true;
 		
 		return false;
 	}

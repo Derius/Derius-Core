@@ -27,8 +27,8 @@ public class ReqIsSpecialised implements Req
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		MPlayer player = MPlayer.get(sender);
-		return player.isSpecialisedIn(skill);
+		MPlayer mpalyer = MPlayer.get(sender);
+		return mpalyer.isSpecialisedIn(skill);
 	}
 	
 	@Override

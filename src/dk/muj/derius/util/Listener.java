@@ -55,8 +55,10 @@ public interface Listener
 	 */
 	public default void registerBlockBreakKey(Material... materials)
 	{
-		for(Material material: materials)
+		for (Material material : materials)
+		{
 			ListenerFields.getBlockBreakKeys().put(material,this);
+		}
 	}
 	
 	/**
@@ -90,7 +92,9 @@ public interface Listener
 	public default void registerPlayerAttackKey(Material... materials)
 	{
 		for(Material material: materials)
+		{
 			ListenerFields.getDealDamageKeys().put(material,this);
+		}
 	}
 	
 	/**
@@ -125,7 +129,9 @@ public interface Listener
 	public static void registerTools(Collection<Material> materials)
 	{
 		for(Material material : materials)
+		{
 			ListenerFields.getRegisteredInteractTools().add(material);
+		}
 	}
 	
 	/**

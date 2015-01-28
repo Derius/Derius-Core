@@ -58,7 +58,7 @@ public class SkillUtil
 	{
 		double chance = (double) level/levelsPerPercent;
 		double random = (int) ((Math.random()*100)+1);
-		if(chance >= random)
+		if (chance >= random)
 		{
 			return true;
 		}
