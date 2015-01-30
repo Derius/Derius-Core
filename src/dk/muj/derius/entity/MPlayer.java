@@ -11,14 +11,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.IntervalUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.Perm;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.LvlStatus;
@@ -363,14 +361,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getSpecialisationSlots()
 	{
-		Player p = this.getPlayer();
-		String perm = Perm.SPECIALISATION_SLOTS.node;
-		for (int i = 50; i > 0; i--)
-		{
-			if ( ! p.hasPermission(perm + i)) continue;
-			return i;
-		}
-		return 0;
+		return 5;
 	}
 	
 	/**

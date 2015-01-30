@@ -2,25 +2,21 @@ package dk.muj.derius.engine;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.Perm;
 import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.Ability.AbilityType;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.entity.Skill;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
-import dk.muj.derius.req.ReqHasPerm;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.util.ChatUtil;
 
 public class AbilityEngine extends EngineAbstract
@@ -66,16 +62,8 @@ public class AbilityEngine extends EngineAbstract
 			MConf.get().worldAbilityUse.put(ability.getId(), new WorldExceptionSet());
 		}
 		
-		String name = ability.getName();
-		String id = ability.getId();
-		
-		Permission usePerm = new Permission(Perm.ABILITY_USE.node + id, "use the ability " + name, PermissionDefault.FALSE);
-		Permission seePerm = new Permission(Perm.ABILITY_SEE.node + id, "see the ability " + name, PermissionDefault.FALSE);
-		
 		// Requirements
 		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
-		ability.addActivateRequirements(ReqHasPerm.get(usePerm));
-		ability.addSeeRequirements(ReqHasPerm.get(seePerm));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

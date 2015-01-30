@@ -56,6 +56,9 @@ public class Derius extends MassivePlugin
 		SkillEngine.get().activate();
 		BlockEngine.get().activate();
 		
+		// PERMS!!!
+		Perm.activate();
+		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius();
 		this.outerCmdDerius.register(this);
