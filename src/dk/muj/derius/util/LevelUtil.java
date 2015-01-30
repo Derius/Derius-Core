@@ -37,6 +37,73 @@ public final class LevelUtil
 		return most.getValue();
 	}
 	
+	public static Double getLevelSettingFloat(Map<Integer, Double> settings, int level)
+	{
+		Entry<Integer, Double> ceil = null;
+		Entry<Integer, Double> floor = null;
+		
+		for (Entry<Integer, Double> entry : settings.entrySet())
+		{	
+			// First iteration
+			if (ceil == null && floor == null)
+			{
+				ceil = entry;
+				floor = entry;
+			}
+			
+			// Must be higher than level, but smaller than ceil
+			if (entry.getKey() >= level && entry.getKey() <= ceil.getKey()) ceil = entry;
+			
+			// Must be lower than level but higher than floor
+			else if (entry.getKey() <= level && entry.getKey() >= floor.getKey()) floor = entry;
+		}
+		
+		int lvlDiff = ceil.getKey() - ceil.getKey();
+		double valueDiff = ceil.getValue() - floor.getValue();
+		double diffPerLvl = valueDiff/lvlDiff;
+		
+		int toFloor = level - floor.getKey();
+		double base = floor.getValue();
+		double buff = toFloor * diffPerLvl;
+		
+		return base + buff;
+	}
+	
+	public static Double getLevelSettingInt(Map<Integer, Integer> settings, int level)
+	{
+		Entry<Integer, Integer> ceil = null;
+		Entry<Integer, Integer> floor = null;
+		
+		for (Entry<Integer, Integer> entry : settings.entrySet())
+		{	
+			// First iteration
+			if (ceil == null && floor == null)
+			{
+				ceil = entry;
+				floor = entry;
+			}
+			
+			// Must be higher than level, but smaller than ceil
+			if (entry.getKey() >= level && entry.getKey() <= ceil.getKey()) ceil = entry;
+			
+			// Must be lower than level but higher than floor
+			else if (entry.getKey() <= level && entry.getKey() >= floor.getKey()) floor = entry;
+		}
+		
+		if (ceil == null) return (double) floor.getValue();
+		if (floor == null) return null;
+		
+		int lvlDiff = ceil.getKey() - ceil.getKey();
+		int valueDiff = ceil.getValue() - floor.getValue();
+		double diffPerLvl = valueDiff/lvlDiff;
+		
+		int toFloor = level - floor.getKey();
+		double base = floor.getValue();
+		double buff = toFloor * diffPerLvl;
+		
+		return base + buff;
+	}
+	
 	// -------------------------------------------- //
 	// MPLAYER RELATED
 	// -------------------------------------------- //
