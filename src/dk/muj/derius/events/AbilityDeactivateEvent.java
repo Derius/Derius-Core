@@ -3,7 +3,7 @@ package dk.muj.derius.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.MPlayer;
 
 public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent

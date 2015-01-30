@@ -1,5 +1,7 @@
 package dk.muj.derius.skill;
 
+import java.util.Optional;
+
 import javax.annotation.concurrent.Immutable;
 
 
@@ -30,10 +32,10 @@ public interface LvlStatus
 	public LvlStatus setLvl (int level);
 	
 
-	public Integer getExp ();
-	public LvlStatus setExp (Integer exp);
+	public Optional<Integer> getExp ();
+	public LvlStatus setExp (Optional<Integer>  exp);
 	
 
-	public Integer getExpToNextLvl ();
-	public LvlStatus setExpToNextLvl (Integer expToNextLvl);
+	public Optional<Integer>  getExpToNextLvl ();
+	public LvlStatus setExpToNextLvl (Optional<Integer>  expToNextLvl);
 }

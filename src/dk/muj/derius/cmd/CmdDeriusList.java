@@ -1,5 +1,6 @@
 package dk.muj.derius.cmd;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
@@ -12,7 +13,8 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
+import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusList extends DeriusCommand
 {
@@ -42,7 +44,7 @@ public class CmdDeriusList extends DeriusCommand
 		if (pageHumanBased == null) return;
 		
 		// Create Pager
-		final List<Skill> skills = Skill.getAllSkills();
+		final Collection<? extends Skill> skills = SkillColl.getAllSkills();
 		final PagerSimple<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		
 		// Use Pager

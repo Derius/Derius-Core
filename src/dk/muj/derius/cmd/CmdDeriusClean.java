@@ -11,7 +11,8 @@ import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
+import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusClean extends DeriusCommand
 {
@@ -39,7 +40,7 @@ public class CmdDeriusClean extends DeriusCommand
 		{
 			if (Perm.CLEAN_SKILL_ALL.has(sender, true))
 			{
-				skillList.addAll(Skill.getAllSkills());
+				skillList.addAll(SkillColl.getAllSkills());
 			}
 			else
 			{
@@ -48,7 +49,7 @@ public class CmdDeriusClean extends DeriusCommand
 		}
 		else
 		{
-			skillList.add(Skill.getSkillById(this.arg(0)));
+			skillList.add(SkillColl.get().get(this.arg(0)));
 		}
 
 		// Arg 1: player, yourself or all

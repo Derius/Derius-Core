@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.bukkit.Bukkit;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.ability.Ability;
-import dk.muj.derius.ability.AbilityType;
+import dk.muj.derius.entity.Ability;
+import dk.muj.derius.entity.Ability.AbilityType;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
@@ -101,30 +101,6 @@ public final class AbilityUtil
 	}
 	
 	/**
-	 * Activates an ability
-	 * mplayer is the proper way to activate an ability
-	 * @param {MPlayer} player to activate ability on
-	 * @param {Ability} the ability to activate
-	 * @param {Object} some abilities need another object. Check for the individual ability
-	 * @param {Optional<Object>} the object passed from onActivate to onDeactivate
-	 */
-	public static Object activateAbility(MPlayer mplayer, final Ability ability, Object other)
-	{
-		return activateAbility(mplayer, ability, other, false);
-	}
-	
-	/**
-	 * Activates an ability
-	 * @param {MPlayer} player to activate ability on
-	 * @param {Ability} the ability to activate
-	 * @param {boolean} inform the player if not allowed
-	 */
-	public static Object activateAbility(MPlayer mplayer, final Ability ability)
-	{
-		return activateAbility(mplayer, ability, null);
-	}
-	
-	/**
 	 * Deactivates an ability for mplayer player.
 	 * This should however automatically be done by our scheduled tasks.
 	 * @param {MPlayer} player to deactivate ability on
@@ -139,7 +115,7 @@ public final class AbilityUtil
 		Ability ability = mplayer.getActivatedAbility();
 		ability.onDeactivate(mplayer, other);
 		mplayer.setActivatedAbility(null);
-		mplayer.setCooldownExpireIn(ability.getCooldownTime());
+		mplayer.setCooldownExpireIn(ability.getCooldownTicks());
 	}
 	
 	// -------------------------------------------- //

@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 import com.massivecraft.massivecore.mixin.Mixin;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 import dk.muj.spigot.chat.ActionBar_v1_8_R1;
 
 public final class ChatUtil

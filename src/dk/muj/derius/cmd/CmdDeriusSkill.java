@@ -8,12 +8,12 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.skill.LvlStatus;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkill extends DeriusCommand

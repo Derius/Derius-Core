@@ -2,7 +2,7 @@ package dk.muj.derius.events;
 
 import org.bukkit.event.HandlerList;
 
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 
 /**
  * This event is called when a skill is registered into the system.

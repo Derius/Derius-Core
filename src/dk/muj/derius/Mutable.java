@@ -14,6 +14,11 @@ public class Mutable<T>
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
+	public Mutable()
+	{
+		this.content = null;
+	}
+	
 	public Mutable(T startContent)
 	{
 		this.content = startContent;

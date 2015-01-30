@@ -7,20 +7,18 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
+import dk.muj.derius.entity.Skill;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.req.ReqHasPerm;
 import dk.muj.derius.req.sp.ReqHasOpenSlot;
 import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
 import dk.muj.derius.req.sp.ReqIsntBlacklisted;
 import dk.muj.derius.req.sp.ReqIsntSpecialised;
-import dk.muj.derius.skill.Skill;
 
 public class SkillEngine extends EngineAbstract
 {
@@ -54,10 +52,6 @@ public class SkillEngine extends EngineAbstract
 		for (MPlayer mplayer : MPlayerColl.get().getAll())
 		{
 			mplayer.instantiateSkill(skill);
-		}
-		if ( ! MConf.get().worldSkillsEarn.containsKey(id))
-		{
-			MConf.get().worldSkillsEarn.put(id, new WorldExceptionSet());
 		}
 		
 		String name = skill.getName();

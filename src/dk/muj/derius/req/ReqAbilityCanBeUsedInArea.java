@@ -8,9 +8,9 @@ import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 
 public class ReqAbilityCanBeUsedInArea implements Req
 {

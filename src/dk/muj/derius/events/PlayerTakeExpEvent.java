@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 
 /**
  * This event is thrown every time a player loses exp

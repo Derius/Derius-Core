@@ -1,22 +1,21 @@
-package dk.muj.derius.ability;
+package dk.muj.derius.entity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
 
+import com.massivecraft.massivecore.collections.WorldExceptionSet;
+import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.ability.TicksLastCalculator;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.req.Req;
-import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.AbilityUtil;
 
-public abstract class Ability
+public abstract class Ability extends Entity<Ability>
 {
 	// -------------------------------------------- //
 	// FIELDS
@@ -24,16 +23,20 @@ public abstract class Ability
 
 	private AbilityType type;
 	
-	private String desc = "";
 	private String name;
+	public String getName() { return name; }
+	public void setName(String newName) { this.name = newName; }
+	
+	private String desc = "";
+	public String getDescription() { return desc; }
+	public void setDecription(String newDescription) { this.desc = newDescription; }
 	
 	private int ticksCooldown = 20*60*2;
 	
-	protected List<Req> seeRequirements			= new CopyOnWriteArrayList<Req>();
-	protected List<Req> activateRequirements	= new CopyOnWriteArrayList<Req>();
+	private WorldExceptionSet worldsUse = new WorldExceptionSet();
 	
-	//A list of ability which we get from different sources.
-	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
+	protected transient List<Req> seeRequirements			= new CopyOnWriteArrayList<Req>();
+	protected transient List<Req> activateRequirements	= new CopyOnWriteArrayList<Req>();
 	
 	// Lambda
 	TicksLastCalculator levelToTicks = (int level) ->
@@ -42,56 +45,11 @@ public abstract class Ability
 	};
 	
 	// -------------------------------------------- //
-	// STATIC
-	// -------------------------------------------- //
-	
-	/**
-	 * Gets an ability from its id. 
-	 * This is the best way to get an ability, since the id never changes.
-	 * @param {String} The id of the ability you wanted to get.
-	 * @return{Ability} The ability which has this id
-	 */
-	public static Ability getAbilityById(String abilityId)
-	{
-		for(Ability ability: Ability.abilityList)
-		{
-			if(ability.getId().equals(abilityId)) return ability;
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Gets an ability from its name.
-	 * This should only be done by players, since they don't know the id
-	 * @param {String} The name of the ability you wanted to get.
-	 * @return{Ability} The ability which starts with this name
-	 */
-	public static Ability getAbilityByName(String abilityName)
-	{
-		for(Ability ability: Ability.abilityList)
-		{
-			if(ability.getName().equalsIgnoreCase(abilityName)) return ability;
-		}
-		return null;
-	}
-	
-	/**
-	 * Gets all registered abilities.
-	 * @return {List<Ability>} all registered skills
-	 */
-	public static List<Ability> getAllAbilities()
-	{
-		return new ArrayList<Ability>(Ability.abilityList);
-	}
-
-	// -------------------------------------------- //
 	// REGISTER
 	// -------------------------------------------- //
 	
 	/**
 	 * Registers an ability to our system.
-	 * We will instantiate the correct fields.
 	 * This should be done on server startup.
 	 */
 	public void register()
@@ -100,12 +58,26 @@ public abstract class Ability
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
 		
-		abilityList.add(this);
+		this.attach(AbilityColl.get());
+		
+		return;
 	}
 	
 	// -------------------------------------------- //
 	// ABILTY TYPE & CHECK
 	// -------------------------------------------- //
+	
+	public enum AbilityType
+	{
+		/**
+		 * Active skills last over a duration of time
+		 */
+		ACTIVE(),
+		/**
+		 * Passive abilities are activated once & don't last over time
+		 */
+		PASSIVE();
+	}
 	
 	/**
 	 * Gets the ability type (passive/active) of this ability
@@ -129,42 +101,6 @@ public abstract class Ability
 	// DESCRIPTION
 	// -------------------------------------------- //
 	
-	/**
-	 * Sets the name of the ability
-	 * @param {String} new name for this ability
-	 */
-	public void setName(String str)
-	{
-		this.name = str;
-	}
-	
-	/**
-	 * Gets the name of the ability
-	 * @param {String} name for this ability
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
-	
-	/**
-	 * Sets the description of the ability
-	 * @param {String} new description for this ability
-	 */
-	public void setDescription(String str)
-	{
-		this.desc = str;
-	}
-	
-	/**
-	 * Gets the description of the ability
-	 * @param {String} description for this ability
-	 */
-	public String getDescription()
-	{
-		return this.desc;
-	}
-
 	/**
 	 * Gets the name & description, as it would be displayed
 	 * to the passed player
@@ -242,9 +178,33 @@ public abstract class Ability
 	 * Gets how many ticks the cooldown will last
 	 * @return {int} amount of ticks, the cooldown will be.
 	 */
-	public int getCooldownTime()
+	public int getCooldownTicks()
 	{
 		return this.ticksCooldown;
+	}
+	
+	// -------------------------------------------- //
+	// FIELD: WORLDEXCEPTION
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets an exception set for the worlds in which
+	 * it is possible to earn exp in this skill.
+	 * @return {WorldExceptionSet} worlds where you can earn exp in this skill
+	 */
+	public WorldExceptionSet getWorldsUse()
+	{
+		return this.worldsUse;
+	}
+	
+	/**
+	 * Sets the exception set for which worlds
+	 * it is possible to earn exp for this skill
+	 * @param {WorldExceptionSet} worldexceptionset
+	 */
+	public void setWorldsEarn(WorldExceptionSet worldsUse)
+	{
+		this.worldsUse = worldsUse;
 	}
 	
 	// -------------------------------------------- //
@@ -370,5 +330,5 @@ public abstract class Ability
 	{
 		return getName();
 	}
-
+	
 }

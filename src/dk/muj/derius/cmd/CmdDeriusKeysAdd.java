@@ -6,7 +6,8 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.Ability;
+import dk.muj.derius.entity.AbilityColl;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 
@@ -43,7 +44,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 			return;
 		}
 		
-		Ability ability = Ability.getAbilityById(id);
+		Ability ability = AbilityColl.get().get(id);
 		if (ability == null)
 		{
 			sendMessage(Txt.parse(MLang.get().abilityInvalidId, id));

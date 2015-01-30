@@ -1,5 +1,6 @@
 package dk.muj.derius.cmd;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
@@ -12,8 +13,9 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.entity.Skill;
+import dk.muj.derius.entity.SkillColl;
 import dk.muj.derius.skill.LvlStatus;
-import dk.muj.derius.skill.Skill;
 
 public class CmdDeriusInspect extends DeriusCommand
 {
@@ -47,7 +49,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		String title = (mplayer == msender) ? Txt.titleize("<green>Your Skills") : Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender)));
 
 		// Create Pager
-		final List<Skill> skills = Skill.getAllSkills();
+		final Collection<? extends Skill> skills = SkillColl.getAllSkills();
 		final PagerSimple<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		
 		// Use Pager

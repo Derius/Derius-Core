@@ -6,8 +6,8 @@ import org.bukkit.permissions.Permission;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.PermUtil;
 
-import dk.muj.derius.ability.Ability;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Ability;
+import dk.muj.derius.entity.Skill;
 
 public class ReqHasPerm implements Req
 {	

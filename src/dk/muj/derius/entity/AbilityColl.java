@@ -1,34 +1,35 @@
 package dk.muj.derius.entity;
 
+import java.util.Collection;
+
 import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
 import dk.muj.derius.Const;
 import dk.muj.derius.Derius;
 
-public class MConfColl extends Coll<MConf>
+public class AbilityColl extends Coll<Ability>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-	private static MConfColl i = new MConfColl();
-	public static MConfColl get() { return i; }
-	private MConfColl()
+	private static AbilityColl i = new AbilityColl();
+	public static AbilityColl get() { return i; }
+	private AbilityColl()
 	{
-		super(Const.COLLECTION_MCONF, MConf.class, MStore.getDb(), Derius.get());
+		super(Const.COLLECTION_ABILITIES, Ability.class, MStore.getDb(), Derius.get());
+		this.setLowercasing(true);
+		this.setCreative(false);
 	}
 	
 	// -------------------------------------------- //
-	// OVERRIDE
+	// CONVENIENCE
 	// -------------------------------------------- //
 	
-	// This initializes the saving task of the class.
-	@Override
-	public void init()
+	public static Collection<Ability> getAllAbilities()
 	{
-		super.init();
-		MConf.i = this.get("CoreSettings", true);
+		return get().getAll();
 	}
 	
 }

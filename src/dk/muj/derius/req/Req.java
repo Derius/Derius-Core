@@ -2,8 +2,8 @@ package dk.muj.derius.req;
 
 import org.bukkit.command.CommandSender;
 
-import dk.muj.derius.ability.Ability;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Ability;
+import dk.muj.derius.entity.Skill;
 
 public interface Req extends com.massivecraft.massivecore.cmd.req.Req
 {

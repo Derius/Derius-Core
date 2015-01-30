@@ -18,8 +18,9 @@ import com.massivecraft.massivecore.util.EventUtil;
 import dk.muj.derius.Derius;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
+import dk.muj.derius.entity.Skill;
+import dk.muj.derius.entity.SkillColl;
 import dk.muj.derius.events.PlayerDamageEvent;
-import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.Listener;
 
 public class MainEngine extends EngineAbstract
@@ -51,7 +52,7 @@ public class MainEngine extends EngineAbstract
 	public void onJoin(PlayerJoinEvent e)
 	{
 		MPlayer mplayer = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
-		for (Skill skill : Skill.getAllSkills())
+		for (Skill skill : SkillColl.getAllSkills())
 		{
 			mplayer.instantiateSkill(skill);
 		}

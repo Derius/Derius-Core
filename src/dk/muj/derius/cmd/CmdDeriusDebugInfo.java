@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.ability.Ability;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Ability;
+import dk.muj.derius.entity.AbilityColl;
+import dk.muj.derius.entity.Skill;
+import dk.muj.derius.entity.SkillColl;
 import dk.muj.derius.util.Listener;
 
 
@@ -31,13 +33,13 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		List<String> messages = new ArrayList<String>();
 		
 		messages.add(Txt.parse("<art>REGISTERED SKILLS"));
-		for (Skill skill : Skill.getAllSkills())
+		for (Skill skill : SkillColl.getAllSkills())
 		{
 			messages.add(Txt.parse("<red>")+skill.getId() +" "+ skill.getName());
 		}
 		
 		messages.add(Txt.parse("<art>REGISTERED ABILITIES"));
-		for (Ability ability : Ability.getAllAbilities())
+		for (Ability ability : AbilityColl.getAllAbilities())
 		{
 			messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName()+"          "+ability.getSkill().getId());
 		}

@@ -19,11 +19,9 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.Perm;
-import dk.muj.derius.ability.Ability;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.LvlStatus;
-import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.LevelUtil;
 import dk.muj.derius.util.Listener;
@@ -226,13 +224,13 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public void cleanWithCheck(String id)
 	{
-		if (Skill.getSkillById(id) == null)
+		if (SkillColl.get().get(id) == null)
 		{
 			this.exp.remove(id);
 			this.specialised.remove(id);
 		}
 		
-		if (Ability.getAbilityById(id) == null)
+		if (AbilityColl.get().get(id) == null)
 		{
 			for (Entry<String, String> entry : this.chatKeys.entrySet())
 			{
@@ -348,7 +346,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		List<Skill> ret = new ArrayList<Skill>();
 		for (String i : this.specialised)
 		{
-			Skill skill = Skill.getSkillById(i);
+			Skill skill = SkillColl.get().get(i);
 			if (skill != null) ret.add(skill);
 		}
 		return ret;
@@ -592,7 +590,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		String id = this.chatKeys.get(key);
 		if (null == id) return null;
 		
-		return Ability.getAbilityById(id);
+		return AbilityColl.get().get(id);
 	}
 	
 	/**

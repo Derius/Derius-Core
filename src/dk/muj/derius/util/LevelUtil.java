@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 
 public final class LevelUtil
 {

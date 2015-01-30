@@ -7,10 +7,11 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.cmd.arg.ARSkill;
+import dk.muj.derius.entity.AbilityColl;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand
 {
@@ -40,7 +41,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		// Which abilities should be shown
 		if (skill == null)
 		{
-			for (Ability ability : Ability.getAllAbilities())
+			for (Ability ability : AbilityColl.getAllAbilities())
 			{
 				messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
 			}

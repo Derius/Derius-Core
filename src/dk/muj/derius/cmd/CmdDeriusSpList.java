@@ -10,7 +10,7 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
 
 public class CmdDeriusSpList  extends DeriusCommand
 {

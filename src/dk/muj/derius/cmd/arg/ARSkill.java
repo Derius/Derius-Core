@@ -9,7 +9,9 @@ import org.bukkit.command.CommandSender;
 import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.skill.Skill;
+import dk.muj.derius.entity.Skill;
+import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.util.SkillUtil;
 
 public class ARSkill extends ARAbstractSelect<Skill>
 {
@@ -35,11 +37,11 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	{
 		MPlayer mplayer = MPlayer.get(sender);
 		arg = arg.toLowerCase();
-		for (Skill skill : Skill.getAllSkills())
+		for (Skill skill : SkillColl.get().getAll())
 		{
 			if (skill.getName().toLowerCase().startsWith(arg))
 			{
-				if ( ! skill.canPlayerSeeSkill(mplayer)) continue;
+				if ( ! SkillUtil.canPlayerSeeSkill(mplayer, skill, false)) continue;
 				return skill;
 			}
 		}
@@ -54,9 +56,9 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		
 		List<String> ret = new ArrayList<String>();
 	
-		for (Skill skill : Skill.getAllSkills())
+		for (Skill skill : SkillColl.get().getAll())
 		{
-			if ( ! skill.canPlayerSeeSkill(mplayer)) continue;
+			if ( ! SkillUtil.canPlayerSeeSkill(mplayer, skill, false)) continue;
 			ret.add(skill.getName());
 		}
 		return ret;
