@@ -21,37 +21,6 @@ public class ReqHasOpenSlot implements Req
 	public static ReqHasOpenSlot get() { return i; }
 	private ReqHasOpenSlot() {}
 	
-	// -------------------------------------------- //
-	// OVERRIDE: SKILL
-	// -------------------------------------------- //
-
-	@Override
-	public boolean apply(CommandSender sender, Skill skill)
-	{
-		return MPlayer.get(sender).getOpenSpecialisationSlots() > 0;
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Skill skill)
-	{
-		return this.createErrorMessage(sender);
-	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE: ABILITY
-	// -------------------------------------------- //
-
-	@Override
-	public boolean apply(CommandSender sender, Ability ability)
-	{
-		return MPlayer.get(sender).getOpenSpecialisationSlots() > 0;
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Ability ability)
-	{
-		return this.createErrorMessage(sender);
-	}
 	
 	// -------------------------------------------- //
 	// OVERRIDE: DEFAULT
@@ -60,7 +29,9 @@ public class ReqHasOpenSlot implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		return MPlayer.get(sender).getOpenSpecialisationSlots() > 0;
+		MPlayer mplayer =  MPlayer.get(sender);
+		if (mplayer == null) return false;
+		return mplayer.getOpenSpecialisationSlots() > 0;
 	}
 	
 	@Override
@@ -68,15 +39,39 @@ public class ReqHasOpenSlot implements Req
 	{
 		return Txt.parse(MLang.get().specialisationTooMany);
 	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: OTHER
+	// -------------------------------------------- //
 
-	// -------------------------------------------- //
-	// OVERRIDE: CMD
-	// -------------------------------------------- //
+	@Override
+	public boolean apply(CommandSender sender, Skill skill)
+	{
+		return this.apply(sender);
+	}
+
+	@Override
+	public String createErrorMessage(CommandSender sender, Skill skill)
+	{
+		return this.createErrorMessage(sender);
+	}
+
+	@Override
+	public boolean apply(CommandSender sender, Ability ability)
+	{
+		return this.apply(sender);
+	}
+
+	@Override
+	public String createErrorMessage(CommandSender sender, Ability ability)
+	{
+		return this.createErrorMessage(sender);
+	}
 	
 	@Override
 	public boolean apply(CommandSender sender, MassiveCommand cmd)
 	{
-		return MPlayer.get(sender).getOpenSpecialisationSlots() > 0;
+		return this.apply(sender);
 	}
 	
 	@Override

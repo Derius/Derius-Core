@@ -6,6 +6,7 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.skill.Skill;
 
@@ -26,38 +27,19 @@ public class ReqIsAtleastLevel implements Req
 	public int getlevel() { return this.level; }
 	
 	// -------------------------------------------- //
-	// OVERRIDE
-	// -------------------------------------------- //
-	
-
-	@Override
-	public boolean apply(CommandSender arg0)
-	{
-		return false;
-	}
-	
-
-	@Override
-	public String createErrorMessage(CommandSender arg0)
-	{
-		return Txt.parse("<b>You are no the required level to do this.");
-	}
-
-	// -------------------------------------------- //
 	// OVERRIDE: SKILL
 	// -------------------------------------------- //
 	
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		if (skill.getLvlStatusFromExp(MPlayer.get(sender).getExp(skill)).getLvl() >= level) return true;
-		return false;
+		return (skill.getLvlStatusFromExp(MPlayer.get(sender).getExp(skill)).getLvl() >= level);
 	}
 
 	@Override
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
-		return this.createErrorMessage(sender);
+		return Txt.parse(MLang.get().skillLevelIsTooLow, this.getlevel(), skill.getDisplayName(sender));
 	}
 	
 	// -------------------------------------------- //
@@ -73,23 +55,36 @@ public class ReqIsAtleastLevel implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Ability ability)
 	{
-		return this.createErrorMessage(sender);
+		return this.createErrorMessage(sender, ability.getSkill());
 	}
 	
 	// -------------------------------------------- //
-	// OVERRIDE: MASSIVECOMMAND
+	// OVERRIDE: OTHER
 	// -------------------------------------------- //
 	
 	@Override
 	public boolean apply(CommandSender arg0, MassiveCommand arg1)
 	{
-		return false;
+		throw new UnsupportedOperationException("This req doesn't support commands");
 	}
 
 	@Override
 	public String createErrorMessage(CommandSender arg0, MassiveCommand arg1)
 	{
-		return Txt.parse("<b>This should not happen, a bug occured. A COMMAND WAS PASSED INSTEAD OF SKILL");
+		throw new UnsupportedOperationException("This req doesn't support commands");
+	}
+	
+	
+	@Override
+	public boolean apply(CommandSender sender)
+	{
+		throw new UnsupportedOperationException("This req doesn't support default");
+	}
+
+	@Override
+	public String createErrorMessage(CommandSender sender)
+	{
+		throw new UnsupportedOperationException("This req doesn't support default");
 	}
 
 }

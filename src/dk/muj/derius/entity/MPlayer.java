@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.IntervalUtil;
-import com.massivecraft.massivecore.util.PermUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
@@ -26,8 +25,8 @@ import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.ChatUtil;
+import dk.muj.derius.util.LevelUtil;
 import dk.muj.derius.util.Listener;
-import dk.muj.derius.util.SkillUtil;
 
 public class MPlayer extends SenderEntity<MPlayer>
 {
@@ -118,7 +117,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if (lvlBefore >= SkillUtil.getMaxLevel(skill, this)) return;
+		if (lvlBefore >= LevelUtil.getMaxLevel(skill, this)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
@@ -142,7 +141,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if (lvlBefore >= SkillUtil.getMaxLevel(skill, this)) return;
+		if (lvlBefore >= LevelUtil.getMaxLevel(skill, this)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
@@ -176,51 +175,27 @@ public class MPlayer extends SenderEntity<MPlayer>
 		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
 	}
 	
+	/**
+	 * Instantiates this skill if player doesn't have it
+	 * @param {Skill} skill to instantiate
+	 */
 	public void instantiateSkill(Skill skill)
 	{
+		if (this.hasSkill(skill)) return;
 		this.exp.put(skill.getId(), 0L);
 	}
-
-	// -------------------------------------------- //
-	// PERMISSION
-	// -------------------------------------------- //
-	
-	// TODO: Do we need this?
-	/**
-	 * Tells whether or not this player can learn said skill.
-	 * The requirements is set up by the skill
-	 * and bukkit permissions (also checked here) by the core plugin
-	 * @param {Skill} the skill to check for
-	 * @return true if the player can learn this skill
-	 */
-	public boolean canLearnSkill(Skill skill) { return skill.canPlayerLearnSkill(this); }
 	
 	/**
-	 * Tells whether or not this player can see said skill.
-	 * This is used in command arguments and such.
-	 * @param {Skill} skill to check for
-	 * @return {boolean} true if player can see skill
+	 * Return whether or not said skill is
+	 * instantiated in this player.
+	 * if false errors might occur
+	 * @param {SKill} skill to check for
+	 * @return {boolean} true if skill in instantiated
 	 */
-	public boolean canSeeSkill(Skill skill) { return PermUtil.has(this.getSender(), Perm.SKILL_SEE.node + skill.getId()); }
-	
-	// TODO: Do we need this?
-	/**
-	 * Tells whether or not this player can use said ability.
-	 * The requirements is set up by the skill
-	 * and bukkit permissions (also checked here) by the core plugin
-	 * @param {Ability} ability to check for
-	 * @return true if the player can use this ability
-	 */
-	public boolean canUseAbility(Ability ability) { return ability.canPlayerActivateAbility(this); }
-	
-	// TODO: Do we need this?
-	/**
-	 * Tells whether or not this player can see said skill.
-	 * This is used in command arguments and such.
-	 * @param {Ability} ability to check for
-	 * @return {boolean} true if player can see this ability
-	 */
-	public boolean canSeeAbility(Ability ability) { return ability.canPlayerSeeAbility(this); }
+	public boolean hasSkill(Skill skill)
+	{
+		return this.exp.containsKey(skill.getId());
+	}
 	
 	// -------------------------------------------- //
 	// CLEAN
@@ -741,30 +716,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		return result;
 	}
-
-	// -------------------------------------------- //
-	// CONVENIENCE METHODS
-	// -------------------------------------------- //
-	
-	/**
-	 * Gets a list of descriptions for the different abilities in said skill.
-	 * But these should include level specific data (using this players level)
-	 * So this would include data like your double drop chance
-	 * or the length of an active ability being activated (for that lvl).
-	 * These string should be passed directly to a player under normal circumstances.
-	 * @param {String} id of the skill
-	 * @return {List<String>} description of abilities for said skill, corresponding to the players level.
-	 */
-	public List<String> getAbilitiesDecriptionByLvl(Skill skill)
-	{
-		List<String> ret = new ArrayList<String>();
-		int level = this.getLvl(skill);
-		for (Ability a : skill.getAllAbilities())
-		{
-			ret.add(a.getLvlDescription(level));
-		}
-		return ret;
-	}
 	
 	// -------------------------------------------- //
 	// RAW DATA
@@ -774,7 +725,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * DANGER DANGER. DON'T USE THIS
 	 * IT IS EXTREMELY DANGEROUS USE
 	 * THIS IS ONLY FOR INTERNAL DEBUG USE
+	 * @deprecated can change at any given time
+	 * might be removed, extremely dangerous
 	 */
+	@Deprecated
 	public Map<String, Long> getRawExpData()
 	{
 		return this.exp;
@@ -784,7 +738,10 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * DANGER DANGER. DON'T USE THIS
 	 * IT IS EXTREMELY DANGEROUS TO USE
 	 * THIS IS ONLY FOR INTERNAL DEBUG USE
+	 * @deprecated can change at any given time
+	 * might be removed, extremely dangerous
 	 */
+	@Deprecated
 	public Set<String> getRawSpecialisedData()
 	{
 		return this.specialised;

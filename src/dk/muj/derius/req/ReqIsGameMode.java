@@ -8,6 +8,7 @@ import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.skill.Skill;
 
 public class ReqIsGameMode implements Req
@@ -33,13 +34,13 @@ public class ReqIsGameMode implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		return IdUtil.isGameMode(sender, gameMode, true);
+		return IdUtil.isGameMode(sender, gameMode, false);
 	}
 	
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		return Txt.parse("<b>You are not in the required gamemode.");
+		return Txt.parse(MLang.get().mustBeGamemode, Txt.getNicedEnum(gameMode));
 	}
 
 	// -------------------------------------------- //

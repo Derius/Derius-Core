@@ -14,7 +14,6 @@ import dk.muj.derius.util.AbilityUtil;
 
 public class ChatEngine extends EngineAbstract
 {
-
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
@@ -49,4 +48,5 @@ public class ChatEngine extends EngineAbstract
 		
 		AbilityUtil.activateAbility(mplayer, ability, null, true);
 	}
+	
 }

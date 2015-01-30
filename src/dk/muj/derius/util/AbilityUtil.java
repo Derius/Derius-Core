@@ -1,8 +1,5 @@
 package dk.muj.derius.util;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
@@ -13,6 +10,7 @@ import dk.muj.derius.ability.AbilityType;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
+import dk.muj.derius.req.Req;
 
 public final class AbilityUtil
 {
@@ -26,26 +24,49 @@ public final class AbilityUtil
 	}
 	
 	// -------------------------------------------- //
-	// LEVEL SETTINGS
+	// REQUIREMENTS
 	// -------------------------------------------- //
 	
-	public static <S> S getLevelSetting(Map<Integer, S> settings, int level)
+	/**
+	 * Tells whether or not the player can use said ability.
+	 * This is based on the ability requirements
+	 * @param {MPlayer} the player you want to check
+	 * @param {Ability} ability to check for
+	 * @param {boolean} true if error message should be sent
+	 * @return {boolean} true if the player can use said ability
+	 */
+	public static boolean canPlayerActivateAbility(MPlayer mplayer, Ability ability, boolean verboseNot)
 	{
-		Iterator<Entry<Integer, S>> entries = settings.entrySet().iterator();
-		
-		Entry<Integer, S> most = null;
-		
-		while (entries.hasNext())
+		for (Req req : ability.getActivateRequirements())
 		{
-			Entry<Integer, S> entry = entries.next();
-			
-			if ( ! (entry.getKey() <= level)) continue;
-			if ( most != null && entry.getKey() < most.getKey()) continue;
-			most = entry;
-			
+			if ( ! req.apply(mplayer.getSender(), ability)) 
+			{
+				if (verboseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), ability));
+				return false;
+			}
 		}
-		
-		return most.getValue();
+		return true;
+	}
+	
+	/**
+	 * Tells whether or not the player can see said ability.
+	 * This is based on the skill requirements
+	 * @param {MPlayer} the player you want to check
+	 * @param {Ability} ability to check for
+	 * @param {boolean} true if error message should be sent
+	 * @return {boolean} true if the player can see said ability
+	 */
+	public static boolean canPlayerSeeAbility(MPlayer mplayer, Ability ability, boolean verboseNot)
+	{
+		for (Req req : ability.getSeeRequirements())
+		{
+			if ( ! req.apply(mplayer.getSender(), ability)) 
+			{
+				if (verboseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), ability));
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	// -------------------------------------------- //
@@ -64,7 +85,7 @@ public final class AbilityUtil
 	public static Object activateAbility(MPlayer mplayer, final Ability ability, Object other, boolean verboseNot)
 	{	
 		// CHECKS
-		if ( ! ability.canPlayerActivateAbility(mplayer, verboseNot)) return null;
+		if ( ! AbilityUtil.canPlayerActivateAbility(mplayer, ability, verboseNot)) return null;
 		
 		// ACTIVATE
 		if (ability.getType() == AbilityType.PASSIVE)
@@ -154,7 +175,7 @@ public final class AbilityUtil
 			{
 				deactivateActiveAbility(mplayer, obj);
 			}
-		}, ability.getTicksLast(mplayer.getLvl(ability.getSkill())));
+		}, ability.getDuration(mplayer.getLvl(ability.getSkill())));
 		
 		return obj;
 	}

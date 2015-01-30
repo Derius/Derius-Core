@@ -13,7 +13,6 @@ import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.SkillRegisteredEvent;
-import dk.muj.derius.exceptions.IdAlreadyInUseException;
 import dk.muj.derius.req.Req;
 
 public abstract class Skill
@@ -40,7 +39,8 @@ public abstract class Skill
 	
 	//Lambda sw@g
 	LvlStatusCalculator expToLvlStatus = (long exp) -> 	
-	{	//This is the default algorithm
+	{	
+		//This is the default algorithm
 		int level = 0, nextLvlExp;
 		for(nextLvlExp = 1024; nextLvlExp < exp; nextLvlExp *= 1.01, level++)
 		{
@@ -91,7 +91,10 @@ public abstract class Skill
 	 * Gets a list of ALL skills
 	 * @return {List<Skill>} all registered skills
 	 */
-	public static List<Skill> getAllSkills(){ return new ArrayList<Skill>(skillList); }
+	public static List<Skill> getAllSkills()
+	{
+		return new ArrayList<Skill>(skillList);
+	}
 	
 	// -------------------------------------------- //
 	// REGISTER
@@ -105,23 +108,6 @@ public abstract class Skill
 	 */
 	public void register()
 	{
-		Object before = getSkillById(this.getId());
-		if(before != null)
-		{
-			String id = this.getId();
-			try
-			{
-				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.toString()
-						+ " but "+this.getName() + " is trying to use it");
-				
-			}
-			catch (IdAlreadyInUseException e)
-			{
-				e.printStackTrace();
-				return;
-			}
-		}
-		
 		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
 		event.run();
 		if (event.isCancelled()) return;
@@ -137,9 +123,9 @@ public abstract class Skill
 	 * This MUST be unique but can always be changed.
 	 * @return {String} The skills name
 	 */
-	protected void setName(String str)
+	protected void setName(String newName)
 	{
-		this.name = str;
+		this.name = newName;
 	}
 	
 	/**
@@ -157,9 +143,9 @@ public abstract class Skill
 	 * Should not be more than one or two minecraft chat lines long
 	 * @return {String} a short description of the skill
 	 */
-	protected void setDescription(String str)
+	protected void setDescription(String newDescription)
 	{
-		this.desc = str;
+		this.desc = newDescription;
 	}
 	
 	/**
@@ -186,8 +172,7 @@ public abstract class Skill
 	{
 		//Yeah it will be immutable
 		List<String> descs = new ArrayList<String>();
-		for(String desc : earnExpDesc)
-			descs.add(desc);
+		for(String desc : earnExpDesc) descs.add(desc);
 		return descs;
 	}
 	
@@ -469,7 +454,7 @@ public abstract class Skill
 	 * & is never seen by the player/user.
 	 * MUST be unique & should never be changed
 	 * This should be lowercase.
-	 * @return {int} the skills unique id.
+	 * @return {String} the skills unique id.
 	 */
 	public abstract String getId();
 	

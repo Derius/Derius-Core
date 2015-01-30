@@ -27,7 +27,6 @@ import dk.muj.derius.util.Listener;
 
 public class BlockEngine extends EngineAbstract
 {
-
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
@@ -53,9 +52,9 @@ public class BlockEngine extends EngineAbstract
 	@Override
 	public void run()
 	{
-		for (MPlayer mplayer : MPlayerColl.get().getAll(p -> Perm.NOTIFY_CHUNK.has(p.getSender())))
+		for (MPlayer mplayer : MPlayerColl.get().getAll(p -> Perm.NOTIFY_CHUNK.has(p.getSender(), false)))
 		{
-			mplayer.msg(MLang.get().prefix+" <i>Chunk cleanup is about to happen \n <i>lag might occur");
+			mplayer.msg(MLang.get().prefix + " <i>Chunk cleanup is about to happen lag might occur");
 		}
 		cleanWorlds();
 	}
@@ -63,10 +62,10 @@ public class BlockEngine extends EngineAbstract
 	@Override
 	public Long getPeriod()
 	{
-		//Every 12 hours we perform a cleanup
+		//Every 24 hours we perform a cleanup
 		//It is also done on startup
-		//				1Sec	1min	1hour	12hours
-		return (long) (	20 *	60 *	60 *	12);
+		//				1Sec	1min	1hour	24hours
+		return (long) (	20 *	60 *	60 *	24);
 	}
 	
 	// -------------------------------------------- //
@@ -94,7 +93,7 @@ public class BlockEngine extends EngineAbstract
 	{	
 		// Listeners
 		Listener listener = Listener.getBlockBreakListener(e.getBlock().getType());
-		if(listener != null)
+		if (listener != null)
 		{
 			listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock().getState());
 		}

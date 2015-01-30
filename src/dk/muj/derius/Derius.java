@@ -35,7 +35,7 @@ public class Derius extends MassivePlugin
 
 	
 	// -------------------------------------------- //
-	// OVERRIDE
+	// OVERRIDE: PLUGIN
 	// -------------------------------------------- //
 	
 	@Override
@@ -43,7 +43,7 @@ public class Derius extends MassivePlugin
 	{
 		this.preEnable();
 		
-		// Initializing Database
+		// Initializing Databases
 		MConfColl.get().init();
 		MPlayerColl.get().init();
 		MChunkColl.get().init();

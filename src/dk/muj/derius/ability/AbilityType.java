@@ -16,7 +16,6 @@ public enum AbilityType
 	 */
 	PASSIVE(),
 	
-	
 	// END OF LIST
 	;
 	
@@ -28,4 +27,5 @@ public enum AbilityType
 	{
 		
 	}
+	
 }

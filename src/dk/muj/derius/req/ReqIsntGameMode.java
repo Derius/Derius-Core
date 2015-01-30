@@ -1,6 +1,6 @@
 package dk.muj.derius.req;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -10,6 +10,7 @@ import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.skill.Skill;
 
 public class ReqIsntGameMode implements Req
@@ -18,15 +19,15 @@ public class ReqIsntGameMode implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-	public static ReqIsntGameMode get(List<GameMode> gameModes) { return new ReqIsntGameMode(gameModes); }
-	public ReqIsntGameMode(List<GameMode> gameModes) { this.gameModes = gameModes; }
+	public static ReqIsntGameMode get(Collection<GameMode> gameModes) { return new ReqIsntGameMode(gameModes); }
+	public ReqIsntGameMode(Collection<GameMode> gameModes) { this.gameModes = gameModes; }
 	
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private final List<GameMode> gameModes;
-	public List<GameMode> getGameMode() { return this.gameModes; }
+	private final Collection<GameMode> gameModes;
+	public Collection<GameMode> getGameModes() { return this.gameModes; }
 	
 	// -------------------------------------------- //
 	// OVERRIDE: DEFAULT
@@ -45,7 +46,7 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		return Txt.parse("<b>You can't do this in this gamemode.");
+		return Txt.parse(MLang.get().mustNotBeGamemode, Txt.getNicedEnum(IdUtil.getGameMode(sender, GameMode.SURVIVAL)));
 	}
 
 	// -------------------------------------------- //
@@ -61,7 +62,7 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
-		return Txt.parse("<b>You can't level %s <b>in this gamemode.", skill.getDisplayName(sender));
+		return this.createErrorMessage(sender);
 	}
 	
 	@Override
@@ -73,7 +74,7 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, Ability ability)
 	{
-		return Txt.parse("<b>You can't use %s <b>in this gamemode.", ability.getDisplayName(sender));
+		return this.createErrorMessage(sender);
 	}
 	
 	@Override
@@ -85,6 +86,6 @@ public class ReqIsntGameMode implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender, MassiveCommand arg1)
 	{
-		return Txt.parse("<b>You can't perform this command in this GameMode.");
+		return this.createErrorMessage(sender);
 	}
 }

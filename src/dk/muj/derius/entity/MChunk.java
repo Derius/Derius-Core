@@ -27,7 +27,7 @@ public class MChunk extends Entity<MChunk>
 	@Override
 	public boolean isDefault()
 	{
-		if (this.blocks == null) return true;
+		if (this.blocks == null || this.blocks.isEmpty()) return true;
 		return false;
 	}
 	

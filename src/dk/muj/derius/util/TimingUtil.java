@@ -12,10 +12,9 @@ public class TimingUtil
 	// Construct
 	// -------------------------------------------- //
 	
-	public TimingUtil(String className, String methodName)
+	public TimingUtil(String desc)
 	{
-		declaringClass = className;
-		this.methodName = methodName;
+		this.methodDesc = desc;
 	}
 	
 	// -------------------------------------------- //
@@ -29,8 +28,7 @@ public class TimingUtil
 	 */
 	private long startTime;
 	private long endTime;
-	private String declaringClass = "";
-	private String methodName = "";
+	private String methodDesc = "";
 	
 	
 	// -------------------------------------------- //
@@ -59,7 +57,8 @@ public class TimingUtil
 		if (difference > MConf.get().timingMax)
 		{
 			MassivePlugin p = Derius.get();
-			p.log(Txt.parse("<i>The Timing in class <lime>%s <i>and method <lime>%s <i>has shown a run time of <lime>%s <i>milliseconds. It might be of value to take a look at it.", declaringClass, methodName, difference));
+			p.log(Txt.parse("<i>The execution of <h>%s <i>took <h>%s <i>milliseconds. It might be of value to take a look at it.", methodDesc, difference));
 		}
 	}
+	
 }

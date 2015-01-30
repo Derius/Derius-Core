@@ -1,6 +1,6 @@
 package dk.muj.derius.events;
 
-import org.bukkit.event.Cancellable;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.entity.MPlayer;
@@ -9,39 +9,39 @@ import dk.muj.derius.skill.Skill;
 /**
  * This event is thrown every time a player loses exp
  */
-public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
+public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent, MPlayerEvent, SkillEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	public HandlerList getHandlers() {    return handlers;	} 
-	public static HandlerList getHandlerList() {    return handlers;	}
+	@Override public HandlerList getHandlers() { return handlers; }
+	public static HandlerList getHandlerList() { return handlers; }
 	
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private final MPlayer player;
-	public MPlayer getPlayer() { return player; }
+	private final Skill skill;
+	public Skill getSkill() { return skill; }
+	
+	private final MPlayer mplayer;
+	public MPlayer getMPlayer() { return mplayer; }
+	public Player getPlayer() { return mplayer.getPlayer(); }
 	
 	private long amount;
 	public long getExpAmount() { return amount; }
 	public void setExpAmount(long expamount) { this.amount = expamount; }
 	
-	private boolean cancelled = false;
-	public boolean isCancelled() { return cancelled; }
-	public void setCancelled(boolean cancelled) { this.cancelled = cancelled; }
-	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerTakeExpEvent(MPlayer player, Skill skill, long expAmount)
+	public PlayerTakeExpEvent(MPlayer mplayer, Skill skill, long expAmount)
 	{
-		super(skill);
-		this.player = player;
+		this.skill = skill;
+		this.mplayer = mplayer;
 		this.amount = expAmount;
 		
 	}
@@ -53,7 +53,7 @@ public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 	@Override
 	public String toString()
 	{
-		return player.getName() + " lost " + amount + " exp in " + skill.getName();
+		return this.getMPlayer().getName() + " lost " + this.getExpAmount() + " exp in " + this.getSkill().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -67,7 +67,7 @@ public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 		if ( ! (obj instanceof PlayerTakeExpEvent)) return false;
 		PlayerTakeExpEvent that = (PlayerTakeExpEvent) obj;
 	
-		if (that.skill == this.skill && this.player == that.player && this.amount == that.amount) return true;
+		if (this.getSkill() == that.getSkill() && this.getMPlayer() == that.getMPlayer() && this.getExpAmount() == that.getExpAmount()) return true;
 		
 		return false;
 	}
@@ -77,9 +77,9 @@ public class PlayerTakeExpEvent extends SkillEvent implements Cancellable
 	{
 		int result = 1;
 		
-		result += skill.hashCode();
-		result += amount *31;
-		result += player.hashCode();
+		result += this.getSkill().hashCode();
+		result += this.getExpAmount() *31;
+		result += this.getMPlayer().hashCode();
 		
 		return result;
 	}

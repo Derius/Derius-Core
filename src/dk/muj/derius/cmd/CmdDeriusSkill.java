@@ -14,6 +14,7 @@ import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkill extends DeriusCommand
 {
@@ -35,9 +36,7 @@ public class CmdDeriusSkill extends DeriusCommand
 	
 	@Override
 	public void perform()
-	{
-		List<String> messages = new ArrayList<String>();
-		
+	{	
 		// Args
 		Skill skill = this.arg (0, ARSkill.get());
 		if (skill == null) return;
@@ -45,45 +44,39 @@ public class CmdDeriusSkill extends DeriusCommand
 		if (level == null) return;
 		
 		// Message construction
-		messages.add(Txt.titleize(Txt.parse(skill.getDisplayName(msender)))); // Titel
-		messages.add("<lime>"+skill.getDescription());
+		List<String> msgs = new ArrayList<String>();
+		
+		msgs.add(Txt.titleize(skill.getDisplayName(msender)));	// Title
+		msgs.add("<lime>" + skill.getDescription());			// Description
 		
 		// Swapping between default and user inserted value
 		if (level <= -1)
 		{
 			LvlStatus status = msender.getLvlStatus(skill);
-			messages.add(Txt.parse(status.toString()));
+			msgs.add(Txt.parse(status.toString()));
 			level = status.getLvl();
 		}
 		else
 		{
-			messages.add(Txt.parse(MLang.get().levelStatusFormatMini, level));
+			msgs.add(Txt.parse(MLang.get().levelStatusFormatMini, level));
 		}
 
-		// Passive Abilities
-		messages.add(MLang.get().skillInfoPassiveAbilities);
-		for (Ability a : skill.getPassiveAbilities())
+		// All Abilities
+		msgs.add(MLang.get().skillInfoAbilities);
+		for (Ability ability : skill.getAllAbilities())
 		{
-			if ( ! msender.canSeeAbility(a)) continue;
-			messages.add(Txt.parse(a.getDisplayedDescription(msender)));
+			if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
+			msgs.add(ability.getDisplayedDescription(msender));
 		}
-		
-		// Active Abilities
-		messages.add(MLang.get().skillInfoActiveAbilities);
-		for (Ability a : skill.getActiveAbilities())
+		msgs.add(MLang.get().skillInfoLevelStats);
+		for (Ability ability : skill.getAllAbilities())
 		{
-			if ( ! msender.canSeeAbility(a)) continue;
-			messages.add(Txt.parse(a.getDisplayedDescription(msender)));
-		}
-		messages.add(MLang.get().skillInfoLevelStats);
-		for (Ability a : skill.getAllAbilities())
-		{
-			if ( ! msender.canSeeAbility(a)) continue;
-			messages.add(Txt.parse("%s: <i>%s", a.getDisplayName(msender), a.getLvlDescription(level)));
+			if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
+			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(msender), ability.getLvlDescriptionMsg(level)));
 		}
 		
 		// Send Message
-		sendMessage(messages);
+		msg(msgs);
 	}
 	
 	@Override

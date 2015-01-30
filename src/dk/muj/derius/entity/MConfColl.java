@@ -30,4 +30,5 @@ public class MConfColl extends Coll<MConf>
 		super.init();
 		MConf.i = this.get("CoreSettings", true);
 	}
+	
 }

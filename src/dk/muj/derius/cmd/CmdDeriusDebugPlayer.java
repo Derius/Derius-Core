@@ -28,6 +28,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	// OVERRIDE
 	// -------------------------------------------- //
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void perform() 
 	{

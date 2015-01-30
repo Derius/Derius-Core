@@ -4,15 +4,23 @@ import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.ability.Ability;
 
-public class AbilityRegisteredEvent extends AbilityEvent
+public class AbilityRegisteredEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	public HandlerList getHandlers() {    return handlers;	} 
+	@Override public HandlerList getHandlers() {    return handlers;	} 
 	public static HandlerList getHandlerList() {    return handlers;	}
+	
+	
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
+	private final Ability ability;
+	public Ability getAbility() { return ability; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -20,7 +28,7 @@ public class AbilityRegisteredEvent extends AbilityEvent
 	
 	public AbilityRegisteredEvent(Ability ability)
 	{
-		super(ability);
+		this.ability = ability;
 	}
 	
 	// -------------------------------------------- //
@@ -30,7 +38,7 @@ public class AbilityRegisteredEvent extends AbilityEvent
 	@Override
 	public String toString()
 	{
-		return ability.getName() + " is registered";
+		return this.getAbility().getName() + " is registered";
 	}
 	
 	// -------------------------------------------- //
@@ -44,7 +52,7 @@ public class AbilityRegisteredEvent extends AbilityEvent
 		if ( ! (obj instanceof AbilityRegisteredEvent)) return false;
 		AbilityRegisteredEvent that = (AbilityRegisteredEvent) obj;
 	
-		if (that.ability == this.ability) return true;
+		if (that.getAbility() == this.getAbility()) return true;
 		
 		return false;
 	}
@@ -54,7 +62,9 @@ public class AbilityRegisteredEvent extends AbilityEvent
 	{
 		int result = 1;
 		
-		result += ability.hashCode();
+		int prime = 31;
+		
+		result += this.getAbility().hashCode()*prime;
 		
 		return result;
 	}

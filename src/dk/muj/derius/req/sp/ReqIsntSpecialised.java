@@ -28,8 +28,9 @@ public class ReqIsntSpecialised implements Req
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		MPlayer player = MPlayer.get(sender);
-		return ! player.isSpecialisedIn(skill);
+		MPlayer mplayer = MPlayer.get(sender);
+		if (mplayer == null) return false;
+		return ! mplayer.isSpecialisedIn(skill);
 	}
 	
 	@Override
@@ -55,7 +56,7 @@ public class ReqIsntSpecialised implements Req
 	}
 	
 	// -------------------------------------------- //
-	// OVERRIDE: DEFAULT
+	// OVERRIDE: OTHER
 	// -------------------------------------------- //
 	
 	@Override
@@ -69,10 +70,6 @@ public class ReqIsntSpecialised implements Req
 	{
 		throw new IllegalArgumentException("This requirement does not support default");
 	}
-
-	// -------------------------------------------- //
-	// OVERRIDE: CMD
-	// -------------------------------------------- //
 	
 	@Override
 	public boolean apply(CommandSender arg0, MassiveCommand arg1)

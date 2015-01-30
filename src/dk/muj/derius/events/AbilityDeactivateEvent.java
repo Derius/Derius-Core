@@ -1,40 +1,40 @@
 package dk.muj.derius.events;
 
-import org.bukkit.event.Cancellable;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.ability.Ability;
 import dk.muj.derius.entity.MPlayer;
 
-public class AbilityDeactivateEvent extends AbilityEvent implements Cancellable
+public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	public HandlerList getHandlers() {    return handlers;	} 
+	@Override public HandlerList getHandlers() {    return handlers;	} 
 	public static HandlerList getHandlerList() {    return handlers;	}
-	
+
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private final MPlayer mplayer;
-	public MPlayer getMPlayer() { return mplayer; }
+	private final Ability ability;
+	public Ability getAbility() { return ability; }
 	
-	private boolean cancelled = false;
-	public boolean getCancelled() { return cancelled; }
-	public void setCancelled(boolean cancelled) { this.cancelled = cancelled; }
-
+	private MPlayer mplayer;
+	public MPlayer getMPlayer() { return mplayer; }
+	public Player getPlayer() { return mplayer.getPlayer(); }
+	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public AbilityDeactivateEvent(Ability ability, MPlayer player)
+	public AbilityDeactivateEvent(Ability ability, MPlayer mplayer)
 	{
-		super(ability);
-		this.mplayer = player;
+		this.ability = ability;
+		this.mplayer = mplayer;
 	}
 
 	// -------------------------------------------- //
@@ -44,7 +44,7 @@ public class AbilityDeactivateEvent extends AbilityEvent implements Cancellable
 	@Override
 	public String toString()
 	{
-		return mplayer.getName() + " deactivated " + ability.getName();
+		return this.getMPlayer().getName() + " deactivated " + this.getAbility().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -58,7 +58,7 @@ public class AbilityDeactivateEvent extends AbilityEvent implements Cancellable
 		if (!(obj instanceof AbilityDeactivateEvent)) return false;
 		AbilityDeactivateEvent that = (AbilityDeactivateEvent) obj;
 	
-		if (that.mplayer == this.mplayer && that.ability == this.ability) return true;
+		if (that.getMPlayer() == this.getMPlayer() && that.getMPlayer() == this.getMPlayer()) return true;
 		
 		return false;
 	}
@@ -68,10 +68,13 @@ public class AbilityDeactivateEvent extends AbilityEvent implements Cancellable
 	{
 		int result = 1;
 		
-		result += mplayer.hashCode();
-		result += ability.hashCode();
-		result += cancelled ? 1 : 2;
+		int prime = 31;
+		
+		result += this.getMPlayer().hashCode()*prime;
+		result += this.getAbility().hashCode()*prime;
+		result += this.isCancelled() ? 1 : 2;
 		
 		return result;
 	}
+	
 }

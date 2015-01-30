@@ -12,9 +12,9 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityRegisteredEvent;
-import dk.muj.derius.exceptions.IdAlreadyInUseException;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.skill.Skill;
+import dk.muj.derius.util.AbilityUtil;
 
 public abstract class Ability
 {
@@ -29,8 +29,8 @@ public abstract class Ability
 	
 	private int ticksCooldown = 20*60*2;
 	
-	protected List<Req> seeRequirements= new CopyOnWriteArrayList<Req>();
-	protected List<Req> activateRequirements= new CopyOnWriteArrayList<Req>();
+	protected List<Req> seeRequirements			= new CopyOnWriteArrayList<Req>();
+	protected List<Req> activateRequirements	= new CopyOnWriteArrayList<Req>();
 	
 	//A list of ability which we get from different sources.
 	private static List<Ability> abilityList = new CopyOnWriteArrayList<Ability>();
@@ -55,8 +55,9 @@ public abstract class Ability
 	{
 		for(Ability ability: Ability.abilityList)
 		{
-			if(ability.getId() == abilityId) return ability;
+			if(ability.getId().equals(abilityId)) return ability;
 		}
+		
 		return null;
 	}
 	
@@ -70,7 +71,7 @@ public abstract class Ability
 	{
 		for(Ability ability: Ability.abilityList)
 		{
-			if(ability.getName().startsWith(abilityName)) return ability;
+			if(ability.getName().equalsIgnoreCase(abilityName)) return ability;
 		}
 		return null;
 	}
@@ -91,30 +92,15 @@ public abstract class Ability
 	/**
 	 * Registers an ability to our system.
 	 * We will instantiate the correct fields.
-	 * You still have to enforce the powers & general implementation.
 	 * This should be done on server startup.
 	 */
 	public void register()
 	{
-		Ability ability = this;
-		Object before = getAbilityById(ability.getId());
-		if(before != null)
-		{
-			String id = ability.getId();
-			try
-			{
-				throw new IdAlreadyInUseException("The id: "+ id + " is already registered by " + before.toString()
-						+ " but "+ability.getName() + " is trying to use it");
-			}
-			catch (IdAlreadyInUseException e)
-			{
-				e.printStackTrace();
-				return;
-			}
-		}
-		abilityList.add(ability);
-		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
+		AbilityRegisteredEvent event = new AbilityRegisteredEvent(this);
 		Bukkit.getServer().getPluginManager().callEvent(event);
+		if (event.isCancelled()) return;
+		
+		abilityList.add(this);
 	}
 	
 	// -------------------------------------------- //
@@ -125,13 +111,19 @@ public abstract class Ability
 	 * Gets the ability type (passive/active) of this ability
 	 * @return {AbilityType} the type of this ability
 	 */
-	public AbilityType getType() { return this.type; }
+	public AbilityType getType()
+	{
+		return this.type;
+	}
 	
 	/**
 	 * Sets the ability type (passive/active) of this ability
 	 * @param {AbilityType} the new type of this ability
 	 */
-	protected void setType(AbilityType newType) { this.type = newType; }
+	protected void setType(AbilityType newType)
+	{
+		this.type = newType;
+	}
 	
 	// -------------------------------------------- //
 	// DESCRIPTION
@@ -141,50 +133,61 @@ public abstract class Ability
 	 * Sets the name of the ability
 	 * @param {String} new name for this ability
 	 */
-	protected void setName(String str) { this.name = str; }
+	public void setName(String str)
+	{
+		this.name = str;
+	}
 	
 	/**
 	 * Gets the name of the ability
 	 * @param {String} name for this ability
 	 */
-	public String getName() { return this.name; }
+	public String getName()
+	{
+		return this.name;
+	}
 	
 	/**
 	 * Sets the description of the ability
 	 * @param {String} new description for this ability
 	 */
-	protected void setDescription(String str) { this.desc = str; }
+	public void setDescription(String str)
+	{
+		this.desc = str;
+	}
 	
 	/**
 	 * Gets the description of the ability
 	 * @param {String} description for this ability
 	 */
-	public String getDescription() { return this.desc; }
+	public String getDescription()
+	{
+		return this.desc;
+	}
 
 	/**
 	 * Gets the name & description, as it would be displayed
 	 * to the passed player
-	 * @param {MPlayer} player to see description
+	 * @param {Object} player (id/uuid/mplayer/bukkit-player) to see description
 	 * @return {String} how the player should see the description
 	 */
 	public String getDisplayedDescription(Object watcherObject)
 	{
-		MPlayer player = MPlayer.get(watcherObject);
-		if (player == null) return null;
 		String name = this.getDisplayName(watcherObject);
+		if (name == null) return null;
 		return Txt.parse(MLang.get().abilityDisplayedDescription, name, this.getDescription());
 	}
 	
 	/**
 	 * Gets the name  as it would be displayed to the passed player
-	 * @param {MPlayer} player to see description
+	 * @param {Object} player (id/uuid/mplayer/bukkit-player) to see description
 	 * @return {String} how the player should see the description
 	 */
 	public String getDisplayName(Object watcherObject)
 	{
 		MPlayer player = MPlayer.get(watcherObject);
 		if (player == null) return null;
-		String color = canPlayerActivateAbility(player) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
+		String color = AbilityUtil.canPlayerActivateAbility(player, this, false) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
 		return color + this.getName();
 	}
 	
@@ -194,103 +197,63 @@ public abstract class Ability
 
 	/**
 	 * Gets how many ticks this ability will last
+	 * @param {int} the level to check for
 	 * @return {int} amount of ticks, this ability would last.
 	 */
-	public int getTicksLast(int level) { return this.levelToTicks.apply(level); }
+	public int getDuration(int level)
+	{
+		return this.levelToTicks.calcDuration(level);
+	}
 
 	// Lambda
 	/**
-	 * Each ability can have a different way to calculate the cooldowntime.
+	 * Each ability can have a different way to calculate the cooldown time.
 	 * We don't know it, but we store the level, which this is depending on.
 	 * This will change the algorithm for this ability.
 	 * @param algorithm
 	 */
-	public final void setTicksLastAlgorithm(TicksLastCalculator algorithm) { this.levelToTicks = algorithm; }
+	public final void setDurationAlgorithm(TicksLastCalculator algorithm)
+	{
+		this.levelToTicks = algorithm;
+	}
 	
 	/**
-	 * Each ability can have a different way to calculate the cooldowntime.
+	 * Each ability can have a different way to calculate the cooldown time.
 	 * We don't know it, but we store the level, which this is depending on.
 	 * This will get the cooldown calculation algorithm for this ability.
 	 * @return {TicksLastCalculator} The algorithm which is being used for this ability.
 	 */
-	public final TicksLastCalculator getTicksLastAlgorithm() { return this.levelToTicks; }
+	public final TicksLastCalculator getTicksLastAlgorithm()
+	{
+		return this.levelToTicks;
+	}
 	
 	// Cooldown
 	/**
 	 * Sets how many ticks the cooldown will last.
 	 * @param {int} The ticks it will last
 	 */
-	protected void setTicksCooldown(int ticks) { this.ticksCooldown = ticks; }
+	public void setTicksCooldown(int ticks)
+	{
+		this.ticksCooldown = ticks;
+	}
 	
 	/**
 	 * Gets how many ticks the cooldown will last
 	 * @return {int} amount of ticks, the cooldown will be.
 	 */
-	public int getCooldownTime() { return this.ticksCooldown; }
+	public int getCooldownTime()
+	{
+		return this.ticksCooldown;
+	}
 	
 	// -------------------------------------------- //
 	// RESTRICTION
 	// -------------------------------------------- //
 	
 	/**
-	 * Tells whether or not the player can use said ability.
-	 * This is based on the ability requirements
-	 * @param {MPlayer} the player you want to check
-	 * @return {boolean} true if the player can use said ability
-	 */
-	public final boolean canPlayerActivateAbility(MPlayer p) { return this.canPlayerActivateAbility(p, false); }
-	
-	/**
-	 * Tells whether or not the player can use said ability.
-	 * This is based on the ability requirements
-	 * @param {MPlayer} the player you want to check
-	 * @param {boolean} true if error message should be sent
-	 * @return {boolean} true if the player can use said ability
-	 */
-	public boolean canPlayerActivateAbility(MPlayer p, boolean verboseNot)
-	{
-		for (Req req : this.getActivateRequirements())
-		{
-			if ( ! req.apply(p.getSender(), this)) 
-			{
-				if (verboseNot) p.sendMessage(req.createErrorMessage(p.getSender(), this));
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Tells whether or not the player can see said ability.
-	 * This is based on the skill requirements
-	 * @param {MPlayer} the player you want to check
-	 * @return {boolean} true if the player can see said ability
-	 */
-	public final boolean canPlayerSeeAbility(MPlayer p) { return this.canPlayerSeeAbility(p, false); }
-	
-	/**
-	 * Tells whether or not the player can see said ability.
-	 * This is based on the skill requirements
-	 * @param {MPlayer} the player you want to check
-	 * @param {boolean} true if error message should be sent
-	 * @return {boolean} true if the player can see said ability
-	 */
-	public boolean canPlayerSeeAbility(MPlayer p, boolean verboseNot)
-	{
-		for (Req req : this.getSeeRequirements())
-		{
-			if ( ! req.apply(p.getSender(), this)) 
-			{
-				if (verboseNot) p.sendMessage(req.createErrorMessage(p.getSender(), this));
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * This will give the list of requirements
-	 * that must be filled in order for a player to see the ability
+	 * This will return the list of requirements
+	 * that must be met in order for a player to see the ability
 	 * if they can't see the skill, they should not see it anywhere.
 	 * @return {List<Req>} list of requirements to see the ability
 	 */
@@ -298,41 +261,37 @@ public abstract class Ability
 	
 	/**
 	 * This will set the list of requirements
-	 * that must be filled in order for a player to see the ability
+	 * that must be met in order for a player to see the ability
 	 * if they can't see the skill, they should not see it anywhere.
-	 * (old requirements will NOT be kept)
 	 * @param {List<Req>} list of requirements to see the ability 
 	 */
 	public void setSeeRequirements(List<Req> requirements) { this.seeRequirements = requirements; }
 	
 	/**
-	 * This will add  to the list of requirements
-	 * that must be filled in order for a player to see the ability
+	 * This will add to the list of requirements
+	 * that must be met in order for a player to see the ability
 	 * if they can't see the skill, they should not see it anywhere.
-	 * (old requirements WILL be kept)
-	 * @param {List<Req>} added requirements to see the ability
+	 * @param {Req...} added requirements to see the ability
 	 */
 	public void addSeeRequirements(Req... requirements) { this.seeRequirements.addAll(Arrays.asList(requirements)); }
 	
 	/**
 	 * This will give the list of requirements
-	 * that must be filled in order for a player to activate the ability
+	 * that must be met in order for a player to activate the ability
 	 * @return {List<Req>} list of requirements to activate the ability
 	 */
 	public List<Req> getActivateRequirements() { return this.activateRequirements; }
 	
 	/**
 	 * This will set the list of requirements
-	 * that must be filled in order for a player to activate the ability
-	 * (old requirements will NOT be kept)
+	 * that must be met in order for a player to activate the ability
 	 * @param {List<Req>} list of requirements to activate the ability
 	 */
 	public void setActivateRequirements(List<Req> requirements) { this.activateRequirements = requirements; }
 	
 	/**
 	 * This will add  to the list of requirements
-	 * that must be filled in order for a player to activate the ability
-	 * (old requirements WILL be kept)
+	 * that must be met in order for a player to activate the ability
 	 * @param {List<Req>} added requirements to activate the ability
 	 */
 	public void addActivateRequirements(Req... requirements) { this.activateRequirements.addAll(Arrays.asList(requirements)); }
@@ -356,7 +315,7 @@ public abstract class Ability
 	 * @param {int} the level you want to test for
 	 * @return {String} the actual string message
 	 */
-	public abstract String getLvlDescription(int lvl);
+	public abstract String getLvlDescriptionMsg(int lvl);
 	
 	// Ability Execution methods
 	/**
@@ -364,7 +323,7 @@ public abstract class Ability
 	 * It is similar to bukkits onEnable method.
 	 * @param {MPlayer} the player to use the ability
 	 * @param {Object} other parameter used in some abilities
-	 * @return {Object} this object will be passed to onDeactivate for data transfering.
+	 * @return {Object} this object will be passed to onDeactivate for data transferring.
 	 */
 	public abstract Object onActivate(MPlayer p, Object other);
 	
@@ -407,6 +366,9 @@ public abstract class Ability
 	// -------------------------------------------- //
 	
 	@Override
-	public String toString() { return getName(); }
+	public String toString()
+	{
+		return getName();
+	}
 
 }

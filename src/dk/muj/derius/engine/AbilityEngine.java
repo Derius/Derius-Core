@@ -61,7 +61,7 @@ public class AbilityEngine extends EngineAbstract
 			skill.getPassiveAbilities().add(ability);
 		}
 		
-		if (MConf.get().worldAbilityUse.get(new Integer(ability.getId())) == null)
+		if ( ! MConf.get().worldAbilityUse.containsKey(ability.getId()))
 		{
 			MConf.get().worldAbilityUse.put(ability.getId(), new WorldExceptionSet());
 		}
@@ -99,4 +99,5 @@ public class AbilityEngine extends EngineAbstract
 			ChatUtil.msgAbilityDeactivate(mplayer, ability);
 		}
 	}
+	
 }

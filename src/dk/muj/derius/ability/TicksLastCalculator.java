@@ -9,7 +9,7 @@ public interface TicksLastCalculator extends Function<Integer, Integer>
 	// ABSTRACT
 	// -------------------------------------------- //
 
-	public Integer calculateCooldown(int level);
+	public Integer calcDuration(int level);
 	
 	// -------------------------------------------- //
 	// DEFAULT
@@ -17,6 +17,7 @@ public interface TicksLastCalculator extends Function<Integer, Integer>
 	
 	default Integer apply(Integer level)
 	{
-		return this.calculateCooldown(level);
+		return this.calcDuration(level);
 	}
+	
 }

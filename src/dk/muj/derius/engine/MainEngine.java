@@ -16,10 +16,8 @@ import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.util.EventUtil;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerDamageEvent;
 import dk.muj.derius.skill.Skill;
 import dk.muj.derius.util.Listener;
@@ -49,7 +47,7 @@ public class MainEngine extends EngineAbstract
 	// EVENTS
 	// -------------------------------------------- //
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onJoin(PlayerJoinEvent e)
 	{
 		MPlayer mplayer = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
@@ -67,28 +65,11 @@ public class MainEngine extends EngineAbstract
 	public void onInteract(PlayerInteractEvent e)
 	{	
 		Action action = e.getAction();
-		if(action != Action.RIGHT_CLICK_AIR) return;
+		if (action != Action.RIGHT_CLICK_AIR) return;
 		
 		MPlayer mplayer = MPlayer.get(e.getPlayer());
 		
 		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.empty() : Optional.of(e.getMaterial()));
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onExpGain(PlayerAddExpEvent e)
-	{
-		Player p = e.getPlayer().getPlayer();
-		String perm = Perm.EXP_MULTIPLIER.node;
-		for (int i = 100; i > 0; i--)
-		{
-			if (p.hasPermission(perm + i))
-			{
-				long startExp = e.getExpAmount();
-				float multiplier = i/10;
-				e.setExpAmount((long) (startExp*multiplier));
-				break;
-			}
-		}
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

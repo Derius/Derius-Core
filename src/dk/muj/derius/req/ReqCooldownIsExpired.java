@@ -1,9 +1,13 @@
 package dk.muj.derius.req;
 
+import java.util.LinkedHashMap;
+
 import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.IdUtil;
+import com.massivecraft.massivecore.util.TimeDiffUtil;
+import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.ability.Ability;
@@ -22,14 +26,14 @@ public class ReqCooldownIsExpired implements Req
 	private ReqCooldownIsExpired() {}
 	
 	// -------------------------------------------- //
-	// OVERRIDE
+	// OVERRIDE: DEFAULT
 	// -------------------------------------------- //
-	
 
 	@Override
 	public boolean apply(CommandSender sender)
 	{
 		MPlayer mplayer = MPlayer.get(IdUtil.getId(sender.getName()));
+		if (mplayer == null) return false;
 		if (mplayer.hasCooldownExpired()) return true;
 		return false;
 	}
@@ -39,13 +43,15 @@ public class ReqCooldownIsExpired implements Req
 	public String createErrorMessage(CommandSender sender)
 	{
 		MPlayer mplayer = MPlayer.get(IdUtil.getId(sender.getName()));
-		int seconds = (int) mplayer.getCooldownExpireIn() / 1000;
+		long expireMillis = mplayer.getCooldownExpireIn();
+		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.unitcounts(expireMillis, TimeUnit.getAll());
+		String expireDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 		
-		return Txt.parse(Txt.parse(MLang.get().exhausted, seconds));
+		return Txt.parse(Txt.parse(MLang.get().exhausted, expireDesc));
 	}
 
 	// -------------------------------------------- //
-	// OVERRIDE: SKILL
+	// OVERRIDE: OTHER
 	// -------------------------------------------- //
 	
 	@Override
@@ -60,10 +66,6 @@ public class ReqCooldownIsExpired implements Req
 		return this.createErrorMessage(sender);
 	}
 	
-	// -------------------------------------------- //
-	// OVERRIDE: ABILITY
-	// -------------------------------------------- //
-	
 	@Override
 	public boolean apply(CommandSender sender, Ability ability)
 	{
@@ -76,10 +78,6 @@ public class ReqCooldownIsExpired implements Req
 		return this.createErrorMessage(sender);
 	}
 	
-	// -------------------------------------------- //
-	// OVERRIDE: MASSIVECOMMAND
-	// -------------------------------------------- //
-	
 	@Override
 	public boolean apply(CommandSender sender, MassiveCommand arg1)
 	{
@@ -91,4 +89,5 @@ public class ReqCooldownIsExpired implements Req
 	{
 		return this.createErrorMessage(sender);
 	}
+	
 }

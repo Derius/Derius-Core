@@ -43,6 +43,7 @@ public enum Perm
 	SPECIALISATION_SLOTS("sp.slots."),
 	SPECIALISATION_UNLEARN("sp.unlearn"), 
 	VERSION("version"),
+	
 	// END OF LIST
 	;
 	

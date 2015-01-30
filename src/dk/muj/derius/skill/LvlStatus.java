@@ -30,10 +30,10 @@ public interface LvlStatus
 	public LvlStatus setLvl (int level);
 	
 
-	public int getExp ();
-	public LvlStatus setExp (int exp);
+	public Integer getExp ();
+	public LvlStatus setExp (Integer exp);
 	
 
-	public int getExpToNextLvl ();
-	public LvlStatus setExpToNextLvl (int expToNextLvl);
+	public Integer getExpToNextLvl ();
+	public LvlStatus setExpToNextLvl (Integer expToNextLvl);
 }

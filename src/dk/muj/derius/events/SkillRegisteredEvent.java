@@ -8,15 +8,22 @@ import dk.muj.derius.skill.Skill;
  * This event is called when a skill is registered into the system.
  * Note the same skills will be registered on server startup each time.
  */
-public class SkillRegisteredEvent extends SkillEvent
+public class SkillRegisteredEvent extends DeriusEvent implements CancellableEvent, SkillEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	public HandlerList getHandlers() {    return handlers;	} 
-	public static HandlerList getHandlerList() {    return handlers;	}
+	@Override public HandlerList getHandlers() { return handlers; }
+	public static HandlerList getHandlerList() { return handlers; }
+	
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
+	private final Skill skill;
+	public Skill getSkill() { return skill; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -24,7 +31,7 @@ public class SkillRegisteredEvent extends SkillEvent
 	
 	public SkillRegisteredEvent(Skill registeredSkill)
 	{
-		super(registeredSkill);
+		this.skill = registeredSkill;
 	}
 	
 	// -------------------------------------------- //
@@ -34,7 +41,7 @@ public class SkillRegisteredEvent extends SkillEvent
 	@Override
 	public String toString()
 	{
-		return skill.getName() + " is registered";
+		return this.getSkill().getName() + " is registered";
 	}
 	
 	// -------------------------------------------- //
@@ -48,7 +55,7 @@ public class SkillRegisteredEvent extends SkillEvent
 		if ( ! (obj instanceof SkillRegisteredEvent)) return false;
 		SkillRegisteredEvent that = (SkillRegisteredEvent) obj;
 	
-		if (that.skill == this.skill) return true;
+		if (that.getSkill() == this.getSkill()) return true;
 		
 		return false;
 	}
@@ -58,7 +65,7 @@ public class SkillRegisteredEvent extends SkillEvent
 	{
 		int result = 1;
 		
-		result += skill.hashCode();
+		result += this.getSkill().hashCode();
 		
 		return result;
 	}

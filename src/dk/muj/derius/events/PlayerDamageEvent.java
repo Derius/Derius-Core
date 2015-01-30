@@ -1,11 +1,12 @@
 package dk.muj.derius.events;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import com.massivecraft.massivecore.event.EventMassiveCore;
-
-public class PlayerDamageEvent extends EventMassiveCore
+public class PlayerDamageEvent extends Event implements CancellableEvent, RunnableEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -22,6 +23,9 @@ public class PlayerDamageEvent extends EventMassiveCore
 	private final EntityDamageEvent inner;
 	public EntityDamageEvent getInnerEvent() { return inner; }
 	
+	private final Player player;
+	public Player getPlayer() { return this.player; }
+	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
@@ -29,21 +33,9 @@ public class PlayerDamageEvent extends EventMassiveCore
 	public PlayerDamageEvent(EntityDamageEvent innerEvent)
 	{
 		this.inner = innerEvent;
+		Entity entity = this.inner.getEntity();
+		if ( ! (entity instanceof Player)) throw new IllegalArgumentException("The damagee must be a player");
+		this.player = (Player) entity;
 	}
 
-	// -------------------------------------------- //
-	// OVERRIDE
-	// -------------------------------------------- //
-	
-	@Override
-	public boolean isCancelled()
-	{
-		return this.inner.isCancelled();
-	}
-	
-	@Override
-	public void setCancelled(boolean cancelled)
-	{
-		this.inner.setCancelled(cancelled);
-	}
 }

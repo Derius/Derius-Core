@@ -65,13 +65,13 @@ public class ReqAbilityCanBeUsedInArea implements Req
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		return false;
+		throw new UnsupportedOperationException("This req doesn't support skills");
 	}
 
 	@Override
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
-		return Txt.parse("<b>This should not happen, a bug occured. A SKILL WAS PASSED INSTEAD OF ABILITY");
+		throw new UnsupportedOperationException("This req doesn't support skills");
 	}
 	
 	// -------------------------------------------- //
@@ -79,15 +79,15 @@ public class ReqAbilityCanBeUsedInArea implements Req
 	// -------------------------------------------- //
 	
 	@Override
-	public boolean apply(CommandSender arg0, MassiveCommand arg1)
+	public boolean apply(CommandSender sender, MassiveCommand command)
 	{
-		return false;
+		throw new UnsupportedOperationException("This req doesn't support commands");
 	}
 
 	@Override
-	public String createErrorMessage(CommandSender arg0, MassiveCommand arg1)
+	public String createErrorMessage(CommandSender sender, MassiveCommand command)
 	{
-		return Txt.parse("<b>This should not happen, a bug occured. A COMMAND WAS PASSED INSTEAD OF ABILITY");
+		throw new UnsupportedOperationException("This req doesn't support commands");
 	}
 
 }

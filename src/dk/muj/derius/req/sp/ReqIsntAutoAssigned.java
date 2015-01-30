@@ -44,17 +44,17 @@ public class ReqIsntAutoAssigned implements Req
 	@Override
 	public boolean apply(CommandSender sender, Ability ability)
 	{
-		throw new IllegalArgumentException("This requirement does not support abilities");
+		return this.apply(sender, ability.getSkill());
 	}
 
 	@Override
 	public String createErrorMessage(CommandSender sender, Ability ability)
 	{
-		throw new IllegalArgumentException("This requirement does not support abilities");
+		return this.createErrorMessage(sender, ability.getSkill());
 	}
 	
 	// -------------------------------------------- //
-	// OVERRIDE: DEFAULT
+	// OVERRIDE: OTHER
 	// -------------------------------------------- //
 	
 	@Override
@@ -68,10 +68,6 @@ public class ReqIsntAutoAssigned implements Req
 	{
 		throw new IllegalArgumentException("This requirement does not support default");
 	}
-
-	// -------------------------------------------- //
-	// OVERRIDE: CMD
-	// -------------------------------------------- //
 	
 	@Override
 	public boolean apply(CommandSender arg0, MassiveCommand arg1)

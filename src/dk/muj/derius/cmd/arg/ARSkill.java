@@ -33,13 +33,13 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	@Override
 	public Skill select(String arg, CommandSender sender)
 	{
-		
+		MPlayer mplayer = MPlayer.get(sender);
 		arg = arg.toLowerCase();
 		for (Skill skill : Skill.getAllSkills())
 		{
 			if (skill.getName().toLowerCase().startsWith(arg))
 			{
-				if ( ! MPlayer.get(sender).canSeeSkill(skill)) continue;
+				if ( ! skill.canPlayerSeeSkill(mplayer)) continue;
 				return skill;
 			}
 		}
@@ -50,13 +50,16 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	@Override
 	public Collection<String> altNames(CommandSender sender)
 	{
-		List<String> ret = new ArrayList<String>();
+		MPlayer mplayer = MPlayer.get(sender);
 		
+		List<String> ret = new ArrayList<String>();
+	
 		for (Skill skill : Skill.getAllSkills())
 		{
-			if ( ! MPlayer.get(sender).canSeeSkill(skill)) continue;
+			if ( ! skill.canPlayerSeeSkill(mplayer)) continue;
 			ret.add(skill.getName());
 		}
 		return ret;
 	}
+	
 }

@@ -26,6 +26,9 @@ public class MLang extends Entity<MConf>
 	public String toolPrepared = "<i>You prepared your <h>%s";
 	public String toolNotPrepared = "<i>You lowered your <h>%s";
 	
+	public String mustBeGamemode = "<b>You'r gamemode must be <h>%s <b>to do this";
+	public String mustNotBeGamemode = "<b>You'r gamemode can't be <h>%s <b>to do this";
+	
 	// -------------------------------------------- //
 	// MESSAGES: ABILITIES
 	// -------------------------------------------- //
@@ -45,13 +48,14 @@ public class MLang extends Entity<MConf>
 	// MESSAGES: SKILLS
 	// -------------------------------------------- //
 	
-	public String skillInfoPassiveAbilities ="<art>____[<aqua>Passive abilities<art>]____";
-	public String skillInfoActiveAbilities =	"<art>____[<aqua> Active abilities <art>]____";
-	public String skillInfoLevelStats ="<art>____[<aqua>Level stats<art>]____";
+	public String skillInfoAbilities 	= "<art>____[<aqua> Abilities <art>]____";
+	public String skillInfoLevelStats	= "<art>____[<aqua>Level Stats<art>]____";
 	
 	public String skillColorPlayerCanUse = "<aqua>";
 	public String skillColorPlayerCantUse = "<grey>";
 	public String skillColorPlayerIsSpecialised = "<gold>";	
+	
+	public String skillLevelIsTooLow = "<b>You must be level <h>%s <b> or higher in %s";
 
 	public String specialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
 	public String specialisationBlacklisted = "<b>It is not possible to specialise in %s";

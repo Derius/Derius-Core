@@ -18,4 +18,5 @@ public class MPlayerColl extends SenderColl<MPlayer>
 	{
 		super(Const.COLLECTION_MPLAYER, MPlayer.class, MStore.getDb(), Derius.get());
 	}
+	
 }

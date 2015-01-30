@@ -17,19 +17,19 @@ public interface Listener
 	// FIELDS
 	// -------------------------------------------- //
 	
-	static class ListenerFields
+	static final class Fields
 	{
 		// Interact tools
 		private static Collection<Material> registeredInteractTools = new HashSet<>();
-		static Collection<Material> getRegisteredInteractTools() { return registeredInteractTools; }
+		protected static Collection<Material> getRegisteredInteractTools() { return registeredInteractTools; }
 		
 		// Block break
 		private static Map<Material, Listener> blockBreakKeys = new EnumMap<>(Material.class);
-		static Map<Material, Listener> getBlockBreakKeys() { return blockBreakKeys; }
+		protected static Map<Material, Listener> getBlockBreakKeys() { return blockBreakKeys; }
 
 		// Player deal damage
 		private static Map<Material, Listener> dealDamageKeys = new EnumMap<>(Material.class);
-		static Map<Material, Listener> getDealDamageKeys() { return dealDamageKeys; }
+		protected static Map<Material, Listener> getDealDamageKeys() { return dealDamageKeys; }
 	}
 	
 	// -------------------------------------------- //
@@ -53,19 +53,20 @@ public interface Listener
 	 * Registers a block type to listen for (when broken)
 	 * @param {Material} block type to listen for
 	 */
-	public default void registerBlockBreakKey(Material... materials)
+	public static void registerBlockBreakKey(Listener listener, Material... materials)
 	{
 		for(Material material: materials)
-			ListenerFields.getBlockBreakKeys().put(material,this);
+			Fields.getBlockBreakKeys().put(material, listener);
 	}
 	
 	/**
 	 * Registers a collection of block types to listen for (when broken)
 	 * @param {Collection<Material>} collection of block types to listen for
 	 */
-	public default void registerBlockBreakKeys(Collection<Material> materials)
+	public static void registerBlockBreakKeys(Listener listener, Collection<Material> materials)
 	{
-		this.registerBlockBreakKey(materials.toArray(new Material[materials.size()]));
+		for(Material material: materials)
+			Fields.getBlockBreakKeys().put(material, listener);
 	}
 	
 	/**
@@ -76,7 +77,7 @@ public interface Listener
 	 */
 	public static Listener getBlockBreakListener(Material material)
 	{
-		return ListenerFields.getBlockBreakKeys().get(material);
+		return Fields.getBlockBreakKeys().get(material);
 	}
 
 	// -------------------------------------------- //
@@ -87,19 +88,20 @@ public interface Listener
 	 * Registers a weapon type to listen for when player deals damage
 	 * @param {Material} weapon type to listen for
 	 */
-	public default void registerPlayerAttackKey(Material... materials)
+	public default void registerPlayerAttackKey(Listener listener, Material... materials)
 	{
 		for(Material material: materials)
-			ListenerFields.getDealDamageKeys().put(material,this);
+			Fields.getDealDamageKeys().put(material, listener);
 	}
 	
 	/**
 	 * Registers a collection of weapons to listen for player deals damage
 	 * @param {Collection<Material>} collection of block types to listen for
 	 */
-	public default void registerPlayerAttackKey(Collection<Material> materials)
+	public default void registerPlayerAttackKey(Listener listener, Collection<Material> materials)
 	{
-		this.registerPlayerAttackKey(materials.toArray(new Material[materials.size()]));
+		for(Material material: materials)
+			Fields.getDealDamageKeys().put(material, listener);
 	}
 	
 	/**
@@ -110,7 +112,7 @@ public interface Listener
 	 */
 	public static Listener getPlayerAttackKeyListener(Material material)
 	{
-		return ListenerFields.getDealDamageKeys().get(material);
+		return Fields.getDealDamageKeys().get(material);
 	}
 	
 	// -------------------------------------------- //
@@ -125,7 +127,7 @@ public interface Listener
 	public static void registerTools(Collection<Material> materials)
 	{
 		for(Material material : materials)
-			ListenerFields.getRegisteredInteractTools().add(material);
+			Fields.getRegisteredInteractTools().add(material);
 	}
 	
 	/**
@@ -134,7 +136,7 @@ public interface Listener
 	 */
 	public static void registerTool(Material material)
 	{
-		ListenerFields.getRegisteredInteractTools().add(material);
+		Fields.getRegisteredInteractTools().add(material);
 	}
 	
 	/**
@@ -144,7 +146,7 @@ public interface Listener
 	 */
 	public static boolean isRegistered(Material material)
 	{
-		return ListenerFields.getRegisteredInteractTools().contains(material);
+		return Fields.getRegisteredInteractTools().contains(material);
 	}
 	
 	/**
@@ -153,7 +155,7 @@ public interface Listener
 	 */
 	public static void unregisterTool(Material material)
 	{
-		ListenerFields.getRegisteredInteractTools().add(material);
+		Fields.getRegisteredInteractTools().add(material);
 	}
 	
 	/**
@@ -163,7 +165,7 @@ public interface Listener
 	 */
 	public static Collection<Material> getRegisteredInteractTools()
 	{
-		return ListenerFields.getRegisteredInteractTools();
+		return Fields.getRegisteredInteractTools();
 	}
 	
 	// -------------------------------------------- //
@@ -178,9 +180,9 @@ public interface Listener
 	default void onBlockBreak(MPlayer player, BlockState block) {};
 	
 	/**
-	 * 
-	 * @param attacker
-	 * @param target
+	 * Called when a player attacks an entity.
+	 * @param {MPlayer} the player attacking
+	 * @param {EntityDamageByEntityEvent} the event causing this
 	 */
 	default void onPlayerAttack(MPlayer attacker, EntityDamageByEntityEvent event) {};
 
