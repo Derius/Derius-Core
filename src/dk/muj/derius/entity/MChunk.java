@@ -3,8 +3,6 @@ package dk.muj.derius.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.Chunk;
-
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.ps.PSFormatFormal;
 import com.massivecraft.massivecore.store.Entity;
@@ -54,7 +52,7 @@ public class MChunk extends Entity<MChunk>
 	// BLOCK GETTERS & SETTERS
 	// -------------------------------------------- //
 	
-	public boolean addBlock(final PS ps, Chunk c)
+	public boolean addBlock(final PS ps)
 	{
 		PS block = ps.getBlockCoords(true);
 		PS chunk = ps.getChunkCoords(true).withWorld(ps.getWorld());
@@ -86,7 +84,8 @@ public class MChunk extends Entity<MChunk>
 
 	public void clear()
 	{
-		this.blocks.clear();	
+		this.blocks.clear();
+		this.detach();
 	}
 	
 }

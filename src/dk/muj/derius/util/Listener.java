@@ -55,8 +55,15 @@ public interface Listener
 	 */
 	public static void registerBlockBreakKey(Listener listener, Material... materials)
 	{
+<<<<<<< HEAD
 		for(Material material: materials)
 			Fields.getBlockBreakKeys().put(material, listener);
+=======
+		for (Material material : materials)
+		{
+			ListenerFields.getBlockBreakKeys().put(material,this);
+		}
+>>>>>>> d495db1bb1616fc2ae6739869d840c718cb36e22
 	}
 	
 	/**
@@ -91,7 +98,13 @@ public interface Listener
 	public default void registerPlayerAttackKey(Listener listener, Material... materials)
 	{
 		for(Material material: materials)
+<<<<<<< HEAD
 			Fields.getDealDamageKeys().put(material, listener);
+=======
+		{
+			ListenerFields.getDealDamageKeys().put(material,this);
+		}
+>>>>>>> d495db1bb1616fc2ae6739869d840c718cb36e22
 	}
 	
 	/**
@@ -127,7 +140,13 @@ public interface Listener
 	public static void registerTools(Collection<Material> materials)
 	{
 		for(Material material : materials)
+<<<<<<< HEAD
 			Fields.getRegisteredInteractTools().add(material);
+=======
+		{
+			ListenerFields.getRegisteredInteractTools().add(material);
+		}
+>>>>>>> d495db1bb1616fc2ae6739869d840c718cb36e22
 	}
 	
 	/**

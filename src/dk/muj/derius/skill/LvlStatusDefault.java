@@ -64,13 +64,11 @@ public class LvlStatusDefault implements LvlStatus
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(obj == null)
-			return false;
-		if(!(obj instanceof LvlStatus))
-			return false;
+		if (obj == null) return false;
+		if ( ! (obj instanceof LvlStatus)) return false;
+		
 		LvlStatus that = (LvlStatus) obj;
-		if(that.getLvl() == this.getLvl() && that.getExp() == this.getExp() && that.getExpToNextLvl() == this.getExpToNextLvl())
-			return true;
+		if(that.getLvl() == this.getLvl() && that.getExp() == this.getExp() && that.getExpToNextLvl() == this.getExpToNextLvl()) return true;
 		return false;
 	}
 

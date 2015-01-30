@@ -135,6 +135,7 @@ public final class AbilityUtil
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(mplayer.getActivatedAbility(), mplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if(e.isCancelled()) return;
+		
 		Ability ability = mplayer.getActivatedAbility();
 		ability.onDeactivate(mplayer, other);
 		mplayer.setActivatedAbility(null);

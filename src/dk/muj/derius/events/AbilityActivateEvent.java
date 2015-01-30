@@ -55,7 +55,7 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if (!(obj instanceof AbilityActivateEvent)) return false;
+		if ( ! (obj instanceof AbilityActivateEvent)) return false;
 		AbilityActivateEvent that = (AbilityActivateEvent) obj;
 	
 		if(that.getMPlayer() == this.getMPlayer() && that.getAbility() == this.getAbility()) return true;
