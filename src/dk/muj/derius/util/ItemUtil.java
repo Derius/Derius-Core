@@ -110,22 +110,11 @@ public class ItemUtil
 	 */
 	public static boolean applyDamage(ItemStack item, short damage)
 	{
-<<<<<<< HEAD
 		if (damage < 0) throw new IllegalArgumentException("item damage must be positive");
 		// Remember, durability in minecraft counts upwards till it 
-		//reaches the maximum. In this case, it destroys the itemstack.
-		if(item == null || item.getType() == Material.AIR) return false;
-=======
-		/*
-		 * Remember, durability in minecraft counts upwards till it 
-		 * reaches the maximum. In this case, it destroys the itemstack.
-		 */
-		if (item == null || item.getType() == Material.AIR) return false;
-		if (damage < 0)
-		{
-			damage = (short) -damage;
-		}
->>>>>>> d495db1bb1616fc2ae6739869d840c718cb36e22
+		// reaches the maximum. In this case, it destroys the itemstack.
+		if (item == null) throw new IllegalArgumentException("item mustn't be null");
+		if (item.getType() == Material.AIR) throw new IllegalArgumentException("item mustn't be air");
 		
 		// Since damage applied after encahntmne t modification might be a floating point
 		// we make it fair and use probabilityRound.
