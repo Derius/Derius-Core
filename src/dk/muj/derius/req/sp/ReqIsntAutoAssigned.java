@@ -6,10 +6,9 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.entity.Ability;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.req.Req;
 import dk.muj.derius.entity.Skill;
+import dk.muj.derius.req.Req;
 
 public class ReqIsntAutoAssigned implements Req
 {
@@ -28,7 +27,7 @@ public class ReqIsntAutoAssigned implements Req
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		return MConf.get().specialisationAutomatic.contains(skill.getId());
+		return ! skill.isSpAutoAssigned();
 	}
 
 	@Override

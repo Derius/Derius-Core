@@ -99,9 +99,8 @@ public final class BlockUtil
 	{
 		Set<Block> ret = new HashSet<Block>();
 		
-		for (BlockFace face : BlockFace.values())
+		for (BlockFace face : faces)
 		{
-			if ( ! faces.contains(face)) continue;
 			ret.add(source.getRelative(face));
 		}
 		

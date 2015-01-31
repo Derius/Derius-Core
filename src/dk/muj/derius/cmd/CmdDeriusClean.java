@@ -41,7 +41,7 @@ public class CmdDeriusClean extends DeriusCommand
 		}
 		else if (this.argIsSet(0))
 		{
-			skillList.add(SkillColl.get().get(this.arg(0)));
+			skillList.add((Skill) SkillColl.get().get(this.arg(0)));
 		}
 		else
 		{

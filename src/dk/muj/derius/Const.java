@@ -14,8 +14,8 @@ public class Const
 	public static final String COLLECTION_MCONF		= BASENAME_	+ "mconf";
 	public static final String COLLECTION_MLANG		= BASENAME_	+ "mlang";
 	public static final String COLLECTION_CHUNKS	= BASENAME_	+ "chunks";
-	public static final String COLLECTION_SKILLS	= BASENAME_	+ "chunks";
-	public static final String COLLECTION_ABILITIES	= BASENAME_	+ "chunks";
+	public static final String COLLECTION_SKILLS	= BASENAME_	+ "skills";
+	public static final String COLLECTION_ABILITIES	= BASENAME_	+ "abilities";
 	
 
 }

@@ -37,7 +37,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	{
 		MPlayer mplayer = MPlayer.get(sender);
 		arg = arg.toLowerCase();
-		for (Skill skill : SkillColl.get().getAll())
+		for (Skill skill : SkillColl.getAllSkills())
 		{
 			if (skill.getName().toLowerCase().startsWith(arg))
 			{
@@ -56,7 +56,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 		
 		List<String> ret = new ArrayList<String>();
 	
-		for (Skill skill : SkillColl.get().getAll())
+		for (Skill skill : SkillColl.getAllSkills())
 		{
 			if ( ! SkillUtil.canPlayerSeeSkill(mplayer, skill, false)) continue;
 			ret.add(skill.getName());

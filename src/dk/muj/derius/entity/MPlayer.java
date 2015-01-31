@@ -294,7 +294,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		if (this.specialised.contains(skill.getId())) return true;
 		
-		if (MConf.get().specialisationAutomatic.contains(skill.getId())) return true;
+		if (skill.isSpAutoAssigned()) return true;
 		
 		return false;
 	}
@@ -344,7 +344,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		List<Skill> ret = new ArrayList<Skill>();
 		for (String i : this.specialised)
 		{
-			Skill skill = SkillColl.get().get(i);
+			Skill skill = (Skill) SkillColl.get().get(i);
 			if (skill != null) ret.add(skill);
 		}
 		return ret;
@@ -581,7 +581,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		String id = this.chatKeys.get(key);
 		if (null == id) return null;
 		
-		return AbilityColl.get().get(id);
+		return (Ability) AbilityColl.get().get(id);
 	}
 	
 	/**

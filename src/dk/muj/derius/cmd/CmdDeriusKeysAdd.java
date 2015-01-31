@@ -42,7 +42,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 			return;
 		}
 		
-		Ability ability = AbilityColl.get().get(id);
+		Ability ability = (Ability) AbilityColl.get().get(id);
 		if (ability == null)
 		{
 			sendMessage(Txt.parse(MLang.get().abilityInvalidId, id));

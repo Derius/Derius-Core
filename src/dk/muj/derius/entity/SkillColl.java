@@ -19,6 +19,8 @@ public class SkillColl extends Coll<Skill>
 	private SkillColl()
 	{
 		super(Const.COLLECTION_SKILLS, Skill.class, MStore.getDb(), Derius.get());
+		this.setLowercasing(true);
+		this.setCreative(false);
 	}
 	
 	// -------------------------------------------- //

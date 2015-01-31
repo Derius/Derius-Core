@@ -19,7 +19,7 @@ import dk.muj.derius.lambda.LvlStatusDefault;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.util.SkillUtil;
 
-public abstract class Skill extends Entity<Skill>
+public class Skill extends Entity<Skill>
 {
 	// -------------------------------------------- //
 	// FIELDS
@@ -31,12 +31,17 @@ public abstract class Skill extends Entity<Skill>
 	
 	private String desc = "";
 	public String getDescription() { return desc; }
-	public void setDecription(String newDescription) { this.desc = newDescription; }
+	public void setDescription(String newDescription) { this.desc = newDescription; }
 	
 	private List<String> earnExpDescs = new CopyOnWriteArrayList<String>();
 	public List<String> getEarnExpDescs() { return new ArrayList<>(earnExpDescs); }
 	public void setEarnExpDescs(List<String> descs) { this.earnExpDescs = descs; }
 	public void addEarnExpDescs(String desc) { this.earnExpDescs.add(desc); }
+	
+	private boolean spAutoAssigned = false;
+	private boolean spBlacklisted = false;
+	
+	private WorldExceptionSet worldsEarn = new WorldExceptionSet();
 	
 	private transient List<Ability> passiveAbilities = new CopyOnWriteArrayList<Ability>();
 	private transient List<Ability> activeAbilities = new CopyOnWriteArrayList<Ability>();
@@ -44,8 +49,6 @@ public abstract class Skill extends Entity<Skill>
 	private transient List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
 	private transient List<Req> learnRequirements = new CopyOnWriteArrayList<Req>();
 	private transient List<Req> specialiseRequirements = new CopyOnWriteArrayList<Req>();
-	
-	private WorldExceptionSet worldsEarn = new WorldExceptionSet();
 	
 	// Lambda
 	private transient LvlStatusCalculator expToLvlStatus = (long exp) -> 	
@@ -62,21 +65,12 @@ public abstract class Skill extends Entity<Skill>
 	};
 	
 	// -------------------------------------------- //
-	// OVERRIDE: ENTITY
-	// -------------------------------------------- //
-	
-	@Override
-	public Skill load(Skill that)
-	{
-		this.name = that.name;
-		this.desc = that.desc;
-		this.earnExpDescs = that.earnExpDescs;
-		return this;
-	}
-	
-	// -------------------------------------------- //
 	// REGISTER
 	// -------------------------------------------- //
+	
+	// GSON
+	public Skill() { constructed = true; };
+	private boolean constructed = false;
 	
 	/**
 	 * Registers an ability to our system.
@@ -87,8 +81,17 @@ public abstract class Skill extends Entity<Skill>
 		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
-		
-		this.attach(SkillColl.get());
+
+		if ( ! this.attached())
+		{
+			Skill old = SkillColl.get().get(this.getId(), false);
+			if (old != null)
+			{
+				this.load(old);
+				SkillColl.get().removeAtLocal(this.getId());
+			}
+			SkillColl.get().attach(this, this.getId());	
+		}
 		
 		return;
 	}
@@ -161,7 +164,7 @@ public abstract class Skill extends Entity<Skill>
 	public final LvlStatusCalculator getLvlStatusAlgorithm() { return this.expToLvlStatus; }
 	
 	// -------------------------------------------- //
-	// MCONF
+	// SPECIALISATION
 	// -------------------------------------------- //
 	
 	/**
@@ -169,7 +172,7 @@ public abstract class Skill extends Entity<Skill>
 	 */
 	public boolean isSpAutoAssigned()
 	{
-		return MConf.get().specialisationAutomatic.contains(this.getId());
+		return this.spAutoAssigned;
 	}
 	
 	/**
@@ -177,7 +180,7 @@ public abstract class Skill extends Entity<Skill>
 	 */
 	public boolean isSpBlackListed()
 	{
-		return MConf.get().specialisationBlacklist.contains(this.getId());
+		return this.spBlacklisted;
 	}
 	
 	// -------------------------------------------- //
@@ -319,7 +322,7 @@ public abstract class Skill extends Entity<Skill>
 	 * This should be lowercase.
 	 * @return {String} the skills unique id.
 	 */
-	public abstract String getId();
+	public String getId() { if (constructed) return null; throw new UnsupportedOperationException("Skill#getId must be implemented"); }
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE

@@ -57,7 +57,7 @@ public class TimingUtil
 		if (difference > MConf.get().timingMax)
 		{
 			MassivePlugin p = Derius.get();
-			p.log(Txt.parse("<i>The execution of <h>%s <i>took <h>%s <i>milliseconds. It might be of value to take a look at it.", methodDesc, difference));
+			p.log(Txt.parse("<i>The execution of <h>%s <i>took <h>%d <i>milliseconds. It might be of value to take a look at it.", methodDesc, difference));
 		}
 	}
 	

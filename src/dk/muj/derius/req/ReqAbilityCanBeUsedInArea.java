@@ -9,7 +9,6 @@ import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.entity.Ability;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.Skill;
 
 public class ReqAbilityCanBeUsedInArea implements Req
@@ -49,7 +48,7 @@ public class ReqAbilityCanBeUsedInArea implements Req
 		Player player = (Player) sender;
 		PS loc =  PS.valueOf(player.getLocation());
 		
-		return MConf.get().worldAbilityUse.get(ability.getId()).contains(loc.getWorld());
+		return ability.getWorldsUse().contains(loc.getWorld());
 	}
 
 	@Override

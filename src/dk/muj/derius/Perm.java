@@ -10,32 +10,32 @@ public enum Perm implements MPerm
 	// ENUM
 	// -------------------------------------------- //
 	
-	ADMIN("admin", 3, "derius admin commands"),
-	BASECOMMAND("basecommand", 0, "derius basecommand"),
-	CLEAN("clean", 1, "clean skills"),
-	CLEAN_SKILL_ALL("clean.skill.all", 2, "clean all skills"),
-	CLEAN_PLAYER("clean.player", 1, "clean player"),
-	CLEAN_PLAYER_OTHER("clean.player.other", 2, "clean other player"),
-	CLEAN_PLAYER_ALL("clean.player.all", 3, "clean all players"),
-	DEBUG("debug", 2, "derius debug"),
-	INSPECT("inspect", 0, "inspect"),
-	INSPECT_OTHERS("inspect.other", 1, "inspect others"),
-	KEYS("keys", 0, "ability keys"),
-	KEYS_ABILITYID("keys.abilityid", 0, "list ability ids"),
-	KEYS_ADD("keys.add", 0, "add key"),
-	KEYS_CLEAR("keys.clear", 0, "clear keys"),
-	KEYS_LIST("keys.list", 0, "list keys"),
-	KEYS_REMOVE("keys.remove", 0, "remove key"),
-	LIST("list", 0, "list skills"),
-	NOTIFY_CHUNK("notify.chunk", 1, "get notified on chunk cleanup"),
-	SKILL("skill", 0, "see skill info"),
-	SPECIALISATION("sp", 0, "specialisation basecommand"),
-	SPECIALISATION_INFO("sp.info", 0, "specialisation info"),
-	SPECIALISATION_LEARN("sp.learn", 0, "specialise in skill"),
-	SPECIALISATION_LIST("sp.list", 0, "list specialisations"), 
-	SPECIALISATION_LIST_OTHER("sp.list.other", 0, "list others specialisations"),
-	SPECIALISATION_UNLEARN("sp.unlearn", 0, "unspecialise"), 
-	VERSION("version", 0, "see plugin version"),
+	ADMIN						("admin",				3, "derius admin commands"),
+	BASECOMMAND					("basecommand",			0, "derius basecommand"),
+	CLEAN						("clean",				1, "clean skills"),
+	CLEAN_SKILL_ALL				("clean.skill.all", 	2, "clean all skills"),
+	CLEAN_PLAYER				("clean.player",		1, "clean player"),
+	CLEAN_PLAYER_OTHER			("clean.player.other",	2, "clean other player"),
+	CLEAN_PLAYER_ALL			("clean.player.all",	3, "clean all players"),
+	DEBUG						("debug",				2, "derius debug"),
+	INSPECT						("inspect",				0, "inspect"),
+	INSPECT_OTHERS				("inspect.other",		1, "inspect others"),
+	KEYS						("keys",				0, "ability keys"),
+	KEYS_ABILITYID				("keys.abilityid",		0, "list ability ids"),
+	KEYS_ADD					("keys.add",			0, "add key"),
+	KEYS_CLEAR					("keys.clear",			0, "clear keys"),
+	KEYS_LIST					("keys.list",			0, "list keys"),
+	KEYS_REMOVE					("keys.remove",			0, "remove key"),
+	LIST						("list",				0, "list skills"),
+	NOTIFY_CHUNK				("notify.chunk",		1, "get notified on chunk cleanup"),
+	SKILL						("skill",				0, "see skill info"),
+	SPECIALISATION				("sp",					0, "specialisation basecommand"),
+	SPECIALISATION_INFO			("sp.info",				0, "specialisation info"),
+	SPECIALISATION_LEARN		("sp.learn",			0, "specialise in skill"),
+	SPECIALISATION_LIST			("sp.list",				0, "list specialisations"), 
+	SPECIALISATION_LIST_OTHER	("sp.list.other",		0, "list others specialisations"),
+	SPECIALISATION_UNLEARN		("sp.unlearn",			0, "unspecialise"), 
+	VERSION						("version",				0, "see plugin version"),
 	
 	// END OF LIST
 	;
@@ -43,6 +43,8 @@ public enum Perm implements MPerm
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
+	
+	private static int kitAmount = 3;
 	
 	public final String node;
 	public String getNode() { return node; }
@@ -58,9 +60,9 @@ public enum Perm implements MPerm
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public static void activate()
+	static
 	{
-		MPerm.createParents(Perm.ADMIN);
+		MPerm.createParents("derius.", kitAmount);
 		
 		for(Perm perm : Perm.values())
 		{

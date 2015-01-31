@@ -5,12 +5,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.collections.WorldExceptionSet;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.Ability.AbilityType;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.Skill;
 import dk.muj.derius.events.AbilityActivateEvent;
@@ -44,9 +42,9 @@ public class AbilityEngine extends EngineAbstract
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onRegister(AbilityRegisteredEvent e)
+	public void onRegister(AbilityRegisteredEvent event)
 	{
-		Ability ability = e.getAbility();
+		Ability ability = event.getAbility();
 		Skill skill = ability.getSkill();
 		if (ability.getType() == AbilityType.ACTIVE)
 		{
@@ -55,11 +53,6 @@ public class AbilityEngine extends EngineAbstract
 		else if (ability.getType() == AbilityType.PASSIVE)
 		{
 			skill.getPassiveAbilities().add(ability);
-		}
-		
-		if ( ! MConf.get().worldAbilityUse.containsKey(ability.getId()))
-		{
-			MConf.get().worldAbilityUse.put(ability.getId(), new WorldExceptionSet());
 		}
 		
 		// Requirements

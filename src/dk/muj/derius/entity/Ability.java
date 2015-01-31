@@ -15,7 +15,7 @@ import dk.muj.derius.lambda.TicksLastCalculator;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.util.AbilityUtil;
 
-public abstract class Ability extends Entity<Ability>
+public class Ability extends Entity<Ability>
 {
 	// -------------------------------------------- //
 	// FIELDS
@@ -29,7 +29,7 @@ public abstract class Ability extends Entity<Ability>
 	
 	private String desc = "";
 	public String getDescription() { return desc; }
-	public void setDecription(String newDescription) { this.desc = newDescription; }
+	public void setDescription(String newDescription) { this.desc = newDescription; }
 	
 	private int ticksCooldown = 20*60*2;
 	
@@ -39,7 +39,7 @@ public abstract class Ability extends Entity<Ability>
 	protected transient List<Req> activateRequirements	= new CopyOnWriteArrayList<Req>();
 	
 	// Lambda
-	TicksLastCalculator levelToTicks = (int level) ->
+	private transient TicksLastCalculator levelToTicks = (int level) ->
 	{
 		return (2 + level/50) * 20;
 	};
@@ -47,6 +47,10 @@ public abstract class Ability extends Entity<Ability>
 	// -------------------------------------------- //
 	// REGISTER
 	// -------------------------------------------- //
+	
+	// GSON
+	public Ability() { constructed = true; };
+	private boolean constructed = false;
 	
 	/**
 	 * Registers an ability to our system.
@@ -58,7 +62,17 @@ public abstract class Ability extends Entity<Ability>
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
 		
-		this.attach(AbilityColl.get());
+		if ( ! this.attached())
+		{
+			Ability old = AbilityColl.get().get(this.getId(), false);
+			if (old != null)
+			{
+				this.load(old);
+				AbilityColl.get().removeAtLocal(this.getId());
+			}
+			
+			AbilityColl.get().attach(this, this.getId());
+		}
 		
 		return;
 	}
@@ -264,7 +278,7 @@ public abstract class Ability extends Entity<Ability>
 	 * Gets the skill associated with this ability
 	 * @return {Skill} the skill associated with this ability
 	 */
-	public abstract Skill getSkill();
+	public Skill getSkill() { throw new UnsupportedOperationException("Ability#getSkill must be implemented"); };
 	
 	/**
 	 * Gets the id of the ability. This id is only used by plugins
@@ -272,7 +286,7 @@ public abstract class Ability extends Entity<Ability>
 	 * MUST be unique & should never be changed
 	 * @return {String} the abilities unique id.
 	 */
-	public abstract String getId();
+	public String getId() { if (constructed) return null; throw new UnsupportedOperationException("Ability#getId must be implemented"); }
 	
 	/**
 	 * Gets a description based on passed level
@@ -281,7 +295,7 @@ public abstract class Ability extends Entity<Ability>
 	 * @param {int} the level you want to test for
 	 * @return {String} the actual string message
 	 */
-	public abstract String getLvlDescriptionMsg(int lvl);
+	public String getLvlDescriptionMsg(int lvl) { throw new UnsupportedOperationException("Skill#getId must be implemented"); };
 	
 	// Ability Execution methods
 	/**
@@ -291,7 +305,7 @@ public abstract class Ability extends Entity<Ability>
 	 * @param {Object} other parameter used in some abilities
 	 * @return {Object} this object will be passed to onDeactivate for data transferring.
 	 */
-	public abstract Object onActivate(MPlayer p, Object other);
+	public Object onActivate(MPlayer p, Object other) { return null; };
 	
 	/**
 	 * This is the method called by Derius when your ability
@@ -299,7 +313,7 @@ public abstract class Ability extends Entity<Ability>
 	 * @param {MPlayer} the player to stop using the ability
 	 * @param {Object} object received from onActivate
 	 */
-	public abstract void onDeactivate(MPlayer p, Object other);
+	public void onDeactivate(MPlayer p, Object other) {};
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE

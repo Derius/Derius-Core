@@ -1,11 +1,7 @@
 package dk.muj.derius.entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
@@ -57,19 +53,10 @@ public class MConf extends Entity<MConf>
 	 */
 	public long specialiseChangeStandStillSeconds = 60*1;
 	
-	/**
-	 * The skills which you can't specialize in.
-	 */
-	public List<Integer> specialisationBlacklist = new ArrayList<Integer>();
-	
-	/**
-	 * The skills you are automatically specialized in.
-	 */
-	public List<Integer> specialisationAutomatic = new ArrayList<Integer>();
-	
 	// -------------------------------------------- //
 	// COMMAND ALIASES
 	// -------------------------------------------- //
+	
 	public List<String> outerAliasesDerius = MUtil.list("d", "derius");
 	
 	public List<String> innerAliasesDeriusSkill = MUtil.list("s", "skill");
@@ -93,11 +80,5 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusKeyAbilityId = MUtil.list("id", "Abilityid");
 	
 	public List<String> innerAliasesDeriusSeMsgSet = MUtil.list( "msgtype");
-	
-	// -------------------------------------------- //
-	// WORLD SETTINGS
-	// -------------------------------------------- //
-	
-	public Map<String, WorldExceptionSet> worldAbilityUse = new HashMap<String, WorldExceptionSet>();
-	
+
 }
