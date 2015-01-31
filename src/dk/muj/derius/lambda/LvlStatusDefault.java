@@ -1,4 +1,4 @@
-package dk.muj.derius.skill;
+package dk.muj.derius.lambda;
 
 import java.util.Optional;
 

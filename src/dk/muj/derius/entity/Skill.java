@@ -13,10 +13,10 @@ import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.events.SkillRegisteredEvent;
+import dk.muj.derius.lambda.LvlStatus;
+import dk.muj.derius.lambda.LvlStatusCalculator;
+import dk.muj.derius.lambda.LvlStatusDefault;
 import dk.muj.derius.req.Req;
-import dk.muj.derius.skill.LvlStatus;
-import dk.muj.derius.skill.LvlStatusCalculator;
-import dk.muj.derius.skill.LvlStatusDefault;
 import dk.muj.derius.util.SkillUtil;
 
 public abstract class Skill extends Entity<Skill>
@@ -38,18 +38,16 @@ public abstract class Skill extends Entity<Skill>
 	public void setEarnExpDescs(List<String> descs) { this.earnExpDescs = descs; }
 	public void addEarnExpDescs(String desc) { this.earnExpDescs.add(desc); }
 	
-	// The lists of of active and passive abilities
 	private transient List<Ability> passiveAbilities = new CopyOnWriteArrayList<Ability>();
 	private transient List<Ability> activeAbilities = new CopyOnWriteArrayList<Ability>();
 	
-	// Requirements
 	private transient List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
 	private transient List<Req> learnRequirements = new CopyOnWriteArrayList<Req>();
 	private transient List<Req> specialiseRequirements = new CopyOnWriteArrayList<Req>();
 	
 	private WorldExceptionSet worldsEarn = new WorldExceptionSet();
 	
-	//Lambda sw@g
+	// Lambda
 	private transient LvlStatusCalculator expToLvlStatus = (long exp) -> 	
 	{	
 		//This is the default algorithm

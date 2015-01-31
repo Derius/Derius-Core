@@ -14,7 +14,7 @@ import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
-import dk.muj.derius.skill.LvlStatus;
+import dk.muj.derius.lambda.LvlStatus;
 
 public class CmdDeriusInspect extends DeriusCommand
 {

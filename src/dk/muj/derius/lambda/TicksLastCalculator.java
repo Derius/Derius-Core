@@ -1,4 +1,4 @@
-package dk.muj.derius.ability;
+package dk.muj.derius.lambda;
 
 import java.util.function.Function;
 

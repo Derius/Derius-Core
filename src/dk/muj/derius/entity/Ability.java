@@ -10,8 +10,8 @@ import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.ability.TicksLastCalculator;
 import dk.muj.derius.events.AbilityRegisteredEvent;
+import dk.muj.derius.lambda.TicksLastCalculator;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.util.AbilityUtil;
 
@@ -261,6 +261,12 @@ public abstract class Ability extends Entity<Ability>
 	// -------------------------------------------- //
 	
 	/**
+	 * Gets the skill associated with this ability
+	 * @return {Skill} the skill associated with this ability
+	 */
+	public abstract Skill getSkill();
+	
+	/**
 	 * Gets the id of the ability. This id is only used by plugins
 	 * & is never seen by the player/user.
 	 * MUST be unique & should never be changed
@@ -294,12 +300,6 @@ public abstract class Ability extends Entity<Ability>
 	 * @param {Object} object received from onActivate
 	 */
 	public abstract void onDeactivate(MPlayer p, Object other);
-	
-	/**
-	 * Gets the skill associated with this ability
-	 * @return {Skill} the skill associated with this ability
-	 */
-	public abstract Skill getSkill();
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE

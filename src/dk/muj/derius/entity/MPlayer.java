@@ -18,8 +18,8 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.events.PlayerAddExpEvent;
+import dk.muj.derius.lambda.LvlStatus;
 import dk.muj.derius.req.Req;
-import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.LevelUtil;
 import dk.muj.derius.util.Listener;
