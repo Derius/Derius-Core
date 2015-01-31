@@ -4,10 +4,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import dk.muj.derius.entity.MConf;
-import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
-
 public final class LevelUtil
 {
 	// -------------------------------------------- //
@@ -72,23 +68,5 @@ public final class LevelUtil
 		
 		return Optional.of(base + buff);
 	}
-	
-	// -------------------------------------------- //
-	// MPLAYER RELATED
-	// -------------------------------------------- //
-	
-	/**
-	 * The maximum level a player can reach in said skill
-	 * @param {Skill} skill to check for
-	 * @return {int} the level the player can reach
-	 */
-	public static int getMaxLevel(Skill skill, MPlayer mplayer)
-	{
-		if (mplayer.isSpecialisedIn(skill))
-		{
-			return MConf.get().hardCap;
-		}
-		return MConf.get().softCap;
-	}
-	
+
 }

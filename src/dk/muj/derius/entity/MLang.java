@@ -1,7 +1,6 @@
 package dk.muj.derius.entity;
 
 import com.massivecraft.massivecore.store.Entity;
-import com.massivecraft.massivecore.util.Txt;
 
 public class MLang extends Entity<MConf>
 {
@@ -19,7 +18,7 @@ public class MLang extends Entity<MConf>
 	public String prefix = "<green>[DERIUS]";
 	
 	public String levelUp ="<i>You leveled up to level <lime>%s<i> in <aqua>%s<i>.";
-	public String exhausted = "<b>You are still exhausted. <i>You will be ready again in <lime>%s<i> seconds";
+	public String exhausted = "<b>You are still exhausted. <i>You will be ready again in %s";
 	
 	public String levelStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
 	public String levelStatusFormatMini = "<navy>LVL: <lime>%s";

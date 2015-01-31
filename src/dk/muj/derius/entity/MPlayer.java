@@ -21,7 +21,6 @@ import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.lambda.LvlStatus;
 import dk.muj.derius.req.Req;
 import dk.muj.derius.util.ChatUtil;
-import dk.muj.derius.util.LevelUtil;
 import dk.muj.derius.util.Listener;
 
 public class MPlayer extends SenderEntity<MPlayer>
@@ -113,7 +112,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if (lvlBefore >= LevelUtil.getMaxLevel(skill, this)) return;
+		if (lvlBefore >= this.getMaxLevel(skill)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
@@ -137,7 +136,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if (lvlBefore >= LevelUtil.getMaxLevel(skill, this)) return;
+		if (lvlBefore >= this.getMaxLevel(skill)) return;
 		
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
@@ -191,6 +190,16 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public boolean hasSkill(Skill skill)
 	{
 		return this.exp.containsKey(skill.getId());
+	}
+	
+	/**
+	 * The maximum level this player can reach in said skill
+	 * @param {Skill} skill to check for
+	 * @return {int} the level the player can reach
+	 */
+	public int getMaxLevel(Skill skill)
+	{
+		return Derius.get().getMaxLevelMixin().getMaxLevel(this, skill);
 	}
 	
 	// -------------------------------------------- //
@@ -361,7 +370,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getSpecialisationSlots()
 	{
-		return Derius.get().getSpSlotMixin().getMaxSlots(this.getSender());
+		return Derius.get().getSpSlotMixin().getMaxSlots(this);
 	}
 	
 	/**

@@ -20,6 +20,8 @@ import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.mixin.MaxLevelMixin;
+import dk.muj.derius.mixin.MaxLevelMixinDefault;
 import dk.muj.derius.mixin.SpSlotMixin;
 import dk.muj.derius.mixin.SpSlotMixinDefault;
 
@@ -47,6 +49,10 @@ public class Derius extends MassivePlugin
 	private SpSlotMixin spSlotMixin = SpSlotMixinDefault.get();
 	public SpSlotMixin getSpSlotMixin () { return this.spSlotMixin; }
 	public void setSpSlotMixin(SpSlotMixin mixin) { this.spSlotMixin = mixin; }
+	
+	private MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
+	public MaxLevelMixin getMaxLevelMixin() { return this.maxLevelMixin; }
+	public void setMaxLevelMixin (MaxLevelMixin mixin) { this.maxLevelMixin = mixin; }
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
