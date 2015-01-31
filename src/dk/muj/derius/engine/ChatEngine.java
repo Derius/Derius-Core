@@ -47,6 +47,8 @@ public class ChatEngine extends EngineAbstract
 		if (ability == null) return;
 		
 		AbilityUtil.activateAbility(mplayer, ability, null, true);
+		
+		return;
 	}
 	
 }

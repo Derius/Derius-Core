@@ -48,6 +48,8 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		messages.add(Txt.parse("<red>%s", Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>")));
 		
 		sendMessage(messages);
+		
+		return;
 	}
 	
 }

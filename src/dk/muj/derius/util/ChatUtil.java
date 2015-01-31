@@ -75,7 +75,9 @@ public final class ChatUtil
 	
 	public static boolean sendTitle(Player player, Optional<String> title, Optional<String> subtitle, int fadeIn, int stay, int fadeOut)
 	{
-		return Mixin.sendTitleMessage(player, 10, 1000, 2, "Title", "SubTitle");
+		String mainTitle = title.isPresent() ? title.get() : null;
+		String subTitle = subtitle.isPresent() ? subtitle.get() : null;
+		return Mixin.sendTitleMessage(player, fadeIn, stay, fadeOut, mainTitle, subTitle);
 	}
 	
 	// -------------------------------------------- //

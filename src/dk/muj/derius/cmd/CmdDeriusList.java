@@ -57,6 +57,8 @@ public class CmdDeriusList extends DeriusCommand
 		
 		// Send Message
 		sendMessage(messages);
+		
+		return;
 	}
 	
 }

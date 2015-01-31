@@ -63,6 +63,8 @@ public class CmdDeriusInspect extends DeriusCommand
 		
 		// Send Message
 		sendMessage(messages);
+		
+		return;
 	}
 	
 }

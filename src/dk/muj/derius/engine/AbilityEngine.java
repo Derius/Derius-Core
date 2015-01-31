@@ -54,9 +54,10 @@ public class AbilityEngine extends EngineAbstract
 		{
 			skill.getPassiveAbilities().add(ability);
 		}
-		
 		// Requirements
 		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
+		
+		return;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -68,6 +69,8 @@ public class AbilityEngine extends EngineAbstract
 		{
 			ChatUtil.msgAbilityActivate(mplayer, ability);
 		}
+		
+		return;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -79,6 +82,8 @@ public class AbilityEngine extends EngineAbstract
 		{
 			ChatUtil.msgAbilityDeactivate(mplayer, ability);
 		}
+		
+		return;
 	}
 	
 }

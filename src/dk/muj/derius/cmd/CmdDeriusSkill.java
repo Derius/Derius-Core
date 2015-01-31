@@ -76,6 +76,8 @@ public class CmdDeriusSkill extends DeriusCommand
 		
 		// Send Message
 		msg(msgs);
+		
+		return;
 	}
 	
 }

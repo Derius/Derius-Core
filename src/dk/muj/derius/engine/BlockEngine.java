@@ -57,6 +57,8 @@ public class BlockEngine extends EngineAbstract
 			mplayer.msg(MLang.get().prefix + " <i>Chunk cleanup is about to happen lag might occur");
 		}
 		cleanWorlds();
+		
+		return;
 	}
 	
 	@Override
@@ -81,6 +83,8 @@ public class BlockEngine extends EngineAbstract
 				mchunk.clear();
 			}
 		}
+		
+		return;
 	}
 	
 	
@@ -89,36 +93,38 @@ public class BlockEngine extends EngineAbstract
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onBlockBreak(BlockBreakEvent e)
+	public void onBlockBreak(BlockBreakEvent event)
 	{	
 		// Listeners
-		Listener listener = Listener.getBlockBreakListener(e.getBlock().getType());
+		Listener listener = Listener.getBlockBreakListener(event.getBlock().getType());
 		if (listener != null)
 		{
-			listener.onBlockBreak(MPlayer.get(e.getPlayer()), e.getBlock().getState());
+			listener.onBlockBreak(MPlayer.get(event.getPlayer()), event.getBlock().getState());
 		}
 		
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock(), false);
+		
+		return;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onBlockPlace(BlockPlaceEvent e)
+	public void onBlockPlace(BlockPlaceEvent event)
 	{	
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), true);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock(), true);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onFade(BlockFadeEvent e)
+	public void onFade(BlockFadeEvent event)
 	{	
 		// Unset Block
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock(), false);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onBurn(BlockBurnEvent e)
+	public void onBurn(BlockBurnEvent event)
 	{
 		// Unset Block
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock(), false);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock(), false);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -131,27 +137,26 @@ public class BlockEngine extends EngineAbstract
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPistonExtend(BlockPistonExtendEvent e)
+	public void onPistonExtend(BlockPistonExtendEvent event)
 	{
 		// Placed by player?
-		if ( ! BlockUtil.isBlockPlacedByPlayer(e.getBlock().getRelative(e.getDirection()))) return;
+		if ( ! BlockUtil.isBlockPlacedByPlayer(event.getBlock().getRelative(event.getDirection()))) return;
 		
 		// Set according to new position
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock().getRelative(e.getDirection()), false);
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock().getRelative(e.getDirection(), 2), true);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock().getRelative(event.getDirection()), false);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock().getRelative(event.getDirection(), 2), true);
 		
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPistonRetract(BlockPistonRetractEvent e)
+	public void onPistonRetract(BlockPistonRetractEvent event)
 	{
 		// Placed by player?
-		if ( ! BlockUtil.isBlockPlacedByPlayer(e.getBlock().getRelative(e.getDirection(), 2)));
+		if ( ! BlockUtil.isBlockPlacedByPlayer(event.getBlock().getRelative(event.getDirection(), 2)));
 			
 		// Set according to new position
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock().getRelative(e.getDirection(), 2), false);
-		BlockUtil.setBlockPlacedByPlayer(e.getBlock().getRelative(e.getDirection()), true);
-		
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock().getRelative(event.getDirection(), 2), false);
+		BlockUtil.setBlockPlacedByPlayer(event.getBlock().getRelative(event.getDirection()), true);
 	}
 	
 }

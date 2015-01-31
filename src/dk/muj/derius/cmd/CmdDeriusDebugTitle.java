@@ -41,6 +41,8 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 		if (subtitle.equalsIgnoreCase("null")) subtitle = null;
 		
 		Mixin.sendTitleMsg(sender, fadeIn, stay, fadeOut, title, subtitle);
+		
+		return;
 	}
 	
 }

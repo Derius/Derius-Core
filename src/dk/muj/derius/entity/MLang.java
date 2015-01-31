@@ -1,6 +1,7 @@
 package dk.muj.derius.entity;
 
 import com.massivecraft.massivecore.store.Entity;
+import com.massivecraft.massivecore.util.Txt;
 
 public class MLang extends Entity<MConf>
 {
@@ -64,6 +65,10 @@ public class MLang extends Entity<MConf>
 	public String specialisationSuccess = "<i>You are now specialised in %s";
 	public String specialisationRemoved = "<i>You are no longer specialised in %s";
 	public String specialisationIsnt = "<b>You do not have the Skill %s <b>specialised";
+	
+	public String specialisationInfo = "<i>When you specialise in a skill you are able to exceed level %s, and reach level %s."
+			+ " You can only specialise in %s skills. If you unlearn/unspecialise in a skill you get reset back to level 0";
+			
 	
 	// -------------------------------------------- //
 	// MESSAGES: CHAT KEYS

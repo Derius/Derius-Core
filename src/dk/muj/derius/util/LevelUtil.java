@@ -2,6 +2,7 @@ package dk.muj.derius.util;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
@@ -22,7 +23,7 @@ public final class LevelUtil
 	// LEVEL SETTINGS
 	// -------------------------------------------- //
 	
-	public static <S> S getLevelSetting(Map<Integer, S> settings, int level)
+	public static <S> Optional<S> getLevelSetting(Map<Integer, S> settings, int level)
 	{
 		Entry<Integer, S> most = null;
 		
@@ -33,16 +34,16 @@ public final class LevelUtil
 			most = entry;
 		}
 		
-		if (most == null) return null;
-		return most.getValue();
+		if (most == null) return Optional.empty();
+		else return Optional.of(most.getValue());
 	}
 	
-	public static Double getLevelSettingFloat(Map<Integer, Double> settings, int level)
+	public static Optional<Double> getLevelSettingFloat(Map<Integer, Number> settings, int level)
 	{
-		Entry<Integer, Double> ceil = null;
-		Entry<Integer, Double> floor = null;
+		Entry<Integer, Number> ceil = null;
+		Entry<Integer, Number> floor = null;
 		
-		for (Entry<Integer, Double> entry : settings.entrySet())
+		for (Entry<Integer, Number> entry : settings.entrySet())
 		{	
 			// First iteration
 			if (ceil == null && floor == null)
@@ -58,50 +59,18 @@ public final class LevelUtil
 			else if (entry.getKey() <= level && entry.getKey() >= floor.getKey()) floor = entry;
 		}
 		
+		if (floor == null) return Optional.of(0D);
+		if (ceil == null) return Optional.of(floor.getValue().doubleValue());
+		
 		int lvlDiff = ceil.getKey() - ceil.getKey();
-		double valueDiff = ceil.getValue() - floor.getValue();
+		double valueDiff = ceil.getValue().doubleValue() - floor.getValue().doubleValue();
 		double diffPerLvl = valueDiff/lvlDiff;
 		
 		int toFloor = level - floor.getKey();
-		double base = floor.getValue();
+		double base = floor.getValue().doubleValue();
 		double buff = toFloor * diffPerLvl;
 		
-		return base + buff;
-	}
-	
-	public static Double getLevelSettingInt(Map<Integer, Integer> settings, int level)
-	{
-		Entry<Integer, Integer> ceil = null;
-		Entry<Integer, Integer> floor = null;
-		
-		for (Entry<Integer, Integer> entry : settings.entrySet())
-		{	
-			// First iteration
-			if (ceil == null && floor == null)
-			{
-				ceil = entry;
-				floor = entry;
-			}
-			
-			// Must be higher than level, but smaller than ceil
-			if (entry.getKey() >= level && entry.getKey() <= ceil.getKey()) ceil = entry;
-			
-			// Must be lower than level but higher than floor
-			else if (entry.getKey() <= level && entry.getKey() >= floor.getKey()) floor = entry;
-		}
-		
-		if (ceil == null) return (double) floor.getValue();
-		if (floor == null) return null;
-		
-		int lvlDiff = ceil.getKey() - ceil.getKey();
-		int valueDiff = ceil.getValue() - floor.getValue();
-		double diffPerLvl = valueDiff/lvlDiff;
-		
-		int toFloor = level - floor.getKey();
-		double base = floor.getValue();
-		double buff = toFloor * diffPerLvl;
-		
-		return base + buff;
+		return Optional.of(base + buff);
 	}
 	
 	// -------------------------------------------- //

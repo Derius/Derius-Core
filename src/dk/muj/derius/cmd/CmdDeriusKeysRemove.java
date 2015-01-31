@@ -55,6 +55,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 			sendMessage(Txt.parse(MLang.get().keyRemoveSuccess, key));
 		}
 		
+		return;
 	}
 	
 }

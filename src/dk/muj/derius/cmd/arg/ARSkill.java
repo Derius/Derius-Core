@@ -29,7 +29,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	@Override
 	public String typename()
 	{
-		return "skill";
+		return "skills";
 	}
 	
 	@Override

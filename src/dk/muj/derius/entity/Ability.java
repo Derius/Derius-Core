@@ -21,7 +21,7 @@ public class Ability extends Entity<Ability>
 	// FIELDS
 	// -------------------------------------------- //
 
-	private AbilityType type;
+	private transient AbilityType type;
 	
 	private String name;
 	public String getName() { return name; }
@@ -97,19 +97,13 @@ public class Ability extends Entity<Ability>
 	 * Gets the ability type (passive/active) of this ability
 	 * @return {AbilityType} the type of this ability
 	 */
-	public AbilityType getType()
-	{
-		return this.type;
-	}
+	public AbilityType getType() { return this.type; }
 	
 	/**
 	 * Sets the ability type (passive/active) of this ability
 	 * @param {AbilityType} the new type of this ability
 	 */
-	protected void setType(AbilityType newType)
-	{
-		this.type = newType;
-	}
+	protected void setType(AbilityType newType){ this.type = newType; }
 	
 	// -------------------------------------------- //
 	// DESCRIPTION

@@ -53,6 +53,8 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		}
 		
 		sendMessage(messages);
+		
+		return;
 	}
 	
 }

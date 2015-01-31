@@ -54,6 +54,8 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		}
 		
 		sendMessage(messages);
+		
+		return;
 	}
 	
 }

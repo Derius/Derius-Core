@@ -51,6 +51,8 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		}
 		
 		msender.setSpecialisedIn(skill, true);
+	
+		return;
 	}
 	
 }

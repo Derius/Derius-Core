@@ -49,9 +49,9 @@ public class MainEngine extends EngineAbstract
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.LOW)
-	public void onJoin(PlayerJoinEvent e)
+	public void onJoin(PlayerJoinEvent event)
 	{
-		MPlayer mplayer = MPlayerColl.get().get(e.getPlayer().getUniqueId().toString(), true);
+		MPlayer mplayer = MPlayerColl.get().get(event.getPlayer(), true);
 		for (Skill skill : SkillColl.getAllSkills())
 		{
 			mplayer.instantiateSkill(skill);
@@ -60,17 +60,21 @@ public class MainEngine extends EngineAbstract
 		{
 			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
 		}
+		
+		return;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
-	public void onInteract(PlayerInteractEvent e)
+	public void onInteract(PlayerInteractEvent event)
 	{	
-		Action action = e.getAction();
+		Action action = event.getAction();
 		if (action != Action.RIGHT_CLICK_AIR) return;
 		
-		MPlayer mplayer = MPlayer.get(e.getPlayer());
+		MPlayer mplayer = MPlayer.get(event.getPlayer());
 		
-		mplayer.setPreparedTool(e.getMaterial() == null ? Optional.empty() : Optional.of(e.getMaterial()));
+		mplayer.setPreparedTool(Optional.ofNullable(event.getMaterial()));
+		
+		return;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -85,6 +89,8 @@ public class MainEngine extends EngineAbstract
 		}
 		
 		listener.onPlayerAttack(MPlayer.get(p), event);
+		
+		return;
 	}
 	
 	// -------------------------------------------- //

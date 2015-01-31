@@ -56,7 +56,7 @@ public class LvlStatusDefault implements LvlStatus
 	{
 		//  Example Output (before applying the colors): "<navy>LVL: <lime>1 <navy>XP: <lime>120<yellow>/<lime>5000"
 		if ( ! exp.isPresent() || ! expToNext.isPresent()) return Txt.parse(MLang.get().levelStatusFormatMini, level);
-		return Txt.parse(MLang.get().levelStatusFormat, this.getLvl(), this.getExp(), this.getExpToNextLvl());
+		return Txt.parse(MLang.get().levelStatusFormat, this.getLvl(), this.getExp().get(), this.getExpToNextLvl().get());
 	}
 	
 	// -------------------------------------------- //

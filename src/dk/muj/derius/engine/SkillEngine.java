@@ -41,9 +41,9 @@ public class SkillEngine extends EngineAbstract
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onSkillRegistered(SkillRegisteredEvent e)
+	public void onSkillRegistered(SkillRegisteredEvent event)
 	{
-		Skill skill = e.getSkill();
+		Skill skill = event.getSkill();
 		for (MPlayer mplayer : MPlayerColl.get().getAll())
 		{
 			mplayer.instantiateSkill(skill);
@@ -53,5 +53,8 @@ public class SkillEngine extends EngineAbstract
 		skill.addSpecialiseRequirements(ReqIsntBlacklisted.get());
 		skill.addSpecialiseRequirements(ReqIsntSpecialised.get());
 		skill.addSpecialiseRequirements(ReqHasOpenSlot.get());
+		
+		return;
 	}
+	
 }
