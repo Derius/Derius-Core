@@ -15,6 +15,7 @@ import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
+import dk.muj.derius.req.ReqIsEnabled;
 import dk.muj.derius.util.ChatUtil;
 
 public class AbilityEngine extends EngineAbstract
@@ -56,6 +57,9 @@ public class AbilityEngine extends EngineAbstract
 		}
 		// Requirements
 		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
+		
+		ability.addActivateRequirements(ReqIsEnabled.get());
+		ability.addSeeRequirements(ReqIsEnabled.get());
 		
 		return;
 	}

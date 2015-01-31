@@ -25,6 +25,10 @@ public class Skill extends Entity<Skill>
 	// FIELDS
 	// -------------------------------------------- //
 	
+	private boolean enabled = true;
+	public boolean isEnabled() { return enabled; }
+	public void setEnabled(boolean enabled) { this.enabled = enabled; }
+	
 	private String name;
 	public String getName() { return name; }
 	public void setName(String newName) { this.name = newName; }

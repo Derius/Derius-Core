@@ -21,6 +21,10 @@ public class Ability extends Entity<Ability>
 	// FIELDS
 	// -------------------------------------------- //
 
+	private boolean enabled = true;
+	public boolean isEnabled() { return enabled && this.getSkill().isEnabled(); }
+	public void setEnabled(boolean enabled) { this.enabled = enabled; }
+	
 	private transient AbilityType type;
 	
 	private String name;

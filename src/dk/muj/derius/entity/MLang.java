@@ -41,6 +41,7 @@ public class MLang extends Entity<MConf>
 	public String abilityColorPlayerCantUse = "<gray>";
 	
 	public String abilityInvalidId = "<i>The Ability Id <h>%s <i>not valid/not in use.";
+	public String abilityDisabled = "<b>The ability %s <b>is not enabled";
 	
 	public String abilityDisplayedDescription = "%s: <i>%s";
 	
@@ -56,6 +57,7 @@ public class MLang extends Entity<MConf>
 	public String skillColorPlayerIsSpecialised = "<gold>";	
 	
 	public String skillLevelIsTooLow = "<b>You must be level <h>%s <b> or higher in %s";
+	public String skillDisabled = "<b>The skill %s <b>is not enabled";
 
 	public String specialisationAutoAssigned = "<b>The skill %s <b> is automatically specialised";
 	public String specialisationBlacklisted = "<b>It is not possible to specialise in %s";
