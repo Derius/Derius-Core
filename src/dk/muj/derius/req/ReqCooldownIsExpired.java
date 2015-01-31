@@ -34,7 +34,7 @@ public class ReqCooldownIsExpired implements Req
 	{
 		MPlayer mplayer = MPlayer.get(IdUtil.getId(sender.getName()));
 		if (mplayer == null) return false;
-		if (mplayer.hasCooldownExpired()) return true;
+		if (mplayer.isCooldownExpired()) return true;
 		return false;
 	}
 	

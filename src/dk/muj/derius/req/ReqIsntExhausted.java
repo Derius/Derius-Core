@@ -31,7 +31,7 @@ public class ReqIsntExhausted implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		return MPlayer.get(sender).hasCooldownExpired();
+		return MPlayer.get(sender).isCooldownExpired();
 	}
 	
 	@Override
