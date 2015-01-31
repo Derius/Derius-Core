@@ -55,8 +55,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// FIELDS
 	// -------------------------------------------- //
 	
-	// Integer is id for the skill
-	// Long is the exp
+	//			id		exp
 	private Map<String, Long> exp = new HashMap<String, Long>();
 	
 	private Set<String> specialised = new CopyOnWriteArraySet<String>();
@@ -156,30 +155,21 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {String} id of the skill
 	 * @return {LvlStatus} The LvlStatus for said skill & this player
 	 */
-	public LvlStatus getLvlStatus(Skill skill)
-	{
-		return skill.getLvlStatusFromExp(this.getExp(skill));
-	}
+	public LvlStatus getLvlStatus(Skill skill) { return skill.getLvlStatusFromExp(this.getExp(skill)); }
 	
 	/**
 	 * Gets level for said skill in this MPlayer
 	 * @param {String} id of the skill
 	 * @return {int} players level in said skill
 	 */
-	public int getLvl(Skill skill)
-	{
-		return skill.getLvlStatusFromExp(this.getExp(skill)).getLvl();
-	}
+	public int getLvl(Skill skill) { return this.getLvlStatus(skill).getLvl(); }
 	
 	/**
 	 * The maximum level this player can reach in said skill
 	 * @param {Skill} skill to check for
 	 * @return {int} the level the player can reach
 	 */
-	public int getMaxLevel(Skill skill)
-	{
-		return Derius.get().getMaxLevelMixin().getMaxLevel(this, skill);
-	}
+	public int getMaxLevel(Skill skill) { return Derius.get().getMaxLevelMixin().getMaxLevel(this, skill); }
 	
 	// -------------------------------------------- //
 	// SKILL
@@ -428,7 +418,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	// MANAGING CHAT | ACTIVATION
 	// -------------------------------------------- //
 	
-	// set and get for isListeningToChat boolean
 	/**
 	 * Gets the boolean if someone is listening to ability activation through chat
 	 * @return {Boolean} returns if listening.
@@ -481,7 +470,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	{
 		for (String string :  this.chatKeys.keySet())
 		{
-			if (string.equals(key)) return true;
+			if (string.equalsIgnoreCase(key)) return true;
 		}
 		return false;
 	}
@@ -530,13 +519,11 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public List<String> chatKeysToString()
 	{
-		List<String> messages = new ArrayList<String>();
-		
+		List<String> messages = new ArrayList<String>();	
 		for(String str: chatKeys.keySet())
 		{
 			messages.add(Txt.parse("<lime>" + str + "<i> activates " + getAbilityfromChatKey(str).toString()));
 		}
-		
 		return messages;
 	}
 
@@ -546,9 +533,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public boolean isChatListeningOk()
 	{
-		if (this.getIsListeningToChat() && this.hasAnyChatKeys()) return true;
-		
-		return false;
+		return this.getIsListeningToChat() && this.hasAnyChatKeys();
 	}
 	
 	// -------------------------------------------- //
@@ -638,8 +623,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 		}
 	}
 	
-	
-	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE
 	// -------------------------------------------- //
@@ -654,9 +637,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	public int hashCode()
 	{
 		int result = 1;
-		
 		result += this.getId().hashCode();
-		
 		return result;
 	}
 	
@@ -670,10 +651,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @deprecated can change at any given time might be removed, extremely dangerous
 	 */
 	@Deprecated
-	public Map<String, Long> getRawExpData()
-	{
-		return this.exp;
-	}
+	public Map<String, Long> getRawExpData() { return this.exp; }
 	
 	/**
 	 * DON'T USE THIS IT IS EXTREMELY DANGEROUS USE
@@ -681,9 +659,6 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @deprecated can change at any given time might be removed, extremely dangerous
 	 */
 	@Deprecated
-	public Set<String> getRawSpecialisedData()
-	{
-		return this.specialised;
-	}
+	public Set<String> getRawSpecialisedData() { return this.specialised; }
 	
 }
