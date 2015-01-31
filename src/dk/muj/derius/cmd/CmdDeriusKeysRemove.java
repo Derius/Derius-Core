@@ -1,12 +1,13 @@
 package dk.muj.derius.cmd;
 
-import java.util.List;
+import java.util.Set;
 
+import com.massivecraft.massivecore.cmd.arg.ARSet;
+import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 
 public class CmdDeriusKeysRemove extends DeriusCommand
@@ -17,9 +18,10 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 	
 	public CmdDeriusKeysRemove()
 	{
-		super.addRequiredArg("key/all");
+		this.addRequiredArg("keys/all");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.node));
+		this.setErrorOnToManyArgs(false);
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.node));
 	}
 	
 	// -------------------------------------------- //
@@ -30,31 +32,29 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 	public void perform()
 	{
 		// Args
-		String key = this.arg(0).toLowerCase();
+		Set<String> keys = this.argConcatFrom(0, ARSet.get(ARString.get(), true));
 		
 		// All case?
-		if (key.equals("all"))
+		if (keys.contains("all"))
 		{
 			msender.clearChatKeys();
 			sendMessage(Txt.parse(MLang.get().keysClearSuccess));
 			return;
 		}
 		
-		// Isn't chat key
-		if ( ! msender.isAlreadyChatKey(key))
+		for (String key : keys)
 		{
-			sendMessage(Txt.parse(MLang.get().keyHanst, key));
-			return;
+			// Isn't chat key
+			if ( ! msender.isAlreadyChatKey(key))
+			{
+				sendMessage(Txt.parse(MLang.get().keyHanst, key));
+				return;
+			}
+			
+			msender.removeChatKey(key);
+			sendMessage(Txt.parse(MLang.get().keyRemoveSuccess, key));
 		}
 		
-		msender.removeChatKey(key);
-		sendMessage(Txt.parse(MLang.get().keyRemoveSuccess, key));
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusKeysRemove;
-    }
 	
 }

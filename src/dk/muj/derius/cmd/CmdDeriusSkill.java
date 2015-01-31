@@ -8,12 +8,11 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.Ability;
 import dk.muj.derius.cmd.arg.ARSkill;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.entity.Skill;
+import dk.muj.derius.skill.LvlStatus;
 import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkill extends DeriusCommand
@@ -24,10 +23,10 @@ public class CmdDeriusSkill extends DeriusCommand
 	
 	public CmdDeriusSkill()
 	{
-		super.addRequiredArg("skillname");
-		super.addOptionalArg("level", "your level");
+		this.addRequiredArg("skillname");
+		this.addOptionalArg("level", "your level");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.SKILL.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SKILL.node));
 	}
 
 	// -------------------------------------------- //
@@ -53,7 +52,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		if (level <= -1)
 		{
 			LvlStatus status = msender.getLvlStatus(skill);
-			msgs.add(Txt.parse(status.toString()));
+			msgs.add(status.toString());
 			level = status.getLvl();
 		}
 		else
@@ -78,11 +77,5 @@ public class CmdDeriusSkill extends DeriusCommand
 		// Send Message
 		msg(msgs);
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusSkill;
-    }
 	
 }

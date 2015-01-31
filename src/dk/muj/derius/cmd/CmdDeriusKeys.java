@@ -3,7 +3,6 @@ package dk.muj.derius.cmd;
 import java.util.List;
 
 import com.massivecraft.massivecore.cmd.HelpCommand;
-import com.massivecraft.massivecore.cmd.VisibilityMode;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
@@ -15,10 +14,10 @@ public class CmdDeriusKeys extends DeriusCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public CmdDeriusKeysAdd innerCmdDeriusKeysAdd = new CmdDeriusKeysAdd();
-	public CmdDeriusKeysList innerCmdDeriusKeysList = new CmdDeriusKeysList();
-	public CmdDeriusKeysRemove innerCmdDeriusKeysRemove = new CmdDeriusKeysRemove();
-	public CmdDeriusKeysAbilityid innerCmdDeriusKeysAbilityid = new CmdDeriusKeysAbilityid();
+	public CmdDeriusKeysAdd innerCmdDeriusKeysAdd = new CmdDeriusKeysAdd() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeysAdd; } };
+	public CmdDeriusKeysList innerCmdDeriusKeysList = new CmdDeriusKeysList() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeysList; } };
+	public CmdDeriusKeysRemove innerCmdDeriusKeysRemove = new CmdDeriusKeysRemove() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeysRemove; } };
+	public CmdDeriusKeysAbilityid innerCmdDeriusKeysAbilityid = new CmdDeriusKeysAbilityid() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeyAbilityId; } };
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -26,20 +25,13 @@ public class CmdDeriusKeys extends DeriusCommand
 	
 	public CmdDeriusKeys()
 	{
-		super.addSubCommand(HelpCommand.get());
-		super.addSubCommand(this.innerCmdDeriusKeysAdd);
-		super.addSubCommand(this.innerCmdDeriusKeysList);
-		super.addSubCommand(this.innerCmdDeriusKeysRemove);
-		super.addSubCommand(this.innerCmdDeriusKeysAbilityid);
+		this.addSubCommand(HelpCommand.get());
+		this.addSubCommand(this.innerCmdDeriusKeysAdd);
+		this.addSubCommand(this.innerCmdDeriusKeysList);
+		this.addSubCommand(this.innerCmdDeriusKeysRemove);
+		this.addSubCommand(this.innerCmdDeriusKeysAbilityid);
 		
-		super.setVisibilityMode(VisibilityMode.VISIBLE);
-		super.addRequirements(ReqHasPerm.get(Perm.KEYS.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS.node));
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusKeys;
-    }
 	
 }

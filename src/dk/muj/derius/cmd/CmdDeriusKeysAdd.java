@@ -1,14 +1,11 @@
 package dk.muj.derius.cmd;
 
-import java.util.List;
-
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 
 public class CmdDeriusKeysAdd extends DeriusCommand
@@ -19,10 +16,10 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 	
 	public CmdDeriusKeysAdd()
 	{
-		super.addRequiredArg("keys");
-		super.addRequiredArg("ability Id");
+		this.addRequiredArg("key");
+		this.addRequiredArg("ability Id");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.KEYS_ADD.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ADD.node));
 	}
 	
 	// -------------------------------------------- //
@@ -34,6 +31,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 	{
 		// Args
 		String key = this.arg(0).toLowerCase();
+		if (key == null) return;
 		String id = this.arg(1);
 		if (id == null)	return;
 		
@@ -54,11 +52,5 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		msender.addChatKey(key, ability);
 		sendMessage(Txt.parse(MLang.get().keyAddSuccess, key, ability.toString()));
 	}
-
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusKeysAdd;
-    }
 	
 }

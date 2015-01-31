@@ -10,38 +10,30 @@ import dk.muj.derius.Derius;
 import dk.muj.derius.Perm;
 import dk.muj.derius.entity.MConf;
 
-// This is the Basecommand for Derius
 public class CmdDerius extends DeriusCommand
 {
-	//Initialize all the sub-commands that belong to it.
 	public VersionCommand innerCmdDeriusVersion = new VersionCommand(Derius.get(), Perm.VERSION.node, "v", "version");
-	public CmdDeriusSkill innerCmdDeriusSkill = new CmdDeriusSkill();
-	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList();
-	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise();
-	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect();	
-	public CmdDeriusDebug innerCmdDeriusDebug = new CmdDeriusDebug();
-	public CmdDeriusKeys innerCmdDeriusKeys = new  CmdDeriusKeys();
-	public CmdDeriusClean innerCmdDeriusClean = new  CmdDeriusClean();
+	public CmdDeriusSkill innerCmdDeriusSkill = new CmdDeriusSkill() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSkill; } };
+	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusList; } };
+	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpecialise; } };
+	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusInspect; } };
+	public CmdDeriusDebug innerCmdDeriusDebug = new CmdDeriusDebug() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusDebug; } };
+	public CmdDeriusKeys innerCmdDeriusKeys = new  CmdDeriusKeys() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeys; } };
+	public CmdDeriusClean innerCmdDeriusClean = new  CmdDeriusClean() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusClean; } };
 	
-	// Constructor
 	public CmdDerius()
 	{
-		super.addSubCommand(HelpCommand.get());
-		super.addSubCommand(this.innerCmdDeriusSkill);
-		super.addSubCommand(this.innerCmdDeriusList);
-		super.addSubCommand(this.innerCmdDeriusInspect);
-		super.addSubCommand(this.innerCmdDeriusSpecialise);
-		super.addSubCommand(this.innerCmdDeriusKeys);
-		super.addSubCommand(this.innerCmdDeriusClean);
-		super.addSubCommand(this.innerCmdDeriusDebug);
-		super.addSubCommand(this.innerCmdDeriusVersion);
+		this.addSubCommand(HelpCommand.get());
+		this.addSubCommand(this.innerCmdDeriusSkill);
+		this.addSubCommand(this.innerCmdDeriusList);
+		this.addSubCommand(this.innerCmdDeriusInspect);
+		this.addSubCommand(this.innerCmdDeriusSpecialise);
+		this.addSubCommand(this.innerCmdDeriusKeys);
+		this.addSubCommand(this.innerCmdDeriusClean);
+		this.addSubCommand(this.innerCmdDeriusDebug);
+		this.addSubCommand(this.innerCmdDeriusVersion);
 		
-		super.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
+		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
 	}
 	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().outerAliasesDerius;
-    }
 }

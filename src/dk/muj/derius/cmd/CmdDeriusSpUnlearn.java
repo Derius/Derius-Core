@@ -1,7 +1,6 @@
 package dk.muj.derius.cmd;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.PlayerUtil;
@@ -23,9 +22,9 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		
 	public CmdDeriusSpUnlearn()
 	{
-		super.addRequiredArg("skill");
+		this.addRequiredArg("skill");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_UNLEARN.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_UNLEARN.node));
 	}
 		
 	// -------------------------------------------- //
@@ -36,7 +35,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 	public void perform()
 	{
 		// Args
-		Skill skill = super.arg(0, ARSkill.get());
+		Skill skill = this.arg(0, ARSkill.get());
 		if (skill == null) return;
 		
 		long moveMillis = PlayerUtil.getLastMoveMillis(msender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
@@ -63,11 +62,5 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		
 		msg(MLang.get().specialisationRemoved, skill.getDisplayName(msender));
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusSpUnlearn;
-    }
 	
 }

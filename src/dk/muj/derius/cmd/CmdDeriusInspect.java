@@ -11,7 +11,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
@@ -25,10 +24,10 @@ public class CmdDeriusInspect extends DeriusCommand
 	
 	public CmdDeriusInspect()
 	{
-		super.addOptionalArg("player", "you");
-		super.addOptionalArg("page", "1");
+		this.addOptionalArg("player", "you");
+		this.addOptionalArg("page", "1");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.INSPECT.node));
+		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.node));
 	}
 	
 	// -------------------------------------------- //
@@ -46,7 +45,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		
 		if (mplayer != msender && Perm.INSPECT_OTHERS.has(msender.getSender(),true)) return;
 		
-		String title = (mplayer == msender) ? Txt.titleize("<green>Your Skills") : Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender)));
+		String title = (mplayer == msender) ? Txt.titleize(Txt.parse("<green>Your Skills")) : Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender)));
 
 		// Create Pager
 		final Collection<? extends Skill> skills = SkillColl.getAllSkills();
@@ -65,11 +64,5 @@ public class CmdDeriusInspect extends DeriusCommand
 		// Send Message
 		sendMessage(messages);
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusInspect;
-    }
 	
 }

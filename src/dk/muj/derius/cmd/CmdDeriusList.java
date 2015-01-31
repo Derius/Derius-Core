@@ -11,7 +11,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
@@ -24,10 +23,10 @@ public class CmdDeriusList extends DeriusCommand
 	
 	public CmdDeriusList()
 	{
-		super.addOptionalArg("player", "you");
-		super.addOptionalArg("page", "1");
+		this.addOptionalArg("player", "you");
+		this.addOptionalArg("page", "1");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.LIST.node));
+		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
 	}
 	
 	// -------------------------------------------- //
@@ -59,11 +58,5 @@ public class CmdDeriusList extends DeriusCommand
 		// Send Message
 		sendMessage(messages);
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusList;
-    }
 	
 }

@@ -14,10 +14,10 @@ public class CmdDeriusSpecialise extends DeriusCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public CmdDeriusSpLearn innerCmdDeriusSpLearn = new CmdDeriusSpLearn();
-	public CmdDeriusSpUnlearn innerCmdDeriusSpUnlearn = new CmdDeriusSpUnlearn();
-	public CmdDeriusSpInfo innerCmdDeriusSpInfo = new CmdDeriusSpInfo();
-	public CmdDeriusSpList innerCmdDeriusSpList = new CmdDeriusSpList();
+	public CmdDeriusSpLearn innerCmdDeriusSpLearn = new CmdDeriusSpLearn() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpLearn; } };
+	public CmdDeriusSpUnlearn innerCmdDeriusSpUnlearn = new CmdDeriusSpUnlearn() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpUnlearn; } };
+	public CmdDeriusSpInfo innerCmdDeriusSpInfo = new CmdDeriusSpInfo() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpInfo; } };
+	public CmdDeriusSpList innerCmdDeriusSpList = new CmdDeriusSpList() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpList; } };
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -33,11 +33,5 @@ public class CmdDeriusSpecialise extends DeriusCommand
 		
 		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION.node));
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusSpecialise;
-    }
 	
 }

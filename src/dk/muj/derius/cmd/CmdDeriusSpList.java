@@ -8,7 +8,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.Skill;
 
@@ -20,9 +19,9 @@ public class CmdDeriusSpList  extends DeriusCommand
 		
 	public CmdDeriusSpList()
 	{
-		super.addOptionalArg("player", "you");
+		this.addOptionalArg("player", "you");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LIST.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LIST.node));
 	}
 		
 	// -------------------------------------------- //
@@ -35,26 +34,20 @@ public class CmdDeriusSpList  extends DeriusCommand
 		List<String> messages = new ArrayList<String>();
 		
 		// Args
-		MPlayer target = super.arg(0, ARMPlayer.getAny(), msender);
-		if (target == null) return;
+		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
+		if (mplayer == null) return;
 		
-		if (args.size() == 1 && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
+		if (mplayer != msender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 
-		msg(Txt.titleize(target.getDisplayName(msender)+ "'s specilisations"));
+		messages.add(Txt.titleize(Txt.parse("%s's <i>specilisations", mplayer.getDisplayName(msender))));
 		
-		for (Skill s : target.getSpecialisedSkills())
+		for (Skill skill : mplayer.getSpecialisedSkills())
 		{
-			messages.add(Txt.parse(s.getDisplayName(msender)+": "+target.getLvlStatus(s).toString()));
+			messages.add(Txt.parse("%s: %s", skill.getDisplayName(msender), mplayer.getLvlStatus(skill).toString()));
 		}
 		
 		// Send Message
 		sendMessage(messages);
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusSpList;
-    }
 
 }

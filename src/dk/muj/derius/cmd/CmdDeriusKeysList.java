@@ -10,7 +10,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusKeysList extends DeriusCommand
@@ -21,10 +20,10 @@ public class CmdDeriusKeysList extends DeriusCommand
 	
 	public CmdDeriusKeysList()
 	{
-		super.addOptionalArg("player", "yourself");
-		super.addOptionalArg("page", "1");
+		this.addOptionalArg("player", "yourself");
+		this.addOptionalArg("page", "1");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.node));
 	}
 	
 	// -------------------------------------------- //
@@ -36,12 +35,12 @@ public class CmdDeriusKeysList extends DeriusCommand
 	{
 		// Args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);	
-		if(mplayer == null) return;
+		if (mplayer == null) return;
 		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
 		if (pageHumanBased == null) return;
 		
 		// Create Pager
-		String title = mplayer == msender ? Txt.parse("<i>Your list of Keys") : Txt.parse("%s's <i>list of Keys", mplayer.getDisplayName(msender));
+		String title = (mplayer == msender) ? Txt.parse("<i>Your list of Keys") : Txt.parse("%s's <i>list of Keys", mplayer.getDisplayName(msender));
 		final List<String> keysToAbility = mplayer.chatKeysToString();
 		final PagerSimple<String> pager = new PagerSimple<String>(keysToAbility, sender);
 		
@@ -57,12 +56,5 @@ public class CmdDeriusKeysList extends DeriusCommand
 		// Send Message
 		sendMessage(messages);
 	}
-	
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusKeysList;
-    }
 	
 }

@@ -8,7 +8,6 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.Skill;
@@ -18,11 +17,11 @@ public class CmdDeriusClean extends DeriusCommand
 {
 	public CmdDeriusClean()
 	{
-		super.addRequiredArg("id/all");
-		super.addOptionalArg("player/all", "you");
-		super.addOptionalArg("force it", "no");
+		this.addRequiredArg("id/all");
+		this.addOptionalArg("player/all", "you");
+		this.addOptionalArg("force it", "no");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.CLEAN.node));
+		this.addRequirements(ReqHasPerm.get(Perm.CLEAN.node));
 	}
 	
 	// -------------------------------------------- //
@@ -33,67 +32,38 @@ public class CmdDeriusClean extends DeriusCommand
 	public void perform()
 	{
 		List<Skill> skillList = new ArrayList<Skill>();
-		List<MPlayer> playerList = new ArrayList<MPlayer>();
+		List<MPlayer> mplayerList = new ArrayList<MPlayer>();
 		
 		// Arg 0: ID or all
-		if (this.arg(0).equalsIgnoreCase("all"))
+		if (this.arg(0).equalsIgnoreCase("all") && Perm.CLEAN_SKILL_ALL.has(sender, true))
 		{
-			if (Perm.CLEAN_SKILL_ALL.has(sender, true))
-			{
-				skillList.addAll(SkillColl.getAllSkills());
-			}
-			else
-			{
-				return;
-			}
+			skillList.addAll(SkillColl.getAllSkills());
 		}
-		else
+		else if (this.argIsSet(0))
 		{
 			skillList.add(SkillColl.get().get(this.arg(0)));
 		}
-
-		// Arg 1: player, yourself or all
-		if (this.arg(1).equalsIgnoreCase("all"))
+		else
 		{
-			if (Perm.CLEAN_PLAYER_ALL.has(sender, true) )
-			{
-				playerList.addAll(MPlayerColl.get().getAll());
-			}
-			else
-			{
-				return;
-			}
+			return;
+		}
+		// Arg 1: player, yourself or all
+		if (this.arg(1).equalsIgnoreCase("all") && Perm.CLEAN_PLAYER_ALL.has(sender, true))
+		{
+			mplayerList.addAll(MPlayerColl.get().getAll());
+		}
+		else if (this.argIsSet(1) && Perm.CLEAN_PLAYER.has(sender, true))
+		{
+			MPlayer mplayer = this.arg(1, ARMPlayer.getAny(), msender);
+			if (mplayer == null) return;
+			
+			if (mplayer != msender && Perm.CLEAN_PLAYER_OTHER.has(sender, true)) return;
+
+			mplayerList.add(mplayer);
 		}
 		else
 		{
-			MPlayer target = this.arg(1, ARMPlayer.getAny(), msender);
-			if (target == null) return;
-			
-			// Target permission check
-			if (target == msender)
-			{
-				// Clean self
-				if (Perm.CLEAN_PLAYER.has(sender, true))
-				{
-					playerList.add(target);
-				}
-				else
-				{
-					return;
-				}				
-			}
-			else
-			{
-				// Clean somebody else
-				if (Perm.CLEAN_PLAYER_OTHER.has(sender, true))
-				{
-					playerList.add(target);
-				}
-				else
-				{
-					return;
-				}	
-			}
+			return;
 		}
 		
 		// Arg 2: force or not
@@ -105,16 +75,11 @@ public class CmdDeriusClean extends DeriusCommand
 		// Execute the cleaning
 		for (Skill skill : skillList)
 		{
-			for (MPlayer target : playerList)
+			for (MPlayer mplayer : mplayerList)
 			{
-				target.cleanNoCheck(skill.getId());
+				mplayer.cleanNoCheck(skill.getId());
 			}
 		}
 	}
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusClean;
-    }
+
 }

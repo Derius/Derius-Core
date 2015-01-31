@@ -1,7 +1,5 @@
 package dk.muj.derius.cmd;
 
-import java.util.List;
-
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -26,7 +24,7 @@ public class CmdDeriusSpInfo extends DeriusCommand
 		
 	public CmdDeriusSpInfo()
 	{
-		super.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_INFO.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_INFO.node));
 	}
 	
 	@Override
@@ -34,15 +32,5 @@ public class CmdDeriusSpInfo extends DeriusCommand
 	{
 		msg("<i>"+specialisationInfo);
 	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE
-	// -------------------------------------------- //
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusSpInfo;
-    }
-	
+
 }

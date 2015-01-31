@@ -1,5 +1,7 @@
 package dk.muj.derius;
 
+import java.util.List;
+
 import com.massivecraft.massivecore.MassivePlugin;
 
 import dk.muj.derius.cmd.CmdDerius;
@@ -9,6 +11,7 @@ import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.MChunkColl;
+import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
@@ -60,7 +63,7 @@ public class Derius extends MassivePlugin
 		Perm.activate();
 		
 		// Command registration
-		this.outerCmdDerius = new CmdDerius();
+		this.outerCmdDerius = new CmdDerius() { @Override public List<String> getAliases() { return MConf.get().outerAliasesDerius; } };
 		this.outerCmdDerius.register(this);
 		
 		this.postEnable();
@@ -69,7 +72,7 @@ public class Derius extends MassivePlugin
 	@Override
 	public void onDisable()
 	{
-		super.onDisable();
+		this.onDisable();
 	}
 	
 }

@@ -19,9 +19,9 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	
 	public CmdDeriusDebugPlayer()
 	{
-		super.addRequiredArg("player");
+		this.addRequiredArg("player");
 		
-		super.addAliases("player");
+		this.addAliases("player");
 	}
 	
 	// -------------------------------------------- //
@@ -32,24 +32,24 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	@Override
 	public void perform() 
 	{
-		MPlayer target = super.arg(0, ARMPlayer.getAny());
-		if(null == target)	return;
+		MPlayer mplayer = this.arg(0, ARMPlayer.getAny());
+		if (mplayer == null) return;
 		
 		List<String> messages = new ArrayList<String>();
 		
-		Set<String> specialised = target.getRawSpecialisedData();
+		Set<String> specialised = mplayer.getRawSpecialisedData();
 		
-		Map<String,Long> exp = target.getRawExpData();
+		Map<String,Long> exp = mplayer.getRawExpData();
 
-		messages.add(Txt.titleize("Debug info about "+target.getDisplayName(msender)));
-		messages.add(Txt.parse("<i>Current millis: <lime>" + System.currentTimeMillis()));
-		messages.add(Txt.parse("<i>Prepared tool: <lime>" + target.getPreparedTool()));
-		messages.add(Txt.parse("<red>Specialised:<art> "+Txt.implodeCommaAnd( specialised, ",", "&")));
+		messages.add(Txt.titleize(Txt.parse("Debug info about %s", mplayer.getDisplayName(msender))));
+		messages.add(Txt.parse("<i>Current millis: <lime>%s", System.currentTimeMillis()));
+		messages.add(Txt.parse("<i>Prepared tool: <lime>%s", mplayer.getPreparedTool()));
+		messages.add(Txt.parse("<red>Specialised: <art>%S", Txt.implodeCommaAnd( specialised, ",", "&")));
 		messages.add(Txt.parse("<red>Exp:"));
 		
-		for (String i : exp.keySet())
+		for (String skill : exp.keySet())
 		{
-			messages.add(Txt.parse("<i>" + i + "  <lime>" + exp.get(i)));
+			messages.add(Txt.parse("<i>, <lime>%s", skill, exp.get(skill)));
 		}
 		
 		sendMessage(messages);

@@ -11,14 +11,14 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 
 	public CmdDeriusDebugTitle()
 	{
-		super.addAliases("title");
+		this.addAliases("title");
 		
-		super.addRequiredArg("fadeIn");
-		super.addRequiredArg("stay");
-		super.addRequiredArg("fadeOut");
+		this.addRequiredArg("fadeIn");
+		this.addRequiredArg("stay");
+		this.addRequiredArg("fadeOut");
 		
-		super.addRequiredArg("title");
-		super.addRequiredArg("subTitle");
+		this.addRequiredArg("title");
+		this.addRequiredArg("subTitle");
 	}
 	
 	// -------------------------------------------- //
@@ -28,19 +28,19 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		Integer in = super.arg(0, ARInteger.get());
-		if (in == null) return;
-		Integer stay = super.arg(1, ARInteger.get());
+		Integer fadeIn = this.arg(0, ARInteger.get());
+		if (fadeIn == null) return;
+		Integer stay = this.arg(1, ARInteger.get());
 		if (stay == null) return;
-		Integer out = super.arg(2, ARInteger.get());
-		if (out == null) return;
+		Integer fadeOut = this.arg(2, ARInteger.get());
+		if (fadeOut == null) return;
 		
 		String title = this.arg(3);
 		if (title.equalsIgnoreCase("null")) title = null;
 		String subtitle = this.arg(4);
 		if (subtitle.equalsIgnoreCase("null")) subtitle = null;
 		
-		Mixin.sendTitleMsg(sender, in, stay, out, title, subtitle);
+		Mixin.sendTitleMsg(sender, fadeIn, stay, fadeOut, title, subtitle);
 	}
 	
 }

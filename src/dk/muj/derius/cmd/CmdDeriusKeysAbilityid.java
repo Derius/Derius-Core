@@ -7,10 +7,9 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.Ability;
 import dk.muj.derius.cmd.arg.ARSkill;
+import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.Skill;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand
@@ -21,9 +20,9 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	
 	public CmdDeriusKeysAbilityid()
 	{
-		super.addOptionalArg("skill", "all skills");
+		this.addOptionalArg("skill", "all");
 		
-		super.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.node));
 	}
 	
 	// -------------------------------------------- //
@@ -34,32 +33,27 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	public void perform()
 	{
 		List<String> messages = new ArrayList<String>();
+		List<Ability> abilities = new ArrayList<Ability>();
 		
 		//Args
 		Skill skill = this.arg(0, ARSkill.get(), null);
 		
-		// Which abilities should be shown
 		if (skill == null)
 		{
-			for (Ability ability : AbilityColl.getAllAbilities())
-			{
-				messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
-			}
+			abilities.addAll(AbilityColl.getAllAbilities());
 		}
 		else
 		{
-			for (Ability ability : skill.getAllAbilities())
-				messages.add(Txt.parse("<red>")+ability.getId() +" "+ ability.getName());
+			abilities.addAll(skill.getAllAbilities());
+		}
+		
+		// Apply
+		for (Ability ability : AbilityColl.getAllAbilities())
+		{
+			messages.add(Txt.parse("<red>%s %s", ability.getId(), ability.getName()));
 		}
 		
 		sendMessage(messages);
 	}
-	
-	
-	@Override
-    public List<String> getAliases()
-    {
-    	return MConf.get().innerAliasesDeriusKeyAbilityId;
-    }
 	
 }
