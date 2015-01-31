@@ -20,6 +20,8 @@ import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.mixin.SpSlotMixin;
+import dk.muj.derius.mixin.SpSlotMixinDefault;
 
 
 public class Derius extends MassivePlugin
@@ -40,6 +42,11 @@ public class Derius extends MassivePlugin
 	// "outer" means it is accessed directly as a command. ex. "/example"
 	private CmdDerius outerCmdDerius;
 	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
+	
+	// Mixins
+	private SpSlotMixin spSlotMixin = SpSlotMixinDefault.get();
+	public SpSlotMixin getSpSlotMixin () { return this.spSlotMixin; }
+	public void setSpSlotMixin(SpSlotMixin mixin) { this.spSlotMixin = mixin; }
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(

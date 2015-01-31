@@ -361,7 +361,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getSpecialisationSlots()
 	{
-		return 5;
+		return Derius.get().getSpSlotMixin().getMaxSlots(this.getSender());
 	}
 	
 	/**
