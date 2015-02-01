@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import com.massivecraft.massivecore.store.SenderEntity;
+import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
@@ -107,7 +108,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
 		event.run();
 		if (event.isCancelled()) return;
-		exp = event.getExpAmount();
+		exp = MUtil.probabilityRound(event.getExpAmount());
 		this.setExp(skill, this.getExp(skill) + exp);
 		
 		int lvlAfter = this.getLvl(skill);
@@ -134,7 +135,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this,skill,exp);
 		event.run();
 		if (event.isCancelled()) return;
-		exp = event.getExpAmount();
+		exp = MUtil.probabilityRound(event.getExpAmount());
 		this.setExp(skill, this.getExp(skill) - exp);
 		
 		int lvlAfter = this.getLvl(skill);

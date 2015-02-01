@@ -45,7 +45,7 @@ public class SkillUtil
 	{
  		for (Req req : skill.getSeeRequirements())
  		{
-			if ( ! req.apply(mplayer.getSender()))
+			if ( ! req.apply(mplayer.getSender(), skill))
 			{
 				if (verbooseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), skill));
 				return false;
@@ -66,7 +66,7 @@ public class SkillUtil
 	{
  		for (Req req : skill.getLearnRequirements())
  		{
-			if ( ! req.apply(mplayer.getSender()))
+			if ( ! req.apply(mplayer.getSender(), skill))
 			{
 				if (verbooseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), skill));
 				return false;
@@ -87,7 +87,7 @@ public class SkillUtil
 	{
  		for (Req req : skill.getSpecialiseRequirements())
  		{
-			if ( ! req.apply(mplayer.getSender()))
+			if ( ! req.apply(mplayer.getSender(), skill))
 			{
 				if (verbooseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), skill));
 				return false;

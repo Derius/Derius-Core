@@ -39,14 +39,34 @@ public class Ability extends Entity<Ability>
 	
 	private transient AbilityType type;
 	
-	protected transient List<Req> seeRequirements			= new CopyOnWriteArrayList<Req>();
-	protected transient List<Req> activateRequirements	= new CopyOnWriteArrayList<Req>();
+	protected transient List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
+	protected transient List<Req> activateRequirements = new CopyOnWriteArrayList<Req>();
 	
 	// Lambda
 	private transient TicksLastCalculator levelToTicks = (int level) ->
 	{
 		return (2 + level/50) * 20;
 	};
+	
+	// -------------------------------------------- //
+	// OVERRIDE: ENTITY
+	// -------------------------------------------- //
+	
+	@Override
+	public Ability load(Ability that)
+	{
+		if (that == null || that == this) return that;
+		
+		this.enabled = that.enabled;
+		this.name = that.name;
+		this.desc = that.desc;
+		this.ticksCooldown = that.ticksCooldown;
+		this.worldsUse = that.worldsUse;
+		
+		this.setCustomData(that.getCustomData());
+		
+		return this;
+	}
 	
 	// -------------------------------------------- //
 	// REGISTER

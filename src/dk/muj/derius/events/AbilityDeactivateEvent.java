@@ -72,7 +72,6 @@ public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEv
 		
 		result += this.getMPlayer().hashCode()*prime;
 		result += this.getAbility().hashCode()*prime;
-		result += this.isCancelled() ? 1 : 2;
 		
 		return result;
 	}

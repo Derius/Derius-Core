@@ -11,7 +11,9 @@ import org.bukkit.Bukkit;
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
+import com.massivecraft.massivecore.xlib.gson.JsonObject;
 
+import dk.muj.derius.Derius;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.lambda.LvlStatus;
 import dk.muj.derius.lambda.LvlStatusCalculator;
@@ -47,6 +49,9 @@ public class Skill extends Entity<Skill>
 	
 	private WorldExceptionSet worldsEarn = new WorldExceptionSet();
 	
+	// Configuration
+	private JsonObject configuration = new JsonObject();
+	
 	private transient List<Ability> passiveAbilities = new CopyOnWriteArrayList<Ability>();
 	private transient List<Ability> activeAbilities = new CopyOnWriteArrayList<Ability>();
 	
@@ -57,7 +62,6 @@ public class Skill extends Entity<Skill>
 	// Lambda, This is the default algorithm
 	private transient LvlStatusCalculator expToLvlStatus = (long exp) -> 	
 	{	
-		//
 		int level = 0, nextLvlExp;
 		for(nextLvlExp = 1024; nextLvlExp < exp; level++)
 		{
@@ -67,6 +71,26 @@ public class Skill extends Entity<Skill>
 		
 		return new LvlStatusDefault(level, Optional.of( (int) exp), Optional.of(nextLvlExp));
 	};
+	
+	// -------------------------------------------- //
+	// OVERRIDE: ENTITY
+	// -------------------------------------------- //
+	
+	@Override
+	public Skill load(Skill that)
+	{
+		if (that == null || that == this) return that;
+		
+		this.enabled = that.enabled;
+		this.name = that.name;
+		this.desc = that.desc;
+		this.earnExpDescs = that.earnExpDescs;
+		this.spAutoAssigned = that.spAutoAssigned;
+		this.spBlacklisted = that.spBlacklisted;
+		this.worldsEarn = that.worldsEarn;
+		
+		return this;
+	}
 	
 	// -------------------------------------------- //
 	// REGISTER
@@ -95,7 +119,28 @@ public class Skill extends Entity<Skill>
 		
 		return;
 	}
+	
+	// -------------------------------------------- //
+	// CONFIGURATION
+	// -------------------------------------------- //
 
+	/**
+	 * Reads a value from the skills custom configuration
+	 * @param {String} name of the value
+	 * @param {Class<T>} type of value
+	 * @return {T} the value
+	 */
+	public <T> T readConfig(String field, Class<T> fieldType)
+	{
+		return Derius.get().gson.fromJson(this.configuration.get(field), fieldType);
+	}
+	
+	public void writeConfig(String field, Object value)
+	{
+		this.configuration.add(field, Derius.get().gson.toJsonTree(value));
+	}
+	
+	
 	// -------------------------------------------- //
 	// DESCRIPTION
 	// -------------------------------------------- //

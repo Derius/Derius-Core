@@ -35,10 +35,12 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	@Override
 	public Skill select(String arg, CommandSender sender)
 	{
+		if (arg == null) return null;
 		MPlayer mplayer = MPlayer.get(sender);
 		arg = arg.toLowerCase();
 		for (Skill skill : SkillColl.getAllSkills())
 		{
+			if (skill == null || skill.getName() == null) continue;
 			if (skill.getName().toLowerCase().startsWith(arg))
 			{
 				if ( ! SkillUtil.canPlayerSeeSkill(mplayer, skill, false)) continue;

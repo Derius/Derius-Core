@@ -30,9 +30,9 @@ public class PlayerAddExpEvent extends DeriusEvent implements CancellableEvent, 
 	public MPlayer getMPlayer() { return mplayer; }
 	public Player getPlayer() { return mplayer.getPlayer(); }
 	
-	private long amount;
-	public long getExpAmount() { return amount; }
-	public void setExpAmount(long expamount) { this.amount = expamount; }
+	private double amount;
+	public double getExpAmount() { return amount; }
+	public void setExpAmount(double expamount) { this.amount = expamount; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

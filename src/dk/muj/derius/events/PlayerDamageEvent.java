@@ -2,11 +2,12 @@ package dk.muj.derius.events;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamageEvent extends Event implements CancellableEvent, RunnableEvent
+public class PlayerDamageEvent extends Event implements Cancellable, RunnableEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -36,6 +37,17 @@ public class PlayerDamageEvent extends Event implements CancellableEvent, Runnab
 		Entity entity = this.inner.getEntity();
 		if ( ! (entity instanceof Player)) throw new IllegalArgumentException("The damagee must be a player");
 		this.player = (Player) entity;
+	}
+	
+	@Override
+	public boolean isCancelled()
+	{
+		return inner.isCancelled();
+	}
+	@Override
+	public void setCancelled(boolean cancelled)
+	{
+		inner.setCancelled(cancelled);
 	}
 
 }
