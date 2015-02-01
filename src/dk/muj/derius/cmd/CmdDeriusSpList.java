@@ -39,7 +39,7 @@ public class CmdDeriusSpList  extends DeriusCommand
 		
 		if (mplayer != msender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 
-		messages.add(Txt.titleize(Txt.parse("%s's <i>specilisations", mplayer.getDisplayName(msender))));
+		messages.add(Txt.titleize(Txt.parse("%s's <i>Specialisations", mplayer.getDisplayName(msender))));
 		
 		for (Skill skill : mplayer.getSpecialisedSkills())
 		{

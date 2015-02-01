@@ -40,6 +40,11 @@ public class LvlStatusDefault implements LvlStatus
 	// CONSTRUCTOR
 	// -------------------------------------------- //
 	
+	public LvlStatusDefault(int level)
+	{
+		this(level, Optional.empty(), Optional.empty());
+	}
+	
 	public LvlStatusDefault(int level, Optional<Integer>  currentExperience, Optional<Integer>  expToNextLvl)
 	{
 		this.level = level;
@@ -70,7 +75,7 @@ public class LvlStatusDefault implements LvlStatus
 		if ( ! (obj instanceof LvlStatus)) return false;
 		
 		LvlStatus that = (LvlStatus) obj;
-		if(that.getLvl() == this.getLvl() && that.getExp() == this.getExp() && that.getExpToNextLvl() == this.getExpToNextLvl()) return true;
+		if (that.getLvl() == this.getLvl() && that.getExp() == this.getExp() && that.getExpToNextLvl() == this.getExpToNextLvl()) return true;
 		return false;
 	}
 

@@ -3,11 +3,11 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.cmd.arg.ARLvlStatus;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.MLang;
@@ -39,8 +39,8 @@ public class CmdDeriusSkill extends DeriusCommand
 		// Args
 		Skill skill = this.arg (0, ARSkill.get());
 		if (skill == null) return;
-		Integer level = this.arg(1, ARInteger.get(), -1);
-		if (level == null) return;
+		LvlStatus status = this.arg(1, ARLvlStatus.get(), msender.getLvlStatus(skill));
+		if (status == null) return;
 		
 		// Message construction
 		List<String> msgs = new ArrayList<String>();
@@ -49,16 +49,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		msgs.add("<lime>" + skill.getDescription());			// Description
 		
 		// Swapping between default and user inserted value
-		if (level <= -1)
-		{
-			LvlStatus status = msender.getLvlStatus(skill);
-			msgs.add(status.toString());
-			level = status.getLvl();
-		}
-		else
-		{
-			msgs.add(Txt.parse(MLang.get().levelStatusFormatMini, level));
-		}
+		msgs.add(status.toString());
 
 		// All Abilities
 		msgs.add(MLang.get().skillInfoAbilities);
@@ -71,7 +62,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		for (Ability ability : skill.getAllAbilities())
 		{
 			if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
-			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(msender), ability.getLvlDescriptionMsg(level)));
+			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(msender), ability.getLvlDescriptionMsg(status.getLvl())));
 		}
 		
 		// Send Message

@@ -16,6 +16,7 @@ import dk.muj.derius.req.sp.ReqHasOpenSlot;
 import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
 import dk.muj.derius.req.sp.ReqIsntBlacklisted;
 import dk.muj.derius.req.sp.ReqIsntSpecialised;
+import dk.muj.derius.req.sp.ReqSpCooldownIsExpired;
 
 public class SkillEngine extends EngineAbstract
 {
@@ -55,10 +56,12 @@ public class SkillEngine extends EngineAbstract
 		skill.addSeeRequirements(ReqIsEnabled.get());
 		skill.addSpecialiseRequirements(ReqIsEnabled.get());
 		
+		
 		skill.addSpecialiseRequirements(ReqIsntAutoAssigned.get());
 		skill.addSpecialiseRequirements(ReqIsntBlacklisted.get());
 		skill.addSpecialiseRequirements(ReqIsntSpecialised.get());
 		skill.addSpecialiseRequirements(ReqHasOpenSlot.get());
+		skill.addSpecialiseRequirements(ReqSpCooldownIsExpired.get());
 		
 		return;
 	}

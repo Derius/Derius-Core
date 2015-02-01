@@ -14,9 +14,9 @@ public class ActionBar_v1_8_R1 implements ActionBarMessage
 	public boolean send(Player player, String msg)
 	{
 		// Null checks, just in case
-		if(msg == null || player == null) return false;
+		if (msg == null || player == null) return false;
 		// If not a craftplayer, then idk. (Should never happen)
-		if( ! (player instanceof CraftPlayer)) return false;
+		if ( ! (player instanceof CraftPlayer)) return false;
 		
 		// Prepare the message
 		msg = Txt.parse(msg);

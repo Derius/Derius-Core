@@ -10,8 +10,6 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
 
@@ -23,7 +21,6 @@ public class CmdDeriusList extends DeriusCommand
 	
 	public CmdDeriusList()
 	{
-		this.addOptionalArg("player", "you");
 		this.addOptionalArg("page", "1");
 		
 		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
@@ -37,9 +34,7 @@ public class CmdDeriusList extends DeriusCommand
 	public void perform()
 	{
 		// Args
-		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
-		if (mplayer == null) return;
-		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
+		Integer pageHumanBased = this.arg(0, ARInteger.get(), 1);
 		if (pageHumanBased == null) return;
 		
 		// Create Pager

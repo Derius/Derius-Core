@@ -38,7 +38,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		if (keys.contains("all"))
 		{
 			msender.clearChatKeys();
-			sendMessage(Txt.parse(MLang.get().keysClearSuccess));
+			msg(MLang.get().keysClearSuccess);
 			return;
 		}
 		
@@ -47,7 +47,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 			// Isn't chat key
 			if ( ! msender.isAlreadyChatKey(key))
 			{
-				sendMessage(Txt.parse(MLang.get().keyHanst, key));
+				msg(MLang.get().keyHanst, key);
 				return;
 			}
 			

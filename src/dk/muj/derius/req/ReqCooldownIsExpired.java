@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.MassiveCommand;
-import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
@@ -32,17 +31,17 @@ public class ReqCooldownIsExpired implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		MPlayer mplayer = MPlayer.get(IdUtil.getId(sender.getName()));
+		MPlayer mplayer = MPlayer.get(sender);
 		if (mplayer == null) return false;
-		if (mplayer.isCooldownExpired()) return true;
-		return false;
+		return mplayer.isCooldownExpired();
 	}
 	
 
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		MPlayer mplayer = MPlayer.get(IdUtil.getId(sender.getName()));
+		MPlayer mplayer = MPlayer.get(sender);
+		if (mplayer == null) return null;
 		long expireMillis = mplayer.getCooldownExpireIn();
 		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.unitcounts(expireMillis, TimeUnit.getAll());
 		String expireDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");

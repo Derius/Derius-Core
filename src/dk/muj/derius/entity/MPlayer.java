@@ -129,7 +129,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
 		int lvlBefore = this.getLvl(skill);
 		
-		if (lvlBefore >= this.getMaxLevel(skill)) return;
+		if (lvlBefore <= 0) return;
 		
 		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this,skill,exp);
 		event.run();
@@ -381,7 +381,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		}
 		else 
 		{
-			if(this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
+			if (this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
 			{
 				ChatUtil.msgToolNotPrepared(this, this.getPreparedTool().get());
 			}

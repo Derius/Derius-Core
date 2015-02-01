@@ -25,8 +25,6 @@ public class Ability extends Entity<Ability>
 	public boolean isEnabled() { return enabled && this.getSkill().isEnabled(); }
 	public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	
-	private transient AbilityType type;
-	
 	private String name;
 	public String getName() { return name; }
 	public void setName(String newName) { this.name = newName; }
@@ -38,6 +36,8 @@ public class Ability extends Entity<Ability>
 	private int ticksCooldown = 20*60*2;
 	
 	private WorldExceptionSet worldsUse = new WorldExceptionSet();
+	
+	private transient AbilityType type;
 	
 	protected transient List<Req> seeRequirements			= new CopyOnWriteArrayList<Req>();
 	protected transient List<Req> activateRequirements	= new CopyOnWriteArrayList<Req>();
@@ -51,10 +51,6 @@ public class Ability extends Entity<Ability>
 	// -------------------------------------------- //
 	// REGISTER
 	// -------------------------------------------- //
-	
-	// GSON
-	public Ability() { constructed = true; };
-	private boolean constructed = false;
 	
 	/**
 	 * Registers an ability to our system.
@@ -80,34 +76,6 @@ public class Ability extends Entity<Ability>
 		
 		return;
 	}
-	
-	// -------------------------------------------- //
-	// ABILTY TYPE & CHECK
-	// -------------------------------------------- //
-	
-	public enum AbilityType
-	{
-		/**
-		 * Active skills last over a duration of time
-		 */
-		ACTIVE(),
-		/**
-		 * Passive abilities are activated once & don't last over time
-		 */
-		PASSIVE();
-	}
-	
-	/**
-	 * Gets the ability type (passive/active) of this ability
-	 * @return {AbilityType} the type of this ability
-	 */
-	public AbilityType getType() { return this.type; }
-	
-	/**
-	 * Sets the ability type (passive/active) of this ability
-	 * @param {AbilityType} the new type of this ability
-	 */
-	protected void setType(AbilityType newType){ this.type = newType; }
 	
 	// -------------------------------------------- //
 	// DESCRIPTION
@@ -171,7 +139,7 @@ public class Ability extends Entity<Ability>
 	 * This will get the cooldown calculation algorithm for this ability.
 	 * @return {TicksLastCalculator} The algorithm which is being used for this ability.
 	 */
-	public final TicksLastCalculator getTicksLastAlgorithm()
+	public final TicksLastCalculator getDurationAlgorithm()
 	{
 		return this.levelToTicks;
 	}
@@ -194,6 +162,34 @@ public class Ability extends Entity<Ability>
 	{
 		return this.ticksCooldown;
 	}
+	
+	// -------------------------------------------- //
+	// ABILTY TYPE & CHECK
+	// -------------------------------------------- //
+	
+	public enum AbilityType
+	{
+		/**
+		 * Active skills last over a duration of time
+		 */
+		ACTIVE(),
+		/**
+		 * Passive abilities are activated once & don't last over time
+		 */
+		PASSIVE();
+	}
+	
+	/**
+	 * Gets the ability type (passive/active) of this ability
+	 * @return {AbilityType} the type of this ability
+	 */
+	public AbilityType getType() { return this.type; }
+	
+	/**
+	 * Sets the ability type (passive/active) of this ability
+	 * @param {AbilityType} the new type of this ability
+	 */
+	protected void setType(AbilityType newType){ this.type = newType; }
 	
 	// -------------------------------------------- //
 	// FIELD: WORLDEXCEPTION
@@ -284,7 +280,8 @@ public class Ability extends Entity<Ability>
 	 * MUST be unique & should never be changed
 	 * @return {String} the abilities unique id.
 	 */
-	public String getId() { if (constructed) return null; throw new UnsupportedOperationException("Ability#getId must be implemented"); }
+	//						if GSON constructed this method must be available but null is ok
+	public String getId() { if (this.getClass().equals(Ability.class)) return null; throw new UnsupportedOperationException("Ability#getId must be implemented"); }
 	
 	/**
 	 * Gets a description based on passed level

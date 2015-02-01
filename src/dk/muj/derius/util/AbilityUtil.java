@@ -110,7 +110,7 @@ public final class AbilityUtil
 	{
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(mplayer.getActivatedAbility(), mplayer);
 		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled()) return;
+		if (e.isCancelled()) return;
 		
 		Ability ability = mplayer.getActivatedAbility();
 		ability.onDeactivate(mplayer, other);
@@ -126,18 +126,18 @@ public final class AbilityUtil
 	{
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, mplayer);
 		e.run();
-		if(e.isCancelled()) return Optional.empty();
+		if (e.isCancelled()) return Optional.empty();
 	
 		return ability.onActivate(mplayer, other);
 	}
 	
 	private static Object activateActiveAbility(final MPlayer mplayer, final Ability ability, Object other)
 	{
-		if(mplayer.hasActivatedAny()) return null;
+		if (mplayer.hasActivatedAny()) return null;
 		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, mplayer);
 		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled()) return null;
+		if (e.isCancelled()) return null;
 		
 		mplayer.setActivatedAbility(ability);
 		

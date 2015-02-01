@@ -54,10 +54,10 @@ public class Skill extends Entity<Skill>
 	private transient List<Req> learnRequirements = new CopyOnWriteArrayList<Req>();
 	private transient List<Req> specialiseRequirements = new CopyOnWriteArrayList<Req>();
 	
-	// Lambda
+	// Lambda, This is the default algorithm
 	private transient LvlStatusCalculator expToLvlStatus = (long exp) -> 	
 	{	
-		//This is the default algorithm
+		//
 		int level = 0, nextLvlExp;
 		for(nextLvlExp = 1024; nextLvlExp < exp; level++)
 		{
@@ -71,10 +71,6 @@ public class Skill extends Entity<Skill>
 	// -------------------------------------------- //
 	// REGISTER
 	// -------------------------------------------- //
-	
-	// GSON
-	public Skill() { constructed = true; };
-	private boolean constructed = false;
 	
 	/**
 	 * Registers an ability to our system.
@@ -166,6 +162,30 @@ public class Skill extends Entity<Skill>
 	 * @param {LvlStatusCalculator} The new algorithm to calculate levels for this skill
 	 */
 	public final LvlStatusCalculator getLvlStatusAlgorithm() { return this.expToLvlStatus; }
+	
+	// -------------------------------------------- //
+	// FIELD: WORLDEXCEPTION
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets an exception set for the worlds in which
+	 * it is possible to use this ability.
+	 * @return {WorldExceptionSet} worlds where you can use this ability
+	 */
+	public WorldExceptionSet getWorldsEarn()
+	{
+		return worldsEarn;
+	}
+	
+	/**
+	 * Sets the exception set for which worlds
+	 * it is possible to use this ability.
+	 * @param {WorldExceptionSet} worlds where you can use this ability
+	 */
+	public void setWorldsEarn(WorldExceptionSet worldsEarn)
+	{
+		this.worldsEarn = worldsEarn;
+	}
 	
 	// -------------------------------------------- //
 	// SPECIALISATION
@@ -264,30 +284,6 @@ public class Skill extends Entity<Skill>
 	public void addSpecialiseRequirements(Req... requirements) { this.specialiseRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// -------------------------------------------- //
-	// FIELD: WORLDEXCEPTION
-	// -------------------------------------------- //
-	
-	/**
-	 * Gets an exception set for the worlds in which
-	 * it is possible to use this ability.
-	 * @return {WorldExceptionSet} worlds where you can use this ability
-	 */
-	public WorldExceptionSet getWorldsEarn()
-	{
-		return worldsEarn;
-	}
-	
-	/**
-	 * Sets the exception set for which worlds
-	 * it is possible to use this ability.
-	 * @param {WorldExceptionSet} worlds where you can use this ability
-	 */
-	public void setWorldsEarn(WorldExceptionSet worldsEarn)
-	{
-		this.worldsEarn = worldsEarn;
-	}
-	
-	// -------------------------------------------- //
 	// FIELD: ABILITIES
 	// -------------------------------------------- //
 	
@@ -326,7 +322,7 @@ public class Skill extends Entity<Skill>
 	 * This should be lowercase.
 	 * @return {String} the skills unique id.
 	 */
-	public String getId() { if (constructed) return null; throw new UnsupportedOperationException("Skill#getId must be implemented"); }
+	public String getId() { if (this.getClass().equals(Skill.class)) return null; throw new UnsupportedOperationException("Skill#getId must be implemented"); }
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE

@@ -69,7 +69,7 @@ public class CmdDeriusClean extends DeriusCommand
 		// Arg 2: force or not
 		String force = this.argConcatFrom(2, ARString.get(), "no");
 		String forceYes = "Yes, I want to force this";
-		if(!force.equals(forceYes))
+		if (!force.equals(forceYes))
 			return;
 	
 		// Execute the cleaning
