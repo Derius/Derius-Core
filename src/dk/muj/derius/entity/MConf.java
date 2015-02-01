@@ -34,6 +34,8 @@ public class MConf extends Entity<MConf>
 	 */
 	public int hardCap = 2000;
 	
+	public double baseMultiplier = 1.0;
+	
 	/**
 	 * The amount of millis a player will have to wait
 	 * before being able to change specialisation again

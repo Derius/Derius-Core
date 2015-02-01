@@ -47,6 +47,10 @@ public class Skill extends Entity<Skill>
 	private boolean spAutoAssigned = false;
 	private boolean spBlacklisted = false;
 	
+	private double multiplier = 1.0;
+	public double getMultiplier() { return this.multiplier; }
+	public void setMutiplier(double multiplier) { this.multiplier = multiplier; }
+	
 	private WorldExceptionSet worldsEarn = new WorldExceptionSet();
 	
 	// Configuration
