@@ -3,6 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
@@ -15,6 +16,10 @@ import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusClean extends DeriusCommand
 {
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+	
 	public CmdDeriusClean()
 	{
 		this.addRequiredArg("id/all");
@@ -29,7 +34,7 @@ public class CmdDeriusClean extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{
 		List<Skill> skillList = new ArrayList<Skill>();
 		List<MPlayer> mplayerList = new ArrayList<MPlayer>();
@@ -55,8 +60,6 @@ public class CmdDeriusClean extends DeriusCommand
 		else if (this.argIsSet(1) && Perm.CLEAN_PLAYER.has(sender, true))
 		{
 			MPlayer mplayer = this.arg(1, ARMPlayer.getAny(), msender);
-			if (mplayer == null) return;
-			
 			if (mplayer != msender && Perm.CLEAN_PLAYER_OTHER.has(sender, true)) return;
 
 			mplayerList.add(mplayer);

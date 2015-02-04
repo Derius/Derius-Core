@@ -1,5 +1,6 @@
 package dk.muj.derius.cmd;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.mixin.Mixin;
 
@@ -19,6 +20,8 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 		
 		this.addRequiredArg("title");
 		this.addRequiredArg("subTitle");
+		
+		this.setErrorOnToManyArgs(false);
 	}
 	
 	// -------------------------------------------- //
@@ -26,21 +29,15 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{
 		Integer fadeIn = this.arg(0, ARInteger.get());
-		if (fadeIn == null) return;
 		Integer stay = this.arg(1, ARInteger.get());
-		if (stay == null) return;
 		Integer fadeOut = this.arg(2, ARInteger.get());
-		if (fadeOut == null) return;
 		
-		String title = this.arg(3);
-		if (title.equalsIgnoreCase("null")) title = null;
-		String subtitle = this.arg(4);
-		if (subtitle.equalsIgnoreCase("null")) subtitle = null;
-		
-		Mixin.sendTitleMsg(sender, fadeIn, stay, fadeOut, title, subtitle);
+		String title = this.argConcatFrom(3);
+
+		Mixin.sendTitleMsg(msender, fadeIn, stay, fadeOut, title, null);
 		
 		return;
 	}

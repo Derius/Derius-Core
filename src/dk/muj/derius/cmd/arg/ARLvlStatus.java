@@ -2,10 +2,10 @@ package dk.muj.derius.cmd.arg;
 
 import org.bukkit.command.CommandSender;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.arg.ArgReader;
 import com.massivecraft.massivecore.cmd.arg.ArgReaderAbstract;
-import com.massivecraft.massivecore.cmd.arg.ArgResult;
 
 import dk.muj.derius.lambda.LvlStatus;
 import dk.muj.derius.lambda.LvlStatusDefault;
@@ -25,22 +25,12 @@ public class ARLvlStatus extends ArgReaderAbstract<LvlStatus>
 	// -------------------------------------------- //
 	
 	@Override
-	public ArgResult<LvlStatus> read(String arg, CommandSender sender)
+	public LvlStatus read(String arg, CommandSender sender) throws MassiveCommandException
 	{
-		ArgResult<LvlStatus> ret = new ArgResult<LvlStatus>();
-		
 		ArgReader<Integer> innerReader = ARInteger.get();
-		ArgResult<Integer> inner = innerReader.read();
+		Integer inner = innerReader.read(arg, sender);
 		
-		if (inner.hasErrors())
-		{
-			ret.setErrors(inner.getErrors());
-			return ret;
-		}
-		
-		ret.setResult(new LvlStatusDefault(inner.getResult()));
-		
-		return ret;
+		return new LvlStatusDefault(inner);
 	}
 
 }

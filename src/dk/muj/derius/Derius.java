@@ -9,17 +9,17 @@ import com.massivecraft.massivecore.util.MUtil;
 
 import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.engine.AbilityEngine;
-import dk.muj.derius.engine.BlockEngine;
 import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.MChunkColl;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.mixin.BlockMixin;
+import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixin;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
 import dk.muj.derius.mixin.SpSlotMixin;
@@ -48,19 +48,22 @@ public class Derius extends MassivePlugin
 	// Mixins
 	private SpSlotMixin spSlotMixin = SpSlotMixinDefault.get();
 	public SpSlotMixin getSpSlotMixin () { return this.spSlotMixin; }
-	public void setSpSlotMixin(SpSlotMixin mixin) { this.spSlotMixin = mixin; }
+	public void setSpSlotMixin(SpSlotMixin val) { this.spSlotMixin = val; }
 	
 	private MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
 	public MaxLevelMixin getMaxLevelMixin() { return this.maxLevelMixin; }
-	public void setMaxLevelMixin (MaxLevelMixin mixin) { this.maxLevelMixin = mixin; }
+	public void setMaxLevelMixin (MaxLevelMixin val) { this.maxLevelMixin = val; }
+	
+	private BlockMixin blockMixin = BlockMixinDefault.get();
+	public BlockMixin getBlockMixin() { return this.blockMixin; }
+	public void setBlockMixin (BlockMixin val) { this.blockMixin = val; }
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
 		AbilityEngine	.get(),
 		MainEngine		.get(),
 		ChatEngine		.get(),
-		SkillEngine		.get(),
-		BlockEngine		.get());
+		SkillEngine		.get());
 
 	
 	// -------------------------------------------- //
@@ -75,9 +78,7 @@ public class Derius extends MassivePlugin
 		// Initializing Databases
 		MConfColl	.get().init();
 		MLangColl	.get().init();
-		MPlayerColl	.get().init();
-		MChunkColl	.get().init();
-		
+		MPlayerColl	.get().init();	
 		SkillColl	.get().init();
 		AbilityColl	.get().init();
 		

@@ -3,6 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -29,13 +30,12 @@ public class CmdDeriusSpList  extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{
 		List<String> messages = new ArrayList<String>();
 		
 		// Args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
-		if (mplayer == null) return;
 		
 		if (mplayer != msender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 

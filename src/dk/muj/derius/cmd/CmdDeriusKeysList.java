@@ -2,6 +2,7 @@ package dk.muj.derius.cmd;
 
 import java.util.List;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.pager.PagerSimple;
@@ -31,13 +32,11 @@ public class CmdDeriusKeysList extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{
 		// Args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);	
-		if (mplayer == null) return;
 		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
-		if (pageHumanBased == null) return;
 		
 		// Create Pager
 		String title = (mplayer == msender) ? Txt.parse("<i>Your list of Keys") : Txt.parse("%s's <i>list of Keys", mplayer.getDisplayName(msender));

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -65,6 +66,18 @@ public class MainEngine extends EngineAbstract
 		}
 		
 		return;
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onBlockBreak(BlockBreakEvent event)
+	{	
+		// Listeners
+		Listener listener = Listener.getBlockBreakListener(event.getBlock().getType());
+		if (listener != null)
+		{
+			listener.onBlockBreak(MPlayer.get(event.getPlayer()), event.getBlock().getState());
+		}
+		
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)

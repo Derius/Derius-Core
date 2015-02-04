@@ -4,6 +4,8 @@ import org.bukkit.permissions.Permissible;
 
 import com.massivecraft.massivecore.util.PermUtil;
 
+import dk.muj.derius.lib.MPerm;
+
 public enum Perm implements MPerm
 {
 	// -------------------------------------------- //

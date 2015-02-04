@@ -2,6 +2,7 @@ package dk.muj.derius.cmd;
 
 import java.util.LinkedHashMap;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
 import com.massivecraft.massivecore.util.PlayerUtil;
@@ -35,11 +36,10 @@ public class CmdDeriusSpLearn extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{
 		// Args
 		Skill skill = this.arg(0, ARSkill.get());
-		if (skill == null) return;
 		
 		if (! SkillUtil.canPlayerSpecialiseSkill(msender, skill, true)) return;
 		

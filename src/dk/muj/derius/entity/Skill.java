@@ -7,11 +7,13 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.massivecore.xlib.gson.JsonObject;
+import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
 import dk.muj.derius.Derius;
 import dk.muj.derius.events.SkillRegisteredEvent;
@@ -31,9 +33,9 @@ public class Skill extends Entity<Skill>
 	public boolean isEnabled() { return enabled; }
 	public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	
-	private String name;
-	public String getName() { return name; }
-	public void setName(String newName) { this.name = newName; }
+	private String skillName;
+	public String getName() { return skillName; }
+	public void setName(String newName) { this.skillName = newName; }
 	
 	private String desc = "";
 	public String getDescription() { return desc; }
@@ -43,6 +45,8 @@ public class Skill extends Entity<Skill>
 	public List<String> getEarnExpDescs() { return new ArrayList<>(earnExpDescs); }
 	public void setEarnExpDescs(List<String> descs) { this.earnExpDescs = descs; }
 	public void addEarnExpDescs(String desc) { this.earnExpDescs.add(desc); }
+	
+	private Material icon = Material.AIR;
 	
 	private boolean spAutoAssigned = false;
 	private boolean spBlacklisted = false;
@@ -86,12 +90,14 @@ public class Skill extends Entity<Skill>
 		if (that == null || that == this) return that;
 		
 		this.enabled = that.enabled;
-		this.name = that.name;
-		this.desc = that.desc;
-		this.earnExpDescs = that.earnExpDescs;
 		this.spAutoAssigned = that.spAutoAssigned;
 		this.spBlacklisted = that.spBlacklisted;
-		this.worldsEarn = that.worldsEarn;
+		
+		if (that.skillName != null && ! that.skillName.equalsIgnoreCase("null")) this.skillName = that.skillName;
+		if (that.desc != null && ! that.desc.equalsIgnoreCase("null")) this.desc = that.desc;
+		if (that.earnExpDescs != null)this.earnExpDescs = that.earnExpDescs;
+		if (that.icon != null) this.icon = that.icon;
+		if (that.worldsEarn != null) this.worldsEarn = that.worldsEarn;
 		
 		return this;
 	}
@@ -139,9 +145,37 @@ public class Skill extends Entity<Skill>
 		return Derius.get().gson.fromJson(this.configuration.get(field), fieldType);
 	}
 	
+	/**
+	 * Reads a value from the skills custom configuration
+	 * @param {String} name of the value
+	 * @param {TypeToken<T>} typetoken for generics
+	 * @return {T} the value
+	 */
+	public <T> T readConfig(String field, TypeToken<T> typeToken)
+	{
+		return Derius.get().gson.fromJson(this.configuration.get(field), typeToken.getType());
+	}
+	
+	/**
+	 * Writes a value to the skills custom configuration
+	 * @param {String} name of the value
+	 * @param {Class<T>} type of value
+	 * @return {T} the value
+	 */
 	public void writeConfig(String field, Object value)
 	{
 		this.configuration.add(field, Derius.get().gson.toJsonTree(value));
+	}
+	
+	/**
+	 * Writes a value to the skills custom configuration
+	 * @param {String} name of the value
+	 * @param {TypeToken<T>} typetoken for generics
+	 * @return {T} the value
+	 */
+	public <T> void writeConfig(String field, Object value, TypeToken<T> typeToken)
+	{
+		this.configuration.add(field, Derius.get().gson.toJsonTree(value, typeToken.getType()));
 	}
 	
 	
@@ -181,6 +215,28 @@ public class Skill extends Entity<Skill>
 		{
 			return  Txt.parse(MLang.get().skillColorPlayerCantUse + this.getName());
 		}
+	}
+	
+	// -------------------------------------------- //
+	// FIELD: ICON
+	// -------------------------------------------- //
+	
+	/**
+	 * Gets the icon of the skill. This is showed in a chest GUI
+	 * @return {Material} the skills
+	 */
+	public Material getIcon()
+	{
+		return this.icon;
+	}
+	
+	/**
+	 * Sets the icon for this skill shown in chest GUIs
+	 * @param {Material} 
+	 */
+	public void setIcon(Material icon)
+	{
+		this.icon = icon;
 	}
 
 	// -------------------------------------------- //

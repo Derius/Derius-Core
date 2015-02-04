@@ -3,6 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.Collection;
 import java.util.List;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.pager.PagerSimple;
@@ -35,13 +36,11 @@ public class CmdDeriusInspect extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{	
 		// Args
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
-		if (mplayer == null) return;
 		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
-		if (pageHumanBased == null) return;
 		
 		if (mplayer != msender && Perm.INSPECT_OTHERS.has(msender.getSender(),true)) return;
 		

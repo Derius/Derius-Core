@@ -3,6 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -34,13 +35,11 @@ public class CmdDeriusSkill extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform()
+	public void perform() throws MassiveCommandException
 	{	
 		// Args
 		Skill skill = this.arg (0, ARSkill.get());
-		if (skill == null) return;
 		LvlStatus status = this.arg(1, ARLvlStatus.get(), msender.getLvlStatus(skill));
-		if (status == null) return;
 		
 		// Message construction
 		List<String> msgs = new ArrayList<String>();

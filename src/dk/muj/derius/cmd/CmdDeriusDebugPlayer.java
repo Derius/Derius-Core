@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.cmd.arg.ARMPlayer;
@@ -30,10 +31,9 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void perform() 
+	public void perform() throws MassiveCommandException 
 	{
 		MPlayer mplayer = this.arg(0, ARMPlayer.getAny());
-		if (mplayer == null) return;
 		
 		List<String> messages = new ArrayList<String>();
 		

@@ -57,13 +57,12 @@ public class Ability extends Entity<Ability>
 	{
 		if (that == null || that == this) return that;
 		
-		this.enabled = that.enabled;
-		this.name = that.name;
-		this.desc = that.desc;
-		this.ticksCooldown = that.ticksCooldown;
-		this.worldsUse = that.worldsUse;
+		this.enabled		= that.enabled;
+		this.ticksCooldown	= that.ticksCooldown;
 		
-		this.setCustomData(that.getCustomData());
+		if (that.name != null) this.name = that.name;
+		if (that.desc != null) this.desc			= that.desc;
+		if (that.worldsUse != null) this.worldsUse		= that.worldsUse;
 		
 		return this;
 	}
@@ -310,7 +309,7 @@ public class Ability extends Entity<Ability>
 	 * @param {int} the level you want to test for
 	 * @return {String} the actual string message
 	 */
-	public String getLvlDescriptionMsg(int lvl) { throw new UnsupportedOperationException("Skill#getId must be implemented"); };
+	public String getLvlDescriptionMsg(int lvl) { throw new UnsupportedOperationException("Ability#getLvlDescriontionMsg must be implemented"); };
 	
 	// Ability Execution methods
 	/**
