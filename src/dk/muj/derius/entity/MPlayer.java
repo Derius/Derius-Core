@@ -170,7 +170,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 * @param {Skill} skill to check for
 	 * @return {int} the level the player can reach
 	 */
-	public int getMaxLevel(Skill skill) { return Derius.get().getMaxLevelMixin().getMaxLevel(this, skill); }
+	public int getMaxLevel(Skill skill) { return Derius.getMaxLevelMixin().getMaxLevel(this, skill); }
 	
 	// -------------------------------------------- //
 	// SKILL
@@ -264,7 +264,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 	 */
 	public int getMaxSpecialisationSlots()
 	{
-		return Derius.get().getSpSlotMixin().getMaxSlots(this);
+		return Derius.getSpSlotMixin().getMaxSlots(this);
 	}
 	
 	/**

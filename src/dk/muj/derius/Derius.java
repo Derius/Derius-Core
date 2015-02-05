@@ -46,17 +46,17 @@ public class Derius extends MassivePlugin
 	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
 	
 	// Mixins
-	private SpSlotMixin spSlotMixin = SpSlotMixinDefault.get();
-	public SpSlotMixin getSpSlotMixin () { return this.spSlotMixin; }
-	public void setSpSlotMixin(SpSlotMixin val) { this.spSlotMixin = val; }
+	private static SpSlotMixin spSlotMixin = SpSlotMixinDefault.get();
+	public static SpSlotMixin getSpSlotMixin () { return spSlotMixin; }
+	public static void setSpSlotMixin(SpSlotMixin val) { spSlotMixin = val; }
 	
-	private MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
-	public MaxLevelMixin getMaxLevelMixin() { return this.maxLevelMixin; }
-	public void setMaxLevelMixin (MaxLevelMixin val) { this.maxLevelMixin = val; }
+	private static MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
+	public static MaxLevelMixin getMaxLevelMixin() { return maxLevelMixin; }
+	public static void setMaxLevelMixin (MaxLevelMixin val) { maxLevelMixin = val; }
 	
-	private BlockMixin blockMixin = BlockMixinDefault.get();
-	public BlockMixin getBlockMixin() { return this.blockMixin; }
-	public void setBlockMixin (BlockMixin val) { this.blockMixin = val; }
+	private static BlockMixin blockMixin = BlockMixinDefault.get();
+	public static BlockMixin getBlockMixin() { return blockMixin; }
+	public static void setBlockMixin (BlockMixin val) { blockMixin = val; }
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
