@@ -11,7 +11,7 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.Skill;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusList extends DeriusCommand
@@ -46,7 +46,7 @@ public class CmdDeriusList extends DeriusCommand
 			@Override
 			public String toString(Skill skill)
 			{
-				return Txt.parse("%s: %s", skill.getDisplayName(msender), skill.getDescription());
+				return Txt.parse("%s: %s", skill.getDisplayName(msender), skill.getDesc());
 			}
 		});
 		

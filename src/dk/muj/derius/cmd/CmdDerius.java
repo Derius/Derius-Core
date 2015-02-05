@@ -17,8 +17,8 @@ public class CmdDerius extends DeriusCommand
 	// -------------------------------------------- //
 	
 	public VersionCommand innerCmdDeriusVersion = new VersionCommand(Derius.get(), Perm.VERSION.node, "v", "version");
-	public CmdDeriusSkill innerCmdDeriusSkill = new CmdDeriusSkill() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSkill; } };
-	public CmdDeriusSkills innerCmdDeriusSkills = new CmdDeriusSkills() { @Override public List<String>  getAliases() { return MConf.get().innerAliasesDeriusSkills; } };
+	public CmdDeriusSkill innerCmdSkill = new CmdDeriusSkill() { @Override public List<String> getAliases() { return MConf.get().innerAliasesSkill; } };
+	public CmdDeriusSkills innerCmdSkills = new CmdDeriusSkills() { @Override public List<String>  getAliases() { return MConf.get().innerAliasesSkills; } };
 	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusList; } };
 	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpecialise; } };
 	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusInspect; } };
@@ -33,8 +33,8 @@ public class CmdDerius extends DeriusCommand
 	public CmdDerius()
 	{
 		this.addSubCommand(HelpCommand.get());
-		this.addSubCommand(this.innerCmdDeriusSkill);
-		this.addSubCommand(this.innerCmdDeriusSkills);
+		this.addSubCommand(this.innerCmdSkill);
+		this.addSubCommand(this.innerCmdSkills);
 		this.addSubCommand(this.innerCmdDeriusList);
 		this.addSubCommand(this.innerCmdDeriusInspect);
 		this.addSubCommand(this.innerCmdDeriusSpecialise);

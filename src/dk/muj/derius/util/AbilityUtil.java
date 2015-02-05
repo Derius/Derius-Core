@@ -5,12 +5,12 @@ import java.util.Optional;
 import org.bukkit.Bukkit;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.entity.Ability;
-import dk.muj.derius.entity.Ability.AbilityType;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Ability.AbilityType;
+import dk.muj.derius.api.Req;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
-import dk.muj.derius.req.Req;
 
 public final class AbilityUtil
 {

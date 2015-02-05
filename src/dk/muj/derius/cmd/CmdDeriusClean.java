@@ -8,10 +8,10 @@ import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusClean extends DeriusCommand

@@ -1,7 +1,7 @@
 package dk.muj.derius.mixin;
 
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 
 public interface MaxLevelMixin
 {

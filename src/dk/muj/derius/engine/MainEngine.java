@@ -2,7 +2,6 @@ package dk.muj.derius.engine;
 
 import java.util.Optional;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,12 +17,10 @@ import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.util.EventUtil;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
-import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerDamageEvent;
 import dk.muj.derius.util.Listener;
 
@@ -113,7 +110,9 @@ public class MainEngine extends EngineAbstract
 	// MUTIPLIER
 	// -------------------------------------------- //
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	
+	// TODO: Break out into expansion
+	/*@EventHandler(priority = EventPriority.LOWEST)
 	public void muliplier(PlayerAddExpEvent event)
 	{
 		CommandSender sender = event.getMPlayer().getSender();
@@ -140,7 +139,7 @@ public class MainEngine extends EngineAbstract
 		}
 		
 		event.setExpAmount(exp);
-	}
+	}*/
 	
 	// -------------------------------------------- //
 	// PLAYER TAKE DAMAGE

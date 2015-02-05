@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
 import dk.muj.derius.util.SkillUtil;
 

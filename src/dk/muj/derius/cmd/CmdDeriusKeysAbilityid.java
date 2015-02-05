@@ -8,10 +8,10 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
-import dk.muj.derius.entity.Ability;
 import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.Skill;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand
 {
@@ -34,7 +34,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	public void perform() throws MassiveCommandException
 	{
 		List<String> messages = new ArrayList<String>();
-		List<Ability> abilities = new ArrayList<Ability>();
+		List<Ability> abilities = new ArrayList<>();
 		
 		//Args
 		Skill skill = this.arg(0, ARSkill.get(), null);

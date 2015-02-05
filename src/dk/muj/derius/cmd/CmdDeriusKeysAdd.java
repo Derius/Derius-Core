@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
 import dk.muj.derius.entity.AbilityColl;
 import dk.muj.derius.entity.MLang;
 

@@ -14,11 +14,11 @@ import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.LvlStatus;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
-import dk.muj.derius.lambda.LvlStatus;
 import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkills extends DeriusCommand
@@ -48,7 +48,7 @@ public class CmdDeriusSkills extends DeriusCommand
 			// Message construction
 			List<String> msgs = new ArrayList<String>();
 			
-			msgs.add("<lime>" + skill.getDescription());			// Description
+			msgs.add("<lime>" + skill.getDesc()); // Description
 			
 			// Swapping between default and user inserted value
 			msgs.add(status.toString());

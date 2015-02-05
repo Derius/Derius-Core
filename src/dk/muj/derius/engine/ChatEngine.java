@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 import com.massivecraft.massivecore.EngineAbstract;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.util.AbilityUtil;
 

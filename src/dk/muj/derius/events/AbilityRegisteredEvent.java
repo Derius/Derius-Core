@@ -2,7 +2,7 @@ package dk.muj.derius.events;
 
 import org.bukkit.event.HandlerList;
 
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
 
 public class AbilityRegisteredEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
 {

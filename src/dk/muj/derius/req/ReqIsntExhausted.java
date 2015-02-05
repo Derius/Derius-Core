@@ -9,10 +9,11 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Req;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 
 public class ReqIsntExhausted implements Req
 {

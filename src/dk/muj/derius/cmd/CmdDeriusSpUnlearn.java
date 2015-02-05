@@ -10,10 +10,10 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.Skill;
 
 public class CmdDeriusSpUnlearn extends DeriusCommand
 {

@@ -8,9 +8,9 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 
 public class CmdDeriusSpList  extends DeriusCommand
 {

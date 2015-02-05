@@ -7,9 +7,9 @@ import org.bukkit.plugin.Plugin;
 import com.massivecraft.massivecore.EngineAbstract;
 
 import dk.muj.derius.Derius;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.req.ReqIsEnabled;
 import dk.muj.derius.req.sp.ReqHasOpenSlot;

@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
 import dk.muj.derius.util.Listener;
 

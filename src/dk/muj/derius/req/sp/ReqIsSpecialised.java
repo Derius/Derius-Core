@@ -5,11 +5,11 @@ import org.bukkit.command.CommandSender;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Req;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.req.Req;
-import dk.muj.derius.entity.Skill;
 
 public class ReqIsSpecialised implements Req
 {

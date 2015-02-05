@@ -1,6 +1,6 @@
 package dk.muj.derius.events;
 
-import dk.muj.derius.entity.Ability;
+import dk.muj.derius.api.Ability;
 
 public interface AbilityEvent
 {

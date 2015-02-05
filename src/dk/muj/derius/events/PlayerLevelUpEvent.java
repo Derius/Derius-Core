@@ -3,8 +3,8 @@ package dk.muj.derius.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 
 public class PlayerLevelUpEvent extends DeriusEvent implements SkillEvent, MPlayerEvent
 {

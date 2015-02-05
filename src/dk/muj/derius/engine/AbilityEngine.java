@@ -7,10 +7,10 @@ import org.bukkit.plugin.Plugin;
 import com.massivecraft.massivecore.EngineAbstract;
 
 import dk.muj.derius.Derius;
-import dk.muj.derius.entity.Ability;
-import dk.muj.derius.entity.Ability.AbilityType;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Ability.AbilityType;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;

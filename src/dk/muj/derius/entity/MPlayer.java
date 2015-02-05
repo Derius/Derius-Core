@@ -17,16 +17,19 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Derius;
+import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.LvlStatus;
+import dk.muj.derius.api.Req;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerLevelDownEvent;
 import dk.muj.derius.events.PlayerLevelUpEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
-import dk.muj.derius.lambda.LvlStatus;
-import dk.muj.derius.req.Req;
 import dk.muj.derius.util.ChatUtil;
 import dk.muj.derius.util.Listener;
 
-public class MPlayer extends SenderEntity<MPlayer>
+public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 {
 	// -------------------------------------------- //
 	// META
@@ -105,7 +108,7 @@ public class MPlayer extends SenderEntity<MPlayer>
 		
 		if (lvlBefore >= this.getMaxLevel(skill)) return;
 		
-		PlayerAddExpEvent event = new PlayerAddExpEvent(this,skill,exp);
+		PlayerAddExpEvent event = new PlayerAddExpEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
 		exp = MUtil.probabilityRound(event.getExpAmount());

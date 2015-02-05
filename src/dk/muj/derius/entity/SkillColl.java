@@ -9,8 +9,9 @@ import com.massivecraft.massivecore.store.MStore;
 
 import dk.muj.derius.Const;
 import dk.muj.derius.Derius;
+import dk.muj.derius.api.Skill;
 
-public class SkillColl extends Coll<Skill>
+public class SkillColl extends Coll<DeriusSkill>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -20,7 +21,7 @@ public class SkillColl extends Coll<Skill>
 	public static SkillColl get() { return i; }
 	private SkillColl()
 	{
-		super(Const.COLLECTION_SKILLS, Skill.class, MStore.getDb(), Derius.get());
+		super(Const.COLLECTION_SKILLS, DeriusSkill.class, MStore.getDb(), Derius.get());
 		this.setLowercasing(true);
 		this.setCreative(false);
 	}
@@ -31,7 +32,7 @@ public class SkillColl extends Coll<Skill>
 	
 	public static Collection<Skill> getAllSkills()
 	{
-		Set<Skill> skills = new HashSet<Skill>();
+		Set<Skill> skills = new HashSet<>();
 		
 		for (Skill skill : get().getAll())
 		{

@@ -11,11 +11,11 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.LvlStatus;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARMPlayer;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
 import dk.muj.derius.entity.SkillColl;
-import dk.muj.derius.lambda.LvlStatus;
 
 public class CmdDeriusInspect extends DeriusCommand
 {

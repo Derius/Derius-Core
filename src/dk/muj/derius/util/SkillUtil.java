@@ -1,8 +1,8 @@
 package dk.muj.derius.util;
 
+import dk.muj.derius.api.Req;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.Skill;
-import dk.muj.derius.req.Req;
 
 
 public class SkillUtil
