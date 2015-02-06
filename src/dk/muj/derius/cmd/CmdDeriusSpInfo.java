@@ -24,7 +24,7 @@ public class CmdDeriusSpInfo extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		msg(MLang.get().specialisationInfo, MConf.get().softCap, MConf.get().hardCap, msender.getMaxSpecialisationSlots());
+		msg(MLang.get().specialisationInfo, MConf.get().softCap, MConf.get().hardCap, dsender.getMaxSpecialisationSlots());
 		return;
 	}
 

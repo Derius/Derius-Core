@@ -10,8 +10,8 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.cmd.arg.ARDPlayer;
 
 public class CmdDeriusKeysList extends DeriusCommand
 {
@@ -35,11 +35,11 @@ public class CmdDeriusKeysList extends DeriusCommand
 	public void perform() throws MassiveCommandException
 	{
 		// Args
-		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);	
+		DPlayer mplayer = this.arg(0, ARDPlayer.getAny(), dsender);	
 		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
 		
 		// Create Pager
-		String title = (mplayer == msender) ? Txt.parse("<i>Your list of Keys") : Txt.parse("%s's <i>list of Keys", mplayer.getDisplayName(msender));
+		String title = (mplayer == dsender) ? Txt.parse("<i>Your list of Keys") : Txt.parse("%s's <i>list of Keys", mplayer.getDisplayName(dsender));
 		final List<String> keysToAbility = mplayer.chatKeysToString();
 		final PagerSimple<String> pager = new PagerSimple<String>(keysToAbility, sender);
 		

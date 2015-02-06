@@ -6,10 +6,11 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
 
 public class ReqHasOpenSlot implements Req
 {
@@ -29,7 +30,7 @@ public class ReqHasOpenSlot implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		MPlayer mplayer =  MPlayer.get(sender);
+		DPlayer mplayer =  DeriusAPI.getDPlayer(sender);
 		if (mplayer == null) return false;
 		return mplayer.getOpenSpecialisationSlots() > 0;
 	}

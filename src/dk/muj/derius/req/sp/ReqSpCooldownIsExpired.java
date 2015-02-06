@@ -10,10 +10,11 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
 
 public class ReqSpCooldownIsExpired implements Req
 {
@@ -32,7 +33,7 @@ public class ReqSpCooldownIsExpired implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		MPlayer mplayer = MPlayer.get(sender);
+		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
 		if (mplayer == null) return false;
 		return mplayer.isSpecialisationCooldownExpired();
 	}
@@ -41,7 +42,7 @@ public class ReqSpCooldownIsExpired implements Req
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		MPlayer mplayer = MPlayer.get(sender);
+		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
 		if (mplayer == null) return null;
 		long spMillis = mplayer.getSpecialisationCooldownExpire() - System.currentTimeMillis();
 		

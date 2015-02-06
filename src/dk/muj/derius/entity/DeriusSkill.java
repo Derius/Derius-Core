@@ -15,8 +15,10 @@ import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.massivecore.xlib.gson.JsonObject;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
-import dk.muj.derius.Derius;
+import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.LvlStatusCalculator;
 import dk.muj.derius.api.Req;
@@ -191,7 +193,7 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	 */
 	public <T> T readConfig(String field, Class<T> fieldType)
 	{
-		return Derius.get().gson.fromJson(this.configuration.get(field), fieldType);
+		return DeriusCore.get().gson.fromJson(this.configuration.get(field), fieldType);
 	}
 	
 	/**
@@ -202,7 +204,7 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	 */
 	public <T> T readConfig(String field, TypeToken<T> typeToken)
 	{
-		return Derius.get().gson.fromJson(this.configuration.get(field), typeToken.getType());
+		return DeriusCore.get().gson.fromJson(this.configuration.get(field), typeToken.getType());
 	}
 	
 	/**
@@ -213,7 +215,7 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	 */
 	public void writeConfig(String field, Object value)
 	{
-		this.configuration.add(field, Derius.get().gson.toJsonTree(value));
+		this.configuration.add(field, DeriusCore.get().gson.toJsonTree(value));
 	}
 	
 	/**
@@ -224,7 +226,7 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	 */
 	public <T> void writeConfig(String field, Object value, TypeToken<T> typeToken)
 	{
-		this.configuration.add(field, Derius.get().gson.toJsonTree(value, typeToken.getType()));
+		this.configuration.add(field, DeriusCore.get().gson.toJsonTree(value, typeToken.getType()));
 	}
 	
 	
@@ -239,7 +241,7 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	
 	public String getDisplayName ( Object watcherObject)
 	{
-		MPlayer mplayer = MPlayer.get(watcherObject);
+		DPlayer mplayer = DeriusAPI.getDPlayer(watcherObject);
 		if (mplayer.isSpecialisedIn(this))
 		{
 			return Txt.parse(MLang.get().skillColorPlayerIsSpecialised + this.getName());

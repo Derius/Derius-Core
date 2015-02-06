@@ -10,10 +10,11 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
 
 public class ReqIsntExhausted implements Req
 {
@@ -32,13 +33,13 @@ public class ReqIsntExhausted implements Req
 	@Override
 	public boolean apply(CommandSender sender)
 	{
-		return MPlayer.get(sender).isCooldownExpired();
+		return DeriusAPI.getDPlayer(sender).isCooldownExpired();
 	}
 	
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		MPlayer mplayer = MPlayer.get(sender);
+		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
 		long expire = mplayer.getCooldownExpireIn();
 		LinkedHashMap<TimeUnit, Long> expireUnit = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(expire, TimeUnit.getAll()), 2);
 		String expireDesc = TimeDiffUtil.formatedVerboose(expireUnit, "<i>");

@@ -46,7 +46,7 @@ public class CmdDeriusList extends DeriusCommand
 			@Override
 			public String toString(Skill skill)
 			{
-				return Txt.parse("%s: %s", skill.getDisplayName(msender), skill.getDesc());
+				return Txt.parse("%s: %s", skill.getDisplayName(dsender), skill.getDesc());
 			}
 		});
 		

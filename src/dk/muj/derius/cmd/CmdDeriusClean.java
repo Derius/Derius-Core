@@ -1,18 +1,9 @@
 package dk.muj.derius.cmd;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.massivecraft.massivecore.cmd.MassiveCommandException;
-import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.Skill;
-import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusClean extends DeriusCommand
 {
@@ -36,8 +27,10 @@ public class CmdDeriusClean extends DeriusCommand
 	@Override
 	public void perform() throws MassiveCommandException
 	{
-		List<Skill> skillList = new ArrayList<Skill>();
-		List<MPlayer> mplayerList = new ArrayList<MPlayer>();
+		throw new MassiveCommandException().addMessage("This command is temporarily disabled");
+		
+		/*List<Skill> skillList = new ArrayList<Skill>();
+		List<DPlayer> mplayerList = new ArrayList<DPlayer>();
 		
 		// Arg 0: ID or all
 		if (this.arg(0).equalsIgnoreCase("all") && Perm.CLEAN_SKILL_ALL.has(sender, true))
@@ -59,8 +52,8 @@ public class CmdDeriusClean extends DeriusCommand
 		}
 		else if (this.argIsSet(1) && Perm.CLEAN_PLAYER.has(sender, true))
 		{
-			MPlayer mplayer = this.arg(1, ARMPlayer.getAny(), msender);
-			if (mplayer != msender && Perm.CLEAN_PLAYER_OTHER.has(sender, true)) return;
+			DPlayer mplayer = this.arg(1, ARDeriusAPI.getDPlayerAny(), dsender);
+			if (mplayer != dsender && Perm.CLEAN_PLAYER_OTHER.has(sender, true)) return;
 
 			mplayerList.add(mplayer);
 		}
@@ -78,13 +71,13 @@ public class CmdDeriusClean extends DeriusCommand
 		// Execute the cleaning
 		for (Skill skill : skillList)
 		{
-			for (MPlayer mplayer : mplayerList)
+			for (DPlayer mplayer : mplayerList)
 			{
 				mplayer.cleanNoCheck(skill.getId());
 			}
 		}
 		
-		return;
+		return;*/
 	}
 
 }

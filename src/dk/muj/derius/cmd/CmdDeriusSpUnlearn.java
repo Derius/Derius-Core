@@ -38,7 +38,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		// Args
 		Skill skill = this.arg(0, ARSkill.get());
 		
-		long moveMillis = PlayerUtil.getLastMoveMillis(msender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
+		long moveMillis = PlayerUtil.getLastMoveMillis(dsender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		
 		if (moveMillis > 0)
 		{
@@ -51,16 +51,16 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		
 		if (skill.isSpAutoAssigned())
 		{
-			msg(MLang.get().specialisationAutoAssigned, skill.getDisplayName(msender));
+			msg(MLang.get().specialisationAutoAssigned, skill.getDisplayName(dsender));
 			return;
 		}
-		else if ( ! msender.isSpecialisedIn(skill))
+		else if ( ! dsender.isSpecialisedIn(skill))
 		{
-			msg(MLang.get().specialisationIsnt, skill.getDisplayName(msender));
+			msg(MLang.get().specialisationIsnt, skill.getDisplayName(dsender));
 			return;
 		}
 		
-		msg(MLang.get().specialisationRemoved, skill.getDisplayName(msender));
+		msg(MLang.get().specialisationRemoved, skill.getDisplayName(dsender));
 		
 		return;
 	}

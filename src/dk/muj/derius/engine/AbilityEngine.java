@@ -6,11 +6,11 @@ import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
 
-import dk.muj.derius.Derius;
+import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Ability.AbilityType;
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.AbilityRegisteredEvent;
@@ -35,7 +35,7 @@ public class AbilityEngine extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return Derius.get();
+		return DeriusCore.get();
 	}
 	
 	// -------------------------------------------- //
@@ -68,7 +68,7 @@ public class AbilityEngine extends EngineAbstract
 	public void onActivate(AbilityActivateEvent event)
 	{
 		Ability ability = event.getAbility();
-		MPlayer mplayer = event.getMPlayer();
+		DPlayer mplayer = event.getDPlayer();
 		if (ability.getType() == AbilityType.ACTIVE)
 		{
 			ChatUtil.msgAbilityActivate(mplayer, ability);
@@ -81,7 +81,7 @@ public class AbilityEngine extends EngineAbstract
 	public void onDeactivate(AbilityDeactivateEvent event)
 	{
 		Ability ability = event.getAbility();
-		MPlayer mplayer = event.getMPlayer();
+		DPlayer mplayer = event.getDPlayer();
 		if (ability.getType() == AbilityType.ACTIVE)
 		{
 			ChatUtil.msgAbilityDeactivate(mplayer, ability);

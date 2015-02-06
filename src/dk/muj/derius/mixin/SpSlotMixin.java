@@ -1,8 +1,8 @@
 package dk.muj.derius.mixin;
 
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
 
 public interface SpSlotMixin
 {
-	public int getMaxSlots(MPlayer MPlayer);
+	public int getMaxSlots(DPlayer DPlayer);
 }

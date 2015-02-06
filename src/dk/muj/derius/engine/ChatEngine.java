@@ -7,9 +7,10 @@ import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
 
-import dk.muj.derius.Derius;
+import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.util.AbilityUtil;
 
 public class ChatEngine extends EngineAbstract
@@ -29,7 +30,7 @@ public class ChatEngine extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return Derius.get();
+		return DeriusCore.get();
 	}
 	
 	// -------------------------------------------- //
@@ -39,7 +40,7 @@ public class ChatEngine extends EngineAbstract
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(AsyncPlayerChatEvent event)
 	{
-		MPlayer mplayer = MPlayer.get(event.getPlayer());
+		DPlayer mplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		
 		if ( ! mplayer.isChatListeningOk()) return;
 		

@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
 
 public class AbilityActivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
 {
@@ -23,15 +23,15 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 	private final Ability ability;
 	public Ability getAbility() { return ability; }
 	
-	private MPlayer mplayer;
-	public MPlayer getMPlayer() { return mplayer; }
+	private DPlayer mplayer;
+	public DPlayer getDPlayer() { return mplayer; }
 	public Player getPlayer() { return mplayer.getPlayer(); }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public AbilityActivateEvent(Ability ability, MPlayer mplayer)
+	public AbilityActivateEvent(Ability ability, DPlayer mplayer)
 	{
 		this.mplayer  = mplayer;
 		this.ability = ability;
@@ -44,7 +44,7 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 	@Override
 	public String toString()
 	{
-		return this.getMPlayer().getName() + " activated " + getAbility().getName();
+		return this.getDPlayer().getName() + " activated " + getAbility().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -58,7 +58,7 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 		if ( ! (obj instanceof AbilityActivateEvent)) return false;
 		AbilityActivateEvent that = (AbilityActivateEvent) obj;
 	
-		if (that.getMPlayer() == this.getMPlayer() && that.getAbility() == this.getAbility()) return true;
+		if (that.getDPlayer() == this.getDPlayer() && that.getAbility() == this.getAbility()) return true;
 		
 		return false;
 	}
@@ -70,7 +70,7 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 		
 		int prime = 31;
 		
-		result += this.getMPlayer().hashCode()*prime;
+		result += this.getDPlayer().hashCode()*prime;
 		result += this.getAbility().hashCode()*prime;
 		
 		return result;

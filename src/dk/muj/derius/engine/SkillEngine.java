@@ -6,7 +6,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
 
-import dk.muj.derius.Derius;
+import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
@@ -35,7 +35,7 @@ public class SkillEngine extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return Derius.get();
+		return DeriusCore.get();
 	}
 	
 	// -------------------------------------------- //

@@ -1,6 +1,6 @@
 package dk.muj.derius.mixin;
 
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
 
 public class SpSlotMixinDefault implements SpSlotMixin
 {
@@ -16,7 +16,7 @@ public class SpSlotMixinDefault implements SpSlotMixin
 	// -------------------------------------------- //
 	
 	@Override
-	public int getMaxSlots(MPlayer mplayer)
+	public int getMaxSlots(DPlayer mplayer)
 	{
 		final String perm = "derius.spslots.";
 		

@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
 
 public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
 {
@@ -23,15 +23,15 @@ public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEv
 	private final Ability ability;
 	public Ability getAbility() { return ability; }
 	
-	private MPlayer mplayer;
-	public MPlayer getMPlayer() { return mplayer; }
+	private DPlayer mplayer;
+	public DPlayer getDPlayer() { return mplayer; }
 	public Player getPlayer() { return mplayer.getPlayer(); }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public AbilityDeactivateEvent(Ability ability, MPlayer mplayer)
+	public AbilityDeactivateEvent(Ability ability, DPlayer mplayer)
 	{
 		this.ability = ability;
 		this.mplayer = mplayer;
@@ -44,7 +44,7 @@ public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEv
 	@Override
 	public String toString()
 	{
-		return this.getMPlayer().getName() + " deactivated " + this.getAbility().getName();
+		return this.getDPlayer().getName() + " deactivated " + this.getAbility().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -58,7 +58,7 @@ public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEv
 		if ( ! (obj instanceof AbilityDeactivateEvent)) return false;
 		AbilityDeactivateEvent that = (AbilityDeactivateEvent) obj;
 	
-		if (that.getMPlayer() == this.getMPlayer() && that.getMPlayer() == this.getMPlayer()) return true;
+		if (that.getDPlayer() == this.getDPlayer() && that.getDPlayer() == this.getDPlayer()) return true;
 		
 		return false;
 	}
@@ -70,7 +70,7 @@ public class AbilityDeactivateEvent extends DeriusEvent implements CancellableEv
 		
 		int prime = 31;
 		
-		result += this.getMPlayer().hashCode()*prime;
+		result += this.getDPlayer().hashCode()*prime;
 		result += this.getAbility().hashCode()*prime;
 		
 		return result;

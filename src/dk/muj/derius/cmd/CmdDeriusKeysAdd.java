@@ -36,7 +36,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		if (id == null)	return;
 		
 		// Already a chat key?
-		if (msender.isAlreadyChatKey(key))
+		if (dsender.isAlreadyChatKey(key))
 		{
 			sendMessage(Txt.parse(MLang.get().keyAlreadyHas, key));
 			return;
@@ -49,7 +49,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 			return;
 		}
 		
-		msender.addChatKey(key, ability);
+		dsender.addChatKey(key, ability);
 		sendMessage(Txt.parse(MLang.get().keyAddSuccess, key, ability.toString()));
 		
 		return;

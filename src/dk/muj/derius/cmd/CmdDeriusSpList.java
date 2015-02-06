@@ -8,9 +8,9 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.cmd.arg.ARDPlayer;
 
 public class CmdDeriusSpList  extends DeriusCommand
 {
@@ -35,15 +35,15 @@ public class CmdDeriusSpList  extends DeriusCommand
 		List<String> messages = new ArrayList<String>();
 		
 		// Args
-		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
+		DPlayer mplayer = this.arg(0, ARDPlayer.getAny(), dsender);
 		
-		if (mplayer != msender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
+		if (mplayer != dsender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 
-		messages.add(Txt.titleize(Txt.parse("%s's <i>Specialisations", mplayer.getDisplayName(msender))));
+		messages.add(Txt.titleize(Txt.parse("%s's <i>Specialisations", mplayer.getDisplayName(dsender))));
 		
 		for (Skill skill : mplayer.getSpecialisedSkills())
 		{
-			messages.add(Txt.parse("%s: %s", skill.getDisplayName(msender), mplayer.getLvlStatus(skill).toString()));
+			messages.add(Txt.parse("%s: %s", skill.getDisplayName(dsender), mplayer.getLvlStatus(skill).toString()));
 		}
 		
 		// Send Message

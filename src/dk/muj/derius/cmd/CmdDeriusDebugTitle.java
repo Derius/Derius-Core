@@ -37,7 +37,7 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 		
 		String title = this.argConcatFrom(3);
 
-		Mixin.sendTitleMsg(msender, fadeIn, stay, fadeOut, title, null);
+		Mixin.sendTitleMsg(dsender, fadeIn, stay, fadeOut, title, null);
 		
 		return;
 	}

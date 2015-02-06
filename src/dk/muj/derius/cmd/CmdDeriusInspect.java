@@ -11,10 +11,10 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.cmd.arg.ARMPlayer;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.entity.SkillColl;
 
 public class CmdDeriusInspect extends DeriusCommand
@@ -39,12 +39,12 @@ public class CmdDeriusInspect extends DeriusCommand
 	public void perform() throws MassiveCommandException
 	{	
 		// Args
-		MPlayer mplayer = this.arg(0, ARMPlayer.getAny(), msender);
+		DPlayer mplayer = this.arg(0, ARDPlayer.getAny(), dsender);
 		Integer pageHumanBased = this.arg(1, ARInteger.get(), 1);
 		
-		if (mplayer != msender && Perm.INSPECT_OTHERS.has(msender.getSender(),true)) return;
+		if (mplayer != dsender && Perm.INSPECT_OTHERS.has(dsender.getSender(),true)) return;
 		
-		String title = (mplayer == msender) ? Txt.titleize(Txt.parse("<green>Your Skills")) : Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(msender)));
+		String title = (mplayer == dsender) ? Txt.titleize(Txt.parse("<green>Your Skills")) : Txt.titleize(Txt.parse("%s's <green>Skills", mplayer.getDisplayName(dsender)));
 
 		// Create Pager
 		final Collection<? extends Skill> skills = SkillColl.getAllSkills();
@@ -56,7 +56,7 @@ public class CmdDeriusInspect extends DeriusCommand
 			public String toString(Skill skill)
 			{
 				LvlStatus status = mplayer.getLvlStatus(skill);
-				return Txt.parse("%s: %s", skill.getDisplayName(msender), status.toString());
+				return Txt.parse("%s: %s", skill.getDisplayName(dsender), status.toString());
 			}
 		});
 		

@@ -39,12 +39,12 @@ public class CmdDeriusSkill extends DeriusCommand
 	{	
 		// Args
 		Skill skill = this.arg (0, ARSkill.get());
-		LvlStatus status = this.arg(1, ARLvlStatus.get(), msender.getLvlStatus(skill));
+		LvlStatus status = this.arg(1, ARLvlStatus.get(), dsender.getLvlStatus(skill));
 		
 		// Message construction
 		List<String> msgs = new ArrayList<String>();
 		
-		msgs.add(Txt.titleize(skill.getDisplayName(msender)));	// Title
+		msgs.add(Txt.titleize(skill.getDisplayName(dsender)));	// Title
 		msgs.add("<lime>" + skill.getDesc());			// Description
 		
 		// Swapping between default and user inserted value
@@ -54,14 +54,14 @@ public class CmdDeriusSkill extends DeriusCommand
 		msgs.add(MLang.get().skillInfoAbilities);
 		for (Ability ability : skill.getAllAbilities())
 		{
-			if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
-			msgs.add(ability.getDisplayedDescription(msender));
+			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
+			msgs.add(ability.getDisplayedDescription(dsender));
 		}
 		msgs.add(MLang.get().skillInfoLevelStats);
 		for (Ability ability : skill.getAllAbilities())
 		{
-			if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
-			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(msender), ability.getLvlDescriptionMsg(status.getLvl())));
+			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
+			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));
 		}
 		
 		// Send Message

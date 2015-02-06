@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.store.MStore;
 import com.massivecraft.massivecore.store.SenderColl;
 
 import dk.muj.derius.Const;
-import dk.muj.derius.Derius;
+import dk.muj.derius.DeriusCore;
 
 public class MPlayerColl extends SenderColl<MPlayer>
 {
@@ -16,7 +16,7 @@ public class MPlayerColl extends SenderColl<MPlayer>
 	public static MPlayerColl get() { return i; }
 	private MPlayerColl()
 	{
-		super(Const.COLLECTION_MPLAYER, MPlayer.class, MStore.getDb(), Derius.get());
+		super(Const.COLLECTION_MPLAYER, MPlayer.class, MStore.getDb(), DeriusCore.get());
 	}
 	
 }

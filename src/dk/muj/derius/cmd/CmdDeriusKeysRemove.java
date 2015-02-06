@@ -38,7 +38,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		// All case?
 		if (keys.contains("all"))
 		{
-			msender.clearChatKeys();
+			dsender.clearChatKeys();
 			msg(MLang.get().keysClearSuccess);
 			return;
 		}
@@ -46,13 +46,13 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		for (String key : keys)
 		{
 			// Isn't chat key
-			if ( ! msender.isAlreadyChatKey(key))
+			if ( ! dsender.isAlreadyChatKey(key))
 			{
 				msg(MLang.get().keyHanst, key);
 				return;
 			}
 			
-			msender.removeChatKey(key);
+			dsender.removeChatKey(key);
 			sendMessage(Txt.parse(MLang.get().keyRemoveSuccess, key));
 		}
 		

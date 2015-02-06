@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
 
 public interface Listener
 {
@@ -180,16 +180,16 @@ public interface Listener
 	
 	/**
 	 * Called when a block is broken if the block is registered for that listener
-	 * @param {MPlayer} player who broke the block
+	 * @param {DPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
-	default void onBlockBreak(MPlayer player, BlockState block) {};
+	default void onBlockBreak(DPlayer player, BlockState block) {};
 	
 	/**
 	 * Called when a player attacks an entity.
-	 * @param {MPlayer} the player attacking
+	 * @param {DPlayer} the player attacking
 	 * @param {EntityDamageByEntityEvent} the event causing this
 	 */
-	default void onPlayerAttack(MPlayer attacker, EntityDamageByEntityEvent event) {};
+	default void onPlayerAttack(DPlayer attacker, EntityDamageByEntityEvent event) {};
 
 }

@@ -6,10 +6,10 @@ import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MPlayer;
 
 public class ReqIsAtleastLevel implements Req
 {
@@ -34,7 +34,7 @@ public class ReqIsAtleastLevel implements Req
 	@Override
 	public boolean apply(CommandSender sender, Skill skill)
 	{
-		return (skill.getLvlStatusFromExp(MPlayer.get(sender).getExp(skill)).getLvl() >= level);
+		return (skill.getLvlStatusFromExp(DeriusAPI.getDPlayer(sender).getExp(skill)).getLvl() >= level);
 	}
 
 	@Override

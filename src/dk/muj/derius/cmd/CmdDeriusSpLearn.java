@@ -41,9 +41,9 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		// Args
 		Skill skill = this.arg(0, ARSkill.get());
 		
-		if (! SkillUtil.canPlayerSpecialiseSkill(msender, skill, true)) return;
+		if (! SkillUtil.canPlayerSpecialiseSkill(dsender, skill, true)) return;
 		
-		long moveMillis = PlayerUtil.getLastMoveMillis(msender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
+		long moveMillis = PlayerUtil.getLastMoveMillis(dsender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		
 		if (moveMillis > 0)
 		{
@@ -54,7 +54,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 			return;
 		}
 		
-		msender.setSpecialisedIn(skill, true);
+		dsender.setSpecialisedIn(skill, true);
 	
 		return;
 	}

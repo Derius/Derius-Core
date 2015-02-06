@@ -3,13 +3,13 @@ package dk.muj.derius.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.MPlayer;
 
 /**
  * This event is thrown every time a player loses exp
  */
-public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent, MPlayerEvent, SkillEvent
+public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent, SkillEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -26,8 +26,8 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 	private final Skill skill;
 	public Skill getSkill() { return skill; }
 	
-	private final MPlayer mplayer;
-	public MPlayer getMPlayer() { return mplayer; }
+	private final DPlayer mplayer;
+	public DPlayer getDPlayer() { return mplayer; }
 	public Player getPlayer() { return mplayer.getPlayer(); }
 	
 	private double amount;
@@ -38,7 +38,7 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerTakeExpEvent(MPlayer mplayer, Skill skill, long expAmount)
+	public PlayerTakeExpEvent(DPlayer mplayer, Skill skill, long expAmount)
 	{
 		this.skill = skill;
 		this.mplayer = mplayer;
@@ -53,7 +53,7 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 	@Override
 	public String toString()
 	{
-		return this.getMPlayer().getName() + " lost " + this.getExpAmount() + " exp in " + this.getSkill().getName();
+		return this.getDPlayer().getName() + " lost " + this.getExpAmount() + " exp in " + this.getSkill().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -67,7 +67,7 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 		if ( ! (obj instanceof PlayerTakeExpEvent)) return false;
 		PlayerTakeExpEvent that = (PlayerTakeExpEvent) obj;
 	
-		if (this.getSkill() == that.getSkill() && this.getMPlayer() == that.getMPlayer() && this.getExpAmount() == that.getExpAmount()) return true;
+		if (this.getSkill() == that.getSkill() && this.getDPlayer() == that.getDPlayer() && this.getExpAmount() == that.getExpAmount()) return true;
 		
 		return false;
 	}
@@ -79,7 +79,7 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 		
 		result += this.getSkill().hashCode();
 		result += this.getExpAmount() *31;
-		result += this.getMPlayer().hashCode();
+		result += this.getDPlayer().hashCode();
 		
 		return result;
 	}

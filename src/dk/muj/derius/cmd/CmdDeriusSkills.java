@@ -43,7 +43,7 @@ public class CmdDeriusSkills extends DeriusCommand
 		
 		for (Skill skill : SkillColl.getAllSkills())
 		{
-			LvlStatus status = msender.getLvlStatus(skill);
+			LvlStatus status = dsender.getLvlStatus(skill);
 			
 			// Message construction
 			List<String> msgs = new ArrayList<String>();
@@ -57,14 +57,14 @@ public class CmdDeriusSkills extends DeriusCommand
 			msgs.add(MLang.get().skillInfoAbilities);
 			for (Ability ability : skill.getAllAbilities())
 			{
-				if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
-				msgs.add(ability.getDisplayedDescription(msender));
+				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
+				msgs.add(ability.getDisplayedDescription(dsender));
 			}
 			msgs.add(MLang.get().skillInfoLevelStats);
 			for (Ability ability : skill.getAllAbilities())
 			{
-				if ( ! AbilityUtil.canPlayerSeeAbility(msender, ability, false)) continue;
-				msgs.add(String.format("%s: <i>%s", ability.getDisplayName(msender), ability.getLvlDescriptionMsg(status.getLvl())));
+				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
+				msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));
 			}
 			
 			msgs = Txt.parse(msgs);
@@ -73,7 +73,7 @@ public class CmdDeriusSkills extends DeriusCommand
 			ItemMeta meta = skillItem.getItemMeta();
 			msg(skill.getIcon().toString());
 			if (meta == null) throw new MassiveCommandException().addMessage("item meta was null");
-			meta.setDisplayName(Txt.titleize(skill.getDisplayName(msender)));
+			meta.setDisplayName(Txt.titleize(skill.getDisplayName(dsender)));
 			meta.setLore(msgs);
 			
 			skillItem.setItemMeta(meta);

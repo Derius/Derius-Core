@@ -16,7 +16,9 @@ import org.bukkit.plugin.Plugin;
 import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.util.EventUtil;
 
-import dk.muj.derius.Derius;
+import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
@@ -42,7 +44,7 @@ public class MainEngine extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return Derius.get();
+		return DeriusCore.get();
 	}
 	
 	// -------------------------------------------- //
@@ -72,7 +74,7 @@ public class MainEngine extends EngineAbstract
 		Listener listener = Listener.getBlockBreakListener(event.getBlock().getType());
 		if (listener != null)
 		{
-			listener.onBlockBreak(MPlayer.get(event.getPlayer()), event.getBlock().getState());
+			listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), event.getBlock().getState());
 		}
 		
 	}
@@ -83,7 +85,7 @@ public class MainEngine extends EngineAbstract
 		Action action = event.getAction();
 		if (action != Action.RIGHT_CLICK_AIR) return;
 		
-		MPlayer mplayer = MPlayer.get(event.getPlayer());
+		DPlayer mplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		
 		mplayer.setPreparedTool(Optional.ofNullable(event.getMaterial()));
 		
@@ -101,7 +103,7 @@ public class MainEngine extends EngineAbstract
 			return;
 		}
 		
-		listener.onPlayerAttack(MPlayer.get(p), event);
+		listener.onPlayerAttack(DeriusAPI.getDPlayer(p), event);
 		
 		return;
 	}
@@ -115,7 +117,7 @@ public class MainEngine extends EngineAbstract
 	/*@EventHandler(priority = EventPriority.LOWEST)
 	public void muliplier(PlayerAddExpEvent event)
 	{
-		CommandSender sender = event.getMPlayer().getSender();
+		CommandSender sender = event.getDPlayer().getSender();
 		if (sender == null) return;
 		Skill skill = event.getSkill();
 		

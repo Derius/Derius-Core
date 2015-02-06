@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 
+import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.SkillColl;
@@ -36,7 +38,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	public Skill select(String arg, CommandSender sender)
 	{
 		if (arg == null) return null;
-		MPlayer mplayer = MPlayer.get(sender);
+		DPlayer mplayer = MPlayer.get(sender);
 		arg = arg.toLowerCase();
 		for (Skill skill : SkillColl.getAllSkills())
 		{
@@ -54,7 +56,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	@Override
 	public Collection<String> altNames(CommandSender sender)
 	{
-		MPlayer mplayer = MPlayer.get(sender);
+		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
 		
 		List<String> ret = new ArrayList<String>();
 	

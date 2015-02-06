@@ -8,7 +8,7 @@ import java.util.Set;
 import com.massivecraft.massivecore.cmd.MassiveCommandException;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.cmd.arg.ARMPlayer;
+import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.entity.MPlayer;
 
 public class CmdDeriusDebugPlayer extends DeriusCommand
@@ -33,7 +33,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	@Override
 	public void perform() throws MassiveCommandException 
 	{
-		MPlayer mplayer = this.arg(0, ARMPlayer.getAny());
+		MPlayer mplayer = (MPlayer) this.arg(0, ARDPlayer.getAny());
 		
 		List<String> messages = new ArrayList<String>();
 		
@@ -41,7 +41,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		
 		Map<String,Long> exp = mplayer.getRawExpData();
 
-		messages.add(Txt.titleize(Txt.parse("Debug info about %s", mplayer.getDisplayName(msender))));
+		messages.add(Txt.titleize(Txt.parse("Debug info about %s", mplayer.getDisplayName(dsender))));
 		messages.add(Txt.parse("<i>Current millis: <lime>%s", System.currentTimeMillis()));
 		messages.add(Txt.parse("<i>Prepared tool: <lime>%s", mplayer.getPreparedTool()));
 		messages.add(Txt.parse("<red>Specialised: <art>%S", Txt.implodeCommaAnd( specialised, ",", "&")));

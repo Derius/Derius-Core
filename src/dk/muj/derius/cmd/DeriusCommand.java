@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.cmd.VisibilityMode;
 
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 
 
@@ -13,7 +13,7 @@ public class DeriusCommand extends MassiveCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public MPlayer msender;
+	public DPlayer dsender;
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -22,13 +22,13 @@ public class DeriusCommand extends MassiveCommand
 	@Override
 	public void fixSenderVars() 
 	{
-		this.msender = MPlayerColl.get().get(sender, true);
+		this.dsender = MPlayerColl.get().get(sender, true);
 	}
 	
 	@Override
 	public void unsetSenderVars()
 	{
-		this.msender = null;
+		this.dsender = null;
 	}
 	
 	// -------------------------------------------- //

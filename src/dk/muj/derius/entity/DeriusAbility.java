@@ -12,6 +12,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.TicksLastCalculator;
@@ -134,7 +135,7 @@ public class DeriusAbility extends Entity<DeriusAbility> implements Ability
 	
 	public String getDisplayName(Object watcherObject)
 	{
-		MPlayer player = MPlayer.get(watcherObject);
+		DPlayer player = DeriusAPI.getDPlayer(watcherObject);
 		if (player == null) return null;
 		String color = AbilityUtil.canPlayerActivateAbility(player, this, false) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
 		return color + this.getName();
