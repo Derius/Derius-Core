@@ -1,3 +1,4 @@
+
 package dk.muj.derius.util;
 
 import java.util.Map;
@@ -55,7 +56,7 @@ public final class LevelUtil
 			else if (entry.getKey() <= level && entry.getKey() >= floor.getKey()) floor = entry;
 		}
 		
-		if (floor == null) return Optional.of(0D);
+		if (floor == null) return Optional.empty();
 		if (ceil == null) return Optional.of(floor.getValue().doubleValue());
 		
 		int lvlDiff = ceil.getKey() - ceil.getKey();
