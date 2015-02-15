@@ -1,6 +1,6 @@
 package dk.muj.derius.cmd;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
@@ -25,9 +25,9 @@ public class CmdDeriusClean extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
-		throw new MassiveCommandException().addMessage("This command is temporarily disabled");
+		throw new MassiveException().addMessage("This command is temporarily disabled");
 		
 		/*List<Skill> skillList = new ArrayList<Skill>();
 		List<DPlayer> mplayerList = new ArrayList<DPlayer>();

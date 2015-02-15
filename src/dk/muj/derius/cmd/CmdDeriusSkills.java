@@ -8,7 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
 import com.massivecraft.massivecore.util.Txt;
@@ -37,7 +37,7 @@ public class CmdDeriusSkills extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
 		List<ItemStack> skills = new ArrayList<ItemStack>();
 		
@@ -55,13 +55,13 @@ public class CmdDeriusSkills extends DeriusCommand
 
 			// All Abilities
 			msgs.add(MLang.get().skillInfoAbilities);
-			for (Ability ability : skill.getAllAbilities())
+			for (Ability ability : skill.getAbilities())
 			{
 				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
 				msgs.add(ability.getDisplayedDescription(dsender));
 			}
 			msgs.add(MLang.get().skillInfoLevelStats);
-			for (Ability ability : skill.getAllAbilities())
+			for (Ability ability : skill.getAbilities())
 			{
 				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
 				msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));
@@ -72,7 +72,7 @@ public class CmdDeriusSkills extends DeriusCommand
 			ItemStack skillItem = new ItemStack(skill.getIcon(), 1);
 			ItemMeta meta = skillItem.getItemMeta();
 			msg(skill.getIcon().toString());
-			if (meta == null) throw new MassiveCommandException().addMessage("item meta was null");
+			if (meta == null) throw new MassiveException().addMessage("item meta was null");
 			meta.setDisplayName(Txt.titleize(skill.getDisplayName(dsender)));
 			meta.setLore(msgs);
 			

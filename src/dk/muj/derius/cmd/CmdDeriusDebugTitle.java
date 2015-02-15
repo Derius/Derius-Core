@@ -1,6 +1,6 @@
 package dk.muj.derius.cmd;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.mixin.Mixin;
 
@@ -29,7 +29,7 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
 		Integer fadeIn = this.arg(0, ARInteger.get());
 		Integer stay = this.arg(1, ARInteger.get());

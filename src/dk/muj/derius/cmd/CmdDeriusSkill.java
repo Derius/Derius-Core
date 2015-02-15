@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -35,7 +35,7 @@ public class CmdDeriusSkill extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{	
 		// Args
 		Skill skill = this.arg (0, ARSkill.get());
@@ -52,13 +52,13 @@ public class CmdDeriusSkill extends DeriusCommand
 
 		// All Abilities
 		msgs.add(MLang.get().skillInfoAbilities);
-		for (Ability ability : skill.getAllAbilities())
+		for (Ability ability : skill.getAbilities())
 		{
 			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
 			msgs.add(ability.getDisplayedDescription(dsender));
 		}
 		msgs.add(MLang.get().skillInfoLevelStats);
-		for (Ability ability : skill.getAllAbilities())
+		for (Ability ability : skill.getAbilities())
 		{
 			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
 			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));

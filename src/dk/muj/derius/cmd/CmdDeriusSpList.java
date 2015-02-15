@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -30,7 +30,7 @@ public class CmdDeriusSpList  extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
 		List<String> messages = new ArrayList<String>();
 		

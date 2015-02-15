@@ -49,11 +49,11 @@ public class AbilityEngine extends EngineAbstract
 		Skill skill = ability.getSkill();
 		if (ability.getType() == AbilityType.ACTIVE)
 		{
-			skill.getActiveAbilities().add(ability);
+			skill.getAbilities().add(ability);
 		}
 		else if (ability.getType() == AbilityType.PASSIVE)
 		{
-			skill.getPassiveAbilities().add(ability);
+			skill.getAbilities().add(ability);
 		}
 		// Requirements
 		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());

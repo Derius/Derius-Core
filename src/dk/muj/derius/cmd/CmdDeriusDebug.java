@@ -22,12 +22,16 @@ public class CmdDeriusDebug extends DeriusCommand
 	
 	public CmdDeriusDebug()
 	{
+		// Subcommands
 		this.addSubCommand(HelpCommand.get());
 		this.addSubCommand(innerCmdDeriusDebugInfo);
 		this.addSubCommand(innerCmdDeriusDebugTitle);
 		this.addSubCommand(innerCmdDeriusDebugPlayer);
 		
+		// Visibility
 		this.setVisibilityMode(VisibilityMode.SECRET);
+		
+		// Requirements
 		this.addRequirements(ReqHasPerm.get(Perm.DEBUG.node));
 	}
 	

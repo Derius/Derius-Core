@@ -1,5 +1,6 @@
 package dk.muj.derius;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
@@ -7,20 +8,25 @@ import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
+import com.massivecraft.massivecore.util.ReflectionUtil;
+import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Derius;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.engine.AbilityEngine;
 import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.AbilityColl;
+import dk.muj.derius.entity.DeriusSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.entity.adapter.SkillAdapter;
 import dk.muj.derius.mixin.BlockMixin;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixin;
@@ -97,9 +103,12 @@ public class DeriusCore extends MassivePlugin implements Derius
 		
 		MPlayerColl.get().get(IdUtil.getConsole(), true);
 		
+		this.setApiField();
+		
 		this.postEnable();
 	}
 	
+
 	@Override
 	public void onDisable()
 	{
@@ -110,6 +119,13 @@ public class DeriusCore extends MassivePlugin implements Derius
 		{
 			engine.deactivate();
 		}
+	}
+	
+	@Override
+	public GsonBuilder getGsonBuilder()
+	{
+		return super.getGsonBuilder()
+				.registerTypeAdapter(DeriusSkill.class, SkillAdapter.get());
 	}
 	
 	// -------------------------------------------- //
@@ -128,4 +144,15 @@ public class DeriusCore extends MassivePlugin implements Derius
 		return MPlayerColl.get().get(senderObject, false);
 	}
 	
+	// -------------------------------------------- //
+	// INIT API
+	// -------------------------------------------- //
+	
+	private void setApiField()
+	{
+		Class<DeriusAPI> apiClass = DeriusAPI.class;
+		Field coreField = ReflectionUtil.getField(apiClass, "core");
+		ReflectionUtil.makeAccessible(coreField);
+		ReflectionUtil.setField(coreField, null, this);
+	}
 }

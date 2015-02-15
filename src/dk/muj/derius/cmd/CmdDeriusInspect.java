@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.Collection;
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.pager.PagerSimple;
@@ -25,9 +25,11 @@ public class CmdDeriusInspect extends DeriusCommand
 	
 	public CmdDeriusInspect()
 	{
+		// Args
 		this.addOptionalArg("player", "you");
 		this.addOptionalArg("page", "1");
 		
+		// Requirements
 		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.node));
 	}
 	
@@ -36,7 +38,7 @@ public class CmdDeriusInspect extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{	
 		// Args
 		DPlayer mplayer = this.arg(0, ARDPlayer.getAny(), dsender);

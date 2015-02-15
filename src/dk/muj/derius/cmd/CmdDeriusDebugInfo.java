@@ -20,6 +20,7 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 	
 	public CmdDeriusDebugInfo()
 	{
+		// Aliases
 		this.addAliases("info");
 	}
 	
@@ -32,22 +33,22 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 	{
 		List<String> messages = new ArrayList<String>();
 		
-		messages.add(Txt.parse("<art>REGISTERED SKILLS"));
+		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED SKILLS")));
 		for (Skill skill : SkillColl.getAllSkills())
 		{
 			messages.add(Txt.parse("<red>%s %s", skill.getId(), skill.getName()));
 		}
 		
-		messages.add(Txt.parse("<art>REGISTERED ABILITIES"));
+		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED ABILITIES")));
 		for (Ability ability : AbilityColl.getAllAbilities())
 		{
 			messages.add(Txt.parse("<red>%s %s           %s", ability.getId(), ability.getName(), ability.getSkill().getId()));
 		}
 
-		messages.add(Txt.parse("<art>REGISTERED INTERACT MATERIALS"));
+		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED INTERACT MATERIALS")));
 		messages.add(Txt.parse("<red>%s", Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>")));
 		
-		sendMessage(messages);
+		this.sendMessage(messages);
 		
 		return;
 	}

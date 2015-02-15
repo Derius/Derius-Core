@@ -2,7 +2,7 @@ package dk.muj.derius.cmd;
 
 import java.util.LinkedHashMap;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.PlayerUtil;
 import com.massivecraft.massivecore.util.TimeDiffUtil;
@@ -33,7 +33,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
 		// Args
 		Skill skill = this.arg(0, ARSkill.get());

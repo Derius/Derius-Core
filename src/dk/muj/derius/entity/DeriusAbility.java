@@ -147,9 +147,9 @@ public class DeriusAbility extends Entity<DeriusAbility> implements Ability
 	
 	public Skill getSkill() { throw new UnsupportedOperationException("Ability#getSkill must be implemented"); };
 		
-	public String getId() { if (this.getClass().equals(Ability.class)) return null; throw new UnsupportedOperationException("Ability#getId must be implemented"); }
+	public String getId() { if (this.getClass().equals(DeriusAbility.class)) return null; throw new UnsupportedOperationException("Ability#getId must be implemented"); }
 	
-	public String getLvlDescriptionMsg(int lvl) { throw new UnsupportedOperationException("Ability#getLvlDescriontionMsg must be implemented"); };
+	public String getLvlDescriptionMsg(int lvl) { return null; /*throw new UnsupportedOperationException("Ability#getLvlDescriontionMsg must be implemented");*/ };
 	
 	public Object onActivate(DPlayer p, Object other) { return null; };
 	public void onDeactivate(DPlayer p, Object other) { };

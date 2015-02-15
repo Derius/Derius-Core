@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
@@ -31,7 +31,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
 		List<String> messages = new ArrayList<String>();
 		List<Ability> abilities = new ArrayList<>();
@@ -45,7 +45,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		}
 		else
 		{
-			abilities.addAll(skill.getAllAbilities());
+			abilities.addAll(skill.getAbilities());
 		}
 		
 		// Apply

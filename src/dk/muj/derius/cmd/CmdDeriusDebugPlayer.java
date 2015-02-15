@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.cmd.arg.ARDPlayer;
@@ -20,8 +20,10 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	
 	public CmdDeriusDebugPlayer()
 	{
+		// Args
 		this.addRequiredArg("player");
 		
+		// Aliases
 		this.addAliases("player");
 	}
 	
@@ -31,8 +33,9 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void perform() throws MassiveCommandException 
+	public void perform() throws MassiveException 
 	{
+		// Args
 		MPlayer mplayer = (MPlayer) this.arg(0, ARDPlayer.getAny());
 		
 		List<String> messages = new ArrayList<String>();
@@ -52,7 +55,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 			messages.add(Txt.parse("<i>, <lime>%s", skill, exp.get(skill)));
 		}
 		
-		sendMessage(messages);
+		this.sendMessage(messages);
 		
 		return;
 	}

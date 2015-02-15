@@ -27,7 +27,7 @@ import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.lambda.LvlStatusDefault;
 import dk.muj.derius.util.SkillUtil;
 
-public class DeriusSkill extends Entity<DeriusSkill> implements Skill
+public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 {
 	// -------------------------------------------- //
 	// FIELDS
@@ -38,13 +38,9 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	@Override public boolean isEnabled() { return enabled; }
 	@Override public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	
-	// Passive abilities
-	private transient List<Ability> passiveAbilities = new CopyOnWriteArrayList<>();
-	@Override public List<Ability> getPassiveAbilities() { return this.passiveAbilities; }
-	
-	// Active abilities
-	private transient List<Ability> activeAbilities = new CopyOnWriteArrayList<>();
-	@Override public List<Ability> getActiveAbilities() { return this.activeAbilities; }
+	// Abilities
+	private transient List<Ability> abilities = new CopyOnWriteArrayList<>();
+	@Override public List<Ability> getAbilities() { return this.abilities; }
 	
 	// -------------------------------------------- //
 	// FIELDS: DESCRIPTIVE
@@ -85,6 +81,8 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	
 	// Configuration
 	private JsonObject configuration = new JsonObject();
+	public Object getConfiguration() { return this.configuration; }
+	public void setConfiguration(JsonObject conf) { this.configuration = conf; }
 	
 	// -------------------------------------------- //
 	// FIELDS: REUIRING
@@ -267,7 +265,7 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	 * This should be lowercase.
 	 * @return {String} the skills unique id.
 	 */
-	public String getId() { if (this.getClass().equals(Skill.class)) return null; throw new UnsupportedOperationException("Skill#getId must be implemented"); }
+	public abstract String getId();
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE
@@ -298,5 +296,6 @@ public class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	{
 		return getName();
 	}
+
 	
 }

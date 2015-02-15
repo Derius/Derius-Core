@@ -10,6 +10,7 @@ import com.massivecraft.massivecore.store.MStore;
 import dk.muj.derius.Const;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.entity.adapter.GsonSkill;
 
 public class SkillColl extends Coll<DeriusSkill>
 {
@@ -41,6 +42,16 @@ public class SkillColl extends Coll<DeriusSkill>
 		}
 		
 		return skills;
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE
+	// -------------------------------------------- //
+	
+	@Override
+	public DeriusSkill createNewInstance()
+	{
+		return new GsonSkill();
 	}
 	
 }

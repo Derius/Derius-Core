@@ -2,7 +2,7 @@ package dk.muj.derius.cmd;
 
 import java.util.Set;
 
-import com.massivecraft.massivecore.cmd.MassiveCommandException;
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.arg.ARSet;
 import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
@@ -30,7 +30,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 	// -------------------------------------------- //
 	
 	@Override
-	public void perform() throws MassiveCommandException
+	public void perform() throws MassiveException
 	{
 		// Args
 		Set<String> keys = this.argConcatFrom(0, ARSet.get(ARString.get(), true));

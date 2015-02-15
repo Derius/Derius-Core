@@ -32,6 +32,7 @@ public class CmdDerius extends DeriusCommand
 	
 	public CmdDerius()
 	{
+		// Subcommands
 		this.addSubCommand(HelpCommand.get());
 		this.addSubCommand(this.innerCmdSkill);
 		this.addSubCommand(this.innerCmdSkills);
@@ -43,6 +44,7 @@ public class CmdDerius extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusDebug);
 		this.addSubCommand(this.innerCmdDeriusVersion);
 		
+		// Requirements
 		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
 	}
 	
