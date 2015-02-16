@@ -1,6 +1,5 @@
-package dk.muj.derius.entity.adapter;
+package dk.muj.derius.entity.skill;
 
-import dk.muj.derius.entity.DeriusSkill;
 
 public final class GsonSkill extends DeriusSkill
 {
@@ -24,9 +23,13 @@ public final class GsonSkill extends DeriusSkill
 	}
 	
 	@Override
-	public boolean isEnabled()
+	public DeriusSkill load(DeriusSkill that)
 	{
-		return false;
+		DeriusSkill ret = super.load(that);
+		ret.setEnabled(false);
+		this.setEnabled(false);
+		
+		return ret;
 	}
 	
 }

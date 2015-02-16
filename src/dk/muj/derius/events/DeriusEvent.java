@@ -10,6 +10,6 @@ public abstract class DeriusEvent extends Event implements RunnableEvent
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	@Override public HandlerList getHandlers() {    return handlers;	} 
-	public static HandlerList getHandlerList() {    return handlers;	}
+	@Override public HandlerList getHandlers() {	return handlers;	} 
+	public static HandlerList getHandlerList() {	return handlers;	}
 }

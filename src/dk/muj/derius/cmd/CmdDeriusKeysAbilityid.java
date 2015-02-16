@@ -11,7 +11,7 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
-import dk.muj.derius.entity.AbilityColl;
+import dk.muj.derius.entity.ability.AbilityColl;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand
 {

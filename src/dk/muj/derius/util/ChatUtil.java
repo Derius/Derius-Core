@@ -8,9 +8,7 @@ import org.bukkit.entity.Player;
 import com.massivecraft.massivecore.mixin.Mixin;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
 import dk.muj.spigot.chat.ActionBar_v1_8_R1;
 
@@ -21,38 +19,6 @@ public final class ChatUtil
 	// -------------------------------------------- //
 	
 	private ChatUtil() {}
-	
-	// -------------------------------------------- //
-	// MSG
-	// -------------------------------------------- //
-	
-	public static void msgLevelUp(DPlayer p, Skill s, int level)
-	{
-		MLang lang = MLang.get();
-		ChatUtil.sendTitle(p.getPlayer(), Optional.empty(), Optional.of(Txt.parse(lang.levelUp, level, s.getDisplayName(p))), 
-				lang.timeLvlUpFadeIn, lang.timeLvlUpStay, lang.timeLvlUpFadeOut);
-	}
-	
-	public static void msgLevelDown(DPlayer mPlayer, Skill skill, int lvlAfter)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public static void msgAbilityActivate(DPlayer p, Ability a)
-	{
-		MLang lang = MLang.get();
-		ChatUtil.sendTitle(p.getPlayer(), Optional.empty(), Optional.of(Txt.parse(lang.abilityActivated, a.getDisplayName(p))), 
-				lang.timeAbilityActivateFadeIn, lang.timeAbilityActivateStay, lang.timeAbilityActivateFadeOut);
-	}
-	
-	public static void msgAbilityDeactivate(DPlayer p, Ability a)
-	{
-		MLang lang = MLang.get();
-		ChatUtil.sendTitle(p.getPlayer(), Optional.empty(), Optional.of(Txt.parse(lang.abilityDeactivated, a.getDisplayName(p))), 
-				lang.timeAbilityDeactivateFadeIn, lang.timeAbilityDeactivateStay, lang.timeAbilityDeactivateFadeOut);
-		
-	}
 	
 	public static void msgToolPrepared(DPlayer mplayer, Material tool)
 	{

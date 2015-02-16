@@ -32,10 +32,10 @@ public class CmdDeriusSpList  extends DeriusCommand
 	@Override
 	public void perform() throws MassiveException
 	{
-		List<String> messages = new ArrayList<String>();
-		
 		// Args
 		DPlayer mplayer = this.arg(0, ARDPlayer.getAny(), dsender);
+		
+		List<String> messages = new ArrayList<String>();
 		
 		if (mplayer != dsender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 

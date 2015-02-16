@@ -1,4 +1,4 @@
-package dk.muj.derius.entity;
+package dk.muj.derius.entity.ability;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,10 +16,11 @@ import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.TicksLastCalculator;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.util.AbilityUtil;
 
-public class DeriusAbility extends Entity<DeriusAbility> implements Ability
+public abstract class DeriusAbility extends Entity<DeriusAbility> implements Ability
 {
 	// -------------------------------------------- //
 	// FIELDS
@@ -43,7 +44,7 @@ public class DeriusAbility extends Entity<DeriusAbility> implements Ability
 	
 	private WorldExceptionSet worldsUse = new WorldExceptionSet();
 	public WorldExceptionSet getWorldsUse() { return this.worldsUse; }
-	public void setWorldsEarn(WorldExceptionSet worldsUse) { this.worldsUse = worldsUse; }
+	public void setWorldsUse(WorldExceptionSet worldsUse) { this.worldsUse = worldsUse; }
 	
 	private transient AbilityType type;
 	public AbilityType getType() { return this.type; }
@@ -145,14 +146,14 @@ public class DeriusAbility extends Entity<DeriusAbility> implements Ability
 	// ABSTRACT
 	// -------------------------------------------- //
 	
-	public Skill getSkill() { throw new UnsupportedOperationException("Ability#getSkill must be implemented"); };
+	public abstract Skill getSkill();
 		
-	public String getId() { if (this.getClass().equals(DeriusAbility.class)) return null; throw new UnsupportedOperationException("Ability#getId must be implemented"); }
+	public abstract String getId();
 	
-	public String getLvlDescriptionMsg(int lvl) { return null; /*throw new UnsupportedOperationException("Ability#getLvlDescriontionMsg must be implemented");*/ };
+	public abstract String getLvlDescriptionMsg(int lvl);
 	
-	public Object onActivate(DPlayer p, Object other) { return null; };
-	public void onDeactivate(DPlayer p, Object other) { };
+	public abstract Object onActivate(DPlayer p, Object other);
+	public abstract void onDeactivate(DPlayer p, Object other);
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE

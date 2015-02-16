@@ -35,9 +35,11 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 		Integer stay = this.arg(1, ARInteger.get());
 		Integer fadeOut = this.arg(2, ARInteger.get());
 		
-		String title = this.argConcatFrom(3);
-
-		Mixin.sendTitleMsg(dsender, fadeIn, stay, fadeOut, title, null);
+		// Use quotes and stuff in the args.
+		String title = this.arg(3);
+		String subTitle = this.arg(4);
+		
+		Mixin.sendTitleMsg(dsender, fadeIn, stay, fadeOut, title, subTitle);
 		
 		return;
 	}

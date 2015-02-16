@@ -1,20 +1,19 @@
 package dk.muj.derius.events;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 
-public class AbilityActivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
+public class AbilityActivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	@Override public HandlerList getHandlers() {    return handlers;	} 
-	public static HandlerList getHandlerList() {    return handlers;	}
+	@Override public HandlerList getHandlers() {	return handlers;	} 
+	public static HandlerList getHandlerList() {	return handlers;	}
 	
 	// -------------------------------------------- //
 	// FIELDS
@@ -25,7 +24,6 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 	
 	private DPlayer mplayer;
 	public DPlayer getDPlayer() { return mplayer; }
-	public Player getPlayer() { return mplayer.getPlayer(); }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

@@ -1,4 +1,4 @@
-package dk.muj.derius.entity;
+package dk.muj.derius.entity.ability;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,6 +41,16 @@ public class AbilityColl extends Coll<DeriusAbility>
 		}
 		
 		return abilities;
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: COLL
+	// -------------------------------------------- //
+	
+	@Override
+	public DeriusAbility createNewInstance()
+	{
+		return new GsonAbility();
 	}
 	
 }

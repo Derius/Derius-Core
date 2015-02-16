@@ -19,7 +19,7 @@ public class ChatEngine extends EngineAbstract
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ChatEngine i = new ChatEngine();
+	private static ChatEngine i = new ChatEngine();
 	public static ChatEngine get() { return i; }
 	public ChatEngine() {}
 	

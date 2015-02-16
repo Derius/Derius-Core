@@ -12,7 +12,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.entity.skill.SkillColl;
 
 public class CmdDeriusList extends DeriusCommand
 {
@@ -22,8 +22,10 @@ public class CmdDeriusList extends DeriusCommand
 	
 	public CmdDeriusList()
 	{
+		// Args
 		this.addOptionalArg("page", "1");
 		
+		// Requirements
 		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
 	}
 	

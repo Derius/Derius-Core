@@ -18,7 +18,7 @@ public class ReqHasOpenSlot implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ReqHasOpenSlot i = new ReqHasOpenSlot();
+	private static ReqHasOpenSlot i = new ReqHasOpenSlot();
 	public static ReqHasOpenSlot get() { return i; }
 	private ReqHasOpenSlot() {}
 	

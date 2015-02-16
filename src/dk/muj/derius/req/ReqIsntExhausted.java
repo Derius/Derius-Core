@@ -22,7 +22,7 @@ public class ReqIsntExhausted implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 
-    private static ReqIsntExhausted i = new ReqIsntExhausted();
+	private static ReqIsntExhausted i = new ReqIsntExhausted();
 	public static ReqIsntExhausted get() { return i; }
 	private ReqIsntExhausted() {}
 	

@@ -1,4 +1,4 @@
-package dk.muj.derius.entity;
+package dk.muj.derius.entity.skill;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,7 +10,6 @@ import com.massivecraft.massivecore.store.MStore;
 import dk.muj.derius.Const;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.adapter.GsonSkill;
 
 public class SkillColl extends Coll<DeriusSkill>
 {
@@ -45,7 +44,7 @@ public class SkillColl extends Coll<DeriusSkill>
 	}
 	
 	// -------------------------------------------- //
-	// OVERRIDE
+	// OVERRIDE: COLL
 	// -------------------------------------------- //
 	
 	@Override

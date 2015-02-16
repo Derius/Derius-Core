@@ -1,40 +1,40 @@
 package dk.muj.derius.events;
 
+import org.bukkit.Material;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.Skill;
 
-public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPlayerEvent
+public class PlayerUnprepareToolEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
 	// -------------------------------------------- //
 	
 	private static final HandlerList handlers = new HandlerList();
-	@Override public HandlerList getHandlers() { return handlers; }
-	public static HandlerList getHandlerList() { return handlers; }
+	@Override public HandlerList getHandlers() {	return handlers;	} 
+	public static HandlerList getHandlerList() {	return handlers;	}
 	
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private final Skill skill;
-	public Skill getSkill() { return skill; }
+	private final Material tool;
+	public Material getTool() { return tool; }
 	
-	private final DPlayer mplayer;
+	private DPlayer mplayer;
 	public DPlayer getDPlayer() { return mplayer; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerLevelDownEvent(DPlayer mplayer, Skill skill)
+	public PlayerUnprepareToolEvent(Material material, DPlayer mplayer)
 	{
-		this.skill = skill;
-		this.mplayer = mplayer;		
+		this.mplayer  = mplayer;
+		this.tool = material;
 	}
-	
+
 	// -------------------------------------------- //
 	// TO STRING
 	// -------------------------------------------- //
@@ -42,7 +42,7 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	@Override
 	public String toString()
 	{
-		return this.getDPlayer().getName() + " leveled down in " + this.getSkill().getName();
+		return this.getDPlayer().getName() + " prepared " + getTool().name();
 	}
 	
 	// -------------------------------------------- //
@@ -53,10 +53,12 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerAddExpEvent)) return false;
-		PlayerAddExpEvent that = (PlayerAddExpEvent) obj;
+		if ( ! (obj instanceof PlayerUnprepareToolEvent)) return false;
+		PlayerUnprepareToolEvent that = (PlayerUnprepareToolEvent) obj;
 	
-		return that.getSkill() == this.getSkill() && this.getDPlayer() == that.getDPlayer();
+		if (that.getDPlayer() == this.getDPlayer() && that.getTool() == this.getTool()) return true;
+		
+		return false;
 	}
 	
 	@Override
@@ -64,9 +66,12 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	{
 		int result = 1;
 		
-		result += this.getSkill().hashCode();
-		result += this.getDPlayer().hashCode();
+		int prime = 31;
+		
+		result += this.getDPlayer().hashCode()*prime;
+		result += this.getTool().hashCode()*prime;
 		
 		return result;
 	}
+	
 }

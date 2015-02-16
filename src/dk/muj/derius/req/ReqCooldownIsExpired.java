@@ -22,7 +22,7 @@ public class ReqCooldownIsExpired implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ReqCooldownIsExpired i = new ReqCooldownIsExpired();
+	private static ReqCooldownIsExpired i = new ReqCooldownIsExpired();
 	public static ReqCooldownIsExpired get() { return i; }
 	private ReqCooldownIsExpired() {}
 	

@@ -21,11 +21,14 @@ import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.entity.ability.AbilityColl;
+import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.events.PlayerAddExpEvent;
 import dk.muj.derius.events.PlayerLevelDownEvent;
 import dk.muj.derius.events.PlayerLevelUpEvent;
+import dk.muj.derius.events.PlayerPrepareToolEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
-import dk.muj.derius.util.ChatUtil;
+import dk.muj.derius.events.PlayerUnprepareToolEvent;
 import dk.muj.derius.util.Listener;
 
 public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
@@ -108,7 +111,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		{
 			PlayerLevelUpEvent lvlUp = new PlayerLevelUpEvent(this, skill);
 			lvlUp.run();
-			ChatUtil.msgLevelUp(this, skill, lvlAfter);
 		}
 	}
 	
@@ -130,7 +132,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		{
 			PlayerLevelDownEvent lvlDown = new PlayerLevelDownEvent(this, skill);
 			lvlDown.run();
-			ChatUtil.msgLevelDown(this, skill, lvlAfter);
 		}
 	}
 	
@@ -258,11 +259,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	{
 		if (tool.isPresent())
 		{
-			if ( ! this.isCooldownExpired()) { setPreparedTool(Optional.empty()); }
-			if (this.hasActivatedAny() || this.getPreparedTool().isPresent())	return;
+			if ( ! this.isCooldownExpired()) setPreparedTool(Optional.empty());
+			if (this.hasActivatedAny() || this.getPreparedTool().isPresent()) return;
 			if ( ! Listener.isRegistered(tool.get())) return;
 		
-			ChatUtil.msgToolPrepared(this, tool.get());
+			PlayerPrepareToolEvent event = new PlayerPrepareToolEvent(tool.get(), this);
+			event.run();
+			if (event.isCancelled()) return;
 			this.preparedTool = tool;
 			Bukkit.getScheduler().runTaskLaterAsynchronously(DeriusCore.get(), () -> setPreparedTool(Optional.empty()), 20*2);
 		}
@@ -270,7 +273,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		{
 			if (this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
 			{
-				ChatUtil.msgToolNotPrepared(this, this.getPreparedTool().get());
+				PlayerUnprepareToolEvent event = new PlayerUnprepareToolEvent(tool.get(), this);
+				event.run();
+				if (event.isCancelled()) return;
 			}
 			this.preparedTool = Optional.empty();
 		}

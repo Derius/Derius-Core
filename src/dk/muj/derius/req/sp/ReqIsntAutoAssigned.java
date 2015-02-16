@@ -16,7 +16,7 @@ public class ReqIsntAutoAssigned implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ReqIsntAutoAssigned i = new ReqIsntAutoAssigned();
+	private static ReqIsntAutoAssigned i = new ReqIsntAutoAssigned();
 	public static ReqIsntAutoAssigned get() { return i; }
 	private ReqIsntAutoAssigned() {}
 	

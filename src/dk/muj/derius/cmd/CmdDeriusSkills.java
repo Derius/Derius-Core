@@ -18,7 +18,7 @@ import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkills extends DeriusCommand

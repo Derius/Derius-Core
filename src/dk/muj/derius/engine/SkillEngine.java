@@ -24,7 +24,7 @@ public class SkillEngine extends EngineAbstract
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static SkillEngine i = new SkillEngine();
+	private static SkillEngine i = new SkillEngine();
 	public static SkillEngine get() { return i; }
 	private SkillEngine() {}
 	

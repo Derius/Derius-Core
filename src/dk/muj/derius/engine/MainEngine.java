@@ -22,7 +22,7 @@ import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.events.PlayerDamageEvent;
 import dk.muj.derius.util.Listener;
 
@@ -33,7 +33,7 @@ public class MainEngine extends EngineAbstract
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static MainEngine i = new MainEngine();
+	private static MainEngine i = new MainEngine();
 	public static MainEngine get() { return i; }
 	public MainEngine() {}
 	

@@ -24,9 +24,11 @@ public class CmdDeriusSkill extends DeriusCommand
 	
 	public CmdDeriusSkill()
 	{
+		// Args
 		this.addRequiredArg("skillname");
-		this.addOptionalArg("level", "your level");
+		this.addOptionalArg("level", "your");
 		
+		// Requirements
 		this.addRequirements(ReqHasPerm.get(Perm.SKILL.node));
 	}
 

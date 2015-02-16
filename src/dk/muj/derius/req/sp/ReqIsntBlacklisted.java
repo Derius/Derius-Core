@@ -16,7 +16,7 @@ public class ReqIsntBlacklisted implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ReqIsntBlacklisted i = new ReqIsntBlacklisted();
+	private static ReqIsntBlacklisted i = new ReqIsntBlacklisted();
 	public static ReqIsntBlacklisted get() { return i; }
 	private ReqIsntBlacklisted() {}
 	

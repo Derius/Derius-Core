@@ -12,7 +12,7 @@ import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.SkillUtil;
 
 public class ARSkill extends ARAbstractSelect<Skill>

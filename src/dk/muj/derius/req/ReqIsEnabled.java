@@ -17,7 +17,7 @@ public class ReqIsEnabled implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ReqIsEnabled i = new ReqIsEnabled();
+	private static ReqIsEnabled i = new ReqIsEnabled();
 	public static ReqIsEnabled get() { return i; }
 	private ReqIsEnabled() {}
 	

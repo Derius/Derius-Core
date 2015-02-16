@@ -19,14 +19,16 @@ import dk.muj.derius.engine.AbilityEngine;
 import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.SkillEngine;
-import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.DeriusSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.MPlayerColl;
-import dk.muj.derius.entity.SkillColl;
-import dk.muj.derius.entity.adapter.SkillAdapter;
+import dk.muj.derius.entity.ability.AbilityAdapter;
+import dk.muj.derius.entity.ability.AbilityColl;
+import dk.muj.derius.entity.ability.DeriusAbility;
+import dk.muj.derius.entity.skill.DeriusSkill;
+import dk.muj.derius.entity.skill.SkillAdapter;
+import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.mixin.BlockMixin;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixin;
@@ -40,8 +42,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
-    
-    private static DeriusCore i;
+	
+	private static DeriusCore i;
 	public static DeriusCore get() { return i; }
 	public DeriusCore() { i = this; }
 	
@@ -121,11 +123,16 @@ public class DeriusCore extends MassivePlugin implements Derius
 		}
 	}
 	
+	// -------------------------------------------- //
+	// OVERRIDE: MASSIVEPLUGIN
+	// -------------------------------------------- //
+	
 	@Override
 	public GsonBuilder getGsonBuilder()
 	{
 		return super.getGsonBuilder()
-				.registerTypeAdapter(DeriusSkill.class, SkillAdapter.get());
+				.registerTypeAdapter(DeriusSkill.class, SkillAdapter.get())
+				.registerTypeAdapter(DeriusAbility.class, AbilityAdapter.get());
 	}
 	
 	// -------------------------------------------- //

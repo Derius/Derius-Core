@@ -67,7 +67,8 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 		if ( ! (obj instanceof PlayerTakeExpEvent)) return false;
 		PlayerTakeExpEvent that = (PlayerTakeExpEvent) obj;
 	
-		if (this.getSkill() == that.getSkill() && this.getDPlayer() == that.getDPlayer() && this.getExpAmount() == that.getExpAmount()) return true;
+		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
+		if (this.getSkill() == that.getSkill() && this.getDPlayer() == that.getDPlayer()) return true;
 		
 		return false;
 	}
@@ -77,8 +78,8 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 	{
 		int result = 1;
 		
+		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
 		result += this.getSkill().hashCode();
-		result += this.getExpAmount() *31;
 		result += this.getDPlayer().hashCode();
 		
 		return result;

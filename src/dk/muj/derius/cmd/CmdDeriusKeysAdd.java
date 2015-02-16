@@ -5,8 +5,8 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.Ability;
-import dk.muj.derius.entity.AbilityColl;
 import dk.muj.derius.entity.MLang;
+import dk.muj.derius.entity.ability.AbilityColl;
 
 public class CmdDeriusKeysAdd extends DeriusCommand
 {

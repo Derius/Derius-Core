@@ -18,7 +18,7 @@ public class ReqIsntSpecialised implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-    private static ReqIsntSpecialised i = new ReqIsntSpecialised();
+	private static ReqIsntSpecialised i = new ReqIsntSpecialised();
 	public static ReqIsntSpecialised get() { return i; }
 	private ReqIsntSpecialised() {}
 	

@@ -1,4 +1,4 @@
-package dk.muj.derius.entity;
+package dk.muj.derius.entity.skill;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +16,7 @@ import com.massivecraft.massivecore.xlib.gson.JsonObject;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.LvlStatusDefault;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
@@ -23,8 +24,8 @@ import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.LvlStatusCalculator;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.SkillRegisteredEvent;
-import dk.muj.derius.lambda.LvlStatusDefault;
 import dk.muj.derius.util.SkillUtil;
 
 public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill

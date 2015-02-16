@@ -18,7 +18,7 @@ public class ReqAbilityCanBeUsedInArea implements Req
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 
-    private static ReqAbilityCanBeUsedInArea i = new ReqAbilityCanBeUsedInArea();
+	private static ReqAbilityCanBeUsedInArea i = new ReqAbilityCanBeUsedInArea();
 	public static ReqAbilityCanBeUsedInArea get() { return i; }
 	private ReqAbilityCanBeUsedInArea() {}
 	

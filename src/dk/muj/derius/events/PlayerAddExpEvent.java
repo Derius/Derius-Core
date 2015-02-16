@@ -1,6 +1,5 @@
 package dk.muj.derius.events;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
@@ -28,7 +27,6 @@ public class PlayerAddExpEvent extends DeriusEvent implements CancellableEvent, 
 	
 	private final DPlayer mplayer;
 	public DPlayer getDPlayer() { return mplayer; }
-	public Player getPlayer() { return mplayer.getPlayer(); }
 	
 	private double amount;
 	public double getExpAmount() { return amount; }
@@ -67,7 +65,8 @@ public class PlayerAddExpEvent extends DeriusEvent implements CancellableEvent, 
 		if ( ! (obj instanceof PlayerAddExpEvent)) return false;
 		PlayerAddExpEvent that = (PlayerAddExpEvent) obj;
 	
-		if (that.getSkill() == this.getSkill() && this.getDPlayer() == that.getDPlayer() && this.getExpAmount() == that.getExpAmount()) return true;
+		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
+		if (that.getSkill() == this.getSkill() && this.getDPlayer() == that.getDPlayer()) return true;
 		
 		return false;
 	}
@@ -76,10 +75,11 @@ public class PlayerAddExpEvent extends DeriusEvent implements CancellableEvent, 
 	public int hashCode()
 	{
 		int result = 1;
+		int prime = 31;
 		
-		result += this.getSkill().hashCode();
-		result += this.getExpAmount() *31;
-		result += this.getDPlayer().hashCode();
+		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
+		result += this.getSkill().hashCode()*prime;
+		result += this.getDPlayer().hashCode()*prime;
 		
 		return result;
 	}

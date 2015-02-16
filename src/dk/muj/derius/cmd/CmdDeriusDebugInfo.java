@@ -7,8 +7,8 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.AbilityColl;
-import dk.muj.derius.entity.SkillColl;
+import dk.muj.derius.entity.ability.AbilityColl;
+import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.Listener;
 
 
@@ -42,7 +42,7 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED ABILITIES")));
 		for (Ability ability : AbilityColl.getAllAbilities())
 		{
-			messages.add(Txt.parse("<red>%s %s           %s", ability.getId(), ability.getName(), ability.getSkill().getId()));
+			messages.add(Txt.parse("<red>%s %s		   %s", ability.getId(), ability.getName(), ability.getSkill().getId()));
 		}
 
 		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED INTERACT MATERIALS")));

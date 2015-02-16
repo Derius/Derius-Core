@@ -1,4 +1,4 @@
-package dk.muj.derius.entity.adapter;
+package dk.muj.derius.entity.skill;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -16,15 +16,14 @@ import com.massivecraft.massivecore.xlib.gson.JsonSerializer;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
 import dk.muj.derius.DeriusCore;
-import dk.muj.derius.entity.DeriusSkill;
 
 public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializer<DeriusSkill>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
-    
-    private static SkillAdapter i = new SkillAdapter();
+	
+	private static SkillAdapter i = new SkillAdapter();
 	public static SkillAdapter get() { return i; }
 	
 	// -------------------------------------------- //
