@@ -55,8 +55,10 @@ public interface Listener
 	 */
 	public static void registerBlockBreakKey(Listener listener, Material... materials)
 	{
-		for(Material material: materials)
+		for (Material material : materials)
+		{
 			Fields.getBlockBreakKeys().put(material, listener);
+		}
 	}
 	
 	/**
@@ -65,8 +67,10 @@ public interface Listener
 	 */
 	public static void registerBlockBreakKeys(Listener listener, Collection<Material> materials)
 	{
-		for(Material material: materials)
+		for (Material material : materials)
+		{
 			Fields.getBlockBreakKeys().put(material, listener);
+		}
 	}
 	
 	/**
@@ -88,9 +92,9 @@ public interface Listener
 	 * Registers a weapon type to listen for when player deals damage
 	 * @param {Material} weapon type to listen for
 	 */
-	public default void registerPlayerAttackKey(Listener listener, Material... materials)
+	public static void registerPlayerAttackKey(Listener listener, Material... materials)
 	{
-		for(Material material: materials)
+		for (Material material : materials)
 		{
 			Fields.getDealDamageKeys().put(material, listener);
 		}
@@ -100,9 +104,9 @@ public interface Listener
 	 * Registers a collection of weapons to listen for player deals damage
 	 * @param {Collection<Material>} collection of block types to listen for
 	 */
-	public default void registerPlayerAttackKey(Listener listener, Collection<Material> materials)
+	public static void registerPlayerAttackKeys(Listener listener, Collection<Material> materials)
 	{
-		for(Material material: materials)
+		for (Material material : materials)
 		{
 			Fields.getDealDamageKeys().put(material, listener);
 		}
@@ -130,7 +134,7 @@ public interface Listener
 	 */
 	public static void registerTools(Collection<Material> materials)
 	{
-		for(Material material : materials)
+		for (Material material : materials)
 		{
 			Fields.getRegisteredInteractTools().add(material);
 		}
@@ -183,7 +187,7 @@ public interface Listener
 	 * @param {DPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
-	default void onBlockBreak(DPlayer player, BlockState block) {};
+	default void onBlockBreak(DPlayer dplayer, BlockState block) {};
 	
 	/**
 	 * Called when a player attacks an entity.
