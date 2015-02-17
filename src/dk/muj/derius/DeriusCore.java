@@ -15,11 +15,9 @@ import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Derius;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.cmd.CmdDerius;
-import dk.muj.derius.engine.AbilityEngine;
 import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.MsgEngine;
-import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
@@ -72,10 +70,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
-		AbilityEngine	.get(),
 		MainEngine		.get(),
 		ChatEngine		.get(),
-		SkillEngine		.get(),
 		MsgEngine		.get());
 
 	

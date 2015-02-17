@@ -1,6 +1,6 @@
 package dk.muj.derius.events;
 
-import org.bukkit.entity.Player;
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
@@ -26,9 +26,8 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 	private final Skill skill;
 	public Skill getSkill() { return skill; }
 	
-	private final DPlayer mplayer;
-	public DPlayer getDPlayer() { return mplayer; }
-	public Player getPlayer() { return mplayer.getPlayer(); }
+	private final DPlayer dplayer;
+	public DPlayer getDPlayer() { return dplayer; }
 	
 	private double amount;
 	public double getExpAmount() { return amount; }
@@ -38,10 +37,13 @@ public class PlayerTakeExpEvent extends DeriusEvent implements CancellableEvent,
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerTakeExpEvent(DPlayer mplayer, Skill skill, long expAmount)
+	public PlayerTakeExpEvent(DPlayer dplayer, Skill skill, long expAmount)
 	{
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(skill, "skill mustn't be null");
+		
 		this.skill = skill;
-		this.mplayer = mplayer;
+		this.dplayer = dplayer;
 		this.amount = expAmount;
 		
 	}

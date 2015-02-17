@@ -1,5 +1,6 @@
 package dk.muj.derius.events;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Skill;
@@ -31,6 +32,8 @@ public class SkillRegisteredEvent extends DeriusEvent implements CancellableEven
 	
 	public SkillRegisteredEvent(Skill registeredSkill)
 	{
+		Validate.notNull(registeredSkill, "skill mustn't be null");
+		
 		this.skill = registeredSkill;
 	}
 	

@@ -1,5 +1,6 @@
 package dk.muj.derius.events;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
@@ -22,17 +23,20 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	private final Skill skill;
 	public Skill getSkill() { return skill; }
 	
-	private final DPlayer mplayer;
-	public DPlayer getDPlayer() { return mplayer; }
+	private final DPlayer dplayer;
+	public DPlayer getDPlayer() { return dplayer; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerLevelDownEvent(DPlayer mplayer, Skill skill)
+	public PlayerLevelDownEvent(DPlayer dplayer, Skill skill)
 	{
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(skill, "skill mustn't be null");
+		
 		this.skill = skill;
-		this.mplayer = mplayer;		
+		this.dplayer = dplayer;		
 	}
 	
 	// -------------------------------------------- //

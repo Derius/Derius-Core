@@ -17,13 +17,24 @@ import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.util.EventUtil;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.Ability.AbilityType;
 import dk.muj.derius.entity.MPlayer;
 import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.skill.SkillColl;
+import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.events.PlayerDamageEvent;
+import dk.muj.derius.events.SkillRegisteredEvent;
+import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
+import dk.muj.derius.req.ReqIsEnabled;
+import dk.muj.derius.req.sp.ReqHasOpenSlot;
+import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
+import dk.muj.derius.req.sp.ReqIsntBlacklisted;
+import dk.muj.derius.req.sp.ReqIsntSpecialised;
+import dk.muj.derius.req.sp.ReqSpCooldownIsExpired;
 import dk.muj.derius.util.Listener;
 
 public class MainEngine extends EngineAbstract
@@ -48,11 +59,61 @@ public class MainEngine extends EngineAbstract
 	}
 	
 	// -------------------------------------------- //
-	// EVENTS
+	// REGISTER
+	// -------------------------------------------- //
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void setupSkill(SkillRegisteredEvent event)
+	{
+		Skill skill = event.getSkill();
+		for (MPlayer mplayer : MPlayerColl.get().getAll())
+		{
+			mplayer.instantiateSkill(skill);
+		}
+		
+		// Requirements
+		skill.addLearnRequirements(ReqIsEnabled.get());
+		skill.addSeeRequirements(ReqIsEnabled.get());
+		skill.addSpecialiseRequirements(ReqIsEnabled.get());
+		
+		
+		skill.addSpecialiseRequirements(ReqIsntAutoAssigned.get());
+		skill.addSpecialiseRequirements(ReqIsntBlacklisted.get());
+		skill.addSpecialiseRequirements(ReqIsntSpecialised.get());
+		skill.addSpecialiseRequirements(ReqHasOpenSlot.get());
+		skill.addSpecialiseRequirements(ReqSpCooldownIsExpired.get());
+		
+		return;
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void setupAbility(AbilityRegisteredEvent event)
+	{
+		Ability ability = event.getAbility();
+		Skill skill = ability.getSkill();
+		if (ability.getType() == AbilityType.ACTIVE)
+		{
+			skill.getAbilities().add(ability);
+		}
+		else if (ability.getType() == AbilityType.PASSIVE)
+		{
+			skill.getAbilities().add(ability);
+		}
+		// Requirements
+		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
+		
+		ability.addActivateRequirements(ReqIsEnabled.get());
+		ability.addSeeRequirements(ReqIsEnabled.get());
+		
+		return;
+	}
+	
+	// -------------------------------------------- //
+	// INSTANTIATE PLAYER
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.LOW)
-	public void onJoin(PlayerJoinEvent event)
+	public void instantiatePlayerFields(PlayerJoinEvent event)
 	{
 		MPlayer mplayer = MPlayerColl.get().get(event.getPlayer(), true);
 		for (Skill skill : SkillColl.getAllSkills())
@@ -67,15 +128,18 @@ public class MainEngine extends EngineAbstract
 		return;
 	}
 	
+	// -------------------------------------------- //
+	// OTHER
+	// -------------------------------------------- //
+	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onBlockBreak(BlockBreakEvent event)
+	public void callListener(BlockBreakEvent event)
 	{	
 		// Listeners
 		Listener listener = Listener.getBlockBreakListener(event.getBlock().getType());
-		if (listener != null)
-		{
-			listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), event.getBlock().getState());
-		}
+		if (listener == null) return;
+		
+		listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), event.getBlock().getState());
 		
 	}
 	
@@ -96,14 +160,11 @@ public class MainEngine extends EngineAbstract
 	public void onPlayerAttack(EntityDamageByEntityEvent event)
 	{
 		if ( ! (event.getDamager() instanceof Player)) return;
-		Player p = (Player) event.getDamager();
-		Listener listener = Listener.getPlayerAttackKeyListener(p.getItemInHand().getType());
-		if (listener == null)
-		{
-			return;
-		}
+		Player player = (Player) event.getDamager();
+		Listener listener = Listener.getPlayerAttackKeyListener(player.getItemInHand().getType());
+		if (listener == null) return;
 		
-		listener.onPlayerAttack(DeriusAPI.getDPlayer(p), event);
+		listener.onPlayerAttack(DeriusAPI.getDPlayer(player), event);
 		
 		return;
 	}
@@ -170,7 +231,7 @@ public class MainEngine extends EngineAbstract
 		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
 		EventUtil.callEventAt(thrown, EventPriority.NORMAL);
 	}
-
+	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDamageHigh(EntityDamageEvent event)
 	{

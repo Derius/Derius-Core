@@ -240,12 +240,12 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	
 	public String getDisplayName ( Object watcherObject)
 	{
-		DPlayer mplayer = DeriusAPI.getDPlayer(watcherObject);
-		if (mplayer.isSpecialisedIn(this))
+		DPlayer dplayer = DeriusAPI.getDPlayer(watcherObject);
+		if (dplayer.isSpecialisedIn(this))
 		{
 			return Txt.parse(MLang.get().skillColorPlayerIsSpecialised + this.getName());
 		}
-		else if (SkillUtil.canPlayerLearnSkill(mplayer, this, false))
+		else if (SkillUtil.canPlayerLearnSkill(dplayer, this, false))
 		{
 			return Txt.parse(MLang.get().skillColorPlayerCanUse + this.getName());
 		}

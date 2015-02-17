@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.apache.commons.lang.Validate;
+
 public final class LevelUtil
 {
 	// -------------------------------------------- //
@@ -22,6 +24,8 @@ public final class LevelUtil
 	
 	public static <S> Optional<S> getLevelSetting(Map<Integer, S> settings, int level)
 	{
+		Validate.notNull(settings, "settings mustn't be null");
+		
 		Entry<Integer, S> most = null;
 		
 		for (Entry<Integer, S> entry : settings.entrySet())
@@ -37,6 +41,8 @@ public final class LevelUtil
 	
 	public static Optional<Double> getLevelSettingFloat(Map<Integer, Number> settings, int level)
 	{
+		Validate.notNull(settings, "settings mustn't be null");
+		
 		Entry<Integer, Number> ceil = null;
 		Entry<Integer, Number> floor = null;
 		

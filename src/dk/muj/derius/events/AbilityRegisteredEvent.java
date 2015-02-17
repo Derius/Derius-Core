@@ -1,5 +1,6 @@
 package dk.muj.derius.events;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
@@ -28,6 +29,8 @@ public class AbilityRegisteredEvent extends DeriusEvent implements CancellableEv
 	
 	public AbilityRegisteredEvent(Ability ability)
 	{
+		Validate.notNull(ability, "ability mustn't be null");
+		
 		this.ability = ability;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -55,6 +56,9 @@ public interface Listener
 	 */
 	public static void registerBlockBreakKey(Listener listener, Material... materials)
 	{
+		Validate.notNull(listener, "listener mustn't be null");
+		Validate.notNull(materials, "materials mustn't be null");
+		
 		for (Material material : materials)
 		{
 			Fields.getBlockBreakKeys().put(material, listener);
@@ -67,6 +71,9 @@ public interface Listener
 	 */
 	public static void registerBlockBreakKeys(Listener listener, Collection<Material> materials)
 	{
+		Validate.notNull(listener, "listener mustn't be null");
+		Validate.notNull(materials, "materials mustn't be null");
+		
 		for (Material material : materials)
 		{
 			Fields.getBlockBreakKeys().put(material, listener);
@@ -94,6 +101,9 @@ public interface Listener
 	 */
 	public static void registerPlayerAttackKey(Listener listener, Material... materials)
 	{
+		Validate.notNull(listener, "listener mustn't be null");
+		Validate.notNull(materials, "materials mustn't be null");
+		
 		for (Material material : materials)
 		{
 			Fields.getDealDamageKeys().put(material, listener);
@@ -106,6 +116,9 @@ public interface Listener
 	 */
 	public static void registerPlayerAttackKeys(Listener listener, Collection<Material> materials)
 	{
+		Validate.notNull(listener, "listener mustn't be null");
+		Validate.notNull(materials, "materials mustn't be null");
+		
 		for (Material material : materials)
 		{
 			Fields.getDealDamageKeys().put(material, listener);
@@ -134,6 +147,8 @@ public interface Listener
 	 */
 	public static void registerTools(Collection<Material> materials)
 	{
+		Validate.notNull(materials, "materials mustn't be null");
+		
 		for (Material material : materials)
 		{
 			Fields.getRegisteredInteractTools().add(material);
@@ -146,6 +161,8 @@ public interface Listener
 	 */
 	public static void registerTool(Material material)
 	{
+		Validate.notNull(material, "material mustn't be null");
+		
 		Fields.getRegisteredInteractTools().add(material);
 	}
 	

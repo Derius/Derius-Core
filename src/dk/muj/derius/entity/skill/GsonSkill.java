@@ -23,13 +23,9 @@ public final class GsonSkill extends DeriusSkill
 	}
 	
 	@Override
-	public DeriusSkill load(DeriusSkill that)
+	public boolean isEnabled()
 	{
-		DeriusSkill ret = super.load(that);
-		ret.setEnabled(false);
-		this.setEnabled(false);
-		
-		return ret;
+		return false;
 	}
 	
 }

@@ -25,13 +25,9 @@ public class GsonAbility extends DeriusAbility
 	}
 	
 	@Override
-	public DeriusAbility load(DeriusAbility that)
+	public boolean isEnabled()
 	{
-		DeriusAbility ret = super.load(that);
-		ret.setEnabled(false);
-		this.setEnabled(false);
-		
-		return ret;
+		return false;
 	}
 
 	// -------------------------------------------- //

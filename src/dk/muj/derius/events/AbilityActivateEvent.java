@@ -1,5 +1,6 @@
 package dk.muj.derius.events;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
@@ -22,16 +23,19 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 	private final Ability ability;
 	public Ability getAbility() { return ability; }
 	
-	private DPlayer mplayer;
-	public DPlayer getDPlayer() { return mplayer; }
+	private DPlayer dplayer;
+	public DPlayer getDPlayer() { return dplayer; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public AbilityActivateEvent(Ability ability, DPlayer mplayer)
+	public AbilityActivateEvent(Ability ability, DPlayer dplayer)
 	{
-		this.mplayer  = mplayer;
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(ability, "ability mustn't be null");
+		
+		this.dplayer  = dplayer;
 		this.ability = ability;
 	}
 

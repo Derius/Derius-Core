@@ -1,5 +1,6 @@
 package dk.muj.derius.events;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.event.HandlerList;
 
@@ -22,16 +23,19 @@ public class PlayerUnprepareToolEvent extends DeriusEvent implements Cancellable
 	private final Material tool;
 	public Material getTool() { return tool; }
 	
-	private DPlayer mplayer;
-	public DPlayer getDPlayer() { return mplayer; }
+	private DPlayer dplayer;
+	public DPlayer getDPlayer() { return dplayer; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerUnprepareToolEvent(Material material, DPlayer mplayer)
+	public PlayerUnprepareToolEvent(Material material, DPlayer dplayer)
 	{
-		this.mplayer  = mplayer;
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(material, "tool mustn't be null");
+		
+		this.dplayer  = dplayer;
 		this.tool = material;
 	}
 

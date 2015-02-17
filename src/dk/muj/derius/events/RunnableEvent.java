@@ -12,7 +12,7 @@ public interface RunnableEvent extends Runnable
 	@Override
 	default void run()
 	{
-		if (!(this instanceof Event)) throw new UnsupportedOperationException("This interface should only be implemented by Bukkit events");
+		if ( ! (this instanceof Event)) throw new UnsupportedOperationException("This interface should only be implemented by Bukkit events");
 		this.preRun();
 		Bukkit.getPluginManager().callEvent((Event) this);
 		this.postRun();

@@ -2,6 +2,7 @@ package dk.muj.derius.util;
 
 import java.util.Optional;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 
 import dk.muj.derius.DeriusCore;
@@ -37,6 +38,9 @@ public final class AbilityUtil
 	 */
 	public static boolean canPlayerActivateAbility(DPlayer dplayer, Ability ability, boolean verboseNot)
 	{
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(ability, "ability mustn't be null");
+		
 		for (Req req : ability.getActivateRequirements())
 		{
 			if ( ! req.apply(dplayer.getSender(), ability)) 
@@ -58,6 +62,9 @@ public final class AbilityUtil
 	 */
 	public static boolean canPlayerSeeAbility(DPlayer dplayer, Ability ability, boolean verboseNot)
 	{
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(ability, "ability mustn't be null");
+		
 		for (Req req : ability.getSeeRequirements())
 		{
 			if ( ! req.apply(dplayer.getSender(), ability)) 
@@ -84,6 +91,9 @@ public final class AbilityUtil
 	 */
 	public static Object activateAbility(DPlayer dplayer, final Ability ability, Object other, boolean verboseNot)
 	{	
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(ability, "ability mustn't be null");
+		
 		// CHECKS
 		if ( ! AbilityUtil.canPlayerActivateAbility(dplayer, ability, verboseNot)) return null;
 		
@@ -108,6 +118,8 @@ public final class AbilityUtil
 	 */
 	public static void deactivateActiveAbility(DPlayer dplayer, Object other)
 	{
+		Validate.notNull(dplayer, "dplayer mustn't be null");
+		
 		AbilityDeactivateEvent e = new AbilityDeactivateEvent(dplayer.getActivatedAbility(), dplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) return;
@@ -145,14 +157,8 @@ public final class AbilityUtil
 
 		final Object obj = ability.onActivate(dplayer, other);
 		
-		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				deactivateActiveAbility(dplayer, obj);
-			}
-		}, ability.getDuration(dplayer.getLvl(ability.getSkill())));
+		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), () -> deactivateActiveAbility(dplayer, obj),
+				ability.getDuration(dplayer.getLvl(ability.getSkill())));
 		
 		return obj;
 	}

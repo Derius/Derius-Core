@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
@@ -49,6 +50,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	@Override
 	public MPlayer load(MPlayer that)
 	{
+		if (that == null || that == this) return that;
 		this.exp = that.exp;
 		this.specialised = that.specialised;
 		this.specialisedMillis = that.specialisedMillis;
@@ -91,11 +93,17 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	private void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); }
 	
-	public long getExp(Skill skill) { return this.exp.get(skill.getId()); }
+	public long getExp(Skill skill)
+	{
+		Validate.notNull(skill, "skill mustn't be null");
+		return this.exp.get(skill.getId());
+	}
 	
 	public void addExp(Skill skill, long exp)
 	{
-		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
+		Validate.notNull(skill, "skill mustn't be null");
+		Validate.isTrue(exp > 0, "Exp values must be positive");
+		
 		int lvlBefore = this.getLvl(skill);
 		
 		if (lvlBefore >= this.getMaxLevel(skill)) return;
@@ -116,7 +124,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	public void takeExp(Skill skill, long exp)
 	{
-		if (exp < 0) throw new IllegalArgumentException("Exp values must be positive");
+		Validate.notNull(skill, "skill mustn't be null");
+		Validate.isTrue(exp > 0, "Exp values must be positive");
+		
 		int lvlBefore = this.getLvl(skill);
 		
 		if (lvlBefore <= 0) return;
@@ -139,11 +149,19 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// LEVEL
 	// -------------------------------------------- //
 	
-	public LvlStatus getLvlStatus(Skill skill) { return skill.getLvlStatusFromExp(this.getExp(skill)); }
+	public LvlStatus getLvlStatus(Skill skill)
+	{
+		Validate.notNull(skill, "skill mustn't be null");
+		return skill.getLvlStatusFromExp(this.getExp(skill));
+	}
 	
 	public int getLvl(Skill skill) { return this.getLvlStatus(skill).getLvl(); }
 	
-	public int getMaxLevel(Skill skill) { return DeriusCore.getMaxLevelMixin().getMaxLevel(this, skill); }
+	public int getMaxLevel(Skill skill)
+	{
+		Validate.notNull(skill, "skill mustn't be null");
+		return DeriusCore.getMaxLevelMixin().getMaxLevel(this, skill);
+	}
 	
 	// -------------------------------------------- //
 	// SKILL
@@ -151,12 +169,14 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	public void instantiateSkill(Skill skill)
 	{
+		Validate.notNull(skill, "skill mustn't be null");
 		if (this.hasSkill(skill)) return;
 		this.exp.put(skill.getId(), 0L);
 	}
 	
 	public boolean hasSkill(Skill skill)
 	{
+		Validate.notNull(skill, "skill mustn't be null");
 		return this.exp.containsKey(skill.getId());
 	}
 	
@@ -166,11 +186,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	public boolean isSpecialisedIn(Skill skill)
 	{
+		Validate.notNull(skill, "skill mustn't be null");
 		return  this.specialised.contains(skill.getId()) || skill.isSpAutoAssigned();
 	}
 	
 	public boolean setSpecialisedIn(Skill skill, boolean verbooseNot)
 	{
+		Validate.notNull(skill, "skill mustn't be null");
 		for (Req req : skill.getSpecialiseRequirements())
 		{
 			if ( ! req.apply(this.getSender(), skill))
@@ -187,6 +209,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	public void setNotSpecialisedIn(Skill skill)
 	{	
+		Validate.notNull(skill, "skill mustn't be null");
 		this.specialised.remove(skill.getId());
 		this.setExp(skill, 0);
 	}
@@ -257,6 +280,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 
 	public void setPreparedTool(final Optional<Material> tool)
 	{
+		Validate.notNull(tool, "Tool mustn't be null, it in an optional for gods sake.");
 		if (tool.isPresent())
 		{
 			if ( ! this.isCooldownExpired()) setPreparedTool(Optional.empty());
