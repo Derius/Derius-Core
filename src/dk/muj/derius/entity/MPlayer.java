@@ -273,7 +273,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		{
 			if (this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
 			{
-				PlayerUnprepareToolEvent event = new PlayerUnprepareToolEvent(tool.get(), this);
+				PlayerUnprepareToolEvent event = new PlayerUnprepareToolEvent(this.getPreparedTool().get(), this);
 				event.run();
 				if (event.isCancelled()) return;
 			}

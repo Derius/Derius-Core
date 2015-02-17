@@ -31,23 +31,23 @@ public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializ
 	// -------------------------------------------- //
 	
 	// Enabled
-	public static final String ENABLED			= "enabled";
+	public static final String ENABLED			= "Enabled";
 	
 	// Descriptive fields
-	public static final String NAME				= "name";
-	public static final String DESC				= "desc";
-	public static final String EARN_EXP_DESCS	= "earn-exp-desc";
+	public static final String NAME				= "Name";
+	public static final String DESC				= "Description";
+	public static final String EARN_EXP_DESCS	= "Earn-experience-descriptions";
 	public static final String ICON				= "icon";
 	
 	// Specialisation settings
-	public static final String SP_AUTO_ASSIGNED	= "sp-auto-assigned";
-	public static final String SP_BLACKLISTED	= "sp-blacklisted";
+	public static final String SP_AUTO_ASSIGNED	= "Specialisation-auto-assigned";
+	public static final String SP_BLACKLISTED	= "Specialisation-blacklisted";
 	
 	// Worlds where it can be earned.
-	public static final String WORLDS_EARN		= "worlds-earn";
+	public static final String WORLDS_EARN		= "Worlds-earn-enabled";
 	
 	// Custom configuration for each skill.
-	public static final String CONFIGURATION	= "configuration";
+	public static final String CONFIGURATION	= "Configuration";
 	
 	// -------------------------------------------- //
 	// SERIALIZE
@@ -73,10 +73,6 @@ public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializ
 		val = DeriusCore.get().gson.toJsonTree(src.getDesc());
 		ret.add(DESC, val);
 		
-		// Earn experience descriptions
-		val = DeriusCore.get().gson.toJsonTree(src.getEarnExpDescs());
-		ret.add(EARN_EXP_DESCS, val);
-		
 		// Icon
 		val = DeriusCore.get().gson.toJsonTree(src.getIcon());
 		ret.add(ICON, val);
@@ -88,6 +84,10 @@ public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializ
 		// Specialisation blacklisted
 		val = DeriusCore.get().gson.toJsonTree(src.isSpBlackListed());
 		ret.add(SP_BLACKLISTED, val);
+		
+		// Earn experience descriptions
+		val = DeriusCore.get().gson.toJsonTree(src.getEarnExpDescs());
+		ret.add(EARN_EXP_DESCS, val);
 		
 		// World earn
 		val = DeriusCore.get().gson.toJsonTree(src.getWorldsEarn());

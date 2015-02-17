@@ -18,6 +18,7 @@ import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.engine.AbilityEngine;
 import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
+import dk.muj.derius.engine.MsgEngine;
 import dk.muj.derius.engine.SkillEngine;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
@@ -74,7 +75,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 		AbilityEngine	.get(),
 		MainEngine		.get(),
 		ChatEngine		.get(),
-		SkillEngine		.get());
+		SkillEngine		.get(),
+		MsgEngine		.get());
 
 	
 	// -------------------------------------------- //

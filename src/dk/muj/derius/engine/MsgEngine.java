@@ -1,5 +1,12 @@
 package dk.muj.derius.engine;
 
+import net.minecraft.server.v1_8_R1.ChatSerializer;
+import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
+
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.Plugin;
@@ -17,6 +24,8 @@ import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.PlayerLevelUpEvent;
+import dk.muj.derius.events.PlayerPrepareToolEvent;
+import dk.muj.derius.events.PlayerUnprepareToolEvent;
 
 public class MsgEngine extends EngineAbstract
 {
@@ -99,6 +108,69 @@ public class MsgEngine extends EngineAbstract
 		String message = Txt.parse(MLang.get().levelUp, dplayer.getLvl(skill), name);
 		
 		Mixin.sendTitleMessage(dplayer, fadeIn, stay, fadeOut, null, message);
+	}
+	
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void sendPrepareToolMsg(PlayerPrepareToolEvent event)
+	{
+		DPlayer dplayer = event.getDPlayer();
+		Material tool = event.getTool();
+		String toolName = toolToString(tool);
+		String message = Txt.parse(MLang.get().toolPrepared, toolName);
+		
+		sendActionBar(dplayer, message);
+		
+		return;
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void sendUnprepareToolMsg(PlayerUnprepareToolEvent event)
+	{
+		DPlayer dplayer = event.getDPlayer();
+		Material tool = event.getTool();
+		String toolName = toolToString(tool);
+		String message = Txt.parse(MLang.get().toolNotPrepared, toolName);
+		
+		sendActionBar(dplayer, message);
+		
+		return;
+	}
+	
+	// -------------------------------------------- //
+	// UTIL
+	// -------------------------------------------- //
+	
+	public static boolean sendActionBar(DPlayer dplayer, String msg)
+	{
+		// Null checks, just in case
+		if (msg == null || dplayer == null) return false;
+		
+		Player player = dplayer.getPlayer();
+		
+		// If not a craftplayer, then idk. (Should never happen)
+		if ( ! (player instanceof CraftPlayer)) return false;
+		
+		// Prepare the message
+		msg = Txt.parse(msg);
+		
+		// The actual player
+		CraftPlayer	cplayer = (CraftPlayer) player;
+		
+		// The packet and stuff, that gets send to the player
+	    IChatBaseComponent	component = ChatSerializer.a("{\"text\": \"" + msg + "\"}");
+	    PacketPlayOutChat	packet = new PacketPlayOutChat(component, (byte) 2);
+	    
+	    // Send the packet
+	    cplayer.getHandle().playerConnection.sendPacket(packet);
+	    
+	    // Success
+		return true;
+	}
+	
+	public static String toolToString(Material tool)
+	{
+		return Txt.upperCaseFirst(tool.name().substring(tool.name().indexOf("_")+1).toLowerCase());
 	}
 	
 }

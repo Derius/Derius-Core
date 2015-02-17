@@ -18,5 +18,14 @@ public class MPlayerColl extends SenderColl<MPlayer>
 	{
 		super(Const.COLLECTION_MPLAYER, MPlayer.class, MStore.getDb(), DeriusCore.get());
 	}
+
+	// -------------------------------------------- //
+	// OVERRIDE: COLL
+	// -------------------------------------------- //
 	
+	@Override
+	public MPlayer createNewInstance()
+	{
+		return new MPlayer();
+	}
 }

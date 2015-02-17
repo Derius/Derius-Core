@@ -31,17 +31,17 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 	// -------------------------------------------- //
 	
 	// Enabled
-	public static final String ENABLED			= "enabled";
+	public static final String ENABLED			= "Enabled";
 	
 	// Descriptive fields
-	public static final String NAME				= "name";
-	public static final String DESC				= "desc";
+	public static final String NAME				= "Name";
+	public static final String DESC				= "Description";
 	
 	// Cooldown
-	public static final String TICKS_COOLDOWN	= "cooldown-ticks";
+	public static final String TICKS_COOLDOWN	= "Cooldown-ticks";
 	
 	// Worlds use
-	public static final String WORLDS_USE		= "worlds-use";
+	public static final String WORLDS_USE		= "Worlds-use-enabled";
 	
 	// -------------------------------------------- //
 	// SERIALIZE

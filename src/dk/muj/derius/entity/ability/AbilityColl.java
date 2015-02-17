@@ -37,6 +37,7 @@ public class AbilityColl extends Coll<DeriusAbility>
 		for (Ability ability : get().getAll())
 		{
 			if (ability == null) continue;
+			if ( ! ability.isEnabled()) continue;
 			abilities.add(ability);
 		}
 		

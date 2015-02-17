@@ -35,13 +35,13 @@ public final class AbilityUtil
 	 * @param {boolean} true if error message should be sent
 	 * @return {boolean} true if the player can use said ability
 	 */
-	public static boolean canPlayerActivateAbility(DPlayer mplayer, Ability ability, boolean verboseNot)
+	public static boolean canPlayerActivateAbility(DPlayer dplayer, Ability ability, boolean verboseNot)
 	{
 		for (Req req : ability.getActivateRequirements())
 		{
-			if ( ! req.apply(mplayer.getSender(), ability)) 
+			if ( ! req.apply(dplayer.getSender(), ability)) 
 			{
-				if (verboseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), ability));
+				if (verboseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
 				return false;
 			}
 		}
@@ -56,13 +56,13 @@ public final class AbilityUtil
 	 * @param {boolean} true if error message should be sent
 	 * @return {boolean} true if the player can see said ability
 	 */
-	public static boolean canPlayerSeeAbility(DPlayer mplayer, Ability ability, boolean verboseNot)
+	public static boolean canPlayerSeeAbility(DPlayer dplayer, Ability ability, boolean verboseNot)
 	{
 		for (Req req : ability.getSeeRequirements())
 		{
-			if ( ! req.apply(mplayer.getSender(), ability)) 
+			if ( ! req.apply(dplayer.getSender(), ability)) 
 			{
-				if (verboseNot) mplayer.sendMessage(req.createErrorMessage(mplayer.getSender(), ability));
+				if (verboseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
 				return false;
 			}
 		}
@@ -82,19 +82,19 @@ public final class AbilityUtil
 	 * @param {boolean} inform the player if not allowed
 	 * @param {Optional<Object>} the object passed from onActivate to onDeactivate
 	 */
-	public static Object activateAbility(DPlayer mplayer, final Ability ability, Object other, boolean verboseNot)
+	public static Object activateAbility(DPlayer dplayer, final Ability ability, Object other, boolean verboseNot)
 	{	
 		// CHECKS
-		if ( ! AbilityUtil.canPlayerActivateAbility(mplayer, ability, verboseNot)) return null;
+		if ( ! AbilityUtil.canPlayerActivateAbility(dplayer, ability, verboseNot)) return null;
 		
 		// ACTIVATE
 		if (ability.getType() == AbilityType.PASSIVE)
 		{
-			return activatePassiveAbility(mplayer, ability, other);
+			return activatePassiveAbility(dplayer, ability, other);
 		}
 		else if (ability.getType() == AbilityType.ACTIVE)
 		{
-			return activateActiveAbility(mplayer, ability, other);
+			return activateActiveAbility(dplayer, ability, other);
 		}
 		
 		return null;
@@ -106,53 +106,53 @@ public final class AbilityUtil
 	 * @param {DPlayer} player to deactivate ability on
 	 * @param {Ability} the ability to deactivate
 	 */
-	public static void deactivateActiveAbility(DPlayer mplayer, Object other)
+	public static void deactivateActiveAbility(DPlayer dplayer, Object other)
 	{
-		AbilityDeactivateEvent e = new AbilityDeactivateEvent(mplayer.getActivatedAbility(), mplayer);
+		AbilityDeactivateEvent e = new AbilityDeactivateEvent(dplayer.getActivatedAbility(), dplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) return;
 		
-		Ability ability = mplayer.getActivatedAbility();
-		ability.onDeactivate(mplayer, other);
-		mplayer.setActivatedAbility(null);
-		mplayer.setCooldownExpireIn(ability.getCooldownTicks());
+		Ability ability = dplayer.getActivatedAbility();
+		ability.onDeactivate(dplayer, other);
+		dplayer.setActivatedAbility(null);
+		dplayer.setCooldownExpireIn(ability.getCooldownTicks());
 	}
 	
 	// -------------------------------------------- //
 	// ACTIVATION: PRIVATE
 	// -------------------------------------------- //
 	
-	private static Object activatePassiveAbility(DPlayer mplayer, final Ability ability, Object other)
+	private static Object activatePassiveAbility(DPlayer dplayer, final Ability ability, Object other)
 	{
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, mplayer);
+		AbilityActivateEvent e = new AbilityActivateEvent(ability, dplayer);
 		e.run();
 		if (e.isCancelled()) return Optional.empty();
 	
-		return ability.onActivate(mplayer, other);
+		return ability.onActivate(dplayer, other);
 	}
 	
-	private static Object activateActiveAbility(final DPlayer mplayer, final Ability ability, Object other)
+	private static Object activateActiveAbility(final DPlayer dplayer, final Ability ability, Object other)
 	{
-		if (mplayer.hasActivatedAny()) return null;
+		if (dplayer.hasActivatedAny()) return null;
 		
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, mplayer);
+		AbilityActivateEvent e = new AbilityActivateEvent(ability, dplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) return null;
 		
-		mplayer.setActivatedAbility(ability);
+		dplayer.setActivatedAbility(ability);
 		
-		mplayer.setPreparedTool(Optional.empty());
+		dplayer.setPreparedTool(Optional.empty());
 
-		final Object obj = ability.onActivate(mplayer, other);
+		final Object obj = ability.onActivate(dplayer, other);
 		
 		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				deactivateActiveAbility(mplayer, obj);
+				deactivateActiveAbility(dplayer, obj);
 			}
-		}, ability.getDuration(mplayer.getLvl(ability.getSkill())));
+		}, ability.getDuration(dplayer.getLvl(ability.getSkill())));
 		
 		return obj;
 	}
