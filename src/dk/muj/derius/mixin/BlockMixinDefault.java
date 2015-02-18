@@ -54,4 +54,10 @@ public class BlockMixinDefault implements BlockMixin
 		// None per default
 	}
 
+	@Override
+	public boolean isListendFor(Material material)
+	{
+		return false;
+	}
+
 }

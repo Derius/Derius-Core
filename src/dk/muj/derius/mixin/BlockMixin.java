@@ -29,10 +29,10 @@ public interface BlockMixin
 	
 	
 	// Listening
-	
 	public Set<Material> getBlocksTypesToListenFor();
 	public void setBlocksTypesToListenFor(Collection<Material> blocks);
 	public void addBlockTypesToListenFor(Material... blocks);
 	public void addBlockTypesToListenFor(Collection<Material> blocks);
+	public boolean isListendFor(Material material);
 	
 }
