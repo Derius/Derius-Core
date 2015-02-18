@@ -55,12 +55,13 @@ public class CmdDeriusInspect extends DeriusCommand
 		Collections.sort(skills, SkillComparatorLvl.get(dplayer));
 		final Pager<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		
+		// TODO: Replace lambda here....
 		// Use Pager
-		List<String> messages = pager.getPageTxt(pageHumanBased, title, 
-				skill -> Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString()) );
+		//List<String> messages = pager.getPageTxt(pageHumanBased, title, 
+				// skill -> Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString()) );
 		
 		// Send Message
-		sendMessage(messages);
+		// sendMessage(messages);
 		
 		return;
 	}

@@ -46,7 +46,7 @@ public class CmdDeriusList extends DeriusCommand
 		// Use Pager
 		List<String> messages = pager.getPageTxt(pageHumanBased, "List of skills", new Stringifier<Skill>() {
 			@Override
-			public String toString(Skill skill)
+			public String toString(Skill skill, int index)
 			{
 				return Txt.parse("%s: %s", skill.getDisplayName(dsender), skill.getDesc());
 			}

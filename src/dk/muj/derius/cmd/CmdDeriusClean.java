@@ -1,5 +1,6 @@
 package dk.muj.derius.cmd;
 
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
