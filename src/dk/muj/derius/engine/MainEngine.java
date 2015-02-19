@@ -2,6 +2,7 @@ package dk.muj.derius.engine;
 
 import java.util.Optional;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,10 +19,10 @@ import com.massivecraft.massivecore.util.EventUtil;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.Ability.AbilityType;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.api.Ability.AbilityType;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.entity.skill.SkillColl;
@@ -135,12 +136,18 @@ public class MainEngine extends EngineAbstract
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void callListener(BlockBreakEvent event)
 	{	
+		Block block = event.getBlock();
+		
 		// Listeners
-		Listener listener = Listener.getBlockBreakListener(event.getBlock().getType());
+		Listener listener = Listener.getBlockBreakListener(block.getType());
 		if (listener == null) return;
 		
-		listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), event.getBlock().getState());
+		// Check if player placed block
+		if (DeriusCore.getBlockMixin().isBlockPlacedByPlayer(block)) return;
 		
+		listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), block.getState());
+		
+		return;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)

@@ -46,7 +46,7 @@ public class CmdDeriusKeysList extends DeriusCommand
 		// Use Pager
 		List<String> messages = pager.getPageTxt(pageHumanBased, title, new Stringifier<String>() {
 			@Override
-			public String toString(String string, int i)
+			public String toString(String string, int index)
 			{
 				return string;
 			}

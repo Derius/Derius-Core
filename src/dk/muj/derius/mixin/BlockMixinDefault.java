@@ -37,4 +37,10 @@ public class BlockMixinDefault implements BlockMixin
 	public void addBlockTypesToListenFor(Material... blocks) { this.blocks.addAll(Arrays.asList(blocks)); }
 	public void addBlockTypesToListenFor(Collection<Material> blocks) { this.blocks.addAll(blocks); }
 
+	@Override
+	public boolean isListendFor(Material material)
+	{
+		return false;
+	}
+
 }

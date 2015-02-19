@@ -1,3 +1,4 @@
+
 package dk.muj.derius.cmd;
 
 import java.util.Collection;
@@ -37,7 +38,7 @@ public class CmdDeriusList extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		int pageHumanBased = this.arg(0, ARInteger.get(), 1);
+		Integer pageHumanBased = this.arg(0, ARInteger.get(), 1);
 		
 		// Create Pager
 		final Collection<? extends Skill> skills = SkillColl.getAllSkills();
@@ -46,7 +47,7 @@ public class CmdDeriusList extends DeriusCommand
 		// Use Pager
 		List<String> messages = pager.getPageTxt(pageHumanBased, "List of skills", new Stringifier<Skill>() {
 			@Override
-			public String toString(Skill skill, int i)
+			public String toString(Skill skill, int index)
 			{
 				return Txt.parse("%s: %s", skill.getDisplayName(dsender), skill.getDesc());
 			}

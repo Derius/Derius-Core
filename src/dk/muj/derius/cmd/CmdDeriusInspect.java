@@ -9,6 +9,7 @@ import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.pager.Pager;
 import com.massivecraft.massivecore.pager.PagerSimple;
+import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
@@ -56,8 +57,15 @@ public class CmdDeriusInspect extends DeriusCommand
 		final Pager<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		
 		// Use Pager
-		List<String> messages = pager.getPageTxt(pageHumanBased, title, 
-				(skill, i) -> Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString()) );
+		List<String> messages = pager.getPageTxt(pageHumanBased, title, new Stringifier<Skill>()
+		{
+			@Override
+			public String toString(Skill skill, int index)
+			{
+				return Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString());
+			}
+			
+		});
 		
 		// Send Message
 		sendMessage(messages);
