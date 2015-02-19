@@ -44,8 +44,8 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		{
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
-			msg("<b>You cannot change specialisation right now");
-			msg("<b> please stand still for %s <b>more",moveDesc);
+			msg(MLang.get().specialisationCantChange);
+			msg(MLang.get().specialisationMoveCooldown, moveDesc);
 			return;
 		}
 		

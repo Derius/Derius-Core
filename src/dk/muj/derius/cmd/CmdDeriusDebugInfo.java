@@ -31,24 +31,24 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		List<String> messages = new ArrayList<String>();
+		List<String> msgs = new ArrayList<String>();
 		
-		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED SKILLS")));
+		msgs.add(Txt.titleize("<green>REGISTERED SKILLS"));
 		for (Skill skill : SkillColl.getAllSkills())
 		{
-			messages.add(Txt.parse("<red>%s %s", skill.getId(), skill.getName()));
+			msgs.add(String.format("<red>%s %s", skill.getId(), skill.getName()));
 		}
 		
-		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED ABILITIES")));
+		msgs.add(Txt.titleize("<green>REGISTERED ABILITIES"));
 		for (Ability ability : AbilityColl.getAllAbilities())
 		{
-			messages.add(Txt.parse("<red>%s %s		   %s", ability.getId(), ability.getName(), ability.getSkill().getId()));
+			msgs.add(String.format("<red>%s %s		   %s", ability.getId(), ability.getName(), ability.getSkill().getId()));
 		}
 
-		messages.add(Txt.titleize(Txt.parse("<green>REGISTERED INTERACT MATERIALS")));
-		messages.add(Txt.parse("<red>%s", Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>")));
+		msgs.add(Txt.titleize("<green>REGISTERED INTERACT MATERIALS"));
+		msgs.add(String.format("<red>%s", Txt.implodeCommaAnd(Listener.getRegisteredInteractTools(), "<i>, <red>", " <i>& <red>")));
 		
-		this.sendMessage(messages);
+		this.msg(msgs);
 		
 		return;
 	}

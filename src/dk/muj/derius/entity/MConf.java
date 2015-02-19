@@ -25,6 +25,8 @@ public class MConf extends Entity<MConf>
 	// SKILL SETTINGS
 	// -------------------------------------------- //
 	
+	public int baseSpSlot = 3;
+	
 	/**
 	 * The maximum level you can reach without specialisation
 	 */
@@ -33,8 +35,6 @@ public class MConf extends Entity<MConf>
 	 * The maximum level you can reach with specialisation
 	 */
 	public int hardCap = 2000;
-	
-	public double baseMultiplier = 1.0;
 	
 	/**
 	 * The amount of millis a player will have to wait

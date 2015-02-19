@@ -7,8 +7,8 @@ import com.massivecraft.massivecore.cmd.arg.ArgReader;
 import com.massivecraft.massivecore.cmd.arg.ArgReaderAbstract;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.entity.MPlayer;
-import dk.muj.derius.entity.MPlayerColl;
+import dk.muj.derius.entity.mplayer.MPlayer;
+import dk.muj.derius.entity.mplayer.MPlayerColl;
 
 
 public class ARDPlayer

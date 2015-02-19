@@ -9,7 +9,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.cmd.arg.ARDPlayer;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.entity.mplayer.MPlayer;
 
 public class CmdDeriusDebugPlayer extends DeriusCommand
 {
@@ -31,7 +31,6 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	// OVERRIDE
 	// -------------------------------------------- //
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void perform() throws MassiveException 
 	{
@@ -40,8 +39,10 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		
 		List<String> messages = new ArrayList<String>();
 		
+		@SuppressWarnings("deprecation")
 		Set<String> specialised = mplayer.getRawSpecialisedData();
 		
+		@SuppressWarnings("deprecation")
 		Map<String,Long> exp = mplayer.getRawExpData();
 
 		messages.add(Txt.titleize(Txt.parse("Debug info about %s", mplayer.getDisplayName(dsender))));

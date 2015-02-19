@@ -35,19 +35,19 @@ public class CmdDeriusSpList  extends DeriusCommand
 		// Args
 		DPlayer mplayer = this.arg(0, ARDPlayer.getAny(), dsender);
 		
-		List<String> messages = new ArrayList<String>();
+		List<String> msgs = new ArrayList<String>();
 		
 		if (mplayer != dsender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 
-		messages.add(Txt.titleize(Txt.parse("%s's <i>Specialisations", mplayer.getDisplayName(dsender))));
+		msgs.add(Txt.titleize(String.format("%s's <i>Specialisations", mplayer.getDisplayName(dsender))));
 		
 		for (Skill skill : mplayer.getSpecialisedSkills())
 		{
-			messages.add(Txt.parse("%s: %s", skill.getDisplayName(dsender), mplayer.getLvlStatus(skill).toString()));
+			msgs.add(String.format("%s: %s", skill.getDisplayName(dsender), mplayer.getLvlStatus(skill).toString()));
 		}
 		
 		// Send Message
-		sendMessage(messages);
+		msg(msgs);
 		
 		return;
 	}

@@ -36,15 +36,15 @@ public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializ
 	// Descriptive fields
 	public static final String NAME				= "Name";
 	public static final String DESC				= "Description";
-	public static final String EARN_EXP_DESCS	= "Earn-experience-descriptions";
-	public static final String ICON				= "icon";
+	public static final String EARN_EXP_DESCS	= "Earn experience descriptions";
+	public static final String ICON				= "Icon";
 	
 	// Specialisation settings
-	public static final String SP_AUTO_ASSIGNED	= "Specialisation-auto-assigned";
-	public static final String SP_BLACKLISTED	= "Specialisation-blacklisted";
+	public static final String SP_AUTO_ASSIGNED	= "Specialisation Automatically Assigned";
+	public static final String SP_BLACKLISTED	= "Specialisation BlackListed";
 	
 	// Worlds where it can be earned.
-	public static final String WORLDS_EARN		= "Worlds-earn-enabled";
+	public static final String WORLDS_EARN		= "Worlds Earn Exp Enabled";
 	
 	// Custom configuration for each skill.
 	public static final String CONFIGURATION	= "Configuration";

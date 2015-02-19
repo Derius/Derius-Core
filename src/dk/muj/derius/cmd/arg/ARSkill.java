@@ -11,7 +11,7 @@ import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.MPlayer;
+import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.SkillUtil;
 

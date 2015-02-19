@@ -38,10 +38,10 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 	public static final String DESC				= "Description";
 	
 	// Cooldown
-	public static final String TICKS_COOLDOWN	= "Cooldown-ticks";
+	public static final String TICKS_COOLDOWN	= "Cooldown Ticks";
 	
 	// Worlds use
-	public static final String WORLDS_USE		= "Worlds-use-enabled";
+	public static final String WORLDS_USE		= "Worlds Use Enabled";
 	
 	// -------------------------------------------- //
 	// SERIALIZE

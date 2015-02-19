@@ -21,10 +21,12 @@ import dk.muj.derius.engine.MsgEngine;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
 import dk.muj.derius.entity.MLangColl;
-import dk.muj.derius.entity.MPlayerColl;
 import dk.muj.derius.entity.ability.AbilityAdapter;
 import dk.muj.derius.entity.ability.AbilityColl;
 import dk.muj.derius.entity.ability.DeriusAbility;
+import dk.muj.derius.entity.mplayer.MPlayer;
+import dk.muj.derius.entity.mplayer.MPlayerAdapter;
+import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.entity.skill.DeriusSkill;
 import dk.muj.derius.entity.skill.SkillAdapter;
 import dk.muj.derius.entity.skill.SkillColl;
@@ -32,8 +34,6 @@ import dk.muj.derius.mixin.BlockMixin;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixin;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
-import dk.muj.derius.mixin.SpSlotMixin;
-import dk.muj.derius.mixin.SpSlotMixinDefault;
 
 
 public class DeriusCore extends MassivePlugin implements Derius
@@ -56,9 +56,6 @@ public class DeriusCore extends MassivePlugin implements Derius
 	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
 	
 	// Mixins
-	private static SpSlotMixin spSlotMixin = SpSlotMixinDefault.get();
-	public static SpSlotMixin getSpSlotMixin () { return spSlotMixin; }
-	public static void setSpSlotMixin(SpSlotMixin val) { spSlotMixin = val; }
 	
 	private static MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
 	public static MaxLevelMixin getMaxLevelMixin() { return maxLevelMixin; }
@@ -130,7 +127,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 	{
 		return super.getGsonBuilder()
 				.registerTypeAdapter(DeriusSkill.class, SkillAdapter.get())
-				.registerTypeAdapter(DeriusAbility.class, AbilityAdapter.get());
+				.registerTypeAdapter(DeriusAbility.class, AbilityAdapter.get())
+				.registerTypeAdapter(MPlayer.class, MPlayerAdapter.get());
 	}
 	
 	// -------------------------------------------- //

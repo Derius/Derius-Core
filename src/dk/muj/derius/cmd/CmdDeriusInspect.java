@@ -57,7 +57,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		
 		// Use Pager
 		List<String> messages = pager.getPageTxt(pageHumanBased, title, 
-				skill -> Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString()) );
+				(skill, i) -> Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString()) );
 		
 		// Send Message
 		sendMessage(messages);

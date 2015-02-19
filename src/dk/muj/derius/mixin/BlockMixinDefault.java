@@ -1,8 +1,9 @@
 package dk.muj.derius.mixin;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.bukkit.Material;
 
@@ -30,28 +31,10 @@ public class BlockMixinDefault implements BlockMixin
 
 	// Listening
 	
-	@Override
-	public Set<Material> getBlocksTypesToListenFor()
-	{
-		return Collections.emptySet();
-	}
-
-	@Override
-	public void setBlocksTypesToListenFor(Collection<Material> blocks)
-	{
-		// None per default
-	}
-
-	@Override
-	public void addBlockTypesToListenFor(Material... blocks)
-	{
-		// None per default
-	}
-
-	@Override
-	public void addBlockTypesToListenFor(Collection<Material> blocks)
-	{
-		// None per default
-	}
+	private Set<Material> blocks = new CopyOnWriteArraySet<Material>();
+	public Set<Material> getBlocksTypesToListenFor() { return this.blocks; }
+	public void setBlocksTypesToListenFor(Collection<Material> blocks) { this.blocks.clear(); this.blocks.addAll(blocks); } 
+	public void addBlockTypesToListenFor(Material... blocks) { this.blocks.addAll(Arrays.asList(blocks)); }
+	public void addBlockTypesToListenFor(Collection<Material> blocks) { this.blocks.addAll(blocks); }
 
 }

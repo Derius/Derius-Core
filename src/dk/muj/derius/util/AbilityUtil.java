@@ -120,13 +120,16 @@ public final class AbilityUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
-		AbilityDeactivateEvent e = new AbilityDeactivateEvent(dplayer.getActivatedAbility(), dplayer);
+		Optional<Ability> deactivated = dplayer.getActivatedAbility();
+		if (! deactivated.isPresent()) return;
+		Ability ability = deactivated.get();
+		
+		AbilityDeactivateEvent e = new AbilityDeactivateEvent(ability, dplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) return;
 		
-		Ability ability = dplayer.getActivatedAbility();
 		ability.onDeactivate(dplayer, other);
-		dplayer.setActivatedAbility(null);
+		dplayer.setActivatedAbility(Optional.empty());
 		dplayer.setCooldownExpireIn(ability.getCooldownTicks());
 	}
 	
@@ -136,6 +139,7 @@ public final class AbilityUtil
 	
 	private static Object activatePassiveAbility(DPlayer dplayer, final Ability ability, Object other)
 	{
+		Validate.isTrue(ability.getType() == AbilityType.PASSIVE, "abilitytype must be passive");
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, dplayer);
 		e.run();
 		if (e.isCancelled()) return Optional.empty();
@@ -145,13 +149,14 @@ public final class AbilityUtil
 	
 	private static Object activateActiveAbility(final DPlayer dplayer, final Ability ability, Object other)
 	{
+		Validate.isTrue(ability.getType() == AbilityType.ACTIVE, "abilitytype must be active");
 		if (dplayer.hasActivatedAny()) return null;
 		
 		AbilityActivateEvent e = new AbilityActivateEvent(ability, dplayer);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) return null;
 		
-		dplayer.setActivatedAbility(ability);
+		dplayer.setActivatedAbility(Optional.of(ability));
 		
 		dplayer.setPreparedTool(Optional.empty());
 

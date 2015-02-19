@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.entity.MPlayerColl;
+import dk.muj.derius.entity.mplayer.MPlayerColl;
 
 
 public class DeriusCommand extends MassiveCommand
