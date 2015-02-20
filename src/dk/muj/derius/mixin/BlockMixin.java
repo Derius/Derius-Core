@@ -1,5 +1,6 @@
 package dk.muj.derius.mixin;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
@@ -31,8 +32,16 @@ public interface BlockMixin
 	// Listening
 	public Set<Material> getBlocksTypesToListenFor();
 	public void setBlocksTypesToListenFor(Collection<Material> blocks);
-	public void addBlockTypesToListenFor(Material... blocks);
 	public void addBlockTypesToListenFor(Collection<Material> blocks);
-	public boolean isListendFor(Material material);
+	
+	public default void addBlockTypesToListenFor(Material... blocks)
+	{
+		this.addBlockTypesToListenFor(Arrays.asList(blocks));
+	}
+	
+	public default boolean isListenedFor(Material material)
+	{
+		return this.getBlocksTypesToListenFor().contains(material);
+	}
 	
 }

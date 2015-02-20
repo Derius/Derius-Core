@@ -1,6 +1,5 @@
 package dk.muj.derius.mixin;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -34,13 +33,6 @@ public class BlockMixinDefault implements BlockMixin
 	private Set<Material> blocks = new CopyOnWriteArraySet<Material>();
 	public Set<Material> getBlocksTypesToListenFor() { return this.blocks; }
 	public void setBlocksTypesToListenFor(Collection<Material> blocks) { this.blocks.clear(); this.blocks.addAll(blocks); } 
-	public void addBlockTypesToListenFor(Material... blocks) { this.blocks.addAll(Arrays.asList(blocks)); }
 	public void addBlockTypesToListenFor(Collection<Material> blocks) { this.blocks.addAll(blocks); }
-
-	@Override
-	public boolean isListendFor(Material material)
-	{
-		return false;
-	}
 
 }

@@ -26,7 +26,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	// FIELDS
 	// -------------------------------------------- //
 
-	private boolean enabled = true;
+	protected boolean enabled = true;
 	public boolean isEnabled() { return enabled && this.getSkill().isEnabled(); }
 	public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	

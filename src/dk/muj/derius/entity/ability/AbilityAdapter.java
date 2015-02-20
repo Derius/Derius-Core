@@ -56,7 +56,7 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 		JsonElement val;
 		
 		// Enabled
-		val = DeriusCore.get().gson.toJsonTree(src.isEnabled());
+		val = DeriusCore.get().gson.toJsonTree(src.enabled);
 		ret.add(ENABLED, val);
 		
 		// Name

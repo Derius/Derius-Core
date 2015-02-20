@@ -37,6 +37,8 @@ public class SkillColl extends Coll<DeriusSkill>
 		for (Skill skill : get().getAll())
 		{
 			if (skill == null) continue;
+			if (! skill.isEnabled()) continue;
+			if (skill instanceof GsonSkill) continue;
 			skills.add(skill);
 		}
 		

@@ -62,7 +62,7 @@ public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializ
 		JsonElement val;
 		
 		// Enabled
-		val = DeriusCore.get().gson.toJsonTree(src.isEnabled());
+		val = DeriusCore.get().gson.toJsonTree(src.enabled);
 		ret.add(ENABLED, val);
 		
 		// Name
@@ -94,7 +94,7 @@ public class SkillAdapter implements JsonDeserializer<DeriusSkill>, JsonSerializ
 		ret.add(WORLDS_EARN, val);
 		
 		// Config
-		val = DeriusCore.get().gson.toJsonTree(src.getConfiguration());
+		val = DeriusCore.get().gson.toJsonTree(src.configuration);
 		ret.add(CONFIGURATION, val);
 		
 		return ret;

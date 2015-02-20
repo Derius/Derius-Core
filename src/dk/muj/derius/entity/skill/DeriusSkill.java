@@ -35,7 +35,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	// -------------------------------------------- //
 	
 	// Enabled
-	private boolean enabled = true;
+	protected boolean enabled = true;
 	@Override public boolean isEnabled() { return enabled; }
 	@Override public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	
@@ -81,7 +81,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	@Override public void setWorldsEarn(WorldExceptionSet worldsEarn) { this.worldsEarn = worldsEarn; }
 	
 	// Configuration
-	private JsonObject configuration = new JsonObject();
+	protected JsonObject configuration = new JsonObject();
 	public Object getConfiguration() { return this.configuration; }
 	public void setConfiguration(JsonObject conf) { this.configuration = conf; }
 	
@@ -145,6 +145,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 		if (that.earnExpDescs != null)this.earnExpDescs = that.earnExpDescs;
 		if (that.icon != null) this.icon = that.icon;
 		if (that.worldsEarn != null) this.worldsEarn = that.worldsEarn;
+		if (that.configuration != null) this.configuration = that.configuration;
 		
 		return this;
 	}
@@ -283,7 +284,8 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	{
 		int result = 1;
 		
-		result += this.getId().hashCode();
+		String id = this.getId();
+		result += (id != null) ? id.hashCode() : 1;
 		
 		return result;
 	}
