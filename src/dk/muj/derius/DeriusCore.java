@@ -34,6 +34,9 @@ import dk.muj.derius.mixin.BlockMixin;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixin;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
+import dk.muj.derius.mixin.StaminaMixin;
+import dk.muj.derius.mixin.StaminaMixinDefault;
+import dk.muj.derius.scoreboard.TaskPlayerStaminaUpdate;
 
 
 public class DeriusCore extends MassivePlugin implements Derius
@@ -56,7 +59,6 @@ public class DeriusCore extends MassivePlugin implements Derius
 	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
 	
 	// Mixins
-	
 	private static MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
 	public static MaxLevelMixin getMaxLevelMixin() { return maxLevelMixin; }
 	public static void setMaxLevelMixin (MaxLevelMixin val) { maxLevelMixin = val; }
@@ -64,6 +66,10 @@ public class DeriusCore extends MassivePlugin implements Derius
 	private static BlockMixin blockMixin = BlockMixinDefault.get();
 	public static BlockMixin getBlockMixin() { return blockMixin; }
 	public static void setBlockMixin (BlockMixin val) { blockMixin = val; }
+	
+	private static StaminaMixin staminaMixin = StaminaMixinDefault.get();
+	public static StaminaMixin getStaminaMixin() { return staminaMixin; }
+	public static void setStaminaMixin (StaminaMixin val) { staminaMixin = val; }
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
@@ -99,6 +105,9 @@ public class DeriusCore extends MassivePlugin implements Derius
 		this.outerCmdDerius.register(this);
 		
 		MPlayerColl.get().get(IdUtil.getConsole(), true);
+		
+		// ModulaRepeatTask
+		TaskPlayerStaminaUpdate.get().activate();
 		
 		this.setApiField();
 		

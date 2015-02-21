@@ -30,6 +30,10 @@ public enum Perm implements MPerm
 	KEYS_REMOVE					("keys.remove",			0, "remove key"),
 	LIST						("list",				0, "list skills"),
 	NOTIFY_CHUNK				("notify.chunk",		1, "get notified on chunk cleanup"),
+	SETSTAMINA					("setStamina",			2, "set stamina"),
+	SCOREBOARD					("scoreboard",			0, "manage your scoreboard settings"),
+	SCOREBOARD_SHOW				("scoreboard.show",		0, "change show settings"),
+	SCOREBOARD_KEEP				("scoreboard.keep",		0, "change keep settings"),
 	SKILL						("skill",				0, "see skill info"),
 	SPECIALISATION				("sp",					0, "specialisation basecommand"),
 	SPECIALISATION_INFO			("sp.info",				0, "specialisation info"),
@@ -38,6 +42,7 @@ public enum Perm implements MPerm
 	SPECIALISATION_LIST_OTHER	("sp.list.other",		0, "list others specialisations"),
 	SPECIALISATION_UNLEARN		("sp.unlearn",			0, "unspecialise"), 
 	VERSION						("version",				0, "see plugin version"),
+
 	
 	// END OF LIST
 	;

@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 
+import com.massivecraft.massivecore.util.MUtil;
+
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Ability.AbilityType;
@@ -12,6 +14,8 @@ import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
+import dk.muj.derius.events.PlayerUpdateStaminaEvent;
+import dk.muj.derius.events.PlayerUpdateStaminaEvent.StaminaUpdateReason;
 
 public final class AbilityUtil
 {
@@ -82,7 +86,7 @@ public final class AbilityUtil
 	
 	/**
 	 * Activates an ability
-	 * mplayer is the proper way to activate an ability
+	 * This is the proper way to activate an ability
 	 * @param {DPlayer} player to activate ability on
 	 * @param {Ability} the ability to activate
 	 * @param {Object} some abilities need another object. Check for the individual ability
@@ -111,7 +115,7 @@ public final class AbilityUtil
 	}
 	
 	/**
-	 * Deactivates an ability for mplayer player.
+	 * Deactivates an ability for dplayer player.
 	 * This should however automatically be done by our scheduled tasks.
 	 * @param {DPlayer} player to deactivate ability on
 	 * @param {Ability} the ability to deactivate
@@ -131,6 +135,19 @@ public final class AbilityUtil
 		ability.onDeactivate(dplayer, other);
 		dplayer.setActivatedAbility(Optional.empty());
 		dplayer.setCooldownExpireIn(ability.getCooldownTicks());
+		
+		// Stamina
+		double staminaUsage = ability.getStaminaUsage();
+		if ( ! MUtil.equals(staminaUsage, 0.0))
+		{
+			double newStamina = dplayer.getStamina() - staminaUsage;
+			
+			PlayerUpdateStaminaEvent event = new PlayerUpdateStaminaEvent(dplayer, newStamina, StaminaUpdateReason.ABILITY);
+			event.run();
+			if (event.isCancelled()) return;
+			
+			dplayer.setStamina(event.getStaminaAmount());
+		}
 	}
 	
 	// -------------------------------------------- //

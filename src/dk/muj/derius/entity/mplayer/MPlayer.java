@@ -25,13 +25,18 @@ import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.ability.AbilityColl;
 import dk.muj.derius.entity.skill.SkillColl;
+import dk.muj.derius.events.PlayerAddBonusStaminaEvent;
 import dk.muj.derius.events.PlayerAddExpEvent;
+import dk.muj.derius.events.PlayerAddStaminaEvent;
 import dk.muj.derius.events.PlayerLevelDownEvent;
 import dk.muj.derius.events.PlayerLevelUpEvent;
 import dk.muj.derius.events.PlayerPrepareToolEvent;
+import dk.muj.derius.events.PlayerTakeBonusStaminaEvent;
 import dk.muj.derius.events.PlayerTakeExpEvent;
+import dk.muj.derius.events.PlayerTakeStaminaEvent;
 import dk.muj.derius.events.PlayerUnprepareToolEvent;
 import dk.muj.derius.events.SpecialisationSlotEvent;
+import dk.muj.derius.scoreboard.ScoreboardUtil;
 import dk.muj.derius.util.Listener;
 
 public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
@@ -58,6 +63,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		this.specialisedMillis = that.specialisedMillis;
 		this.isListeningToChat = that.isListeningToChat;
 		this.chatKeys = that.chatKeys;
+		this.stamina = that.stamina;
+		this.bonusStamina = that.bonusStamina;
+		this.staminaBoardStay = that.staminaBoardStay;
+		this.boardShowAtAll = that.boardShowAtAll;
 		return this;
 	}
 	
@@ -84,12 +93,24 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Long is the millis when the abilitys cooldown expires.
 	private transient long cooldown = 0;
 	
-	// An int that stores which Ability is currently activated.
+	// Which Ability is currently activated.
 	private transient Optional<Ability> activatedAbility = Optional.empty();
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
 	private transient Optional<Material> preparedTool = Optional.empty();
+	
+	// The stamina of the player
+	protected double stamina = 100.0;
+	
+	// The maximal stamina of a player
+	protected double bonusStamina = 0.0;
+	
+	// The boolean whether the board doesn't fade out
+	protected boolean staminaBoardStay = false;
+	
+	// Whether the scoreboard should be used at all or not.
+	protected boolean boardShowAtAll = true;
 	
 	// -------------------------------------------- //
 	// FIELD: EXP
@@ -135,7 +156,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 		if (lvlBefore <= 0) return;
 		
-		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this,skill,exp);
+		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
 		exp = MUtil.probabilityRound(event.getExpAmount());
@@ -147,6 +168,117 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			PlayerLevelDownEvent lvlDown = new PlayerLevelDownEvent(this, skill);
 			lvlDown.run();
 		}
+	}
+	
+	// -------------------------------------------- //
+	// FIELD: stamina
+	// -------------------------------------------- //
+	
+	// Raw
+	public void setStamina(double newStamina)
+	{
+		Validate.isTrue(newStamina > 0, "Stamina value must be positive.");
+		if (Math.round(newStamina) == Math.round(this.getStamina())) return;
+		
+		double max = DeriusCore.getStaminaMixin().getMax(this);
+		double min = 0.0;
+		
+		newStamina = Math.max(newStamina, min);
+		newStamina = Math.min(newStamina, max);
+		
+		this.stamina = newStamina;
+		this.changed();
+		ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay);
+	}
+	
+	public double getStamina() { return this.stamina; }
+	
+	// Finer
+	public void addStamina(double stamina)
+	{
+		PlayerAddStaminaEvent event = new PlayerAddStaminaEvent(this, stamina);
+		event.run();
+		if (event.isCancelled()) return;
+		
+		double staminaAfter = this.getStamina() + event.getStaminaAmount();
+		this.setStamina(staminaAfter);
+	}
+	
+	public void takeStamina(double stamina)
+	{
+		PlayerTakeStaminaEvent event = new PlayerTakeStaminaEvent(this, stamina);
+		event.run();
+		if (event.isCancelled()) return;
+		
+		double staminaAfter = this.getStamina() - event.getStaminaAmount();
+		this.setStamina(staminaAfter);
+	}
+	
+	public boolean hasEnoughStamina(double amount)
+	{
+		return this.getStamina() >= amount;
+	}
+	
+	// -------------------------------------------- //
+	// FIELD: STAMINASCORE
+	// -------------------------------------------- //
+	
+	public void setStaminaBoardStay(boolean value) { this.staminaBoardStay = value; }
+	
+	public boolean getStaminaBoardStay() { return this.staminaBoardStay; }
+	
+	// -------------------------------------------- //
+	// FIELD: STAMINASCORE
+	// -------------------------------------------- //
+	
+	public void setBoardShowAtAll(boolean value) { this.boardShowAtAll = value; }
+	
+	public boolean getBoardShowAtAll() { return this.boardShowAtAll; }
+	
+	// -------------------------------------------- //
+	// FIELD: bonusStamina
+	// -------------------------------------------- //
+	
+	private void setBonusStamina(double bonusStamina) { this.bonusStamina = bonusStamina; }
+	
+	public double getBonusStamina() { return this.bonusStamina; }
+	
+	public void addBonusStamina(double bonusStamina)
+	{
+		Validate.isTrue(bonusStamina > 0.0, "BonusStamina value must be positive.");
+		
+		double highCap = MConf.get().bonusStaminaMax + MConf.get().staminaMax;
+		double staminaMax = DeriusCore.getStaminaMixin().getMax(this);
+		
+		if (staminaMax >= highCap) return;
+		
+		double bonusStaminaAfter = staminaMax + bonusStamina;
+		bonusStaminaAfter = Math.min(highCap, bonusStaminaAfter);
+
+		PlayerAddBonusStaminaEvent event = new PlayerAddBonusStaminaEvent(this, stamina);
+		event.run();
+		if (event.isCancelled()) return;
+		
+		this.setBonusStamina(bonusStaminaAfter);
+		this.changed();
+	}
+	
+	public void takeBonusStamina(double bonusStamina)
+	{
+		Validate.isTrue(bonusStamina > 0.0, "BonusStamina value must be positive.");
+		double min = MConf.get().bonusStaminaMin;
+		
+		if (this.getBonusStamina() <= min) return;
+		
+		double bonusStaminaAfter = this.getBonusStamina() - bonusStamina;
+		bonusStaminaAfter = Math.min(min, bonusStaminaAfter);
+
+		PlayerTakeBonusStaminaEvent event = new PlayerTakeBonusStaminaEvent(this, stamina);
+		event.run();
+		if (event.isCancelled()) return;
+		
+		this.setBonusStamina(bonusStaminaAfter);
+		this.changed();
 	}
 	
 	// -------------------------------------------- //

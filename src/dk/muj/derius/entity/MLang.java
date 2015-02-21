@@ -29,6 +29,8 @@ public class MLang extends Entity<MConf>
 	public String mustBeGamemode = "<b>You'r gamemode must be <h>%s <b>to do this";
 	public String mustNotBeGamemode = "<b>You'r gamemode can't be <h>%s <b>to do this";
 	
+	public String mustHaveEnoughStamina = "<b>You don't have enough Stamina to use %s<b>.";
+	
 	// -------------------------------------------- //
 	// MESSAGES: ABILITIES
 	// -------------------------------------------- //

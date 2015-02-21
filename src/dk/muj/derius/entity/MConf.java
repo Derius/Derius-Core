@@ -51,6 +51,35 @@ public class MConf extends Entity<MConf>
 	public long specialiseChangeStandStillSeconds = 60*1;
 	
 	// -------------------------------------------- //
+	// STAMINA SETTINGS
+	// -------------------------------------------- //
+	
+	/**
+	 * Stamina can't go higher than this without a bonus
+	 */
+	public double staminaMax = 200.0;
+	
+	/**
+	 * The maximum amount of bonus stamina that can be applied to a player
+	 */
+	public double bonusStaminaMax = 200.0;
+	
+	/**
+	 * The minimum amount the bonus can be (mostly minus)
+	 */
+	public double bonusStaminaMin = -staminaMax;
+	
+	/**
+	 * The stamina you get per minute
+	 */
+	public double staminaPerMinute = 20.0;
+	
+	/**
+	 * How long the stamina scoreboard stays
+	 */
+	public long staminaBoardStay = 100;
+
+	// -------------------------------------------- //
 	// COMMAND ALIASES
 	// -------------------------------------------- //
 	
@@ -62,9 +91,9 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusInspect = MUtil.list("i", "inspect");
 	public List<String> innerAliasesDeriusSpecialise = MUtil.list("sp","specialise");
 	public List<String> innerAliasesDeriusKeys = MUtil.list("k", "keys");
-	public List<String> innerAliasesDeriusSettings = MUtil.list("se", "settings");
 	public List<String> innerAliasesDeriusClean = MUtil.list("clean");
 	public List<String> innerAliasesDeriusDebug = MUtil.list("debug");
+	public List<String> innerAliasesDeriusSetStamina = MUtil.list("setstamina");
 	
 	public List<String> innerAliasesDeriusSpLearn = MUtil.list("learn");
 	public List<String> innerAliasesDeriusSpUnlearn = MUtil.list("unlearn");
@@ -77,6 +106,8 @@ public class MConf extends Entity<MConf>
 	public List<String> innerAliasesDeriusKeysClear = MUtil.list("c", "clear");	
 	public List<String> innerAliasesDeriusKeyAbilityId = MUtil.list("id", "Abilityid");
 	
-	public List<String> innerAliasesDeriusSeMsgSet = MUtil.list("msgtype");
+	public List<String> innerAliasesDeriusScoreboard = MUtil.list("sc", "scoreboard");
+	public List<String> innerAliasesDeriusScShow = MUtil.list("show");
+	public List<String> innerAliasesDeriusScKeep = MUtil.list("keep");
 
 }

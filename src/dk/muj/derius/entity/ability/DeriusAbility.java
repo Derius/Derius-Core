@@ -46,6 +46,10 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public WorldExceptionSet getWorldsUse() { return this.worldsUse; }
 	public void setWorldsUse(WorldExceptionSet worldsUse) { this.worldsUse = worldsUse; }
 	
+	private double staminaUsage = 0.0;
+	public void setStaminaUsage(double stamina) { this.staminaUsage = stamina; }
+	public double getStaminaUsage() { return this.staminaUsage; }
+	
 	private transient AbilityType type;
 	public AbilityType getType() { return this.type; }
 	public void setType(AbilityType newType){ this.type = newType; }
@@ -80,10 +84,11 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 		
 		this.enabled		= that.enabled;
 		this.ticksCooldown	= that.ticksCooldown;
+		this.staminaUsage	= that.staminaUsage;
 		
 		if (that.name != null) this.name = that.name;
-		if (that.desc != null) this.desc			= that.desc;
-		if (that.worldsUse != null) this.worldsUse		= that.worldsUse;
+		if (that.desc != null) this.desc = that.desc;
+		if (that.worldsUse != null) this.worldsUse = that.worldsUse;
 		
 		return this;
 	}

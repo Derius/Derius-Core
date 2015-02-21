@@ -25,6 +25,9 @@ public class CmdDerius extends DeriusCommand
 	public CmdDeriusDebug innerCmdDeriusDebug = new CmdDeriusDebug() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusDebug; } };
 	public CmdDeriusKeys innerCmdDeriusKeys = new  CmdDeriusKeys() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeys; } };
 	public CmdDeriusClean innerCmdDeriusClean = new  CmdDeriusClean() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusClean; } };
+	public CmdDeriusSetStamina  innerCmdDeriusSetStamina = new  CmdDeriusSetStamina() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusSetStamina; } };
+	public CmdDeriusScoarboard  innerCmdDeriusScoarboard = new  CmdDeriusScoarboard() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusScoreboard; } };
+
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -41,7 +44,9 @@ public class CmdDerius extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusSpecialise);
 		this.addSubCommand(this.innerCmdDeriusKeys);
 		this.addSubCommand(this.innerCmdDeriusClean);
+		this.addSubCommand(this.innerCmdDeriusScoarboard);
 		this.addSubCommand(this.innerCmdDeriusDebug);
+		this.addSubCommand(this.innerCmdDeriusSetStamina);
 		this.addSubCommand(this.innerCmdDeriusVersion);
 		
 		// Requirements

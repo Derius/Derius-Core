@@ -36,6 +36,7 @@ import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
 import dk.muj.derius.req.sp.ReqIsntBlacklisted;
 import dk.muj.derius.req.sp.ReqIsntSpecialised;
 import dk.muj.derius.req.sp.ReqSpCooldownIsExpired;
+import dk.muj.derius.scoreboard.ScoreboardUtil;
 import dk.muj.derius.util.Listener;
 
 public class MainEngine extends EngineAbstract
@@ -121,11 +122,16 @@ public class MainEngine extends EngineAbstract
 		{
 			mplayer.instantiateSkill(skill);
 		}
+		
 		if (mplayer.getSpecialisationCooldownExpire() == 0)
 		{
 			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
 		}
 		
+		if (mplayer.getBoardShowAtAll() && mplayer.getStaminaBoardStay())
+		{
+			ScoreboardUtil.updateStaminaScore(mplayer, 5);
+		}
 		return;
 	}
 	
@@ -175,7 +181,7 @@ public class MainEngine extends EngineAbstract
 		
 		return;
 	}
-	
+
 	// -------------------------------------------- //
 	// MUTIPLIER
 	// -------------------------------------------- //

@@ -28,16 +28,24 @@ public class CmdDeriusClean extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		throw new MassiveException().addMessage("This command is temporarily disabled");
+		// Command functions again, cleaning isn't ready though
 		
-		/*List<Skill> skillList = new ArrayList<Skill>();
-		List<DPlayer> mplayerList = new ArrayList<DPlayer>();
+		/*
+		List<Skill> skillList = new ArrayList<Skill>();
+		List<DPlayer> dplayerList = new ArrayList<DPlayer>();
 		
-		// Arg 0: ID or all
+		// Arg 0: all
 		if (this.arg(0).equalsIgnoreCase("all") && Perm.CLEAN_SKILL_ALL.has(sender, true))
 		{
 			skillList.addAll(SkillColl.getAllSkills());
 		}
-		else if (this.argIsSet(0))
+		else
+		{
+			return;
+		}
+		
+		// Arg 0: ID
+		if (this.argIsSet(0))
 		{
 			skillList.add(SkillColl.get().get(this.arg(0)));
 		}
@@ -45,17 +53,26 @@ public class CmdDeriusClean extends DeriusCommand
 		{
 			return;
 		}
-		// Arg 1: player, yourself or all
+		
+		// Arg 1: All
 		if (this.arg(1).equalsIgnoreCase("all") && Perm.CLEAN_PLAYER_ALL.has(sender, true))
 		{
-			mplayerList.addAll(MPlayerColl.get().getAll());
+			dplayerList.addAll(MPlayerColl.get().getAll());
 		}
-		else if (this.argIsSet(1) && Perm.CLEAN_PLAYER.has(sender, true))
+		else
 		{
-			DPlayer mplayer = this.arg(1, ARDeriusAPI.getDPlayerAny(), dsender);
-			if (mplayer != dsender && Perm.CLEAN_PLAYER_OTHER.has(sender, true)) return;
+			return;
+		}
+		
+		// Arg 1: Yourself
+		if (this.argIsSet(1) && Perm.CLEAN_PLAYER.has(sender, true))
+		{
+			DPlayer dplayer = this.arg(1, ARDPlayer.getAny(), dsender);
+			
+			// Arg 1: Player other
+			if (dplayer != dsender && Perm.CLEAN_PLAYER_OTHER.has(sender, true)) return;
 
-			mplayerList.add(mplayer);
+			dplayerList.add(dplayer);
 		}
 		else
 		{
@@ -65,19 +82,20 @@ public class CmdDeriusClean extends DeriusCommand
 		// Arg 2: force or not
 		String force = this.argConcatFrom(2, ARString.get(), "no");
 		String forceYes = "Yes, I want to force this";
-		if (!force.equals(forceYes))
-			return;
+		if ( ! force.equals(forceYes)) return;
 	
 		// Execute the cleaning
 		for (Skill skill : skillList)
 		{
-			for (DPlayer mplayer : mplayerList)
+			for (DPlayer dplayer : dplayerList)
 			{
-				mplayer.cleanNoCheck(skill.getId());
+				dplayer.c
+				dplayer.cleanNoCheck(skill.getId());
 			}
 		}
 		
-		return;*/
+		return;
+		*/
 	}
 
 }

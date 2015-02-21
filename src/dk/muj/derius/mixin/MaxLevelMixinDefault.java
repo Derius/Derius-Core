@@ -18,9 +18,9 @@ public class MaxLevelMixinDefault implements MaxLevelMixin
 	// -------------------------------------------- //
 	
 	@Override
-	public int getMaxLevel(DPlayer mplayer, Skill skill)
+	public int getMaxLevel(DPlayer dplayer, Skill skill)
 	{
-		if (mplayer.isSpecialisedIn(skill)) return MConf.get().hardCap;
+		if (dplayer.isSpecialisedIn(skill)) return MConf.get().hardCap;
 		else return MConf.get().softCap;
 	}
 

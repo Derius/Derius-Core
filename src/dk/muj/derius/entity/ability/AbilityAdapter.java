@@ -40,6 +40,9 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 	// Cooldown
 	public static final String TICKS_COOLDOWN	= "Cooldown Ticks";
 	
+	// Stamina
+	public static final String STAMINA_USAGE	= "Stamina Usage";
+	
 	// Worlds use
 	public static final String WORLDS_USE		= "Worlds Use Enabled";
 	
@@ -67,9 +70,13 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 		val = DeriusCore.get().gson.toJsonTree(src.getDesc());
 		ret.add(DESC, val);
 		
-		// Name
+		// Ticks Cooldown
 		val = DeriusCore.get().gson.toJsonTree(src.getCooldownTicks());
 		ret.add(TICKS_COOLDOWN, val);
+		
+		// stamina usage
+		val = DeriusCore.get().gson.toJsonTree(src.getStaminaUsage());
+		ret.add(STAMINA_USAGE, val);
 		
 		// Description
 		val = DeriusCore.get().gson.toJsonTree(src.getWorldsUse());
@@ -120,6 +127,13 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 			val = jsonAbility.get(TICKS_COOLDOWN);
 			int ticks = DeriusCore.get().gson.fromJson(val, Integer.class);
 			ret.setTicksCooldown(ticks);
+		}
+		
+		if (jsonAbility.has(STAMINA_USAGE))
+		{
+			val = jsonAbility.get(STAMINA_USAGE);
+			double stamina = DeriusCore.get().gson.fromJson(val, Double.class);
+			ret.setStaminaUsage(stamina);
 		}
 		
 		if (jsonAbility.has(WORLDS_USE))

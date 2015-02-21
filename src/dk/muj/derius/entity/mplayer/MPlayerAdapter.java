@@ -40,6 +40,14 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 	
 	public static final String CHAT_KEYS = "chat-keys";
 	
+	public static final String STAMINA = "stamina";
+	
+	public static final String BONUS_STAMINA = "bonus-stamina";
+	
+	public static final String STAMINA_BOARD_STAY = "stamina-board-stay";
+	
+	public static final String BOARD_SHOW_AT_ALL = "board-show-at-all";
+	
 	// -------------------------------------------- //
 	// SERIALIZE
 	// -------------------------------------------- //
@@ -69,6 +77,18 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 		
 		val = DeriusCore.get().gson.toJsonTree(src.getChatKeys());
 		ret.add(CHAT_KEYS, val);
+		
+		val = DeriusCore.get().gson.toJsonTree(src.getStamina());
+		ret.add(STAMINA, val); 
+		
+		val = DeriusCore.get().gson.toJsonTree(src.getBonusStamina());
+		ret.add(BONUS_STAMINA, val);
+		
+		val = DeriusCore.get().gson.toJsonTree(src.getStaminaBoardStay());
+		ret.add(STAMINA_BOARD_STAY, val);
+		
+		val = DeriusCore.get().gson.toJsonTree(src.getBoardShowAtAll());
+		ret.add(BOARD_SHOW_AT_ALL, val);
 		
 		return ret;
 	}
@@ -129,6 +149,34 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 			val = jsonSkill.get(CHAT_KEYS);
 			Map<String, String> keys = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, String>>(){}.getType());
 			ret.chatKeys = keys;
+		}
+		
+		if (jsonSkill.has(STAMINA))
+		{
+			val = jsonSkill.get(STAMINA);
+			double stamina = DeriusCore.get().gson.fromJson(val, Double.TYPE);
+			ret.stamina = stamina;
+		}
+		
+		if (jsonSkill.has(BONUS_STAMINA))
+		{
+			val = jsonSkill.get(BONUS_STAMINA);
+			double bonusStamina = DeriusCore.get().gson.fromJson(val, Double.TYPE);
+			ret.bonusStamina = bonusStamina;
+		}
+		
+		if (jsonSkill.has(STAMINA_BOARD_STAY))
+		{
+			val = jsonSkill.get(STAMINA_BOARD_STAY);
+			boolean staminaBoardStay = DeriusCore.get().gson.fromJson(val, Boolean.TYPE);
+			ret.staminaBoardStay = staminaBoardStay;
+		}
+		
+		if (jsonSkill.has(BOARD_SHOW_AT_ALL))
+		{
+			val = jsonSkill.get(BOARD_SHOW_AT_ALL);
+			boolean boardShowAtAll = DeriusCore.get().gson.fromJson(val, Boolean.TYPE);
+			ret.boardShowAtAll = boardShowAtAll;
 		}
 		
 		return ret;
