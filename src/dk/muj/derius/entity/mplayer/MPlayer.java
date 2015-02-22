@@ -177,7 +177,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Raw
 	public void setStamina(double newStamina)
 	{
-		Validate.isTrue(newStamina > 0, "Stamina value must be positive.");
+		Validate.isTrue(newStamina > -0.1, "Stamina value must be positive.");
 		if (Math.round(newStamina) == Math.round(this.getStamina())) return;
 		
 		double max = DeriusCore.getStaminaMixin().getMax(this);
