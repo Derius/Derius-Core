@@ -116,7 +116,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// FIELD: EXP
 	// -------------------------------------------- //
 	
-	private void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); }
+	public void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); }
 	
 	public long getExp(Skill skill)
 	{
@@ -175,7 +175,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// -------------------------------------------- //
 	
 	// Raw
-	private void setStamina(double newStamina)
+	public void setStamina(double newStamina)
 	{
 		Validate.isTrue(newStamina > -0.001, "Stamina value must be positive.");
 		Validate.isTrue(Double.isFinite(newStamina), "Stamina value must be finite.");

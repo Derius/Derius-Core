@@ -6,10 +6,8 @@ import com.massivecraft.massivecore.cmd.arg.ARDouble;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
-import dk.muj.derius.events.PlayerUpdateStaminaEvent;
-import dk.muj.derius.events.PlayerUpdateStaminaEvent.StaminaUpdateReason;
+import dk.muj.derius.entity.mplayer.MPlayer;
 
 public class CmdDeriusSetStamina extends DeriusCommand
 {
@@ -39,35 +37,29 @@ public class CmdDeriusSetStamina extends DeriusCommand
 	{
 		// Args
 		Double stamina = this.arg(0, ARDouble.get());
-		DPlayer dplayer = this.arg(1, ARDPlayer.getAny(), dsender);
+		MPlayer mplayer = (MPlayer) this.arg(1, ARDPlayer.getAny(), dsender);
 		
 		// Power
-		double oldStamina = dplayer.getStamina();
+		double oldStamina = mplayer.getStamina();
 		
 		// Detect "no change"
 		double difference = Math.abs(stamina - oldStamina);
 		double maxDifference = 0.1d;
 		if (difference < maxDifference)
 		{
-			dsender.msg("%s's <i>stamina is already <h>%.2f<i>.", dplayer.getDisplayName(dsender), stamina);
+			dsender.msg("%s's <i>stamina is already <h>%.2f<i>.", mplayer.getDisplayName(dsender), stamina);
 			return;
 		}
-
-		// Event
-		PlayerUpdateStaminaEvent event = new PlayerUpdateStaminaEvent(dplayer, stamina, StaminaUpdateReason.COMMAND);
-		event.run();
-		if (event.isCancelled()) return;
-		double newStamina = event.getStaminaAmount();
 		
 		// Apply
-		dplayer.setStamina(newStamina);
-		newStamina = dplayer.getStamina();
+		mplayer.setStamina(stamina);
+		double newStamina = mplayer.getStamina();
 		
 		// Inform
-		dsender.msg("<i>You changed %s's <i>stamina from <h>%.2f <i>to <h>%.2f<i>.", dplayer.getDisplayName(dsender),  oldStamina, newStamina);
-		if (dsender != dplayer)
+		dsender.msg("<i>You changed %s's <i>stamina from <h>%.2f <i>to <h>%.2f<i>.", mplayer.getDisplayName(dsender),  oldStamina, newStamina);
+		if (dsender != mplayer)
 		{
-			dplayer.msg("%s <i>changed your stamina from <h>%.2f <i>to <h>%.2f<i>.", dsender.getDisplayName(dplayer), oldStamina, newStamina);
+			mplayer.msg("%s <i>changed your stamina from <h>%.2f <i>to <h>%.2f<i>.", dsender.getDisplayName(mplayer), oldStamina, newStamina);
 		}
 		
 	}
