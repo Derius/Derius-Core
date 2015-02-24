@@ -3,14 +3,13 @@ package dk.muj.derius.req;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
-import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.PermUtil;
 
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Req;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.req.util.ReqToDefault;
 
-public class ReqHasPerm implements Req
+public class ReqHasPerm implements Req, ReqToDefault
 {	
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -21,13 +20,23 @@ public class ReqHasPerm implements Req
 	
 	public static ReqHasPerm get(Permission perm) { return new ReqHasPerm(perm); }
 	public ReqHasPerm(Permission perm) { this.perm = perm.getName(); }
-	
+
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
 	
 	private final String perm;
 	public String getPerm() { return this.perm; }
+	
+	// -------------------------------------------- //
+	// OVERRIDE: VERBOSE LEVEL
+	// -------------------------------------------- //
+	
+	@Override
+	public VerboseLevel getVerboseLevel()
+	{
+		return VerboseLevel.LOW;
+	}
 	
 	// -------------------------------------------- //
 	// OVERRIDE: DEFAULT
@@ -44,44 +53,5 @@ public class ReqHasPerm implements Req
 	{
 		return PermUtil.getDeniedMessage(perm);
 	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE: OTHER
-	// -------------------------------------------- //
-	
-	@Override
-	public boolean apply(CommandSender sender, Skill skill)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Skill skill)
-	{
-		return this.createErrorMessage(sender);
-	}
-
-	@Override
-	public boolean apply(CommandSender sender, Ability ability)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Ability ability)
-	{
-		return this.createErrorMessage(sender);
-	}
-	@Override
-	public boolean apply(CommandSender sender, MassiveCommand cmd)
-	{
-		return this.apply(sender);
-	}
-	@Override
-	public String createErrorMessage(CommandSender sender, MassiveCommand cmd)
-	{
-		return this.createErrorMessage(sender);
-	}
-
 	
 }

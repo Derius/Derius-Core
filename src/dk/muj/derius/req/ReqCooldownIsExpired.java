@@ -4,19 +4,18 @@ import java.util.LinkedHashMap;
 
 import org.bukkit.command.CommandSender;
 
-import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
+import dk.muj.derius.req.util.ReqToDefault;
 
-public class ReqCooldownIsExpired implements Req
+public class ReqCooldownIsExpired implements Req, ReqToDefault
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -25,6 +24,16 @@ public class ReqCooldownIsExpired implements Req
 	private static ReqCooldownIsExpired i = new ReqCooldownIsExpired();
 	public static ReqCooldownIsExpired get() { return i; }
 	private ReqCooldownIsExpired() {}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: VERBOSE LEVEL
+	// -------------------------------------------- //
+	
+	@Override
+	public VerboseLevel getVerboseLevel()
+	{
+		return VerboseLevel.HIGH;
+	}
 	
 	// -------------------------------------------- //
 	// OVERRIDE: DEFAULT
@@ -38,57 +47,16 @@ public class ReqCooldownIsExpired implements Req
 		return mplayer.isCooldownExpired();
 	}
 	
-
 	@Override
 	public String createErrorMessage(CommandSender sender)
 	{
-		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
-		if (mplayer == null) return null;
-		long expireMillis = mplayer.getCooldownExpireIn();
+		DPlayer dplayer = DeriusAPI.getDPlayer(sender);
+		if (dplayer == null) return null;
+		long expireMillis = dplayer.getCooldownExpireIn();
 		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.unitcounts(expireMillis, TimeUnit.getAll());
 		String expireDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 		
 		return Txt.parse(Txt.parse(MLang.get().exhausted, expireDesc));
-	}
-
-	// -------------------------------------------- //
-	// OVERRIDE: OTHER
-	// -------------------------------------------- //
-	
-	@Override
-	public boolean apply(CommandSender sender, Skill skill)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Skill skill)
-	{
-		return this.createErrorMessage(sender);
-	}
-	
-	@Override
-	public boolean apply(CommandSender sender, Ability ability)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Ability ability)
-	{
-		return this.createErrorMessage(sender);
-	}
-	
-	@Override
-	public boolean apply(CommandSender sender, MassiveCommand arg1)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, MassiveCommand arg1)
-	{
-		return this.createErrorMessage(sender);
 	}
 	
 }

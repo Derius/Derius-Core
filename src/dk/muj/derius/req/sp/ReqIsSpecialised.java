@@ -2,17 +2,19 @@ package dk.muj.derius.req.sp;
 
 import org.bukkit.command.CommandSender;
 
-import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
+import dk.muj.derius.req.util.ReqAbilityToSkill;
+import dk.muj.derius.req.util.ReqNoCmd;
+import dk.muj.derius.req.util.ReqNoDefault;
 
-public class ReqIsSpecialised implements Req
+public class ReqIsSpecialised implements Req, ReqAbilityToSkill, ReqNoCmd, ReqNoDefault
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -21,6 +23,16 @@ public class ReqIsSpecialised implements Req
 	private static ReqIsSpecialised i = new ReqIsSpecialised();
 	public static ReqIsSpecialised get() { return i; }
 	private ReqIsSpecialised() {}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: VERBOSE LEVEL
+	// -------------------------------------------- //
+	
+	@Override
+	public VerboseLevel getVerboseLevel()
+	{
+		return VerboseLevel.HIGH;
+	}
 	
 	// -------------------------------------------- //
 	// OVERRIDE: SKILL
@@ -37,50 +49,6 @@ public class ReqIsSpecialised implements Req
 	public String createErrorMessage(CommandSender sender, Skill skill)
 	{
 		return Txt.parse(MLang.get().specialisationIsnt, skill.getDisplayName(sender));
-	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE: ABILITY
-	// -------------------------------------------- //
-
-	@Override
-	public boolean apply(CommandSender sender, Ability ability)
-	{
-		return this.apply(sender, ability.getSkill());
-	}
-	
-	@Override
-	public String createErrorMessage(CommandSender sender, Ability ability)
-	{
-		return this.createErrorMessage(sender, ability.getSkill());
-	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE: OTHER
-	// -------------------------------------------- //
-	
-	@Override
-	public String createErrorMessage(CommandSender arg0)
-	{
-		throw new IllegalArgumentException("This requirement does not support default");
-	}
-	
-	@Override
-	public boolean apply(CommandSender arg0)
-	{
-		throw new IllegalArgumentException("This requirement does not support default");
-	}
-	
-	@Override
-	public boolean apply(CommandSender arg0, MassiveCommand arg1)
-	{
-		throw new IllegalArgumentException("This requirement does not support commands");
-	}
-	
-	@Override
-	public String createErrorMessage(CommandSender arg0, MassiveCommand arg1)
-	{
-		throw new IllegalArgumentException("This requirement does not support commands");
 	}
 
 }

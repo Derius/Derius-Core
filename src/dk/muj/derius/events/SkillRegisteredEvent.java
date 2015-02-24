@@ -4,6 +4,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.lib.CancellableEvent;
 
 /**
  * This event is called when a skill is registered into the system.

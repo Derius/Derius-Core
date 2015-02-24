@@ -24,8 +24,8 @@ import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.events.PlayerLevelUpEvent;
-import dk.muj.derius.events.PlayerPrepareToolEvent;
-import dk.muj.derius.events.PlayerUnprepareToolEvent;
+import dk.muj.derius.events.PlayerToolPrepareEvent;
+import dk.muj.derius.events.PlayerToolUnprepareEvent;
 
 public class MsgEngine extends EngineAbstract
 {
@@ -112,7 +112,7 @@ public class MsgEngine extends EngineAbstract
 	
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void sendPrepareToolMsg(PlayerPrepareToolEvent event)
+	public void sendPrepareToolMsg(PlayerToolPrepareEvent event)
 	{
 		DPlayer dplayer = event.getDPlayer();
 		Material tool = event.getTool();
@@ -125,7 +125,7 @@ public class MsgEngine extends EngineAbstract
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void sendUnprepareToolMsg(PlayerUnprepareToolEvent event)
+	public void sendUnprepareToolMsg(PlayerToolUnprepareEvent event)
 	{
 		DPlayer dplayer = event.getDPlayer();
 		Material tool = event.getTool();

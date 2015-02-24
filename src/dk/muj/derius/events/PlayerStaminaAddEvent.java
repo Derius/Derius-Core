@@ -4,9 +4,12 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.lib.CancellableEvent;
 
-public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPlayerEvent
+/**
+ * This event is thrown when stamina is added to a player
+ */
+public class PlayerStaminaAddEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -20,23 +23,24 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private final Skill skill;
-	public Skill getSkill() { return skill; }
-	
 	private final DPlayer dplayer;
 	public DPlayer getDPlayer() { return dplayer; }
+	
+	private double amount;
+	public double getStaminaAmount() { return amount; }
+	public void setStaminaAmount(double staminaAmount) { this.amount = staminaAmount; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerLevelDownEvent(DPlayer dplayer, Skill skill)
+	public PlayerStaminaAddEvent(DPlayer dplayer, double staminaAmount)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
-		Validate.notNull(skill, "skill mustn't be null");
 		
-		this.skill = skill;
-		this.dplayer = dplayer;		
+		this.dplayer = dplayer;
+		this.amount = staminaAmount;
+		
 	}
 	
 	// -------------------------------------------- //
@@ -46,7 +50,7 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	@Override
 	public String toString()
 	{
-		return this.getDPlayer().getName() + " leveled down in " + this.getSkill().getName();
+		return this.getDPlayer().getName() + " got " + this.getStaminaAmount() + " stamina added.";
 	}
 	
 	// -------------------------------------------- //
@@ -57,20 +61,25 @@ public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPl
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerExpAddEvent)) return false;
-		PlayerExpAddEvent that = (PlayerExpAddEvent) obj;
+		if ( ! (obj instanceof PlayerStaminaAddEvent)) return false;
+		PlayerStaminaAddEvent that = (PlayerStaminaAddEvent) obj;
 	
-		return that.getSkill() == this.getSkill() && this.getDPlayer() == that.getDPlayer();
+		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
+		if (this.getDPlayer() == that.getDPlayer()) return true;
+		
+		return false;
 	}
 	
 	@Override
 	public int hashCode()
 	{
 		int result = 1;
+		int prime = 31;
 		
-		result += this.getSkill().hashCode();
-		result += this.getDPlayer().hashCode();
+		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
+		result += this.getDPlayer().hashCode() * prime;
 		
 		return result;
 	}
+
 }

@@ -16,6 +16,7 @@ import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.TicksLastCalculator;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.util.AbilityUtil;
@@ -143,7 +144,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	{
 		DPlayer player = DeriusAPI.getDPlayer(watcherObject);
 		if (player == null) return null;
-		String color = AbilityUtil.canPlayerActivateAbility(player, this, false) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
+		String color = AbilityUtil.canPlayerActivateAbility(player, this, VerboseLevel.ALWAYS) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
 		return color + this.getName();
 	}
 

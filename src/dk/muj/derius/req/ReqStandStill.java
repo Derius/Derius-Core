@@ -4,19 +4,18 @@ import java.util.LinkedHashMap;
 
 import org.bukkit.command.CommandSender;
 
-import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
+import dk.muj.derius.req.util.ReqToDefault;
 
-public class ReqStandStill implements Req
+public class ReqStandStill implements Req, ReqToDefault
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -32,6 +31,16 @@ public class ReqStandStill implements Req
 	private long millis;
 	public long getMillis() { return millis; }
 	public void setMillis(long millis){ this.millis = millis; }
+	
+	// -------------------------------------------- //
+	// OVERRIDE: VERBOSE LEVEL
+	// -------------------------------------------- //
+	
+	@Override
+	public VerboseLevel getVerboseLevel()
+	{
+		return VerboseLevel.HIGH;
+	}
 	
 	// -------------------------------------------- //
 	// OVERRIDE: DEFAULT
@@ -61,46 +70,6 @@ public class ReqStandStill implements Req
 		
 		return Txt.parse(msg);
 
-	}
-
-	// -------------------------------------------- //
-	// OVERRIDE: OTHER
-	// -------------------------------------------- //
-	
-	@Override
-	public boolean apply(CommandSender sender, Skill skill)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Skill skill)
-	{
-		return this.createErrorMessage(sender);
-	}
-	
-	@Override
-	public boolean apply(CommandSender sender, Ability ability)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, Ability ability)
-	{
-		return this.createErrorMessage(sender);
-	}
-	
-	@Override
-	public boolean apply(CommandSender sender, MassiveCommand arg1)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public String createErrorMessage(CommandSender sender, MassiveCommand arg1)
-	{
-		return this.createErrorMessage(sender);
 	}
 	
 }

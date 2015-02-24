@@ -4,8 +4,12 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.lib.CancellableEvent;
 
-public class PlayerUpdateStaminaEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+/**
+ * This event is thrown when an amount is taken from the players maxStamina
+ */
+public class PlayerStaminaTakeBonusEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -22,25 +26,20 @@ public class PlayerUpdateStaminaEvent extends DeriusEvent implements Cancellable
 	private final DPlayer dplayer;
 	public DPlayer getDPlayer() { return dplayer; }
 	
-	private double newAmount;
-	public double getStaminaAmount() { return newAmount; }
-	public void setStaminaAmount(double staminaAmount) { this.newAmount = staminaAmount; }
-	
-	private StaminaUpdateReason reason;
-	public StaminaUpdateReason getUpdateReason() { return reason; }
-	public void setUpdateReason(StaminaUpdateReason reason) { this.reason = reason; }
+	private double amount;
+	public double getStaminaAmount() { return amount; }
+	public void setStaminaAmount(double staminaAmount) { this.amount = staminaAmount; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerUpdateStaminaEvent(DPlayer dplayer, double staminaAmount, StaminaUpdateReason reason)
+	public PlayerStaminaTakeBonusEvent(DPlayer dplayer, double staminaAmount)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
 		this.dplayer = dplayer;
-		this.newAmount = staminaAmount;
-		this.reason = reason;
+		this.amount = staminaAmount;
 		
 	}
 	
@@ -51,7 +50,7 @@ public class PlayerUpdateStaminaEvent extends DeriusEvent implements Cancellable
 	@Override
 	public String toString()
 	{
-		return this.getDPlayer().getName() + " got his stamina updated to " + this.getStaminaAmount();
+		return this.getDPlayer().getName() + " got " + this.getStaminaAmount() + " maxStamina taken from him.";
 	}
 	
 	// -------------------------------------------- //
@@ -62,8 +61,8 @@ public class PlayerUpdateStaminaEvent extends DeriusEvent implements Cancellable
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerUpdateStaminaEvent)) return false;
-		PlayerUpdateStaminaEvent that = (PlayerUpdateStaminaEvent) obj;
+		if ( ! (obj instanceof PlayerStaminaTakeBonusEvent)) return false;
+		PlayerStaminaTakeBonusEvent that = (PlayerStaminaTakeBonusEvent) obj;
 	
 		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
 		if (this.getDPlayer() == that.getDPlayer()) return true;
@@ -82,18 +81,5 @@ public class PlayerUpdateStaminaEvent extends DeriusEvent implements Cancellable
 		
 		return result;
 	}
-	
-	// -------------------------------------------- //
-	// REASON ENUM
-	// -------------------------------------------- //
-	
-	public enum StaminaUpdateReason
-	{
-		TIME,
-		ABILITY,
-		COMMAND,
-		UNDEFINED,
-		;
-	}
-	
+
 }

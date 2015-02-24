@@ -90,7 +90,6 @@ public class ScoreboardUtil
 	public static void resetScoreBoard(DPlayer dplayer)
 	{
 		setScoreBoard(dplayer, manager.getNewScoreboard());
-		return;
 	}
 	
 	// -------------------------------------------- //
@@ -115,17 +114,7 @@ public class ScoreboardUtil
 	
 	private static void resetScoreboardTask(DPlayer dplayer, long tick) 
 	{
-		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				resetScoreBoard(dplayer);
-			}
-			
-		}, tick);
-		
-		return;
+		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), () -> resetScoreBoard(dplayer), tick);
 	}
 
 }

@@ -3,6 +3,8 @@ package dk.muj.derius.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import dk.muj.derius.lib.RunnableEvent;
+
 public abstract class DeriusEvent extends Event implements RunnableEvent
 {
 	// -------------------------------------------- //

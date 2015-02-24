@@ -4,11 +4,12 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.lib.CancellableEvent;
 
 /**
  * This event is thrown when an amount is added to the players maxStamina
  */
-public class PlayerAddBonusStaminaEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerStaminaAddBonusEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -33,7 +34,7 @@ public class PlayerAddBonusStaminaEvent extends DeriusEvent implements Cancellab
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerAddBonusStaminaEvent(DPlayer dplayer, double staminaAmount)
+	public PlayerStaminaAddBonusEvent(DPlayer dplayer, double staminaAmount)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
@@ -60,8 +61,8 @@ public class PlayerAddBonusStaminaEvent extends DeriusEvent implements Cancellab
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerAddBonusStaminaEvent)) return false;
-		PlayerAddBonusStaminaEvent that = (PlayerAddBonusStaminaEvent) obj;
+		if ( ! (obj instanceof PlayerStaminaAddBonusEvent)) return false;
+		PlayerStaminaAddBonusEvent that = (PlayerStaminaAddBonusEvent) obj;
 	
 		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
 		if (this.getDPlayer() == that.getDPlayer()) return true;

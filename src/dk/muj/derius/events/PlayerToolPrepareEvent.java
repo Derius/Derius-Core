@@ -5,8 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.lib.CancellableEvent;
 
-public class PlayerPrepareToolEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerToolPrepareEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -30,7 +31,7 @@ public class PlayerPrepareToolEvent extends DeriusEvent implements CancellableEv
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerPrepareToolEvent(Material material, DPlayer dplayer)
+	public PlayerToolPrepareEvent(Material material, DPlayer dplayer)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(material, "tool mustn't be null");
@@ -57,8 +58,8 @@ public class PlayerPrepareToolEvent extends DeriusEvent implements CancellableEv
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerPrepareToolEvent)) return false;
-		PlayerPrepareToolEvent that = (PlayerPrepareToolEvent) obj;
+		if ( ! (obj instanceof PlayerToolPrepareEvent)) return false;
+		PlayerToolPrepareEvent that = (PlayerToolPrepareEvent) obj;
 	
 		if (that.getDPlayer() == this.getDPlayer() && that.getTool() == this.getTool()) return true;
 		

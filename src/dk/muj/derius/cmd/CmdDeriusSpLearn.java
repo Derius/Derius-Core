@@ -12,6 +12,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
@@ -41,7 +42,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		// Args
 		Skill skill = this.arg(0, ARSkill.get());
 		
-		if (! SkillUtil.canPlayerSpecialiseSkill(dsender, skill, true)) return;
+		if (! SkillUtil.canPlayerSpecialiseSkill(dsender, skill, VerboseLevel.LOW)) return;
 		
 		long moveMillis = PlayerUtil.getLastMoveMillis(dsender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		

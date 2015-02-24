@@ -5,17 +5,14 @@ import java.util.Optional;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 
-import com.massivecraft.massivecore.util.MUtil;
-
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Ability.AbilityType;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
-import dk.muj.derius.events.PlayerUpdateStaminaEvent;
-import dk.muj.derius.events.PlayerUpdateStaminaEvent.StaminaUpdateReason;
 
 public final class AbilityUtil
 {
@@ -40,18 +37,16 @@ public final class AbilityUtil
 	 * @param {boolean} true if error message should be sent
 	 * @return {boolean} true if the player can use said ability
 	 */
-	public static boolean canPlayerActivateAbility(DPlayer dplayer, Ability ability, boolean verboseNot)
+	public static boolean canPlayerActivateAbility(DPlayer dplayer, Ability ability, VerboseLevel verboseLevel)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(ability, "ability mustn't be null");
 		
 		for (Req req : ability.getActivateRequirements())
 		{
-			if ( ! req.apply(dplayer.getSender(), ability)) 
-			{
-				if (verboseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
-				return false;
-			}
+			if (req.apply(dplayer.getSender(), ability)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
+			return false;
 		}
 		return true;
 	}
@@ -64,18 +59,16 @@ public final class AbilityUtil
 	 * @param {boolean} true if error message should be sent
 	 * @return {boolean} true if the player can see said ability
 	 */
-	public static boolean canPlayerSeeAbility(DPlayer dplayer, Ability ability, boolean verboseNot)
+	public static boolean canPlayerSeeAbility(DPlayer dplayer, Ability ability, VerboseLevel verboseLevel)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(ability, "ability mustn't be null");
 		
 		for (Req req : ability.getSeeRequirements())
 		{
-			if ( ! req.apply(dplayer.getSender(), ability)) 
-			{
-				if (verboseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
-				return false;
-			}
+			if (req.apply(dplayer.getSender(), ability)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
+			return false;
 		}
 		return true;
 	}
@@ -93,13 +86,13 @@ public final class AbilityUtil
 	 * @param {boolean} inform the player if not allowed
 	 * @param {Optional<Object>} the object passed from onActivate to onDeactivate
 	 */
-	public static Object activateAbility(DPlayer dplayer, final Ability ability, Object other, boolean verboseNot)
+	public static Object activateAbility(DPlayer dplayer, final Ability ability, Object other, VerboseLevel verboseLevel)
 	{	
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(ability, "ability mustn't be null");
 		
 		// CHECKS
-		if ( ! AbilityUtil.canPlayerActivateAbility(dplayer, ability, verboseNot)) return null;
+		if ( ! AbilityUtil.canPlayerActivateAbility(dplayer, ability, verboseLevel)) return null;
 		
 		// ACTIVATE
 		if (ability.getType() == AbilityType.PASSIVE)
@@ -111,7 +104,7 @@ public final class AbilityUtil
 			return activateActiveAbility(dplayer, ability, other);
 		}
 		
-		return null;
+		throw new RuntimeException("Passed abiliy does not have a valid ability type");
 	}
 	
 	/**
@@ -124,13 +117,12 @@ public final class AbilityUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
-		Optional<Ability> deactivated = dplayer.getActivatedAbility();
-		if (! deactivated.isPresent()) return;
-		Ability ability = deactivated.get();
+		Optional<Ability> optActivated = dplayer.getActivatedAbility();
+		if ( ! optActivated.isPresent()) throw new IllegalStateException("The player does not currently have a enabled skill");
+		Ability ability = optActivated.get();
 		
-		AbilityDeactivateEvent e = new AbilityDeactivateEvent(ability, dplayer);
-		Bukkit.getPluginManager().callEvent(e);
-		if (e.isCancelled()) return;
+		AbilityDeactivateEvent deactivateEvent = new AbilityDeactivateEvent(ability, dplayer);
+		if ( ! deactivateEvent.runEvent()) return;
 		
 		ability.onDeactivate(dplayer, other);
 		dplayer.setActivatedAbility(Optional.empty());
@@ -138,15 +130,9 @@ public final class AbilityUtil
 		
 		// Stamina
 		double staminaUsage = ability.getStaminaUsage();
-		if ( ! MUtil.equals(staminaUsage, 0.0))
+		if ( ! (staminaUsage < 0.0))
 		{
-			double newStamina = dplayer.getStamina() - staminaUsage;
-			
-			PlayerUpdateStaminaEvent event = new PlayerUpdateStaminaEvent(dplayer, newStamina, StaminaUpdateReason.ABILITY);
-			event.run();
-			if (event.isCancelled()) return;
-			
-			dplayer.setStamina(event.getStaminaAmount());
+			dplayer.takeStamina(staminaUsage);
 		}
 	}
 	

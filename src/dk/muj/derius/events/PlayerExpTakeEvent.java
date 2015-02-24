@@ -4,11 +4,13 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.Skill;
+import dk.muj.derius.lib.CancellableEvent;
 
 /**
- * This event is thrown when stamina is added to a player
+ * This event is thrown every time a player loses exp
  */
-public class PlayerAddStaminaEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent, SkillEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -22,26 +24,31 @@ public class PlayerAddStaminaEvent extends DeriusEvent implements CancellableEve
 	// FIELDS
 	// -------------------------------------------- //
 	
+	private final Skill skill;
+	public Skill getSkill() { return skill; }
+	
 	private final DPlayer dplayer;
 	public DPlayer getDPlayer() { return dplayer; }
 	
 	private double amount;
-	public double getStaminaAmount() { return amount; }
-	public void setStaminaAmount(double staminaAmount) { this.amount = staminaAmount; }
+	public double getExpAmount() { return amount; }
+	public void setExpAmount(double expamount) { this.amount = expamount; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerAddStaminaEvent(DPlayer dplayer, double staminaAmount)
+	public PlayerExpTakeEvent(DPlayer dplayer, Skill skill, long expAmount)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
+		Validate.notNull(skill, "skill mustn't be null");
 		
+		this.skill = skill;
 		this.dplayer = dplayer;
-		this.amount = staminaAmount;
+		this.amount = expAmount;
 		
 	}
-	
+
 	// -------------------------------------------- //
 	// TO STRING
 	// -------------------------------------------- //
@@ -49,7 +56,7 @@ public class PlayerAddStaminaEvent extends DeriusEvent implements CancellableEve
 	@Override
 	public String toString()
 	{
-		return this.getDPlayer().getName() + " got " + this.getStaminaAmount() + " stamina added.";
+		return this.getDPlayer().getName() + " lost " + this.getExpAmount() + " exp in " + this.getSkill().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -60,11 +67,11 @@ public class PlayerAddStaminaEvent extends DeriusEvent implements CancellableEve
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerAddStaminaEvent)) return false;
-		PlayerAddStaminaEvent that = (PlayerAddStaminaEvent) obj;
+		if ( ! (obj instanceof PlayerExpTakeEvent)) return false;
+		PlayerExpTakeEvent that = (PlayerExpTakeEvent) obj;
 	
 		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
-		if (this.getDPlayer() == that.getDPlayer()) return true;
+		if (this.getSkill() == that.getSkill() && this.getDPlayer() == that.getDPlayer()) return true;
 		
 		return false;
 	}
@@ -73,12 +80,12 @@ public class PlayerAddStaminaEvent extends DeriusEvent implements CancellableEve
 	public int hashCode()
 	{
 		int result = 1;
-		int prime = 31;
 		
 		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
-		result += this.getDPlayer().hashCode() * prime;
+		result += this.getSkill().hashCode();
+		result += this.getDPlayer().hashCode();
 		
 		return result;
 	}
-
+	
 }

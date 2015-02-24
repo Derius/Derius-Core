@@ -24,6 +24,7 @@ import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.LvlStatusCalculator;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.util.SkillUtil;
@@ -239,14 +240,14 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 		return Txt.parse("%s: <i>%s", this.getDisplayName(watcherObject), this.getDesc());
 	}
 	
-	public String getDisplayName ( Object watcherObject)
+	public String getDisplayName (Object watcherObject)
 	{
 		DPlayer dplayer = DeriusAPI.getDPlayer(watcherObject);
 		if (dplayer.isSpecialisedIn(this))
 		{
 			return Txt.parse(MLang.get().skillColorPlayerIsSpecialised + this.getName());
 		}
-		else if (SkillUtil.canPlayerLearnSkill(dplayer, this, false))
+		else if (SkillUtil.canPlayerLearnSkill(dplayer, this, VerboseLevel.ALWAYS))
 		{
 			return Txt.parse(MLang.get().skillColorPlayerCanUse + this.getName());
 		}

@@ -17,6 +17,7 @@ import dk.muj.derius.Perm;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.AbilityUtil;
@@ -57,13 +58,13 @@ public class CmdDeriusSkills extends DeriusCommand
 			msgs.add(MLang.get().skillInfoAbilities);
 			for (Ability ability : skill.getAbilities())
 			{
-				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
+				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;
 				msgs.add(ability.getDisplayedDescription(dsender));
 			}
 			msgs.add(MLang.get().skillInfoLevelStats);
 			for (Ability ability : skill.getAbilities())
 			{
-				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, false)) continue;
+				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;
 				msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));
 			}
 			

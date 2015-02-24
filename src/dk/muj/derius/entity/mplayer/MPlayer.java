@@ -25,16 +25,16 @@ import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.ability.AbilityColl;
 import dk.muj.derius.entity.skill.SkillColl;
-import dk.muj.derius.events.PlayerAddBonusStaminaEvent;
-import dk.muj.derius.events.PlayerAddExpEvent;
-import dk.muj.derius.events.PlayerAddStaminaEvent;
+import dk.muj.derius.events.PlayerStaminaAddBonusEvent;
+import dk.muj.derius.events.PlayerExpAddEvent;
+import dk.muj.derius.events.PlayerStaminaAddEvent;
 import dk.muj.derius.events.PlayerLevelDownEvent;
 import dk.muj.derius.events.PlayerLevelUpEvent;
-import dk.muj.derius.events.PlayerPrepareToolEvent;
-import dk.muj.derius.events.PlayerTakeBonusStaminaEvent;
-import dk.muj.derius.events.PlayerTakeExpEvent;
-import dk.muj.derius.events.PlayerTakeStaminaEvent;
-import dk.muj.derius.events.PlayerUnprepareToolEvent;
+import dk.muj.derius.events.PlayerToolPrepareEvent;
+import dk.muj.derius.events.PlayerStaminaTakeBonusEvent;
+import dk.muj.derius.events.PlayerExpTakeEvent;
+import dk.muj.derius.events.PlayerStaminaTakeEvent;
+import dk.muj.derius.events.PlayerToolUnprepareEvent;
 import dk.muj.derius.events.SpecialisationSlotEvent;
 import dk.muj.derius.scoreboard.ScoreboardUtil;
 import dk.muj.derius.util.Listener;
@@ -133,7 +133,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 		if (lvlBefore >= this.getMaxLevel(skill)) return;
 		
-		PlayerAddExpEvent event = new PlayerAddExpEvent(this, skill, exp);
+		PlayerExpAddEvent event = new PlayerExpAddEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
 		exp = MUtil.probabilityRound(event.getExpAmount());
@@ -156,7 +156,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 		if (lvlBefore <= 0) return;
 		
-		PlayerTakeExpEvent event = new PlayerTakeExpEvent(this, skill, exp);
+		PlayerExpTakeEvent event = new PlayerExpTakeEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
 		exp = MUtil.probabilityRound(event.getExpAmount());
@@ -171,13 +171,16 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	}
 	
 	// -------------------------------------------- //
-	// FIELD: stamina
+	// FIELD: STAMINA
 	// -------------------------------------------- //
 	
 	// Raw
-	public void setStamina(double newStamina)
+	private void setStamina(double newStamina)
 	{
-		Validate.isTrue(newStamina > -0.1, "Stamina value must be positive.");
+		Validate.isTrue(newStamina > -0.001, "Stamina value must be positive.");
+		Validate.isTrue(Double.isFinite(newStamina), "Stamina value must be finite.");
+		Validate.isTrue( ! Double.isNaN(newStamina), "Stamina value must be a number.");
+		
 		if (Math.round(newStamina) == Math.round(this.getStamina())) return;
 		
 		double max = DeriusCore.getStaminaMixin().getMax(this);
@@ -196,9 +199,12 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Finer
 	public void addStamina(double stamina)
 	{
-		PlayerAddStaminaEvent event = new PlayerAddStaminaEvent(this, stamina);
-		event.run();
-		if (event.isCancelled()) return;
+		Validate.isTrue(stamina > -0.001, "Stamina value must be positive.");
+		Validate.isTrue(Double.isFinite(stamina), "Stamina value must be finite.");
+		Validate.isTrue( ! Double.isNaN(stamina), "Stamina value must be a number.");
+		
+		PlayerStaminaAddEvent event = new PlayerStaminaAddEvent(this, stamina);
+		if ( ! event.runEvent()) return;
 		
 		double staminaAfter = this.getStamina() + event.getStaminaAmount();
 		this.setStamina(staminaAfter);
@@ -206,9 +212,12 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	public void takeStamina(double stamina)
 	{
-		PlayerTakeStaminaEvent event = new PlayerTakeStaminaEvent(this, stamina);
-		event.run();
-		if (event.isCancelled()) return;
+		Validate.isTrue(stamina > -0.001, "Stamina value must be positive.");
+		Validate.isTrue(Double.isFinite(stamina), "Stamina value must be finite.");
+		Validate.isTrue( ! Double.isNaN(stamina), "Stamina value must be a number.");
+		
+		PlayerStaminaTakeEvent event = new PlayerStaminaTakeEvent(this, stamina);
+		if ( ! event.runEvent()) return;
 		
 		double staminaAfter = this.getStamina() - event.getStaminaAmount();
 		this.setStamina(staminaAfter);
@@ -255,7 +264,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		double bonusStaminaAfter = staminaMax + bonusStamina;
 		bonusStaminaAfter = Math.min(highCap, bonusStaminaAfter);
 
-		PlayerAddBonusStaminaEvent event = new PlayerAddBonusStaminaEvent(this, stamina);
+		PlayerStaminaAddBonusEvent event = new PlayerStaminaAddBonusEvent(this, stamina);
 		event.run();
 		if (event.isCancelled()) return;
 		
@@ -273,7 +282,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		double bonusStaminaAfter = this.getBonusStamina() - bonusStamina;
 		bonusStaminaAfter = Math.min(min, bonusStaminaAfter);
 
-		PlayerTakeBonusStaminaEvent event = new PlayerTakeBonusStaminaEvent(this, stamina);
+		PlayerStaminaTakeBonusEvent event = new PlayerStaminaTakeBonusEvent(this, stamina);
 		event.run();
 		if (event.isCancelled()) return;
 		
@@ -440,7 +449,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			if (this.hasActivatedAny() || this.getPreparedTool().isPresent()) return;
 			if ( ! Listener.isRegistered(tool.get())) return;
 		
-			PlayerPrepareToolEvent event = new PlayerPrepareToolEvent(tool.get(), this);
+			PlayerToolPrepareEvent event = new PlayerToolPrepareEvent(tool.get(), this);
 			event.run();
 			if (event.isCancelled()) return;
 			this.preparedTool = tool;
@@ -450,7 +459,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		{
 			if (this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
 			{
-				PlayerUnprepareToolEvent event = new PlayerUnprepareToolEvent(this.getPreparedTool().get(), this);
+				PlayerToolUnprepareEvent event = new PlayerToolUnprepareEvent(this.getPreparedTool().get(), this);
 				event.run();
 				if (event.isCancelled()) return;
 			}

@@ -11,6 +11,7 @@ import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.SkillUtil;
@@ -45,7 +46,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 			if (skill == null || skill.getName() == null) continue;
 			if (skill.getName().toLowerCase().startsWith(arg))
 			{
-				if ( ! SkillUtil.canPlayerSeeSkill(dplayer, skill, false)) continue;
+				if ( ! SkillUtil.canPlayerSeeSkill(dplayer, skill, VerboseLevel.ALWAYS)) continue;
 				return skill;
 			}
 		}
@@ -62,7 +63,7 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	
 		for (Skill skill : SkillColl.getAllSkills())
 		{
-			if ( ! SkillUtil.canPlayerSeeSkill(dplayer, skill, false)) continue;
+			if ( ! SkillUtil.canPlayerSeeSkill(dplayer, skill, VerboseLevel.ALWAYS)) continue;
 			ret.add(skill.getName());
 		}
 		return ret;

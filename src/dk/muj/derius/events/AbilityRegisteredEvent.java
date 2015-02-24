@@ -4,6 +4,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.lib.CancellableEvent;
 
 public class AbilityRegisteredEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
 {

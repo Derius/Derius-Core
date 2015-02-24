@@ -10,8 +10,6 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.events.PlayerUpdateStaminaEvent;
-import dk.muj.derius.events.PlayerUpdateStaminaEvent.StaminaUpdateReason;
 
 public class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 {
@@ -40,14 +38,9 @@ public class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 		for (Player player : MUtil.getOnlinePlayers())
 		{
 			DPlayer dplayer = DeriusAPI.getDPlayer(player);
-			double newStamina = dplayer.getStamina() + DeriusCore.getStaminaMixin().getPerMinute(dplayer) * millis / TimeUnit.MILLIS_PER_MINUTE;
+			double stamina = DeriusCore.getStaminaMixin().getPerMinute(dplayer) * millis / TimeUnit.MILLIS_PER_MINUTE;
 			
-			PlayerUpdateStaminaEvent event = new PlayerUpdateStaminaEvent(dplayer, newStamina, StaminaUpdateReason.TIME);
-			event.run();
-			if (event.isCancelled()) continue;
-			
-			double stamina = event.getStaminaAmount();
-			dplayer.setStamina(stamina);
+			dplayer.addStamina(stamina);
 		}
 	}
 

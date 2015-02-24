@@ -5,6 +5,7 @@ import org.apache.commons.lang.Validate;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 
 
 public class SkillUtil
@@ -45,18 +46,17 @@ public class SkillUtil
 	 * @param {boolean} tell the player if they can't
 	 * @return {boolean} true if the player can see said skill
 	 */
-	public static boolean canPlayerSeeSkill(DPlayer dplayer, Skill skill, boolean verbooseNot)
+	public static boolean canPlayerSeeSkill(DPlayer dplayer, Skill skill, VerboseLevel verboseLevel)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
 		
  		for (Req req : skill.getSeeRequirements())
  		{
-			if ( ! req.apply(dplayer.getSender(), skill))
-			{
-				if (verbooseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
-				return false;
-			}
+			if (req.apply(dplayer.getSender(), skill)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
+			return false;
+			
  		}
  		return true;
  	}
@@ -69,18 +69,16 @@ public class SkillUtil
 	 * @param {boolean} tell the player if they can't
 	 * @return {boolean} true if the player can learn said skill
 	 */
-	public static boolean canPlayerLearnSkill(DPlayer dplayer, Skill skill, boolean verbooseNot)
+	public static boolean canPlayerLearnSkill(DPlayer dplayer, Skill skill, VerboseLevel verboseLevel)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
 		
  		for (Req req : skill.getLearnRequirements())
  		{
-			if ( ! req.apply(dplayer.getSender(), skill))
-			{
-				if (verbooseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
-				return false;
-			}
+			if (req.apply(dplayer.getSender(), skill)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
+			return false;
  		}
  		return true;
  	}
@@ -93,18 +91,16 @@ public class SkillUtil
 	 * @param {boolean} tell the player if they can't
 	 * @return {boolean} true if the player can specialise in said skill
 	 */
-	public static boolean canPlayerSpecialiseSkill(DPlayer dplayer, Skill skill, boolean verbooseNot)
+	public static boolean canPlayerSpecialiseSkill(DPlayer dplayer, Skill skill, VerboseLevel verboseLevel)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
 		
  		for (Req req : skill.getSpecialiseRequirements())
  		{
-			if ( ! req.apply(dplayer.getSender(), skill))
-			{
-				if (verbooseNot) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
-				return false;
-			}
+			if (req.apply(dplayer.getSender(), skill)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
+			return false;
  		}
  		return true;
  	}

@@ -11,6 +11,7 @@ import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.util.AbilityUtil;
 
 public class ChatEngine extends EngineAbstract
@@ -47,7 +48,7 @@ public class ChatEngine extends EngineAbstract
 		Ability ability = mplayer.getAbilityBySubString(event.getMessage().toLowerCase());
 		if (ability == null) return;
 		
-		AbilityUtil.activateAbility(mplayer, ability, null, true);
+		AbilityUtil.activateAbility(mplayer, ability, null, VerboseLevel.NORMAL);
 		
 		return;
 	}

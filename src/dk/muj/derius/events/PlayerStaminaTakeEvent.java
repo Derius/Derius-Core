@@ -4,11 +4,12 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.lib.CancellableEvent;
 
 /**
  * This event is thrown when stamina is taken from a player
  */
-public class PlayerTakeStaminaEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerStaminaTakeEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -33,7 +34,7 @@ public class PlayerTakeStaminaEvent extends DeriusEvent implements CancellableEv
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerTakeStaminaEvent(DPlayer dplayer, double stamina)
+	public PlayerStaminaTakeEvent(DPlayer dplayer, double stamina)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
@@ -60,8 +61,8 @@ public class PlayerTakeStaminaEvent extends DeriusEvent implements CancellableEv
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerTakeStaminaEvent)) return false;
-		PlayerTakeStaminaEvent that = (PlayerTakeStaminaEvent) obj;
+		if ( ! (obj instanceof PlayerStaminaTakeEvent)) return false;
+		PlayerStaminaTakeEvent that = (PlayerStaminaTakeEvent) obj;
 	
 		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
 		if (this.getDPlayer() == that.getDPlayer()) return true;

@@ -7,6 +7,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import dk.muj.derius.lib.RunnableEvent;
+
 public class PlayerDamageEvent extends Event implements Cancellable, RunnableEvent
 {
 	// -------------------------------------------- //
