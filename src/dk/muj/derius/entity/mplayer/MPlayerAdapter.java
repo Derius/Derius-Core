@@ -78,10 +78,7 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 		val = DeriusCore.get().gson.toJsonTree(src.getChatKeys());
 		ret.add(CHAT_KEYS, val);
 		
-		val = DeriusCore.get().gson.toJsonTree(src.getStamina());
-		ret.add(STAMINA, val); 
-		
-		val = DeriusCore.get().gson.toJsonTree(src.getBonusStamina());
+		val = DeriusCore.get().gson.toJsonTree(src.getStaminaBonus());
 		ret.add(BONUS_STAMINA, val);
 		
 		val = DeriusCore.get().gson.toJsonTree(src.getStaminaBoardStay());
@@ -151,18 +148,11 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 			ret.chatKeys = keys;
 		}
 		
-		if (jsonSkill.has(STAMINA))
-		{
-			val = jsonSkill.get(STAMINA);
-			double stamina = DeriusCore.get().gson.fromJson(val, Double.TYPE);
-			ret.stamina = stamina;
-		}
-		
 		if (jsonSkill.has(BONUS_STAMINA))
 		{
 			val = jsonSkill.get(BONUS_STAMINA);
-			double bonusStamina = DeriusCore.get().gson.fromJson(val, Double.TYPE);
-			ret.bonusStamina = bonusStamina;
+			Map<String, Double> staminaBonus = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, Double>>(){}.getType());
+			ret.staminaBonus = staminaBonus;
 		}
 		
 		if (jsonSkill.has(STAMINA_BOARD_STAY))

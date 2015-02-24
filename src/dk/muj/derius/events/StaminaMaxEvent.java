@@ -7,7 +7,7 @@ import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.events.player.DPlayerEvent;
 import dk.muj.derius.events.player.PlayerExpAddEvent;
 
-public class SpecialisationSlotEvent extends DeriusEvent implements DPlayerEvent
+public class StaminaMaxEvent extends DeriusEvent implements DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -28,7 +28,7 @@ public class SpecialisationSlotEvent extends DeriusEvent implements DPlayerEvent
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public SpecialisationSlotEvent(DPlayer dplayer)
+	public StaminaMaxEvent(DPlayer dplayer)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
@@ -63,3 +63,4 @@ public class SpecialisationSlotEvent extends DeriusEvent implements DPlayerEvent
 	}
 	
 }
+

@@ -60,16 +60,6 @@ public class MConf extends Entity<MConf>
 	public double staminaMax = 200.0;
 	
 	/**
-	 * The maximum amount of bonus stamina that can be applied to a player
-	 */
-	public double bonusStaminaMax = 200.0;
-	
-	/**
-	 * The minimum amount the bonus can be (mostly minus)
-	 */
-	public double bonusStaminaMin = -staminaMax;
-	
-	/**
 	 * The stamina you get per minute
 	 */
 	public double staminaPerMinute = 20.0;

@@ -1,4 +1,4 @@
-package dk.muj.derius.events;
+package dk.muj.derius.events.player;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

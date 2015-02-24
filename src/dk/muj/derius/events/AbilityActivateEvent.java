@@ -5,6 +5,7 @@ import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.events.player.DPlayerEvent;
 import dk.muj.derius.lib.CancellableEvent;
 
 public class AbilityActivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent, DPlayerEvent

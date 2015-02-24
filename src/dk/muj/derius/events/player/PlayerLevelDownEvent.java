@@ -1,16 +1,14 @@
-package dk.muj.derius.events;
+package dk.muj.derius.events.player;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.lib.CancellableEvent;
+import dk.muj.derius.events.DeriusEvent;
+import dk.muj.derius.events.SkillEvent;
 
-/**
- * This event is thrown every time a player loses exp
- */
-public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent, SkillEvent
+public class PlayerLevelDownEvent extends DeriusEvent implements SkillEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -30,25 +28,19 @@ public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent,
 	private final DPlayer dplayer;
 	public DPlayer getDPlayer() { return dplayer; }
 	
-	private double amount;
-	public double getExpAmount() { return amount; }
-	public void setExpAmount(double expamount) { this.amount = expamount; }
-	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerExpTakeEvent(DPlayer dplayer, Skill skill, long expAmount)
+	public PlayerLevelDownEvent(DPlayer dplayer, Skill skill)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
 		
 		this.skill = skill;
-		this.dplayer = dplayer;
-		this.amount = expAmount;
-		
+		this.dplayer = dplayer;		
 	}
-
+	
 	// -------------------------------------------- //
 	// TO STRING
 	// -------------------------------------------- //
@@ -56,7 +48,7 @@ public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent,
 	@Override
 	public String toString()
 	{
-		return this.getDPlayer().getName() + " lost " + this.getExpAmount() + " exp in " + this.getSkill().getName();
+		return this.getDPlayer().getName() + " leveled down in " + this.getSkill().getName();
 	}
 	
 	// -------------------------------------------- //
@@ -67,13 +59,10 @@ public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent,
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerExpTakeEvent)) return false;
-		PlayerExpTakeEvent that = (PlayerExpTakeEvent) obj;
+		if ( ! (obj instanceof PlayerExpAddEvent)) return false;
+		PlayerExpAddEvent that = (PlayerExpAddEvent) obj;
 	
-		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
-		if (this.getSkill() == that.getSkill() && this.getDPlayer() == that.getDPlayer()) return true;
-		
-		return false;
+		return that.getSkill() == this.getSkill() && this.getDPlayer() == that.getDPlayer();
 	}
 	
 	@Override
@@ -81,11 +70,9 @@ public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent,
 	{
 		int result = 1;
 		
-		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
 		result += this.getSkill().hashCode();
 		result += this.getDPlayer().hashCode();
 		
 		return result;
 	}
-	
 }

@@ -1,15 +1,16 @@
-package dk.muj.derius.events;
+package dk.muj.derius.events.player;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.events.DeriusEvent;
 import dk.muj.derius.lib.CancellableEvent;
 
 /**
- * This event is thrown when an amount is added to the players maxStamina
+ * This event is thrown when stamina is added to a player
  */
-public class PlayerStaminaAddBonusEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerStaminaAddEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -34,7 +35,7 @@ public class PlayerStaminaAddBonusEvent extends DeriusEvent implements Cancellab
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public PlayerStaminaAddBonusEvent(DPlayer dplayer, double staminaAmount)
+	public PlayerStaminaAddEvent(DPlayer dplayer, double staminaAmount)
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
@@ -50,7 +51,7 @@ public class PlayerStaminaAddBonusEvent extends DeriusEvent implements Cancellab
 	@Override
 	public String toString()
 	{
-		return this.getDPlayer().getName() + " got " + this.getStaminaAmount() + " maxStamina added.";
+		return this.getDPlayer().getName() + " got " + this.getStaminaAmount() + " stamina added.";
 	}
 	
 	// -------------------------------------------- //
@@ -61,8 +62,8 @@ public class PlayerStaminaAddBonusEvent extends DeriusEvent implements Cancellab
 	public boolean equals(Object obj)
 	{		
 		if (obj == null) return false;
-		if ( ! (obj instanceof PlayerStaminaAddBonusEvent)) return false;
-		PlayerStaminaAddBonusEvent that = (PlayerStaminaAddBonusEvent) obj;
+		if ( ! (obj instanceof PlayerStaminaAddEvent)) return false;
+		PlayerStaminaAddEvent that = (PlayerStaminaAddEvent) obj;
 	
 		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
 		if (this.getDPlayer() == that.getDPlayer()) return true;

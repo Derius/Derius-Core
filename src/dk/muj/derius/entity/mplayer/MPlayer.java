@@ -25,17 +25,16 @@ import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.ability.AbilityColl;
 import dk.muj.derius.entity.skill.SkillColl;
-import dk.muj.derius.events.PlayerStaminaAddBonusEvent;
-import dk.muj.derius.events.PlayerExpAddEvent;
-import dk.muj.derius.events.PlayerStaminaAddEvent;
-import dk.muj.derius.events.PlayerLevelDownEvent;
-import dk.muj.derius.events.PlayerLevelUpEvent;
-import dk.muj.derius.events.PlayerToolPrepareEvent;
-import dk.muj.derius.events.PlayerStaminaTakeBonusEvent;
-import dk.muj.derius.events.PlayerExpTakeEvent;
-import dk.muj.derius.events.PlayerStaminaTakeEvent;
-import dk.muj.derius.events.PlayerToolUnprepareEvent;
 import dk.muj.derius.events.SpecialisationSlotEvent;
+import dk.muj.derius.events.StaminaMaxEvent;
+import dk.muj.derius.events.player.PlayerExpAddEvent;
+import dk.muj.derius.events.player.PlayerExpTakeEvent;
+import dk.muj.derius.events.player.PlayerLevelDownEvent;
+import dk.muj.derius.events.player.PlayerLevelUpEvent;
+import dk.muj.derius.events.player.PlayerStaminaAddEvent;
+import dk.muj.derius.events.player.PlayerStaminaTakeEvent;
+import dk.muj.derius.events.player.PlayerToolPrepareEvent;
+import dk.muj.derius.events.player.PlayerToolUnprepareEvent;
 import dk.muj.derius.scoreboard.ScoreboardUtil;
 import dk.muj.derius.util.Listener;
 
@@ -64,7 +63,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		this.isListeningToChat = that.isListeningToChat;
 		this.chatKeys = that.chatKeys;
 		this.stamina = that.stamina;
-		this.bonusStamina = that.bonusStamina;
+		this.staminaBonus = that.staminaBonus;
 		this.staminaBoardStay = that.staminaBoardStay;
 		this.boardShowAtAll = that.boardShowAtAll;
 		return this;
@@ -80,6 +79,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	protected Set<String> specialised = new CopyOnWriteArraySet<String>();
 	
 	private long specialisedMillis = 0;
+	public long getSpecialisationChangeMillis() { return this.specialisedMillis; }
+	public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; }
+	public long getSpecialisationCooldownExpire() { return this.specialisedMillis + MConf.get().specialisationCooldown; }
+	public boolean isSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
 	
 	protected Map<String, Integer> specialisationBonus = new HashMap<>();
 	
@@ -92,25 +95,35 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
 	private transient long cooldown = 0;
+	public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; }
+	public long getCooldownExpire() { return cooldown; }
+	public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
 	
 	// Which Ability is currently activated.
 	private transient Optional<Ability> activatedAbility = Optional.empty();
+	public boolean hasActivatedAny() { return this.activatedAbility != null; }
+	public Optional<Ability> getActivatedAbility() { return this.activatedAbility; }
+	public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability; }
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
 	private transient Optional<Material> preparedTool = Optional.empty();
 	
 	// The stamina of the player
-	protected double stamina = 100.0;
+	protected transient double stamina = 100.0;
 	
-	// The maximal stamina of a player
-	protected double bonusStamina = 0.0;
+	protected transient Map<String, Double> staminaBonus = new HashMap<>();
+	@Override public Map<String, Double> getStaminaBonus() { return staminaBonus; }
 	
 	// The boolean whether the board doesn't fade out
 	protected boolean staminaBoardStay = false;
+	@Override public void setStaminaBoardStay(boolean value) { this.staminaBoardStay = value; }
+	@Override public boolean getStaminaBoardStay() { return this.staminaBoardStay; }
 	
 	// Whether the scoreboard should be used at all or not.
 	protected boolean boardShowAtAll = true;
+	@Override public void setBoardShowAtAll(boolean value) { this.boardShowAtAll = value; }
+	@Override public boolean getBoardShowAtAll() { return this.boardShowAtAll; }
 	
 	// -------------------------------------------- //
 	// FIELD: EXP
@@ -183,7 +196,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 		if (Math.round(newStamina) == Math.round(this.getStamina())) return;
 		
-		double max = DeriusCore.getStaminaMixin().getMax(this);
+		double max = this.getStaminaMax();
 		double min = 0.0;
 		
 		newStamina = Math.max(newStamina, min);
@@ -194,7 +207,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay);
 	}
 	
-	public double getStamina() { return this.stamina; }
+	public double getStamina() {return this.stamina; }
 	
 	// Finer
 	public void addStamina(double stamina)
@@ -223,85 +236,38 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		this.setStamina(staminaAfter);
 	}
 	
-	public boolean hasEnoughStamina(double amount)
+	public double getStaminaMax()
 	{
-		return this.getStamina() >= amount;
-	}
-	
-	// -------------------------------------------- //
-	// FIELD: STAMINASCORE
-	// -------------------------------------------- //
-	
-	public void setStaminaBoardStay(boolean value) { this.staminaBoardStay = value; }
-	
-	public boolean getStaminaBoardStay() { return this.staminaBoardStay; }
-	
-	// -------------------------------------------- //
-	// FIELD: STAMINASCORE
-	// -------------------------------------------- //
-	
-	public void setBoardShowAtAll(boolean value) { this.boardShowAtAll = value; }
-	
-	public boolean getBoardShowAtAll() { return this.boardShowAtAll; }
-	
-	// -------------------------------------------- //
-	// FIELD: bonusStamina
-	// -------------------------------------------- //
-	
-	private void setBonusStamina(double bonusStamina) { this.bonusStamina = bonusStamina; }
-	
-	public double getBonusStamina() { return this.bonusStamina; }
-	
-	public void addBonusStamina(double bonusStamina)
-	{
-		Validate.isTrue(bonusStamina > 0.0, "BonusStamina value must be positive.");
+		double ret = 0.0;
 		
-		double highCap = MConf.get().bonusStaminaMax + MConf.get().staminaMax;
-		double staminaMax = DeriusCore.getStaminaMixin().getMax(this);
+		ret += MConf.get().staminaMax;
 		
-		if (staminaMax >= highCap) return;
-		
-		double bonusStaminaAfter = staminaMax + bonusStamina;
-		bonusStaminaAfter = Math.min(highCap, bonusStaminaAfter);
-
-		PlayerStaminaAddBonusEvent event = new PlayerStaminaAddBonusEvent(this, stamina);
+		StaminaMaxEvent event = new StaminaMaxEvent(this);
 		event.run();
-		if (event.isCancelled()) return;
 		
-		this.setBonusStamina(bonusStaminaAfter);
-		this.changed();
-	}
-	
-	public void takeBonusStamina(double bonusStamina)
-	{
-		Validate.isTrue(bonusStamina > 0.0, "BonusStamina value must be positive.");
-		double min = MConf.get().bonusStaminaMin;
+		for (Double bonus : this.getStaminaBonus().values())
+		{
+			if (bonus == null) continue;
+			ret += bonus;
+		}
 		
-		if (this.getBonusStamina() <= min) return;
-		
-		double bonusStaminaAfter = this.getBonusStamina() - bonusStamina;
-		bonusStaminaAfter = Math.min(min, bonusStaminaAfter);
-
-		PlayerStaminaTakeBonusEvent event = new PlayerStaminaTakeBonusEvent(this, stamina);
-		event.run();
-		if (event.isCancelled()) return;
-		
-		this.setBonusStamina(bonusStaminaAfter);
-		this.changed();
+		return ret;
 	}
 	
 	// -------------------------------------------- //
 	// LEVEL
 	// -------------------------------------------- //
 	
+	@Override
 	public LvlStatus getLvlStatus(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
 		return skill.getLvlStatusFromExp(this.getExp(skill));
 	}
 	
-	public int getLvl(Skill skill) { return this.getLvlStatus(skill).getLvl(); }
+	@Override public int getLvl(Skill skill) { return this.getLvlStatus(skill).getLvl(); }
 	
+	@Override
 	public int getMaxLevel(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
@@ -402,39 +368,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	}
 	
 	// -------------------------------------------- //
-	// FIELD: ABILITY ACTIVATION COOLDOWN
-	// -------------------------------------------- //
-	
-	public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; }
-	
-	public void setCooldownExpireIn (int ticks)
-	{
-		long currentTime = System.currentTimeMillis();
-		setCooldownExpire(currentTime+ticks/20*1000);
-	}
-	
-	public long getCooldownExpire() { return cooldown; }
-	
-	public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
-	
-	public boolean isCooldownExpired ()
-	{
-		return System.currentTimeMillis() >= getCooldownExpire();
-	}
-	
-	// -------------------------------------------- //
-	// FIELD: SPECIALISATION COOLDOWN
-	// -------------------------------------------- //
-	
-	public long getSpecialisationChangeMillis() { return this.specialisedMillis; }
-	
-	public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; }
-	
-	public long getSpecialisationCooldownExpire() { return this.specialisedMillis + MConf.get().specialisationCooldown; }
-	
-	public boolean isSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
-	
-	// -------------------------------------------- //
 	// FIELD: PREPARED TOOL
 	// -------------------------------------------- //
 	
@@ -442,7 +375,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 
 	public void setPreparedTool(final Optional<Material> tool)
 	{
-		Validate.notNull(tool, "Tool mustn't be null, it in an optional for gods sake.");
+		Validate.notNull(tool, "Tool mustn't be null, it is an optional for gods sake.");
+		
 		if (tool.isPresent())
 		{
 			if ( ! this.isCooldownExpired()) setPreparedTool(Optional.empty());
@@ -468,16 +402,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 	}
 	
-	// -------------------------------------------- //
-	// ABILITIES
-	// -------------------------------------------- //
-	
-	public boolean hasActivatedAny() { return this.activatedAbility != null; }
-	
-	public Optional<Ability> getActivatedAbility() { return this.activatedAbility; }
-	
-	public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability; }
-
 	// -------------------------------------------- //
 	// MANAGING CHAT | ACTIVATION
 	// -------------------------------------------- //
@@ -587,5 +511,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	 */
 	@Deprecated
 	public Set<String> getRawSpecialisedData() { return this.specialised; }
+
+
 	
 }

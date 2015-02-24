@@ -1,10 +1,12 @@
-package dk.muj.derius.events;
+package dk.muj.derius.events.player;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.events.DeriusEvent;
+import dk.muj.derius.events.SkillEvent;
 import dk.muj.derius.lib.CancellableEvent;
 
 /**

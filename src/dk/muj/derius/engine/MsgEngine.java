@@ -23,9 +23,9 @@ import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
-import dk.muj.derius.events.PlayerLevelUpEvent;
-import dk.muj.derius.events.PlayerToolPrepareEvent;
-import dk.muj.derius.events.PlayerToolUnprepareEvent;
+import dk.muj.derius.events.player.PlayerLevelUpEvent;
+import dk.muj.derius.events.player.PlayerToolPrepareEvent;
+import dk.muj.derius.events.player.PlayerToolUnprepareEvent;
 
 public class MsgEngine extends EngineAbstract
 {

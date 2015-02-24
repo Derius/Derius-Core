@@ -34,8 +34,6 @@ import dk.muj.derius.mixin.BlockMixin;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixin;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
-import dk.muj.derius.mixin.StaminaMixin;
-import dk.muj.derius.mixin.StaminaMixinDefault;
 import dk.muj.derius.scoreboard.TaskPlayerStaminaUpdate;
 
 
@@ -67,10 +65,6 @@ public class DeriusCore extends MassivePlugin implements Derius
 	public static BlockMixin getBlockMixin() { return blockMixin; }
 	public static void setBlockMixin (BlockMixin val) { blockMixin = val; }
 	
-	private static StaminaMixin staminaMixin = StaminaMixinDefault.get();
-	public static StaminaMixin getStaminaMixin() { return staminaMixin; }
-	public static void setStaminaMixin (StaminaMixin val) { staminaMixin = val; }
-	
 	// Engines
 	private List<Engine> engines = MUtil.list(
 		MainEngine		.get(),
@@ -88,11 +82,11 @@ public class DeriusCore extends MassivePlugin implements Derius
 		if ( ! this.preEnable()) return;
 		
 		// Initializing Databases
-		MConfColl	.get().init();
-		MLangColl	.get().init();
-		MPlayerColl	.get().init();	
-		SkillColl	.get().init();
-		AbilityColl	.get().init();
+		MConfColl.get().init();
+		MLangColl.get().init();
+		MPlayerColl.get().init();	
+		SkillColl.get().init();
+		AbilityColl.get().init();
 		
 		// Engine activation
 		for (Engine engine : engines)
@@ -164,6 +158,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 	{
 		Class<DeriusAPI> apiClass = DeriusAPI.class;
 		Field coreField = ReflectionUtil.getField(apiClass, "core");
+		if (coreField == null) return; // Avoid useless NPE
 		ReflectionUtil.makeAccessible(coreField);
 		ReflectionUtil.setField(coreField, null, this);
 	}
