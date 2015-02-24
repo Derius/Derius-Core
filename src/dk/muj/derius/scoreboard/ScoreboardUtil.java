@@ -104,7 +104,7 @@ public class ScoreboardUtil
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		objective.setDisplayName(Txt.parse("<a>____.[<i>Stamina<a>].____"));
 		
-		double progressbarQuota = dplayer.getStamina() / DeriusCore.getStaminaMixin().getMax(dplayer);
+		double progressbarQuota = dplayer.getStamina() / dplayer.getStaminaMax();
 		String bar = Progressbar.HEALTHBAR_CLASSIC.withQuota(progressbarQuota).withWidth(30).render();
 		
 		Score progressBar = objective.getScore(bar);
