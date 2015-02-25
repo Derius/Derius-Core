@@ -11,11 +11,12 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.ReflectionUtil;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 
+import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Derius;
 import dk.muj.derius.api.DeriusAPI;
+import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.CmdDerius;
-import dk.muj.derius.engine.ChatEngine;
 import dk.muj.derius.engine.MainEngine;
 import dk.muj.derius.engine.MsgEngine;
 import dk.muj.derius.entity.MConf;
@@ -30,10 +31,9 @@ import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.entity.skill.DeriusSkill;
 import dk.muj.derius.entity.skill.SkillAdapter;
 import dk.muj.derius.entity.skill.SkillColl;
-import dk.muj.derius.mixin.BlockMixin;
 import dk.muj.derius.mixin.BlockMixinDefault;
-import dk.muj.derius.mixin.MaxLevelMixin;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
+import dk.muj.derius.mixin.StaminaMixinDefault;
 import dk.muj.derius.scoreboard.TaskPlayerStaminaUpdate;
 
 
@@ -56,21 +56,10 @@ public class DeriusCore extends MassivePlugin implements Derius
 	private CmdDerius outerCmdDerius;
 	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
 	
-	// Mixins
-	private static MaxLevelMixin maxLevelMixin = MaxLevelMixinDefault.get();
-	public static MaxLevelMixin getMaxLevelMixin() { return maxLevelMixin; }
-	public static void setMaxLevelMixin (MaxLevelMixin val) { maxLevelMixin = val; }
-	
-	private static BlockMixin blockMixin = BlockMixinDefault.get();
-	public static BlockMixin getBlockMixin() { return blockMixin; }
-	public static void setBlockMixin (BlockMixin val) { blockMixin = val; }
-	
 	// Engines
 	private List<Engine> engines = MUtil.list(
-		MainEngine		.get(),
-		ChatEngine		.get(),
-		MsgEngine		.get());
-
+		MainEngine.get(),
+		MsgEngine.get());
 	
 	// -------------------------------------------- //
 	// OVERRIDE: PLUGIN
@@ -81,10 +70,9 @@ public class DeriusCore extends MassivePlugin implements Derius
 	{
 		if ( ! this.preEnable()) return;
 		
-		// Initializing Databases
 		MConfColl.get().init();
 		MLangColl.get().init();
-		MPlayerColl.get().init();	
+		MPlayerColl.get().init();
 		SkillColl.get().init();
 		AbilityColl.get().init();
 		
@@ -103,7 +91,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 		// ModulaRepeatTask
 		TaskPlayerStaminaUpdate.get().activate();
 		
-		this.setApiField();
+		this.setApiFields();
 		
 		this.postEnable();
 	}
@@ -135,6 +123,30 @@ public class DeriusCore extends MassivePlugin implements Derius
 	}
 	
 	// -------------------------------------------- //
+	// INIT API
+	// -------------------------------------------- //
+	
+	private void setApiFields()
+	{
+		// Mixins
+		this.initMixins();
+		
+		// The "core" field
+		Class<DeriusAPI> apiClass = DeriusAPI.class;
+		Field coreField = ReflectionUtil.getField(apiClass, Const.API_DERIUS_FIELD);
+		if (coreField == null) return; // Avoid useless NPE
+		ReflectionUtil.makeAccessible(coreField);
+		ReflectionUtil.setField(coreField, null, this);
+	}
+	
+	private void initMixins()
+	{
+		DeriusAPI.setBlockMixin(BlockMixinDefault.get());
+		DeriusAPI.setMaxLevelMixin(MaxLevelMixinDefault.get());
+		DeriusAPI.setStaminaMixin(StaminaMixinDefault.get());
+	}
+	
+	// -------------------------------------------- //
 	// OVERRIDE: DERIUS
 	// -------------------------------------------- //
 	
@@ -150,16 +162,28 @@ public class DeriusCore extends MassivePlugin implements Derius
 		return MPlayerColl.get().get(senderObject, false);
 	}
 	
-	// -------------------------------------------- //
-	// INIT API
-	// -------------------------------------------- //
-	
-	private void setApiField()
+	@Override
+	public Collection<? extends Skill> getAllSkills()
 	{
-		Class<DeriusAPI> apiClass = DeriusAPI.class;
-		Field coreField = ReflectionUtil.getField(apiClass, "core");
-		if (coreField == null) return; // Avoid useless NPE
-		ReflectionUtil.makeAccessible(coreField);
-		ReflectionUtil.setField(coreField, null, this);
+		return SkillColl.getAllSkills();
 	}
+	
+	@Override
+	public Skill getSkill(String id)
+	{
+		return SkillColl.get().get(id);
+	}
+	
+	@Override
+	public Collection<? extends Ability> getAllAbilities()
+	{
+		return AbilityColl.getAllAbilities();
+	}
+	
+	@Override
+	public Ability getAbility(String id)
+	{
+		return AbilityColl.get().get(id);
+	}
+	
 }

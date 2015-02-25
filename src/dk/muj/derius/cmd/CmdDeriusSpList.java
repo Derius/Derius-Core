@@ -22,7 +22,7 @@ public class CmdDeriusSpList  extends DeriusCommand
 	{
 		this.addOptionalArg("player", "you");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LIST.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LIST.getNode()));
 	}
 		
 	// -------------------------------------------- //

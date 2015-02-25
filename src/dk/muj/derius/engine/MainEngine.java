@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
@@ -23,9 +24,9 @@ import dk.muj.derius.api.Ability.AbilityType;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
-import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.events.player.PlayerDamageEvent;
@@ -37,6 +38,7 @@ import dk.muj.derius.req.sp.ReqIsntBlacklisted;
 import dk.muj.derius.req.sp.ReqIsntSpecialised;
 import dk.muj.derius.req.sp.ReqSpCooldownIsExpired;
 import dk.muj.derius.scoreboard.ScoreboardUtil;
+import dk.muj.derius.util.AbilityUtil;
 import dk.muj.derius.util.Listener;
 
 public class MainEngine extends EngineAbstract
@@ -118,7 +120,7 @@ public class MainEngine extends EngineAbstract
 	public void instantiatePlayerFields(PlayerJoinEvent event)
 	{
 		MPlayer mplayer = MPlayerColl.get().get(event.getPlayer(), true);
-		for (Skill skill : SkillColl.getAllSkills())
+		for (Skill skill : DeriusAPI.getAllSkills())
 		{
 			mplayer.instantiateSkill(skill);
 		}
@@ -136,6 +138,25 @@ public class MainEngine extends EngineAbstract
 	}
 	
 	// -------------------------------------------- //
+	// CHAT
+	// -------------------------------------------- //
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onChat(AsyncPlayerChatEvent event)
+	{
+		DPlayer mplayer = DeriusAPI.getDPlayer(event.getPlayer());
+		
+		if ( ! mplayer.isChatListeningOk()) return;
+		
+		Ability ability = mplayer.getAbilityBySubString(event.getMessage().toLowerCase());
+		if (ability == null) return;
+		
+		AbilityUtil.activateAbility(mplayer, ability, null, VerboseLevel.NORMAL);
+		
+		return;
+	}
+	
+	// -------------------------------------------- //
 	// OTHER
 	// -------------------------------------------- //
 	
@@ -149,7 +170,7 @@ public class MainEngine extends EngineAbstract
 		if (listener == null) return;
 		
 		// Check if player placed block
-		if (DeriusCore.getBlockMixin().isBlockPlacedByPlayer(block)) return;
+		if (DeriusAPI.isBlockPlacedByPlayer(block)) return;
 		
 		listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), block.getState());
 		

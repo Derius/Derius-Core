@@ -31,7 +31,7 @@ public class CmdDeriusKeys extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusKeysRemove);
 		this.addSubCommand(this.innerCmdDeriusKeysAbilityid);
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS.getNode()));
 	}
 	
 }

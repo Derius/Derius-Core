@@ -29,7 +29,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		this.addRequiredArg("skill");
 		
 		this.addRequirements(ReqIsPlayer.get());
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LEARN.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LEARN.getNode()));
 	}
 		
 	// -------------------------------------------- //

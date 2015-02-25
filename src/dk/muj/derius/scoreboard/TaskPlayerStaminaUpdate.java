@@ -9,7 +9,6 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.lib.Task;
 
 public class TaskPlayerStaminaUpdate extends Task
@@ -40,14 +39,30 @@ public class TaskPlayerStaminaUpdate extends Task
 	public void invoke(long now)
 	{
 		long millis = this.getDelayMillis();
+		long timesPerMinute = TimeUnit.MILLIS_PER_MINUTE / millis;
 		
 		for (Player player : MUtil.getOnlinePlayers())
 		{
 			DPlayer dplayer = DeriusAPI.getDPlayer(player);
-			double stamina = MConf.get().staminaMax * millis / TimeUnit.MILLIS_PER_MINUTE;
 			
-			dplayer.addStamina(stamina);
+
+			// EXAMPLE 300*600 / 60000 = 3
+			double stamina = (dplayer.getStaminaMax()*timesPerMinute) / DeriusAPI.staminaRegenTime(dplayer);
+			
+			stamina *= DeriusAPI.getStaminaMultiplier(player);
+			if (stamina < 0)
+			{
+				stamina = -stamina;
+				dplayer.takeStamina(stamina);
+			}
+			else
+			{
+				dplayer.addStamina(stamina);
+			}
 		}
+		return;
 	}
+	
+
 
 }

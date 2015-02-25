@@ -12,8 +12,8 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.skill.SkillColl;
 
 public class CmdDeriusList extends DeriusCommand
 {
@@ -27,7 +27,7 @@ public class CmdDeriusList extends DeriusCommand
 		this.addOptionalArg("page", "1");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.LIST.node));
+		this.addRequirements(ReqHasPerm.get(Perm.LIST.getNode()));
 	}
 	
 	// -------------------------------------------- //
@@ -41,7 +41,7 @@ public class CmdDeriusList extends DeriusCommand
 		Integer pageHumanBased = this.arg(0, ARInteger.get(), 1);
 		
 		// Create Pager
-		final Collection<? extends Skill> skills = SkillColl.getAllSkills();
+		final Collection<? extends Skill> skills = DeriusAPI.getAllSkills();
 		final PagerSimple<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		
 		// Use Pager

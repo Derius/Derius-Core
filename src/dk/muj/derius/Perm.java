@@ -43,7 +43,6 @@ public enum Perm implements MPerm
 	SPECIALISATION_UNLEARN		("sp.unlearn",			0, "unspecialise"), 
 	VERSION						("version",				0, "see plugin version"),
 
-	
 	// END OF LIST
 	;
 	
@@ -53,8 +52,8 @@ public enum Perm implements MPerm
 	
 	private static int kitAmount = 3;
 	
-	public final String node;
-	public String getNode() { return node; }
+	private final String node;
+	public String getNode() { return this.getStartNode() + this.node; }
 	
 	private final int kit;
 	public int getKit() { return kit; }
@@ -79,7 +78,7 @@ public enum Perm implements MPerm
 	
 	Perm(final String node, int kit, String desc)
 	{
-		this.node = getStartNode() +  node;
+		this.node = node;
 		this.kit = kit;
 		this.desc = desc;
 	}

@@ -24,7 +24,7 @@ public class CmdDeriusKeysList extends DeriusCommand
 		this.addOptionalArg("player", "yourself");
 		this.addOptionalArg("page", "1");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.getNode()));
 	}
 	
 	// -------------------------------------------- //

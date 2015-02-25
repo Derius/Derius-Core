@@ -25,7 +25,7 @@ public class CmdDeriusSetStamina extends DeriusCommand
 		this.setVisibilityMode(VisibilityMode.SECRET);
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.SETSTAMINA.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SETSTAMINA.getNode()));
 	}
 	
 	// -------------------------------------------- //

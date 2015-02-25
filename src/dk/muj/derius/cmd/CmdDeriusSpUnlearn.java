@@ -25,7 +25,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 	{
 		this.addRequiredArg("skill");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_UNLEARN.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_UNLEARN.getNode()));
 	}
 		
 	// -------------------------------------------- //

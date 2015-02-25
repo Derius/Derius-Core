@@ -30,7 +30,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		this.addOptionalArg("level", "your");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.SKILL.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SKILL.getNode()));
 	}
 
 	// -------------------------------------------- //

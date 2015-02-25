@@ -41,10 +41,15 @@ public class SkillComparatorLvl implements Comparator<Skill>
 		if (s1 == null) return -1;
 		if (s2 == null) return +1;
 		
+		int ret = 0;
+		
+		if (dplayer.isSpecialisedIn(s1) && dplayer.isSpecialisedIn(s2)) ret = 0;
+		else if (dplayer.isSpecialisedIn(s1)) ret = +1;
+		else if (dplayer.isSpecialisedIn(s2)) ret = -1;
+		if (ret != 0) return ret;
+		
 		LvlStatus st1 = dplayer.getLvlStatus(s1);
 		LvlStatus st2 = dplayer.getLvlStatus(s2);
-		
-		int ret = 0;
 		
 		ret = st1.getLvl() - st2.getLvl();
 		if (ret != 0) return ret;

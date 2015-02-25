@@ -2,7 +2,7 @@ package dk.muj.derius.mixin;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.entity.MConf;
+import dk.muj.derius.api.mixin.MaxLevelMixin;
 
 public class MaxLevelMixinDefault implements MaxLevelMixin
 {
@@ -20,8 +20,8 @@ public class MaxLevelMixinDefault implements MaxLevelMixin
 	@Override
 	public int getMaxLevel(DPlayer dplayer, Skill skill)
 	{
-		if (dplayer.isSpecialisedIn(skill)) return MConf.get().hardCap;
-		else return MConf.get().softCap;
+		if (dplayer.isSpecialisedIn(skill)) return skill.getHardCap();
+		else return skill.getSoftCap();
 	}
 
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
@@ -69,6 +68,14 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	// FIELDS: CONFIGURIVE
 	// -------------------------------------------- //
 	
+	private int softCap = 1000;
+	public int getSoftCap() { return  this.softCap; }
+	public void setSoftCap(int cap) { this.softCap = cap; }
+	
+	private int hardCap = 2000;
+	public int getHardCap() { return  this.hardCap; }
+	public void setHardtCap(int cap) { this.hardCap = cap; }
+	
 	private boolean spAutoAssigned = false;
 	@Override public boolean isSpAutoAssigned() { return this.spAutoAssigned; }
 	@Override public void setSpAutoAssiged(boolean assigned) { this.spAutoAssigned = assigned; }
@@ -87,7 +94,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	public void setConfiguration(JsonObject conf) { this.configuration = conf; }
 	
 	// -------------------------------------------- //
-	// FIELDS: REUIRING
+	// FIELDS: REQUIRING
 	// -------------------------------------------- //
 	
 	// See requirements
@@ -159,9 +166,8 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	public void register()
 	{
 		SkillRegisteredEvent event = new SkillRegisteredEvent(this);
-		Bukkit.getServer().getPluginManager().callEvent(event);
-		if (event.isCancelled()) return;
-
+		if ( ! event.runEvent()) return;
+		
 		if ( ! this.attached())
 		{
 			DeriusSkill old = SkillColl.get().get(this.getId(), false);
@@ -170,7 +176,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 				this.load(old);
 				SkillColl.get().removeAtLocal(this.getId());
 			}
-			SkillColl.get().attach(this, this.getId());	
+			SkillColl.get().attach(this, this.getId());
 		}
 		
 		return;

@@ -27,6 +27,6 @@ public class CmdDeriusScoarboard extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusSeScoreboard);
 		this.addSubCommand(this.innerCmdDeriusScKeep);
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SCOREBOARD.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SCOREBOARD.getNode()));
 	}
 }

@@ -9,9 +9,9 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
-import dk.muj.derius.entity.ability.AbilityColl;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand
 {
@@ -23,7 +23,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	{
 		this.addOptionalArg("skill", "all");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.getNode()));
 	}
 	
 	// -------------------------------------------- //
@@ -41,7 +41,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		
 		if (skill == null)
 		{
-			abilities.addAll(AbilityColl.getAllAbilities());
+			abilities.addAll(DeriusAPI.getAllAbilities());
 		}
 		else
 		{
@@ -49,7 +49,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 		}
 		
 		// Apply
-		for (Ability ability : AbilityColl.getAllAbilities())
+		for (Ability ability : DeriusAPI.getAllAbilities())
 		{
 			messages.add(Txt.parse("<red>%s %s", ability.getId(), ability.getName()));
 		}

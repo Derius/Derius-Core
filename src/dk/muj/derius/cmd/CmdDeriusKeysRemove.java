@@ -22,7 +22,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		this.addRequiredArg("keys/all");
 		
 		this.setErrorOnToManyArgs(false);
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.getNode()));
 	}
 	
 	// -------------------------------------------- //

@@ -5,8 +5,8 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.ability.AbilityColl;
 
 public class CmdDeriusKeysAdd extends DeriusCommand
 {
@@ -19,7 +19,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		this.addRequiredArg("key");
 		this.addRequiredArg("ability Id");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ADD.node));
+		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ADD.getNode()));
 	}
 	
 	// -------------------------------------------- //
@@ -42,7 +42,7 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 			return;
 		}
 		
-		Ability ability = AbilityColl.get().get(id);
+		Ability ability = DeriusAPI.getAbility(id);
 		if (ability == null)
 		{
 			sendMessage(Txt.parse(MLang.get().abilityInvalidId, id));

@@ -22,7 +22,7 @@ public class CmdDeriusScKeep extends DeriusCommand
 		this.addOptionalArg("player", "you");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.SCOREBOARD_KEEP.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SCOREBOARD_KEEP.getNode()));
 	}
 	
 	// -------------------------------------------- //

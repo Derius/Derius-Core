@@ -16,7 +16,7 @@ public class CmdDerius extends DeriusCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public VersionCommand innerCmdDeriusVersion = new VersionCommand(DeriusCore.get(), Perm.VERSION.node, "v", "version");
+	public VersionCommand innerCmdDeriusVersion = new VersionCommand(DeriusCore.get(), Perm.VERSION.getNode(), "v", "version");
 	public CmdDeriusSkill innerCmdSkill = new CmdDeriusSkill() { @Override public List<String> getAliases() { return MConf.get().innerAliasesSkill; } };
 	public CmdDeriusSkills innerCmdSkills = new CmdDeriusSkills() { @Override public List<String>  getAliases() { return MConf.get().innerAliasesSkills; } };
 	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList() { @Override public List<String> getAliases() { return MConf.get().innerAliasesDeriusList; } };
@@ -50,7 +50,7 @@ public class CmdDerius extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusVersion);
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.node));
+		this.addRequirements(ReqHasPerm.get(Perm.BASECOMMAND.getNode()));
 	}
 	
 }

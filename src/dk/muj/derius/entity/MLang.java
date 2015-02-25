@@ -73,7 +73,7 @@ public class MLang extends Entity<MConf>
 	public String specialisationMoveCooldown = "<b> please stand still for %s <b>more";
 	public String specialisationChangeCooldown = "<b> please wait %s <b>before changing any specialisations";
 	
-	public String specialisationInfo = "<i>When you specialise in a skill you are able to exceed level %s, and reach level %s."
+	public String specialisationInfo = "<i>When you specialise in a skill you are able to exceed level 1000, and reach level 2000."
 			+ " You can only specialise in %s skills. If you unlearn/unspecialise in a skill you get reset back to level 0";
 			
 	

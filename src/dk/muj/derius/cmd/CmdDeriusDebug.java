@@ -32,7 +32,7 @@ public class CmdDeriusDebug extends DeriusCommand
 		this.setVisibilityMode(VisibilityMode.SECRET);
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.DEBUG.node));
+		this.addRequirements(ReqHasPerm.get(Perm.DEBUG.getNode()));
 	}
 	
 }

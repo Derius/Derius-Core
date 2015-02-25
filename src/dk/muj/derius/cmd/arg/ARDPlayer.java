@@ -31,24 +31,18 @@ public class ARDPlayer
 	public static ArgReader<DPlayer> getAny() { return any; }
 	private static ArgReader<DPlayer> any = new ArgReaderAbstract<DPlayer>()
 	{
-
-		@Override
 		public DPlayer read(String arg, CommandSender sender) throws MassiveException
 		{
 			return innerAny.read(arg, sender);
 		}
-		
 	};
 	
 	private static ArgReader<DPlayer> online = new ArgReaderAbstract<DPlayer>()
 	{
-
-		@Override
 		public DPlayer read(String arg, CommandSender sender) throws MassiveException
 		{
 			return innerOnline.read(arg, sender);
 		}
-		
 	};
 	
 }

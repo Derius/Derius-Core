@@ -14,10 +14,10 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.comparator.SkillComparatorLvl;
-import dk.muj.derius.entity.skill.SkillColl;
 
 public class CmdDeriusInspect extends DeriusCommand
 {
@@ -32,7 +32,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		this.addOptionalArg("page", "1");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.node));
+		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.getNode()));
 	}
 	
 	// -------------------------------------------- //
@@ -52,7 +52,7 @@ public class CmdDeriusInspect extends DeriusCommand
 				: Txt.parse("%s's <green>Skills", dplayer.getDisplayName(dsender));
 
 		// Create Pager
-		final List<Skill> skills = new ArrayList<>(SkillColl.getAllSkills());
+		final List<Skill> skills = new ArrayList<>(DeriusAPI.getAllSkills());
 		Collections.sort(skills, SkillComparatorLvl.get(dplayer));
 		final Pager<Skill> pager = new PagerSimple<Skill>(skills, sender);
 		

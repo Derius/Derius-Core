@@ -8,6 +8,8 @@ import org.bukkit.Material;
 
 import com.massivecraft.massivecore.ps.PS;
 
+import dk.muj.derius.api.mixin.BlockMixin;
+
 public class BlockMixinDefault implements BlockMixin
 {
 	// -------------------------------------------- //
@@ -29,10 +31,10 @@ public class BlockMixinDefault implements BlockMixin
 	}
 
 	// Listening
-	
 	private Set<Material> blocks = new CopyOnWriteArraySet<Material>();
 	public Set<Material> getBlocksTypesToListenFor() { return this.blocks; }
 	public void setBlocksTypesToListenFor(Collection<Material> blocks) { this.blocks.clear(); this.blocks.addAll(blocks); } 
 	public void addBlockTypesToListenFor(Collection<Material> blocks) { this.blocks.addAll(blocks); }
+	public boolean isListenedFor(Material material){ return false; }
 
 }

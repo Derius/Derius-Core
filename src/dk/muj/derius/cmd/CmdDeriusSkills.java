@@ -15,11 +15,11 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkills extends DeriusCommand
@@ -30,7 +30,7 @@ public class CmdDeriusSkills extends DeriusCommand
 	
 	public CmdDeriusSkills()
 	{
-		this.addRequirements(ReqHasPerm.get(Perm.SKILL.node), ReqIsPlayer.get());
+		this.addRequirements(ReqHasPerm.get(Perm.SKILL.getNode()), ReqIsPlayer.get());
 	}
 	
 	// -------------------------------------------- //
@@ -42,7 +42,7 @@ public class CmdDeriusSkills extends DeriusCommand
 	{
 		List<ItemStack> skills = new ArrayList<ItemStack>();
 		
-		for (Skill skill : SkillColl.getAllSkills())
+		for (Skill skill : DeriusAPI.getAllSkills())
 		{
 			LvlStatus status = dsender.getLvlStatus(skill);
 			

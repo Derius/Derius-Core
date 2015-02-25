@@ -19,12 +19,11 @@ import com.massivecraft.massivecore.util.Txt;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.entity.ability.AbilityColl;
-import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.events.SpecialisationSlotEvent;
 import dk.muj.derius.events.StaminaMaxEvent;
 import dk.muj.derius.events.player.PlayerExpAddEvent;
@@ -39,16 +38,7 @@ import dk.muj.derius.scoreboard.ScoreboardUtil;
 import dk.muj.derius.util.Listener;
 
 public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
-{
-	// -------------------------------------------- //
-	// META
-	// -------------------------------------------- //
-	
-	public static DPlayer get(Object oid)
-	{
-		return MPlayerColl.get().get(oid, false);
-	}
-	
+{	
 	// -------------------------------------------- //
 	// OVERRIDE: ENTITY
 	// -------------------------------------------- //
@@ -80,7 +70,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	private long specialisedMillis = 0;
 	public long getSpecialisationChangeMillis() { return this.specialisedMillis; }
-	public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; }
+	public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; this.changed();}
 	public long getSpecialisationCooldownExpire() { return this.specialisedMillis + MConf.get().specialisationCooldown; }
 	public boolean isSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
 	
@@ -117,19 +107,19 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	// The boolean whether the board doesn't fade out
 	protected boolean staminaBoardStay = false;
-	@Override public void setStaminaBoardStay(boolean value) { this.staminaBoardStay = value; }
+	@Override public void setStaminaBoardStay(boolean value) { this.staminaBoardStay = value; this.changed();}
 	@Override public boolean getStaminaBoardStay() { return this.staminaBoardStay; }
 	
 	// Whether the scoreboard should be used at all or not.
 	protected boolean boardShowAtAll = true;
-	@Override public void setBoardShowAtAll(boolean value) { this.boardShowAtAll = value; }
+	@Override public void setBoardShowAtAll(boolean value) { this.boardShowAtAll = value; this.changed();}
 	@Override public boolean getBoardShowAtAll() { return this.boardShowAtAll; }
 	
 	// -------------------------------------------- //
 	// FIELD: EXP
 	// -------------------------------------------- //
 	
-	public void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); }
+	public void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); this.changed();}
 	
 	public long getExp(Skill skill)
 	{
@@ -190,11 +180,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Raw
 	public void setStamina(double newStamina)
 	{
-		Validate.isTrue(newStamina > -0.001, "Stamina value must be positive.");
 		Validate.isTrue(Double.isFinite(newStamina), "Stamina value must be finite.");
 		Validate.isTrue( ! Double.isNaN(newStamina), "Stamina value must be a number.");
 		
-		if (Math.round(newStamina) == Math.round(this.getStamina())) return;
+		// This line was there and caused bugs. Don't ever reimplement it.
+		// if (Math.round(newStamina) == Math.round(this.getStamina())) return;
 		
 		double max = this.getStaminaMax();
 		double min = 0.0;
@@ -203,41 +193,58 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		newStamina = Math.min(newStamina, max);
 		
 		this.stamina = newStamina;
-		this.changed();
 		ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay);
+		
+		return;
 	}
 	
-	public double getStamina() {return this.stamina; }
+	public double getStamina() { return this.stamina; }
 	
 	// Finer
 	public void addStamina(double stamina)
 	{
-		Validate.isTrue(stamina > -0.001, "Stamina value must be positive.");
+		if (stamina < 0) this.takeStamina(-stamina);
 		Validate.isTrue(Double.isFinite(stamina), "Stamina value must be finite.");
 		Validate.isTrue( ! Double.isNaN(stamina), "Stamina value must be a number.");
 		
 		PlayerStaminaAddEvent event = new PlayerStaminaAddEvent(this, stamina);
 		if ( ! event.runEvent()) return;
+		stamina = event.getStaminaAmount();
 		
-		double staminaAfter = this.getStamina() + event.getStaminaAmount();
+		double staminaAfter = this.getStamina() + stamina;
 		this.setStamina(staminaAfter);
+		
+		return;
 	}
 	
 	public void takeStamina(double stamina)
 	{
-		Validate.isTrue(stamina > -0.001, "Stamina value must be positive.");
+		if (stamina < 0) this.addStamina(-stamina);
 		Validate.isTrue(Double.isFinite(stamina), "Stamina value must be finite.");
 		Validate.isTrue( ! Double.isNaN(stamina), "Stamina value must be a number.");
 		
 		PlayerStaminaTakeEvent event = new PlayerStaminaTakeEvent(this, stamina);
 		if ( ! event.runEvent()) return;
+		stamina = event.getStaminaAmount();
 		
-		double staminaAfter = this.getStamina() - event.getStaminaAmount();
+		double staminaAfter = this.getStamina() - stamina;
 		this.setStamina(staminaAfter);
+		
+		return;
 	}
 	
+	// We get this value atlast 10 times per second.
+	// So we cach it and ask for a new value every once in a while.
+	public static final transient int STAMINA_MAX_ATTEMPTS = 100;
+	private transient int staminaLastCall = STAMINA_MAX_ATTEMPTS-1;
+	private transient double staminaMaxCach = 0;
 	public double getStaminaMax()
 	{
+		staminaLastCall++;
+		if (this.staminaLastCall % STAMINA_MAX_ATTEMPTS != 0)
+		{
+			return staminaMaxCach;
+		}
 		double ret = 0.0;
 		
 		ret += MConf.get().staminaMax;
@@ -251,6 +258,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			ret += bonus;
 		}
 		
+		staminaMaxCach = ret;
 		return ret;
 	}
 	
@@ -271,7 +279,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	public int getMaxLevel(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
-		return DeriusCore.getMaxLevelMixin().getMaxLevel(this, skill);
+		return DeriusAPI.getMaxLevelMixin().getMaxLevel(this, skill);
 	}
 	
 	// -------------------------------------------- //
@@ -314,6 +322,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		}
 		
 		this.specialised.add(skill.getId());
+		this.changed();
 		return true;
 	}
 	
@@ -323,14 +332,16 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		Validate.notNull(skill, "skill mustn't be null");
 		this.specialised.remove(skill.getId());
 		this.setExp(skill, 0);
+		// this.changed(); this is actually done when settin exp
+		return;
 	}
 	
 	public List<Skill> getSpecialisedSkills()
 	{		
 		List<Skill> ret = new ArrayList<Skill>();
-		for (String i : this.specialised)
+		for (String id : this.specialised)
 		{
-			Skill skill = SkillColl.get().get(i);
+			Skill skill = DeriusAPI.getSkill(id);
 			if (skill != null) ret.add(skill);
 		}
 		return ret;
@@ -347,11 +358,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		event.run();
 		int ret = MConf.get().baseSpSlot;
 		
-		for (Integer bonus : this.getSpecialisationSlotBonus().values())
-		{
-			if (bonus == null) continue;
-			ret += bonus.intValue();
-		}
+		ret += this.getSpecialisationSlotBonus().values().stream().mapToInt(Integer::intValue).sum();
+		
 		return ret;
 	}
 	
@@ -384,8 +392,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			if ( ! Listener.isRegistered(tool.get())) return;
 		
 			PlayerToolPrepareEvent event = new PlayerToolPrepareEvent(tool.get(), this);
-			event.run();
-			if (event.isCancelled()) return;
+			if ( ! event.runEvent()) return;
 			this.preparedTool = tool;
 			Bukkit.getScheduler().runTaskLaterAsynchronously(DeriusCore.get(), () -> setPreparedTool(Optional.empty()), 20*2);
 		}
@@ -394,8 +401,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			if (this.getPreparedTool().isPresent() && ! this.hasActivatedAny())
 			{
 				PlayerToolUnprepareEvent event = new PlayerToolUnprepareEvent(this.getPreparedTool().get(), this);
-				event.run();
-				if (event.isCancelled()) return;
+				if ( ! event.runEvent()) return;
 			}
 			this.preparedTool = Optional.empty();
 		}
@@ -412,9 +418,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	// Adding, getting, setting to the chatKeys map
 	
-	public void addChatKey(String key, Ability ability) { this.chatKeys.put(key, ability.getId()); }
+	public void addChatKey(String key, Ability ability) { this.chatKeys.put(key, ability.getId()); this.changed();}
 	
-	public void removeChatKey (String key) { this.chatKeys.remove(key); }
+	public void removeChatKey (String key) { this.chatKeys.remove(key);this.changed(); }
 	
 	public List<String> getChatKeys()
 	{
@@ -456,7 +462,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		String id = this.chatKeys.get(key);
 		if (null == id) return null;
 		
-		return AbilityColl.get().get(id);
+		return DeriusAPI.getAbility(id);
 	}
 	
 	public List<String> chatKeysToString()

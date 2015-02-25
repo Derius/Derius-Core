@@ -28,15 +28,6 @@ public class MConf extends Entity<MConf>
 	public int baseSpSlot = 3;
 	
 	/**
-	 * The maximum level you can reach without specialisation
-	 */
-	public int softCap = 1000;
-	/**
-	 * The maximum level you can reach with specialisation
-	 */
-	public int hardCap = 2000;
-	
-	/**
 	 * The amount of millis a player will have to wait
 	 * before being able to change specialisation again
 	 * this counts for both learning & unlearning
@@ -49,6 +40,12 @@ public class MConf extends Entity<MConf>
 	 * this is so they don't do it by accident
 	 */
 	public long specialiseChangeStandStillSeconds = 60*1;
+	
+	/**
+	 * Amount of millis a player must stand still
+	 * toi be considered standing still (not walking)
+	 */
+	public long millisToStandStill = 500;
 	
 	// -------------------------------------------- //
 	// STAMINA SETTINGS
@@ -69,6 +66,13 @@ public class MConf extends Entity<MConf>
 	 */
 	public long staminaBoardStay = 100;
 
+	public int staminaRegenSeconds = 3*60;
+	
+	public double staminaStandStillMultiplier = 2.0;
+	public double staminaSprintMultiplier = 0.0;
+	public double staminaSneakMultiplier = 1.5;
+	public double staminaWalkMultiplier = 0.8;
+	
 	// -------------------------------------------- //
 	// COMMAND ALIASES
 	// -------------------------------------------- //

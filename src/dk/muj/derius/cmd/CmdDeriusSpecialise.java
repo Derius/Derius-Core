@@ -31,7 +31,7 @@ public class CmdDeriusSpecialise extends DeriusCommand
 		this.addSubCommand(innerCmdDeriusSpInfo);
 		this.addSubCommand(innerCmdDeriusSpList);
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION.getNode()));
 	}
 	
 }

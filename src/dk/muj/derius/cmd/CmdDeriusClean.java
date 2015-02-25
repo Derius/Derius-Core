@@ -17,7 +17,7 @@ public class CmdDeriusClean extends DeriusCommand
 		this.addOptionalArg("player/all", "you");
 		this.addOptionalArg("force it", "no");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.CLEAN.node));
+		this.addRequirements(ReqHasPerm.get(Perm.CLEAN.getNode()));
 	}
 	
 	// -------------------------------------------- //

@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.bukkit.Bukkit;
-
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
@@ -66,10 +64,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public void addActivateRequirements(Req... requirements) { this.activateRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// Lambda
-	private transient TicksLastCalculator levelToTicks = (int level) ->
-	{
-		return (2 + level/50) * 20;
-	};
+	private transient TicksLastCalculator levelToTicks = level -> (2 + level/50 * 20);
 	public int getDuration(int level) { return this.levelToTicks.calcDuration(level); }
 	public final void setDurationAlgorithm(TicksLastCalculator algorithm){ this.levelToTicks = algorithm; }
 	public final TicksLastCalculator getDurationAlgorithm(){ return this.levelToTicks; }
@@ -105,28 +100,25 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public void register()
 	{
 		AbilityRegisteredEvent event = new AbilityRegisteredEvent(this);
-		Bukkit.getServer().getPluginManager().callEvent(event);
-		if (event.isCancelled()) return;
+		if ( ! event.runEvent()) return;
 		
-		if ( ! this.attached())
+		if (this.attached()) return;
+		
+		DeriusAbility old = AbilityColl.get().get(this.getId(), false);
+		if (old != null)
 		{
-			DeriusAbility old = AbilityColl.get().get(this.getId(), false);
-			if (old != null)
-			{
-				this.load(old);
-				AbilityColl.get().removeAtLocal(this.getId());
-			}
-			
-			AbilityColl.get().attach(this, this.getId());
+			this.load(old);
+			AbilityColl.get().removeAtLocal(this.getId());
 		}
 		
+		AbilityColl.get().attach(this, this.getId());
 		return;
 	}
 	
 	@Override
 	public boolean isRegistered()
 	{
-		return AbilityColl.getAllAbilities().contains(this);
+		return this.attached();
 	}
 	
 	// -------------------------------------------- //
@@ -176,7 +168,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	{
 		int result = 1;
 		
-		result += this.getId().hashCode();
+		result += (id != null) ? id.hashCode() : 1;
 		
 		return result;
 	}
@@ -188,7 +180,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	@Override
 	public String toString()
 	{
-		return getName();
+		return this.getName();
 	}
 	
 }

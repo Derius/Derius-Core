@@ -3,7 +3,6 @@ package dk.muj.derius.cmd;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MLang;
 
 public class CmdDeriusSpInfo extends DeriusCommand
@@ -14,7 +13,7 @@ public class CmdDeriusSpInfo extends DeriusCommand
 		
 	public CmdDeriusSpInfo()
 	{
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_INFO.node));
+		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_INFO.getNode()));
 	}
 	
 	// -------------------------------------------- //
@@ -24,7 +23,7 @@ public class CmdDeriusSpInfo extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		msg(MLang.get().specialisationInfo, MConf.get().softCap, MConf.get().hardCap, dsender.getMaxSpecialisationSlots());
+		msg(MLang.get().specialisationInfo, dsender.getMaxSpecialisationSlots());
 		return;
 	}
 
