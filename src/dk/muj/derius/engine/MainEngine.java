@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -157,7 +158,20 @@ public class MainEngine extends EngineAbstract
 	}
 	
 	// -------------------------------------------- //
-	// OTHER
+	// STAMINA
+	// -------------------------------------------- //
+	
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void blockSprintOnLowStamina(PlayerToggleSprintEvent event)
+	{
+		if ( ! event.isSprinting()) return;
+		Player player = event.getPlayer();
+		DPlayer dplayer = DeriusAPI.getDPlayer(player);
+		event.setCancelled(dplayer.getStamina() < DeriusAPI.staminaSprintLimit(player));
+	}
+	
+	// -------------------------------------------- //
+	// CALL LISTENERS
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

@@ -1,18 +1,18 @@
 package dk.muj.derius.events.player;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.events.DeriusEvent;
 import dk.muj.derius.events.SkillEvent;
-import dk.muj.derius.lib.CancellableEvent;
 
 /**
  * This event is thrown every time a player loses exp
  */
-public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent, SkillEvent
+public class PlayerExpTakeEvent extends DeriusEvent implements Cancellable, DPlayerEvent, SkillEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -35,6 +35,10 @@ public class PlayerExpTakeEvent extends DeriusEvent implements CancellableEvent,
 	private double amount;
 	public double getExpAmount() { return amount; }
 	public void setExpAmount(double expamount) { this.amount = expamount; }
+	
+	private boolean cancelled = false;
+	public boolean isCancelled() { return this.cancelled; }
+	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

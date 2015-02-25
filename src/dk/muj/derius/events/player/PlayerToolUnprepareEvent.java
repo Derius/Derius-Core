@@ -2,13 +2,13 @@ package dk.muj.derius.events.player;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.events.DeriusEvent;
-import dk.muj.derius.lib.CancellableEvent;
 
-public class PlayerToolUnprepareEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerToolUnprepareEvent extends DeriusEvent implements Cancellable, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -27,6 +27,10 @@ public class PlayerToolUnprepareEvent extends DeriusEvent implements Cancellable
 	
 	private DPlayer dplayer;
 	public DPlayer getDPlayer() { return dplayer; }
+	
+	private boolean cancelled = false;
+	public boolean isCancelled() { return this.cancelled; }
+	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

@@ -189,10 +189,16 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		double max = this.getStaminaMax();
 		double min = 0.0;
 		
+
+		
 		newStamina = Math.max(newStamina, min);
 		newStamina = Math.min(newStamina, max);
 		
+		// In case of minimal change we won't update.
+		if (newStamina == this.getStamina()) return;
+		
 		this.stamina = newStamina;
+		
 		ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay);
 		
 		return;

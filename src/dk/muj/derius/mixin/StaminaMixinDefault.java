@@ -22,7 +22,7 @@ public class StaminaMixinDefault implements StaminaMixin
 	// -------------------------------------------- //
 	
 	@Override
-	public long regenTime(Object senderObject)
+	public long regenTime(Player senderObject)
 	{
 		return MConf.get().staminaRegenSeconds*TimeUnit.MILLIS_PER_SECOND;
 	}
@@ -55,6 +55,12 @@ public class StaminaMixinDefault implements StaminaMixin
 	public boolean standsStill(Player player)
 	{
 		return PlayerUtil.getStandStillMillis(player) > MConf.get().millisToStandStill;
+	}
+
+	@Override
+	public double noSprintStamina(Player playerObject)
+	{
+		return MConf.get().staminaBlockSprintIfLower;
 	}
 	
 }

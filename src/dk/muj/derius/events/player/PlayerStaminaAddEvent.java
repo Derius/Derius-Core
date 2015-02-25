@@ -1,16 +1,16 @@
 package dk.muj.derius.events.player;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.events.DeriusEvent;
-import dk.muj.derius.lib.CancellableEvent;
 
 /**
  * This event is thrown when stamina is added to a player
  */
-public class PlayerStaminaAddEvent extends DeriusEvent implements CancellableEvent, DPlayerEvent
+public class PlayerStaminaAddEvent extends DeriusEvent implements Cancellable, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -30,6 +30,10 @@ public class PlayerStaminaAddEvent extends DeriusEvent implements CancellableEve
 	private double amount;
 	public double getStaminaAmount() { return amount; }
 	public void setStaminaAmount(double staminaAmount) { this.amount = staminaAmount; }
+	
+	private boolean cancelled = false;
+	public boolean isCancelled() { return this.cancelled; }
+	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

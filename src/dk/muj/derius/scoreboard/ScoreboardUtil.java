@@ -43,16 +43,23 @@ public class ScoreboardUtil
 	 * @param {DPlayer} the player we want to update
 	 * @param {int} the amount of ticks we want it to be shown
 	 */
-	public static void updateStaminaScore(DPlayer dplayer, long ticks)
+	public static void updateStaminaScore(DPlayer dplayer, int passedTicks)
 	{
 		Validate.notNull(dplayer, "DPlayer musn't be null for setting Scoreboards.");
-		Scoreboard score = getScoreProgressBar(dplayer);
-		ticks = Math.abs(ticks);
+		final int ticks = Math.abs(passedTicks);
 		
-		setScoreBoard(dplayer, score);
+		Scoreboard board = manager.getNewScoreboard();
 		
-		if (dplayer.getStaminaBoardStay()) return;
-		resetScoreboardTask(dplayer, ticks);
+		Bukkit.getScheduler().runTaskAsynchronously(DeriusCore.get(), () ->
+		{
+			Scoreboard score = loadScoreBoardProgressBar(dplayer, board);
+		
+		
+			setScoreBoard(dplayer, score);
+		
+			if (dplayer.getStaminaBoardStay()) return;
+			resetScoreboardTask(dplayer, ticks);
+		});
 		
 		return;
 	}
@@ -96,9 +103,8 @@ public class ScoreboardUtil
 	// PRIVATE SCOREBOARD METHODS
 	// -------------------------------------------- //
 	
-	private static Scoreboard getScoreProgressBar(DPlayer dplayer)
+	private static Scoreboard loadScoreBoardProgressBar(DPlayer dplayer, Scoreboard board)
 	{
-		Scoreboard board = manager.getNewScoreboard();
 		Objective objective = board.registerNewObjective("derius_stamina", "dummy");
 		
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);

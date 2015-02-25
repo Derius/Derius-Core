@@ -1,14 +1,14 @@
 package dk.muj.derius.events;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.events.player.DPlayerEvent;
-import dk.muj.derius.lib.CancellableEvent;
 
-public class AbilityActivateEvent extends DeriusEvent implements CancellableEvent, AbilityEvent, DPlayerEvent
+public class AbilityActivateEvent extends DeriusEvent implements Cancellable, AbilityEvent, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -27,6 +27,10 @@ public class AbilityActivateEvent extends DeriusEvent implements CancellableEven
 	
 	private DPlayer dplayer;
 	public DPlayer getDPlayer() { return dplayer; }
+	
+	private boolean cancelled = false;
+	public boolean isCancelled() { return this.cancelled; }
+	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

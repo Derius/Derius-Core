@@ -1,16 +1,16 @@
 package dk.muj.derius.events;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.lib.CancellableEvent;
 
 /**
  * This event is called when a skill is registered into the system.
  * Note the same skills will be registered on server startup each time.
  */
-public class SkillRegisteredEvent extends DeriusEvent implements CancellableEvent, SkillEvent
+public class SkillRegisteredEvent extends DeriusEvent implements Cancellable, SkillEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -26,6 +26,10 @@ public class SkillRegisteredEvent extends DeriusEvent implements CancellableEven
 	
 	private final Skill skill;
 	public Skill getSkill() { return skill; }
+	
+	private boolean cancelled = false;
+	public boolean isCancelled() { return this.cancelled; }
+	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

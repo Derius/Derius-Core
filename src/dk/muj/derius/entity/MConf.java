@@ -64,7 +64,7 @@ public class MConf extends Entity<MConf>
 	/**
 	 * How long the stamina scoreboard stays
 	 */
-	public long staminaBoardStay = 100;
+	public int staminaBoardStay = 100;
 
 	public int staminaRegenSeconds = 3*60;
 	
@@ -72,6 +72,8 @@ public class MConf extends Entity<MConf>
 	public double staminaSprintMultiplier = 0.0;
 	public double staminaSneakMultiplier = 1.5;
 	public double staminaWalkMultiplier = 0.8;
+	
+	public double staminaBlockSprintIfLower = 50;
 	
 	// -------------------------------------------- //
 	// COMMAND ALIASES

@@ -47,18 +47,11 @@ public class TaskPlayerStaminaUpdate extends Task
 			
 
 			// EXAMPLE 300*600 / 60000 = 3
-			double stamina = (dplayer.getStaminaMax()*timesPerMinute) / DeriusAPI.staminaRegenTime(dplayer);
+			double stamina = (dplayer.getStaminaMax()*timesPerMinute) / DeriusAPI.staminaRegenTime(player);
 			
 			stamina *= DeriusAPI.getStaminaMultiplier(player);
-			if (stamina < 0)
-			{
-				stamina = -stamina;
-				dplayer.takeStamina(stamina);
-			}
-			else
-			{
-				dplayer.addStamina(stamina);
-			}
+			
+			dplayer.addStamina(stamina);
 		}
 		return;
 	}

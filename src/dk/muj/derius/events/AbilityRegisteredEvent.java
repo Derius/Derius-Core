@@ -1,12 +1,12 @@
 package dk.muj.derius.events;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.Ability;
-import dk.muj.derius.lib.CancellableEvent;
 
-public class AbilityRegisteredEvent extends DeriusEvent implements CancellableEvent, AbilityEvent
+public class AbilityRegisteredEvent extends DeriusEvent implements Cancellable, AbilityEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -23,6 +23,10 @@ public class AbilityRegisteredEvent extends DeriusEvent implements CancellableEv
 	
 	private final Ability ability;
 	public Ability getAbility() { return ability; }
+	
+	private boolean cancelled = false;
+	public boolean isCancelled() { return this.cancelled; }
+	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
