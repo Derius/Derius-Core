@@ -246,21 +246,29 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	private transient double staminaMaxCach = 0;
 	public double getStaminaMax()
 	{
+		// Use the cache
 		staminaLastCall++;
 		if (this.staminaLastCall % STAMINA_MAX_ATTEMPTS != 0)
 		{
 			return staminaMaxCach;
 		}
+		
+		// Now actual try
 		double ret = 0.0;
 		
 		ret += MConf.get().staminaMax;
-		
+	
+		// Event to update values
 		StaminaMaxEvent event = new StaminaMaxEvent(this);
 		event.run();
 		
 		for (Double bonus : this.getStaminaBonus().values())
 		{
+			// Bonus is valid
 			if (bonus == null) continue;
+			if (bonus.isNaN()) continue;
+			if (bonus.isInfinite()) continue;
+			
 			ret += bonus;
 		}
 		
@@ -364,7 +372,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		event.run();
 		int ret = MConf.get().baseSpSlot;
 		
-		ret += this.getSpecialisationSlotBonus().values().stream().mapToInt(Integer::intValue).sum();
+		for (Integer bonus : this.getSpecialisationSlotBonus().values())
+		{
+			if (bonus == null) continue;
+			ret += bonus;
+		}
 		
 		return ret;
 	}

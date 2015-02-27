@@ -9,9 +9,9 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.lib.Task;
+import dk.muj.derius.lib.scheduler.RepeatingTask;
 
-public class TaskPlayerStaminaUpdate extends Task
+public class TaskPlayerStaminaUpdate extends RepeatingTask
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT

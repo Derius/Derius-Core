@@ -9,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,7 +16,6 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.util.EventUtil;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
@@ -30,7 +28,6 @@ import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.events.SkillRegisteredEvent;
-import dk.muj.derius.events.player.PlayerDamageEvent;
 import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
 import dk.muj.derius.req.ReqIsEnabled;
 import dk.muj.derius.req.sp.ReqHasOpenSlot;
@@ -251,57 +248,5 @@ public class MainEngine extends EngineAbstract
 		
 		event.setExpAmount(exp);
 	}*/
-	
-	// -------------------------------------------- //
-	// PLAYER TAKE DAMAGE
-	// -------------------------------------------- //
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onEntityDamageLowest(EntityDamageEvent event)
-	{
-		if ( ! (event.getEntity() instanceof Player)) return;
-		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
-		EventUtil.callEventAt(thrown, EventPriority.LOWEST);
-	}
-
-	@EventHandler(priority = EventPriority.LOW)
-	public void onEntityDamageLow(EntityDamageEvent event)
-	{
-		if ( ! (event.getEntity() instanceof Player)) return;
-		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
-		EventUtil.callEventAt(thrown, EventPriority.LOW);
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onEntityDamageNormal(EntityDamageEvent event)
-	{
-		if ( ! (event.getEntity() instanceof Player)) return;
-		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
-		EventUtil.callEventAt(thrown, EventPriority.NORMAL);
-	}
-	
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onEntityDamageHigh(EntityDamageEvent event)
-	{
-		if ( ! (event.getEntity() instanceof Player)) return;
-		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
-		EventUtil.callEventAt(thrown, EventPriority.HIGH);
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onEntityDamageHighest(EntityDamageEvent event)
-	{
-		if ( ! (event.getEntity() instanceof Player)) return;
-		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
-		EventUtil.callEventAt(thrown, EventPriority.HIGHEST);
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onEntityDamageMonitor(EntityDamageEvent event)
-	{
-		if ( ! (event.getEntity() instanceof Player)) return;
-		PlayerDamageEvent thrown = new PlayerDamageEvent(event);
-		EventUtil.callEventAt(thrown, EventPriority.MONITOR);
-	}
 
 }

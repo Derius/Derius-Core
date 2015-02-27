@@ -1,16 +1,14 @@
 package dk.muj.derius.events.player;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.events.DeriusEvent;
 
 /**
  * This event is thrown when stamina is taken from a player
  */
-public class PlayerStaminaTakeEvent extends DeriusEvent implements Cancellable, DPlayerEvent
+public class PlayerStaminaTakeEvent extends PlayerStaminaUpdateEvent implements Cancellable, DPlayerEvent
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -21,31 +19,12 @@ public class PlayerStaminaTakeEvent extends DeriusEvent implements Cancellable, 
 	public static HandlerList getHandlerList() { return handlers; }
 	
 	// -------------------------------------------- //
-	// FIELDS
-	// -------------------------------------------- //
-	
-	private final DPlayer dplayer;
-	public DPlayer getDPlayer() { return dplayer; }
-	
-	private double amount;
-	public double getStaminaAmount() { return amount; }
-	public void setStaminaAmount(double staminaAmount) { this.amount = staminaAmount; }
-	
-	private boolean cancelled = false;
-	public boolean isCancelled() { return this.cancelled; }
-	public void setCancelled(boolean cancel) { this.cancelled = cancel; }
-	
-	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
 	public PlayerStaminaTakeEvent(DPlayer dplayer, double stamina)
 	{
-		Validate.notNull(dplayer, "dplayer mustn't be null");
-		
-		this.dplayer = dplayer;
-		this.amount = stamina;
-		
+		super(dplayer, stamina);
 	}
 	
 	// -------------------------------------------- //
@@ -65,14 +44,14 @@ public class PlayerStaminaTakeEvent extends DeriusEvent implements Cancellable, 
 	@Override
 	public boolean equals(Object obj)
 	{		
-		if (obj == null) return false;
+		if (obj == this) return true;
 		if ( ! (obj instanceof PlayerStaminaTakeEvent)) return false;
 		PlayerStaminaTakeEvent that = (PlayerStaminaTakeEvent) obj;
 	
-		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
-		if (this.getDPlayer() == that.getDPlayer()) return true;
+		if (this.getStaminaAmount() != that.getStaminaAmount()) return false;
+		if (this.getDPlayer() != that.getDPlayer()) return false;
 		
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -81,7 +60,7 @@ public class PlayerStaminaTakeEvent extends DeriusEvent implements Cancellable, 
 		int result = 1;
 		int prime = 31;
 		
-		// We can't use the amount in equals & hashcode, because it can be changed and this is used as a hashmap key.
+		result += this.getStaminaAmount() * prime;
 		result += this.getDPlayer().hashCode() * prime;
 		
 		return result;

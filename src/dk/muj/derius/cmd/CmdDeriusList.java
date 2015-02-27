@@ -49,7 +49,7 @@ public class CmdDeriusList extends DeriusCommand
 			@Override
 			public String toString(Skill skill, int index)
 			{
-				return Txt.parse("%s: %s", skill.getDisplayName(dsender), skill.getDesc());
+				return Txt.parse("%s: <i>%s", skill.getDisplayName(dsender), skill.getDesc());
 			}
 		});
 		

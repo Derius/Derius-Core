@@ -6,14 +6,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
+import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
+import dk.muj.derius.api.MillisLastCalculator;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
-import dk.muj.derius.api.TicksLastCalculator;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.events.AbilityRegisteredEvent;
@@ -37,9 +38,9 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public String getDesc() { return desc; }
 	public void setDesc(String newDescription) { this.desc = newDescription; }
 	
-	private int ticksCooldown = 20*60*2;
-	public void setTicksCooldown(int ticks) { this.ticksCooldown = ticks; }
-	public int getCooldownTicks() { return this.ticksCooldown; }
+	private int millisCooldown = 1000*60*2;
+	public void setMillisCooldown(int millis) { this.millisCooldown = millis; }
+	public int getCooldownMillis() { return this.millisCooldown; }
 	
 	private WorldExceptionSet worldsUse = new WorldExceptionSet();
 	public WorldExceptionSet getWorldsUse() { return this.worldsUse; }
@@ -64,10 +65,10 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public void addActivateRequirements(Req... requirements) { this.activateRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// Lambda
-	private transient TicksLastCalculator levelToTicks = level -> (2 + level/50 * 20);
-	public int getDuration(int level) { return this.levelToTicks.calcDuration(level); }
-	public final void setDurationAlgorithm(TicksLastCalculator algorithm){ this.levelToTicks = algorithm; }
-	public final TicksLastCalculator getDurationAlgorithm(){ return this.levelToTicks; }
+	private transient MillisLastCalculator levelToTicks = level -> ((2 + level/50) * (int) TimeUnit.MILLIS_PER_SECOND);
+	public int getDurationMillis(int level) { return this.levelToTicks.calcDuration(level); }
+	public final void setDurationAlgorithm(MillisLastCalculator algorithm){ this.levelToTicks = algorithm; }
+	public final MillisLastCalculator getDurationAlgorithm(){ return this.levelToTicks; }
 	
 	// -------------------------------------------- //
 	// OVERRIDE: ENTITY
@@ -79,7 +80,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 		if (that == null || that == this) return that;
 		
 		this.enabled		= that.enabled;
-		this.ticksCooldown	= that.ticksCooldown;
+		this.millisCooldown	= that.millisCooldown;
 		this.staminaUsage	= that.staminaUsage;
 		
 		if (that.name != null) this.name = that.name;

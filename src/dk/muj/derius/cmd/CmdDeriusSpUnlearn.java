@@ -60,6 +60,8 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 			return;
 		}
 		
+		dsender.setNotSpecialisedIn(skill);
+		
 		msg(MLang.get().specialisationRemoved, skill.getDisplayName(dsender));
 		
 		return;

@@ -43,17 +43,16 @@ public class ScoreboardUtil
 	 * @param {DPlayer} the player we want to update
 	 * @param {int} the amount of ticks we want it to be shown
 	 */
-	public static void updateStaminaScore(DPlayer dplayer, int passedTicks)
+	public static void updateStaminaScore(DPlayer dplayer, final int ticks)
 	{
 		Validate.notNull(dplayer, "DPlayer musn't be null for setting Scoreboards.");
-		final int ticks = Math.abs(passedTicks);
+		Validate.isTrue(ticks > 0, "ticks must be positive");
 		
 		Scoreboard board = manager.getNewScoreboard();
 		
 		Bukkit.getScheduler().runTaskAsynchronously(DeriusCore.get(), () ->
 		{
 			Scoreboard score = loadScoreBoardProgressBar(dplayer, board);
-		
 		
 			setScoreBoard(dplayer, score);
 		

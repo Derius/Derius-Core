@@ -37,10 +37,10 @@ public enum Perm implements MPerm
 	SKILL						("skill",				0, "see skill info"),
 	SPECIALISATION				("sp",					0, "specialisation basecommand"),
 	SPECIALISATION_INFO			("sp.info",				0, "specialisation info"),
-	SPECIALISATION_LEARN		("sp.learn",			0, "specialise in skill"),
+	SPECIALISATION_LEARN		("sp.learn",			0, "specialise in a skill"),
 	SPECIALISATION_LIST			("sp.list",				0, "list specialisations"), 
 	SPECIALISATION_LIST_OTHER	("sp.list.other",		0, "list others specialisations"),
-	SPECIALISATION_UNLEARN		("sp.unlearn",			0, "unspecialise"), 
+	SPECIALISATION_UNLEARN		("sp.unlearn",			0, "unspecialise in a skill"), 
 	VERSION						("version",				0, "see plugin version"),
 
 	// END OF LIST

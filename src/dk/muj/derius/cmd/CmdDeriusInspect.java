@@ -46,7 +46,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		DPlayer dplayer = this.arg(0, ARDPlayer.getAny(), dsender);
 		int pageHumanBased = this.arg(1, ARInteger.get(), 1);
 		
-		if (dplayer != dsender && Perm.INSPECT_OTHERS.has(dsender.getSender(),true)) return;
+		if (dplayer != dsender && Perm.INSPECT_OTHERS.has(dsender.getSender(), true)) return;
 		
 		String title =  (dplayer == dsender) ? Txt.parse("<green>Your Skills") 
 				: Txt.parse("%s's <green>Skills", dplayer.getDisplayName(dsender));
@@ -62,7 +62,7 @@ public class CmdDeriusInspect extends DeriusCommand
 			@Override
 			public String toString(Skill skill, int index)
 			{
-				return Txt.parse("%s: %s", skill.getDisplayName(dsender), dsender.getLvlStatus(skill).toString());
+				return Txt.parse("%s: %s", skill.getDisplayName(dplayer), dplayer.getLvlStatus(skill).toString());
 			}
 			
 		});

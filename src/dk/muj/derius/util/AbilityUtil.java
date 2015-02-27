@@ -3,7 +3,7 @@ package dk.muj.derius.util;
 import java.util.Optional;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
@@ -13,6 +13,7 @@ import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.events.AbilityActivateEvent;
 import dk.muj.derius.events.AbilityDeactivateEvent;
+import dk.muj.derius.lib.scheduler.TempTask;
 
 public final class AbilityUtil
 {
@@ -90,9 +91,17 @@ public final class AbilityUtil
 	{	
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(ability, "ability mustn't be null");
+		Validate.notNull(verboseLevel, "verboselevel mustn't be null");
 		
 		// CHECKS
 		if ( ! AbilityUtil.canPlayerActivateAbility(dplayer, ability, verboseLevel)) return null;
+		
+		// STAMINA
+		dplayer.takeStamina(ability.getStaminaUsage());
+		
+		// EVENT
+		AbilityActivateEvent event = new AbilityActivateEvent(ability, dplayer);
+		if ( ! event.runEvent()) return null;
 		
 		// ACTIVATE
 		if (ability.getType() == AbilityType.PASSIVE)
@@ -104,6 +113,7 @@ public final class AbilityUtil
 			return activateActiveAbility(dplayer, ability, other);
 		}
 		
+		// This might be cruel but will actually help squash bugs faster.
 		throw new RuntimeException("Passed abiliy does not have a valid ability type");
 	}
 	
@@ -126,14 +136,7 @@ public final class AbilityUtil
 		
 		ability.onDeactivate(dplayer, other);
 		dplayer.setActivatedAbility(Optional.empty());
-		dplayer.setCooldownExpireIn(ability.getCooldownTicks());
-		
-		// Stamina
-		double staminaUsage = ability.getStaminaUsage();
-		if ( ! (staminaUsage < 0.0))
-		{
-			dplayer.takeStamina(staminaUsage);
-		}
+		dplayer.setCooldownExpireInMillis(ability.getCooldownMillis());
 	}
 	
 	// -------------------------------------------- //
@@ -143,30 +146,33 @@ public final class AbilityUtil
 	private static Object activatePassiveAbility(DPlayer dplayer, final Ability ability, Object other)
 	{
 		Validate.isTrue(ability.getType() == AbilityType.PASSIVE, "abilitytype must be passive");
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, dplayer);
-		e.run();
-		if (e.isCancelled()) return Optional.empty();
 	
-		return ability.onActivate(dplayer, other);
+		final Object obj = ability.onActivate(dplayer, other);
+		
+		ability.onDeactivate(dplayer, other);
+		
+		return obj;
 	}
 	
 	private static Object activateActiveAbility(final DPlayer dplayer, final Ability ability, Object other)
 	{
 		Validate.isTrue(ability.getType() == AbilityType.ACTIVE, "abilitytype must be active");
 		if (dplayer.hasActivatedAny()) return null;
-		
-		AbilityActivateEvent e = new AbilityActivateEvent(ability, dplayer);
-		Bukkit.getPluginManager().callEvent(e);
-		if (e.isCancelled()) return null;
-		
+
 		dplayer.setActivatedAbility(Optional.of(ability));
 		
 		dplayer.setPreparedTool(Optional.empty());
 
 		final Object obj = ability.onActivate(dplayer, other);
+		int duration = ability.getDurationMillis(dplayer.getLvl(ability.getSkill()));
 		
-		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), () -> deactivateActiveAbility(dplayer, obj),
-				ability.getDuration(dplayer.getLvl(ability.getSkill())));
+		TempTask run = new TempTask(duration, 1)
+		{
+			public void invoke() { deactivateActiveAbility(dplayer, obj); }
+			public Plugin getPlugin() { return DeriusCore.get(); }
+		};
+		
+		run.activate();
 		
 		return obj;
 	}

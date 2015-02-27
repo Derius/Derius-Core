@@ -64,7 +64,7 @@ public class MConf extends Entity<MConf>
 	/**
 	 * How long the stamina scoreboard stays
 	 */
-	public int staminaBoardStay = 100;
+	public int staminaBoardStay = 200;
 
 	public int staminaRegenSeconds = 3*60;
 	

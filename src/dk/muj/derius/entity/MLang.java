@@ -20,8 +20,8 @@ public class MLang extends Entity<MConf>
 	public String levelUp ="<i>You leveled up to level <lime>%s<i> in <aqua>%s<i>.";
 	public String exhausted = "<b>You are still exhausted. <i>You will be ready again in %s";
 	
-	public String levelStatusFormat = "<navy>LVL: <lime>%s  <navy>XP: <lime>%s<yellow>/<lime>%s";
-	public String levelStatusFormatMini = "<navy>LVL: <lime>%s";
+	public String levelStatusFormat = "<yellow>LVL: <h>%s  <yellow>XP: <silver><<aqua>%s<lime> / <aqua>%s<silver>>";
+	public String levelStatusFormatMini = "<yellow>LVL: <h>%s";
 	
 	public String toolPrepared = "<i>You prepared your <h>%s";
 	public String toolNotPrepared = "<i>You lowered your <h>%s";
@@ -50,11 +50,12 @@ public class MLang extends Entity<MConf>
 	// -------------------------------------------- //
 	// MESSAGES: SKILLS
 	// -------------------------------------------- //
+
+	public String skillInfoExpGain = "<k>Exp Gain: <i>";
+	public String skillInfoAbilities = "<art>____.[<aqua> Abilities <art>].____";
+	public String skillInfoLevelStats = "<art>____.[<aqua> Level Stats <art>].____";
 	
-	public String skillInfoAbilities 	= "<art>____[<aqua> Abilities <art>]____";
-	public String skillInfoLevelStats	= "<art>____[<aqua>Level Stats<art>]____";
-	
-	public String skillColorPlayerCanUse = "<aqua>";
+	public String skillColorPlayerCanUse = "<lime>";
 	public String skillColorPlayerCantUse = "<grey>";
 	public String skillColorPlayerIsSpecialised = "<gold>";	
 	
@@ -70,8 +71,8 @@ public class MLang extends Entity<MConf>
 	public String specialisationIsnt = "<b>You do not have the Skill %s <b>specialised";
 	
 	public String specialisationCantChange = "<b>You cannot change specialisation right now";
-	public String specialisationMoveCooldown = "<b> please stand still for %s <b>more";
-	public String specialisationChangeCooldown = "<b> please wait %s <b>before changing any specialisations";
+	public String specialisationMoveCooldown = "<b>please stand still for %s <b>more";
+	public String specialisationChangeCooldown = "<b>please wait %s <b>before changing any specialisations";
 	
 	public String specialisationInfo = "<i>When you specialise in a skill you are able to exceed level 1000, and reach level 2000."
 			+ " You can only specialise in %s skills. If you unlearn/unspecialise in a skill you get reset back to level 0";

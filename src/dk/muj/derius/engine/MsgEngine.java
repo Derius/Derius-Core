@@ -119,7 +119,7 @@ public class MsgEngine extends EngineAbstract
 		String toolName = toolToString(tool);
 		String message = Txt.parse(MLang.get().toolPrepared, toolName);
 		
-		sendActionBar(dplayer, message);
+		sendActionBar(dplayer.getPlayer(), message);
 		
 		return;
 	}
@@ -132,7 +132,7 @@ public class MsgEngine extends EngineAbstract
 		String toolName = toolToString(tool);
 		String message = Txt.parse(MLang.get().toolNotPrepared, toolName);
 		
-		sendActionBar(dplayer, message);
+		sendActionBar(dplayer.getPlayer(), message);
 		
 		return;
 	}
@@ -141,12 +141,10 @@ public class MsgEngine extends EngineAbstract
 	// UTIL
 	// -------------------------------------------- //
 	
-	public static boolean sendActionBar(DPlayer dplayer, String msg)
+	public static boolean sendActionBar(Player player, String msg)
 	{
 		// Null checks, just in case
-		if (msg == null || dplayer == null) return false;
-		
-		Player player = dplayer.getPlayer();
+		if (msg == null || player == null) return false;
 		
 		// If not a craftplayer, then idk. (Should never happen)
 		if ( ! (player instanceof CraftPlayer)) return false;

@@ -56,6 +56,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		}
 		
 		dsender.setSpecialisedIn(skill, true);
+		msg(MLang.get().specialisationSuccess, skill.getDisplayName(dsender));
 	
 		return;
 	}

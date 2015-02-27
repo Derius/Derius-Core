@@ -45,14 +45,17 @@ public class CmdDeriusSkill extends DeriusCommand
 		LvlStatus status = this.arg(1, ARLvlStatus.get(), dsender.getLvlStatus(skill));
 		
 		// Message construction
-		List<String> msgs = new ArrayList<String>();
+		List<String> msgs = new ArrayList<>();
 		
 		msgs.add(Txt.titleize(skill.getDisplayName(dsender)));	// Title
-		msgs.add("<lime>" + skill.getDesc());			// Description
+		msgs.add("<k>Desc: <i>" + skill.getDesc());			// Description
+		
+		// Exp descs
+		msgs.add(MLang.get().skillInfoExpGain + Txt.implodeCommaAndDot(skill.getEarnExpDescs(), "<lime>, <i>", "<lime>& <i>", "<lime>."));
 		
 		// Swapping between default and user inserted value
 		msgs.add(status.toString());
-
+		
 		// All Abilities
 		msgs.add(MLang.get().skillInfoAbilities);
 		for (Ability ability : skill.getAbilities())

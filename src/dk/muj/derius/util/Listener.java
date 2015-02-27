@@ -54,6 +54,7 @@ public interface Listener
 	 * Registers a block type to listen for (when broken)
 	 * @param {Material} block type to listen for
 	 */
+	@Deprecated
 	public static void registerBlockBreakKey(Listener listener, Material... materials)
 	{
 		Validate.notNull(listener, "listener mustn't be null");
@@ -69,6 +70,7 @@ public interface Listener
 	 * Registers a collection of block types to listen for (when broken)
 	 * @param {Collection<Material>} collection of block types to listen for
 	 */
+	@Deprecated
 	public static void registerBlockBreakKeys(Listener listener, Collection<Material> materials)
 	{
 		Validate.notNull(listener, "listener mustn't be null");
@@ -86,6 +88,7 @@ public interface Listener
 	 * @param {Material} block type key to get
 	 * @return {Listener} The listener listening to this block
 	 */
+	@Deprecated
 	public static Listener getBlockBreakListener(Material material)
 	{
 		return Fields.getBlockBreakKeys().get(material);
@@ -99,6 +102,7 @@ public interface Listener
 	 * Registers a weapon type to listen for when player deals damage
 	 * @param {Material} weapon type to listen for
 	 */
+	@Deprecated
 	public static void registerPlayerAttackKey(Listener listener, Material... materials)
 	{
 		Validate.notNull(listener, "listener mustn't be null");
@@ -114,6 +118,7 @@ public interface Listener
 	 * Registers a collection of weapons to listen for player deals damage
 	 * @param {Collection<Material>} collection of block types to listen for
 	 */
+	@Deprecated
 	public static void registerPlayerAttackKeys(Listener listener, Collection<Material> materials)
 	{
 		Validate.notNull(listener, "listener mustn't be null");
@@ -131,6 +136,7 @@ public interface Listener
 	 * @param {Material} weapon key to get
 	 * @return {Listener} The listener listening for this weapon
 	 */
+	@Deprecated
 	public static Listener getPlayerAttackKeyListener(Material material)
 	{
 		return Fields.getDealDamageKeys().get(material);
@@ -204,6 +210,7 @@ public interface Listener
 	 * @param {DPlayer} player who broke the block
 	 * @param {Block} the block that was broken
 	 */
+	@Deprecated
 	default void onBlockBreak(DPlayer dplayer, BlockState block) {};
 	
 	/**
@@ -211,6 +218,7 @@ public interface Listener
 	 * @param {DPlayer} the player attacking
 	 * @param {EntityDamageByEntityEvent} the event causing this
 	 */
+	@Deprecated
 	default void onPlayerAttack(DPlayer attacker, EntityDamageByEntityEvent event) {};
 
 }
