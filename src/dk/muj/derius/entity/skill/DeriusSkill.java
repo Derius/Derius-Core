@@ -24,8 +24,8 @@ import dk.muj.derius.api.LvlStatusCalculator;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.events.SkillRegisteredEvent;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.events.SkillRegisteredEvent;
 import dk.muj.derius.util.SkillUtil;
 
 public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill

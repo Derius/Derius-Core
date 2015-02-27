@@ -8,11 +8,11 @@ import org.bukkit.plugin.Plugin;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.Ability.AbilityType;
+import dk.muj.derius.api.events.AbilityActivateEvent;
+import dk.muj.derius.api.events.AbilityDeactivateEvent;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.events.AbilityActivateEvent;
-import dk.muj.derius.events.AbilityDeactivateEvent;
 import dk.muj.derius.lib.scheduler.TempTask;
 
 public final class AbilityUtil

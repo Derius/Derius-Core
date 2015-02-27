@@ -16,8 +16,8 @@ import dk.muj.derius.api.MillisLastCalculator;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.events.AbilityRegisteredEvent;
 import dk.muj.derius.entity.MLang;
-import dk.muj.derius.events.AbilityRegisteredEvent;
 import dk.muj.derius.util.AbilityUtil;
 
 public abstract class DeriusAbility extends Entity<DeriusAbility> implements Ability
