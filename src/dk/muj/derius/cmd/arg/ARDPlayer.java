@@ -1,13 +1,9 @@
 package dk.muj.derius.cmd.arg;
 
-import org.bukkit.command.CommandSender;
-
-import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.cmd.arg.ARSenderIdAbstract;
 import com.massivecraft.massivecore.cmd.arg.ArgReader;
-import com.massivecraft.massivecore.cmd.arg.ArgReaderAbstract;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 
 
@@ -17,10 +13,8 @@ public class ARDPlayer
 	// INNER INSTANCE
 	// -------------------------------------------- //
 	
-	private static ArgReader<MPlayer> innerAny = MPlayerColl.get().getAREntity();
-
+	public static ArgReader<DPlayer> getAny() { return any; }
 	
-	private static ArgReader<MPlayer> innerOnline = MPlayerColl.get().getAREntity(true);
 	public static ArgReader<DPlayer> getOnline() { return online; }
 	
 	
@@ -28,21 +22,14 @@ public class ARDPlayer
 	// DPLAYER
 	// -------------------------------------------- //
 	
-	public static ArgReader<DPlayer> getAny() { return any; }
-	private static ArgReader<DPlayer> any = new ArgReaderAbstract<DPlayer>()
+	private static ArgReader<DPlayer> any = new ARSenderIdAbstract<DPlayer>(MPlayerColl.get(), false)
 	{
-		public DPlayer read(String arg, CommandSender sender) throws MassiveException
-		{
-			return innerAny.read(arg, sender);
-		}
+		public DPlayer getResultForSenderId(String senderId) { return MPlayerColl.get().get(senderId); }
 	};
 	
-	private static ArgReader<DPlayer> online = new ArgReaderAbstract<DPlayer>()
+	private static ArgReader<DPlayer> online = new ARSenderIdAbstract<DPlayer>(MPlayerColl.get(), true)
 	{
-		public DPlayer read(String arg, CommandSender sender) throws MassiveException
-		{
-			return innerOnline.read(arg, sender);
-		}
+		public DPlayer getResultForSenderId(String senderId) { return MPlayerColl.get().get(senderId); }
 	};
 	
 }

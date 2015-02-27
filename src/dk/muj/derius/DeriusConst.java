@@ -1,7 +1,7 @@
 package dk.muj.derius;
 
 // This class stores all constants that are used in Derius.
-public class Const 
+public class DeriusConst 
 {
 	// -------------------------------------------- //
 	// DATABASE
@@ -10,11 +10,11 @@ public class Const
 	public static final String BASENAME = "derius";
 	public static final String BASENAME_ = BASENAME + "_";
 	
-	public static final String COLLECTION_MPLAYER = BASENAME_	+ "mplayer";
-	public static final String COLLECTION_MCONF	= BASENAME_	+ "mconf";
-	public static final String COLLECTION_MLANG	= BASENAME_	+ "mlang";
-	public static final String COLLECTION_SKILLS = BASENAME_	+ "skills";
-	public static final String COLLECTION_ABILITIES	= BASENAME_	+ "abilities";
+	public static final String COLLECTION_MPLAYER = BASENAME_ + "players";
+	public static final String COLLECTION_MCONF	= BASENAME_	+ "config";
+	public static final String COLLECTION_MLANG	= BASENAME_	+ "lang";
+	public static final String COLLECTION_SKILLS = BASENAME_ + "skills";
+	public static final String COLLECTION_ABILITIES	= BASENAME_ + "abilities";
 	
 	// -------------------------------------------- //
 	// REFLECTION

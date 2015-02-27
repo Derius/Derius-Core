@@ -7,7 +7,7 @@ import java.util.Set;
 import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
-import dk.muj.derius.Const;
+import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Skill;
 
@@ -21,16 +21,29 @@ public class SkillColl extends Coll<DeriusSkill>
 	public static SkillColl get() { return i; }
 	private SkillColl()
 	{
-		super(Const.COLLECTION_SKILLS, DeriusSkill.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_SKILLS, DeriusSkill.class, MStore.getDb(), DeriusCore.get());
 		this.setLowercasing(true);
 		this.setCreative(false);
 	}
 	
+	// -------------------------------------------- //
+	// STACK TRACEABILITY
+	// -------------------------------------------- //
+	
 	@Override
-	public void init()
+	public void onTick()
 	{
-		super.init();
-		DeriusCore.get().log("init skill coll");
+		super.onTick();
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: COLL
+	// -------------------------------------------- //
+	
+	@Override
+	public DeriusSkill createNewInstance()
+	{
+		return new GsonSkill();
 	}
 	
 	// -------------------------------------------- //
@@ -49,16 +62,6 @@ public class SkillColl extends Coll<DeriusSkill>
 		}
 		
 		return skills;
-	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE: COLL
-	// -------------------------------------------- //
-	
-	@Override
-	public DeriusSkill createNewInstance()
-	{
-		return new GsonSkill();
 	}
 	
 }

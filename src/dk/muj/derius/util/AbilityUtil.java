@@ -151,6 +151,8 @@ public final class AbilityUtil
 		
 		ability.onDeactivate(dplayer, other);
 		
+		dplayer.setCooldownExpireInMillis(ability.getCooldownMillis());
+		
 		return obj;
 	}
 	

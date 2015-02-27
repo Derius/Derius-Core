@@ -3,6 +3,7 @@ package dk.muj.derius.entity.skill;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,6 +12,7 @@ import org.bukkit.Material;
 import com.massivecraft.massivecore.collections.WorldExceptionSet;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.Txt;
+import com.massivecraft.massivecore.xlib.gson.JsonElement;
 import com.massivecraft.massivecore.xlib.gson.JsonObject;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
@@ -65,7 +67,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	@Override public void setIcon(Material icon) { this.icon = icon; }
 	
 	// -------------------------------------------- //
-	// FIELDS: CONFIGURIVE
+	// FIELDS: CONFIGURITIVE
 	// -------------------------------------------- //
 	
 	private int softCap = 1000;
@@ -90,7 +92,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	
 	// Configuration
 	protected JsonObject configuration = new JsonObject();
-	public Object getConfiguration() { return this.configuration; }
+	public JsonObject getConfiguration() { return this.configuration; }
 	public void setConfiguration(JsonObject conf) { this.configuration = conf; }
 	
 	// -------------------------------------------- //
@@ -153,7 +155,12 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 		if (that.earnExpDescs != null)this.earnExpDescs = that.earnExpDescs;
 		if (that.icon != null) this.icon = that.icon;
 		if (that.worldsEarn != null) this.worldsEarn = that.worldsEarn;
-		if (that.configuration != null) this.configuration = that.configuration;
+		
+		// If one of them has keys the other doesn't, they are now merged.
+		for(Entry<String, JsonElement> entry: that.configuration.entrySet())
+		{
+			this.configuration.add(entry.getKey(), entry.getValue());
+		}
 		
 		return this;
 	}
@@ -185,7 +192,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	@Override
 	public boolean isRegistered()
 	{
-		return SkillColl.getAllSkills().contains(this);
+		return this.attached();
 	}
 	
 	// -------------------------------------------- //
@@ -304,8 +311,7 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	@Override
 	public String toString()
 	{
-		return getName();
+		return this.getName();
 	}
-
 	
 }

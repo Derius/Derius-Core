@@ -7,7 +7,7 @@ import java.util.Set;
 import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
-import dk.muj.derius.Const;
+import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
 
@@ -21,9 +21,19 @@ public class AbilityColl extends Coll<DeriusAbility>
 	public static AbilityColl get() { return i; }
 	private AbilityColl()
 	{
-		super(Const.COLLECTION_ABILITIES, DeriusAbility.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_ABILITIES, DeriusAbility.class, MStore.getDb(), DeriusCore.get());
 		this.setLowercasing(true);
 		this.setCreative(false);
+	}
+	
+	// -------------------------------------------- //
+	// STACK TRACEABILITY
+	// -------------------------------------------- //
+	
+	@Override
+	public void onTick()
+	{
+		super.onTick();
 	}
 	
 	// -------------------------------------------- //

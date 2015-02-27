@@ -133,7 +133,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 		
 		// The "core" field
 		Class<DeriusAPI> apiClass = DeriusAPI.class;
-		Field coreField = ReflectionUtil.getField(apiClass, Const.API_DERIUS_FIELD);
+		Field coreField = ReflectionUtil.getField(apiClass, DeriusConst.API_DERIUS_FIELD);
 		if (coreField == null) return; // Avoid useless NPE
 		ReflectionUtil.makeAccessible(coreField);
 		ReflectionUtil.setField(coreField, null, this);

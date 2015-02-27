@@ -3,7 +3,7 @@ package dk.muj.derius.entity;
 import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
-import dk.muj.derius.Const;
+import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 
 public class MConfColl extends Coll<MConf>
@@ -16,7 +16,17 @@ public class MConfColl extends Coll<MConf>
 	public static MConfColl get() { return i; }
 	private MConfColl()
 	{
-		super(Const.COLLECTION_MCONF, MConf.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_MCONF, MConf.class, MStore.getDb(), DeriusCore.get());
+	}
+	
+	// -------------------------------------------- //
+	// STACK TRACEABILITY
+	// -------------------------------------------- //
+	
+	@Override
+	public void onTick()
+	{
+		super.onTick();
 	}
 	
 	// -------------------------------------------- //

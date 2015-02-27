@@ -50,6 +50,10 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public void setStaminaUsage(double stamina) { this.staminaUsage = stamina; }
 	public double getStaminaUsage() { return this.staminaUsage; }
 	
+	private double staminaMultiplier = 1.0;
+	public void setStaminaMultiplier(double multiplier) { this.staminaMultiplier = multiplier; }
+	public double getStaminaMultiplier() { return this.staminaMultiplier; }
+	
 	private transient AbilityType type;
 	public AbilityType getType() { return this.type; }
 	public void setType(AbilityType newType){ this.type = newType; }

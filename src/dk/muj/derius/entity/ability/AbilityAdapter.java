@@ -12,6 +12,7 @@ import com.massivecraft.massivecore.xlib.gson.JsonSerializationContext;
 import com.massivecraft.massivecore.xlib.gson.JsonSerializer;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.Ability.AbilityType;
 
 /**
  * This adapter exists so we can have a MStore coll with abilities
@@ -31,20 +32,20 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 	// -------------------------------------------- //
 	
 	// Enabled
-	public static final String ENABLED			= "Enabled";
+	public static final String ENABLED = "Enabled";
 	
 	// Descriptive fields
-	public static final String NAME				= "Name";
-	public static final String DESC				= "Description";
+	public static final String NAME = "Name";
+	public static final String DESC = "Description";
 	
 	// Cooldown
-	public static final String MILLIS_COOLDOWN	= "Cooldown Millis";
+	public static final String MILLIS_COOLDOWN = "Cooldown Millis";
 	
 	// Stamina
-	public static final String STAMINA_USAGE	= "Stamina Usage";
-	
+	public static final String STAMINA_USAGE = "Stamina Usage";
+	public static final String STAMINA_MULTIPLIER = "Stamina Multiplier";
 	// Worlds use
-	public static final String WORLDS_USE		= "Worlds Use Enabled";
+	public static final String WORLDS_USE = "Worlds Use Enabled";
 	
 	// -------------------------------------------- //
 	// SERIALIZE
@@ -77,6 +78,13 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 		// stamina usage
 		val = DeriusCore.get().gson.toJsonTree(src.getStaminaUsage());
 		ret.add(STAMINA_USAGE, val);
+		
+		// Since this only makes sense for active abilities. We won't confuse our users.
+		if (src.getType() == AbilityType.ACTIVE)
+		{
+			val = DeriusCore.get().gson.toJsonTree(src.getStaminaMultiplier());
+			ret.add(STAMINA_MULTIPLIER, val);
+		}
 		
 		// Description
 		val = DeriusCore.get().gson.toJsonTree(src.getWorldsUse());
@@ -134,6 +142,13 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 			val = jsonAbility.get(STAMINA_USAGE);
 			double stamina = DeriusCore.get().gson.fromJson(val, Double.class);
 			ret.setStaminaUsage(stamina);
+		}
+		
+		if (jsonAbility.has(STAMINA_MULTIPLIER))
+		{
+			val = jsonAbility.get(STAMINA_MULTIPLIER);
+			double multiplier = DeriusCore.get().gson.fromJson(val, Double.class);
+			ret.setStaminaMultiplier(multiplier);
 		}
 		
 		if (jsonAbility.has(WORLDS_USE))
