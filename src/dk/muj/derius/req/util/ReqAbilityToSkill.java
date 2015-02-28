@@ -1,8 +1,7 @@
 package dk.muj.derius.req.util;
 
-import org.bukkit.command.CommandSender;
-
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 
 public interface ReqAbilityToSkill extends Req
@@ -12,15 +11,15 @@ public interface ReqAbilityToSkill extends Req
 	// -------------------------------------------- //
 	
 	@Override
-	public default boolean apply(CommandSender sender, Ability ability)
+	public default boolean apply(DPlayer dplayer, Ability ability)
 	{
-		return this.apply(sender, ability.getSkill());	
+		return this.apply(dplayer, ability.getSkill());	
 	}
 
 	@Override
-	public default String createErrorMessage(CommandSender sender, Ability ability)
+	public default String createErrorMessage(DPlayer dplayer, Ability ability)
 	{
-		return this.createErrorMessage(sender, ability.getSkill());
+		return this.createErrorMessage(dplayer, ability.getSkill());
 	}
 	
 }

@@ -1,7 +1,6 @@
 package dk.muj.derius.req.util;
 
-import org.bukkit.command.CommandSender;
-
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 
@@ -12,13 +11,13 @@ public interface ReqNoSkill extends Req
 	// -------------------------------------------- //
 	
 	@Override
-	public default boolean apply(CommandSender sender, Skill skill)
+	public default boolean apply(DPlayer dplayer, Skill skill)
 	{
 		throw new UnsupportedOperationException("This req doesn't support skills.");
 	}
 
 	@Override
-	public default String createErrorMessage(CommandSender sender, Skill skill)
+	public default String createErrorMessage(DPlayer dplayer, Skill skill)
 	{
 		throw new UnsupportedOperationException("This req doesn't support skills.");
 	}

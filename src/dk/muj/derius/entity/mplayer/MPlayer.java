@@ -91,9 +91,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	// Which Ability is currently activated.
 	private transient Optional<Ability> activatedAbility = Optional.empty();
-	public boolean hasActivatedAny() { return this.activatedAbility != null; }
+	public boolean hasActivatedAny() { return this.activatedAbility.isPresent(); }
 	public Optional<Ability> getActivatedAbility() { return this.activatedAbility; }
-	public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability; }
+	public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability;}
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
@@ -328,9 +328,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		Validate.notNull(skill, "skill mustn't be null");
 		for (Req req : skill.getSpecialiseRequirements())
 		{
-			if ( ! req.apply(this.getSender(), skill))
+			if ( ! req.apply(this, skill))
 			{
-				if (verbooseNot) this.sendMessage(req.createErrorMessage(this.sender, skill));
+				if (verbooseNot) this.sendMessage(req.createErrorMessage(this, skill));
 				return false;
 			}
 		}

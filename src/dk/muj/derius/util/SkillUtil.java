@@ -50,11 +50,12 @@ public class SkillUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
+		Validate.notNull(verboseLevel, "verboselevel mustn't be null");
 		
  		for (Req req : skill.getSeeRequirements())
  		{
-			if (req.apply(dplayer.getSender(), skill)) continue;
-			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
+			if (req.apply(dplayer, skill)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer, skill));
 			return false;
 			
  		}
@@ -73,11 +74,12 @@ public class SkillUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
+		Validate.notNull(verboseLevel, "verboselevel mustn't be null");
 		
  		for (Req req : skill.getLearnRequirements())
  		{
-			if (req.apply(dplayer.getSender(), skill)) continue;
-			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
+			if (req.apply(dplayer, skill)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer, skill));
 			return false;
  		}
  		return true;
@@ -95,11 +97,12 @@ public class SkillUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(skill, "skill mustn't be null");
+		Validate.notNull(verboseLevel, "verboselevel mustn't be null");
 		
  		for (Req req : skill.getSpecialiseRequirements())
  		{
-			if (req.apply(dplayer.getSender(), skill)) continue;
-			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), skill));
+			if (req.apply(dplayer, skill)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer, skill));
 			return false;
  		}
  		return true;

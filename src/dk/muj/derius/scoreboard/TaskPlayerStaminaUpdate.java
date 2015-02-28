@@ -7,6 +7,7 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.lib.scheduler.RepeatingTask;
@@ -50,6 +51,7 @@ public class TaskPlayerStaminaUpdate extends RepeatingTask
 			double stamina = (dplayer.getStaminaMax()*timesPerMinute) / DeriusAPI.staminaRegenTime(player);
 			
 			stamina *= DeriusAPI.getStaminaMultiplier(player);
+			stamina *= dplayer.getActivatedAbility().map(Ability::getStaminaMultiplier).orElse(1D);
 			
 			dplayer.addStamina(stamina);
 		}

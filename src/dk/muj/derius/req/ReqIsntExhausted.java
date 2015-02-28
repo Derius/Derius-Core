@@ -2,14 +2,11 @@ package dk.muj.derius.req;
 
 import java.util.LinkedHashMap;
 
-import org.bukkit.command.CommandSender;
-
 import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
@@ -40,16 +37,15 @@ public class ReqIsntExhausted implements Req, ReqToDefault
 	// -------------------------------------------- //
 	
 	@Override
-	public boolean apply(CommandSender sender)
+	public boolean apply(DPlayer dplayer)
 	{
-		return DeriusAPI.getDPlayer(sender).isCooldownExpired();
+		return dplayer.isCooldownExpired();
 	}
 	
 	@Override
-	public String createErrorMessage(CommandSender sender)
+	public String createErrorMessage(DPlayer dplayer)
 	{
-		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
-		long expire = mplayer.getCooldownExpireIn();
+		long expire = dplayer.getCooldownExpireIn();
 		LinkedHashMap<TimeUnit, Long> expireUnit = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(expire, TimeUnit.getAll()), 2);
 		String expireDesc = TimeDiffUtil.formatedVerboose(expireUnit, "<i>");
 		

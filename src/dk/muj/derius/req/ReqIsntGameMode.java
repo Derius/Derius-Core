@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
@@ -46,19 +46,19 @@ public class ReqIsntGameMode implements Req, ReqToDefault
 	// -------------------------------------------- //
 	
 	@Override
-	public boolean apply(CommandSender sender)
+	public boolean apply(DPlayer dplayer)
 	{
 		for (GameMode gm : gameModes)
 		{
-			if ( IdUtil.isGameMode(sender, gm, false)) return false;
+			if ( IdUtil.isGameMode(dplayer, gm, false)) return false;
 		}
 		return true;
 	}
 	
 	@Override
-	public String createErrorMessage(CommandSender sender)
+	public String createErrorMessage(DPlayer dplayer)
 	{
-		return Txt.parse(MLang.get().mustNotBeGamemode, Txt.getNicedEnum(IdUtil.getGameMode(sender, null)));
+		return Txt.parse(MLang.get().mustNotBeGamemode, Txt.getNicedEnum(IdUtil.getGameMode(dplayer, null)));
 	}
 
 }

@@ -20,7 +20,6 @@ import dk.muj.derius.DeriusCore;
 import dk.muj.derius.LvlStatusDefault;
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.LvlStatus;
 import dk.muj.derius.api.LvlStatusCalculator;
 import dk.muj.derius.api.Req;
@@ -248,14 +247,13 @@ public abstract class DeriusSkill extends Entity<DeriusSkill> implements Skill
 	// DESCRIPTION
 	// -------------------------------------------- //
 	
-	public String getDisplayedDescription(Object watcherObject)
+	public String getDisplayedDescription(DPlayer dplayer)
 	{
-		return Txt.parse("%s: <i>%s", this.getDisplayName(watcherObject), this.getDesc());
+		return Txt.parse("%s: <i>%s", this.getDisplayName(dplayer), this.getDesc());
 	}
 	
-	public String getDisplayName (Object watcherObject)
+	public String getDisplayName (DPlayer dplayer)
 	{
-		DPlayer dplayer = DeriusAPI.getDPlayer(watcherObject);
 		if (dplayer.isSpecialisedIn(this))
 		{
 			return Txt.parse(MLang.get().skillColorPlayerIsSpecialised + this.getName());

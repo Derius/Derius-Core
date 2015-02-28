@@ -16,16 +16,16 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.util.PlayerUtil;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
-import dk.muj.derius.api.Ability.AbilityType;
-import dk.muj.derius.api.events.AbilityRegisteredEvent;
-import dk.muj.derius.api.events.SkillRegisteredEvent;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.events.AbilityRegisteredEvent;
+import dk.muj.derius.api.events.SkillRegisteredEvent;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
@@ -93,14 +93,7 @@ public class MainEngine extends EngineAbstract
 	{
 		Ability ability = event.getAbility();
 		Skill skill = ability.getSkill();
-		if (ability.getType() == AbilityType.ACTIVE)
-		{
-			skill.getAbilities().add(ability);
-		}
-		else if (ability.getType() == AbilityType.PASSIVE)
-		{
-			skill.getAbilities().add(ability);
-		}
+		skill.getAbilities().add(ability);
 		// Requirements
 		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
 		
@@ -194,9 +187,9 @@ public class MainEngine extends EngineAbstract
 		Action action = event.getAction();
 		if (action != Action.RIGHT_CLICK_AIR) return;
 		
-		DPlayer mplayer = DeriusAPI.getDPlayer(event.getPlayer());
+		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		
-		mplayer.setPreparedTool(Optional.ofNullable(event.getMaterial()));
+		dplayer.setPreparedTool(Optional.ofNullable(event.getMaterial()));
 		
 		return;
 	}

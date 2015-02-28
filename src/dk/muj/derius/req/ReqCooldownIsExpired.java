@@ -2,19 +2,17 @@ package dk.muj.derius.req;
 
 import java.util.LinkedHashMap;
 
-import org.bukkit.command.CommandSender;
-
 import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.req.util.ReqToDefault;
 
+@Deprecated
 public class ReqCooldownIsExpired implements Req, ReqToDefault
 {
 	// -------------------------------------------- //
@@ -40,18 +38,14 @@ public class ReqCooldownIsExpired implements Req, ReqToDefault
 	// -------------------------------------------- //
 
 	@Override
-	public boolean apply(CommandSender sender)
+	public boolean apply(DPlayer dplayer)
 	{
-		DPlayer mplayer = DeriusAPI.getDPlayer(sender);
-		if (mplayer == null) return false;
-		return mplayer.isCooldownExpired();
+		return dplayer.isCooldownExpired();
 	}
 	
 	@Override
-	public String createErrorMessage(CommandSender sender)
+	public String createErrorMessage(DPlayer dplayer)
 	{
-		DPlayer dplayer = DeriusAPI.getDPlayer(sender);
-		if (dplayer == null) return null;
 		long expireMillis = dplayer.getCooldownExpireIn();
 		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.unitcounts(expireMillis, TimeUnit.getAll());
 		String expireDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");

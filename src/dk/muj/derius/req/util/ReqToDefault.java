@@ -1,10 +1,7 @@
 package dk.muj.derius.req.util;
 
-import org.bukkit.command.CommandSender;
-
-import com.massivecraft.massivecore.cmd.MassiveCommand;
-
 import dk.muj.derius.api.Ability;
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
 
@@ -15,15 +12,15 @@ public interface ReqToDefault extends Req
 	// -------------------------------------------- //
 	
 	@Override
-	public default boolean apply(CommandSender sender, Skill skill)
+	public default boolean apply(DPlayer dplayer, Skill skill)
 	{
-		return this.apply(sender);
+		return this.apply(dplayer);
 	}
 
 	@Override
-	public default String createErrorMessage(CommandSender sender, Skill skill)
+	public default String createErrorMessage(DPlayer dplayer, Skill skill)
 	{
-		return this.createErrorMessage(sender);
+		return this.createErrorMessage(dplayer);
 	}
 	
 	// -------------------------------------------- //
@@ -31,31 +28,15 @@ public interface ReqToDefault extends Req
 	// -------------------------------------------- //
 	
 	@Override
-	public default boolean apply(CommandSender sender, Ability ability)
+	public default boolean apply(DPlayer dplayer, Ability ability)
 	{
-		return this.apply(sender);
+		return this.apply(dplayer);
 	}
 
 	@Override
-	public default String createErrorMessage(CommandSender sender, Ability ability)
+	public default String createErrorMessage(DPlayer dplayer, Ability ability)
 	{
-		return this.createErrorMessage(sender);
+		return this.createErrorMessage(dplayer);
 	}
 	
-	// -------------------------------------------- //
-	// OVERRIDE: COMMANDS
-	// -------------------------------------------- //
-	
-	@Override
-	public default boolean apply(CommandSender sender, MassiveCommand cmd)
-	{
-		return this.apply(sender);
-	}
-
-	@Override
-	public default String createErrorMessage(CommandSender sender, MassiveCommand cmd)
-	{
-		return this.createErrorMessage(sender);
-	}
-
 }

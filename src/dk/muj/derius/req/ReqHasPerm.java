@@ -1,10 +1,10 @@
 package dk.muj.derius.req;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
 import com.massivecraft.massivecore.util.PermUtil;
 
+import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.req.util.ReqToDefault;
@@ -43,13 +43,13 @@ public class ReqHasPerm implements Req, ReqToDefault
 	// -------------------------------------------- //
 
 	@Override
-	public boolean apply(CommandSender sender)
+	public boolean apply(DPlayer dplayer)
 	{
-		return PermUtil.has(sender, perm);
+		return PermUtil.has(dplayer.getSender(), perm);
 	}
 	
 	@Override
-	public String createErrorMessage(CommandSender sender)
+	public String createErrorMessage(DPlayer dplayer)
 	{
 		return PermUtil.getDeniedMessage(perm);
 	}

@@ -11,7 +11,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.MillisLastCalculator;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.Skill;
@@ -130,18 +129,15 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	// DISPLAY
 	// -------------------------------------------- //
 	
-	public String getDisplayedDescription(Object watcherObject)
+	public String getDisplayedDescription(DPlayer dplayer)
 	{
-		String name = this.getDisplayName(watcherObject);
-		if (name == null) return null;
+		String name = this.getDisplayName(dplayer);
 		return Txt.parse(MLang.get().abilityDisplayedDescription, name, this.getDesc());
 	}
 	
-	public String getDisplayName(Object watcherObject)
+	public String getDisplayName(DPlayer dplayer)
 	{
-		DPlayer player = DeriusAPI.getDPlayer(watcherObject);
-		if (player == null) return null;
-		String color = AbilityUtil.canPlayerActivateAbility(player, this, VerboseLevel.ALWAYS) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
+		String color = AbilityUtil.canPlayerActivateAbility(dplayer, this, VerboseLevel.ALWAYS) ? MLang.get().abilityColorPlayerCanUse : MLang.get().abilityColorPlayerCantUse;
 		return color + this.getName();
 	}
 

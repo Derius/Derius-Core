@@ -42,11 +42,12 @@ public final class AbilityUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(ability, "ability mustn't be null");
+		Validate.notNull(verboseLevel, "verboselevel mustn't be null");
 		
 		for (Req req : ability.getActivateRequirements())
 		{
-			if (req.apply(dplayer.getSender(), ability)) continue;
-			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
+			if (req.apply(dplayer, ability)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer, ability));
 			return false;
 		}
 		return true;
@@ -64,11 +65,12 @@ public final class AbilityUtil
 	{
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		Validate.notNull(ability, "ability mustn't be null");
+		Validate.notNull(verboseLevel, "verboselevel mustn't be null");
 		
 		for (Req req : ability.getSeeRequirements())
 		{
-			if (req.apply(dplayer.getSender(), ability)) continue;
-			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer.getSender(), ability));
+			if (req.apply(dplayer, ability)) continue;
+			if (verboseLevel.includes(req.getVerboseLevel())) dplayer.sendMessage(req.createErrorMessage(dplayer, ability));
 			return false;
 		}
 		return true;
@@ -128,7 +130,7 @@ public final class AbilityUtil
 		Validate.notNull(dplayer, "dplayer mustn't be null");
 		
 		Optional<Ability> optActivated = dplayer.getActivatedAbility();
-		if ( ! optActivated.isPresent()) throw new IllegalStateException("The player does not currently have a enabled skill");
+		if ( ! optActivated.isPresent()) throw new IllegalStateException("The player does not currently have a enabled ability");
 		Ability ability = optActivated.get();
 		
 		AbilityDeactivateEvent deactivateEvent = new AbilityDeactivateEvent(ability, dplayer);
