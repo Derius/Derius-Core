@@ -14,10 +14,12 @@ public class MConf extends Entity<MConf>
 	
 	protected static transient MConf i;
 	public static MConf get() { return i; }
-
+	
 	// -------------------------------------------- //
 	// TIMING SETTINGS
 	// -------------------------------------------- //
+	
+	public int debugLevel = -1;
 	
 	public double timingMax = 4.999999;
 	

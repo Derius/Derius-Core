@@ -138,7 +138,11 @@ public final class AbilityUtil
 		
 		ability.onDeactivate(dplayer, other);
 		dplayer.setActivatedAbility(Optional.empty());
-		dplayer.setCooldownExpireInMillis(ability.getCooldownMillis());
+		
+		if(ability.hasCooldown())
+		{
+			dplayer.setCooldownExpireInMillis(ability.getCooldownMillis());
+		}
 	}
 	
 	// -------------------------------------------- //
@@ -153,7 +157,10 @@ public final class AbilityUtil
 		
 		ability.onDeactivate(dplayer, other);
 		
-		dplayer.setCooldownExpireInMillis(ability.getCooldownMillis());
+		if(ability.hasCooldown())
+		{
+			dplayer.setCooldownExpireInMillis(ability.getCooldownMillis());
+		}
 		
 		return obj;
 	}

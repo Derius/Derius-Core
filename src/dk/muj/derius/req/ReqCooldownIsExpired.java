@@ -12,7 +12,6 @@ import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.entity.MLang;
 import dk.muj.derius.req.util.ReqToDefault;
 
-@Deprecated
 public class ReqCooldownIsExpired implements Req, ReqToDefault
 {
 	// -------------------------------------------- //
@@ -47,10 +46,10 @@ public class ReqCooldownIsExpired implements Req, ReqToDefault
 	public String createErrorMessage(DPlayer dplayer)
 	{
 		long expireMillis = dplayer.getCooldownExpireIn();
-		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.unitcounts(expireMillis, TimeUnit.getAll());
+		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.unitcounts(expireMillis, TimeUnit.getAllButMillis());
 		String expireDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 		
-		return Txt.parse(Txt.parse(MLang.get().exhausted, expireDesc));
+		return Txt.parse(MLang.get().prefix + " " + MLang.get().exhausted, expireDesc);
 	}
 	
 }

@@ -134,7 +134,7 @@ public class AbilityAdapter implements JsonDeserializer<DeriusAbility>, JsonSeri
 		{
 			val = jsonAbility.get(MILLIS_COOLDOWN);
 			int millis = DeriusCore.get().gson.fromJson(val, Integer.class);
-			ret.setMillisCooldown(millis);
+			ret.setCooldownMillis(millis);
 		}
 		
 		if (jsonAbility.has(STAMINA_USAGE))

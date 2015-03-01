@@ -38,8 +38,9 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	public void setDesc(String newDescription) { this.desc = newDescription; }
 	
 	private int millisCooldown = 1000*60*2;
-	public void setMillisCooldown(int millis) { this.millisCooldown = millis; }
+	public void setCooldownMillis(int millis) { this.millisCooldown = millis; }
 	public int getCooldownMillis() { return this.millisCooldown; }
+	public boolean hasCooldown() { return this.getCooldownMillis() > 0; }
 	
 	private WorldExceptionSet worldsUse = new WorldExceptionSet();
 	public WorldExceptionSet getWorldsUse() { return this.worldsUse; }
@@ -151,8 +152,8 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	
 	public abstract String getLvlDescriptionMsg(int lvl);
 	
-	public abstract Object onActivate(DPlayer p, Object other);
-	public abstract void onDeactivate(DPlayer p, Object other);
+	public abstract Object onActivate(DPlayer dplayer, Object other);
+	public abstract void onDeactivate(DPlayer dplayer, Object other);
 	
 	// -------------------------------------------- //
 	// EQUALS & HASH CODE
@@ -169,7 +170,7 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	{
 		int result = 1;
 		
-		result += (id != null) ? id.hashCode() : 1;
+		result += (this.getId() != null) ? this.getId().hashCode() : 1;
 		
 		return result;
 	}

@@ -164,6 +164,7 @@ public class MainEngine extends EngineAbstract
 	// CALL LISTENERS
 	// -------------------------------------------- //
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void callListener(BlockBreakEvent event)
 	{	
@@ -194,6 +195,7 @@ public class MainEngine extends EngineAbstract
 		return;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerAttack(EntityDamageByEntityEvent event)
 	{

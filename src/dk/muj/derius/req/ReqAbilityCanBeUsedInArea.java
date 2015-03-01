@@ -1,7 +1,7 @@
 package dk.muj.derius.req;
 
-import com.massivecraft.massivecore.mixin.Mixin;
-import com.massivecraft.massivecore.ps.PS;
+import org.bukkit.Location;
+
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.api.Ability;
@@ -38,8 +38,8 @@ public class ReqAbilityCanBeUsedInArea implements Req, ReqNoSkill, ReqNoDefault
 	@Override
 	public boolean apply(DPlayer dplayer, Ability ability)
 	{
-		PS loc =  Mixin.getSenderPs(dplayer);
-		if (loc == null) return true;
+		if ( ! dplayer.isPlayer()) return false;
+		Location loc = dplayer.getPlayer().getLocation();
 		
 		return ability.getWorldsUse().contains(loc.getWorld());
 	}

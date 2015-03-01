@@ -15,10 +15,10 @@ public class MLang extends Entity<MConf>
 	// MESSAGES: RANDOM
 	// -------------------------------------------- //
 	
-	public String prefix = "<green>[DERIUS]";
+	public String prefix = "<lime>[DERIUS]";
 	
 	public String levelUp ="<i>You leveled up to level <lime>%s<i> in <aqua>%s<i>.";
-	public String exhausted = "<b>You are still exhausted. <i>You will be ready again in %s";
+	public String exhausted = "<b>You are exhausted. <i>Wait %s";
 	
 	public String levelStatusFormat = "<yellow>LVL: <h>%s  <yellow>XP: <silver><<aqua>%s<lime> / <aqua>%s<silver>>";
 	public String levelStatusFormatMini = "<yellow>LVL: <h>%s";

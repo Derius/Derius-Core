@@ -64,9 +64,9 @@ public class MsgEngine extends EngineAbstract
 		int fadeOut = MLang.get().timeAbilityActivateFadeOut;
 		
 		String name = ability.getDisplayName(dplayer);
-		String message =  Txt.parse(MLang.get().abilityActivated, name);
+		String message =  String.format(MLang.get().abilityActivated, name);
 		
-		Mixin.sendTitleMessage(dplayer, fadeIn, stay, fadeOut, null, message);
+		Mixin.sendTitleMsg(dplayer, fadeIn, stay, fadeOut, null, message);
 		
 		return;
 	}
@@ -83,9 +83,9 @@ public class MsgEngine extends EngineAbstract
 		int fadeOut = MLang.get().timeAbilityDeactivateFadeOut;
 		
 		String name = ability.getDisplayName(dplayer);
-		String message =  Txt.parse(MLang.get().abilityDeactivated, name);
+		String message =  String.format(MLang.get().abilityDeactivated, name);
 		
-		Mixin.sendTitleMessage(dplayer, fadeIn, stay, fadeOut, null, message);
+		Mixin.sendTitleMsg(dplayer, fadeIn, stay, fadeOut, null, message);
 		
 		return;
 	}

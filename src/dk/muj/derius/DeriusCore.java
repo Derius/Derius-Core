@@ -3,12 +3,14 @@ package dk.muj.derius;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.ReflectionUtil;
+import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 
 import dk.muj.derius.api.Ability;
@@ -31,10 +33,11 @@ import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.entity.skill.DeriusSkill;
 import dk.muj.derius.entity.skill.SkillAdapter;
 import dk.muj.derius.entity.skill.SkillColl;
+import dk.muj.derius.inventory.ItemManager;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
 import dk.muj.derius.mixin.StaminaMixinDefault;
-import dk.muj.derius.scoreboard.TaskPlayerStaminaUpdate;
+import dk.muj.derius.task.TaskPlayerStaminaUpdate;
 
 
 public class DeriusCore extends MassivePlugin implements Derius
@@ -82,6 +85,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 			engine.activate();
 		}
 		
+		ItemManager.setup();
+		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius() { @Override public List<String> getAliases() { return MConf.get().outerAliasesDerius; } };
 		this.outerCmdDerius.register(this);
@@ -120,6 +125,18 @@ public class DeriusCore extends MassivePlugin implements Derius
 				.registerTypeAdapter(DeriusSkill.class, SkillAdapter.get())
 				.registerTypeAdapter(DeriusAbility.class, AbilityAdapter.get())
 				.registerTypeAdapter(MPlayer.class, MPlayerAdapter.get());
+	}
+	
+	// -------------------------------------------- //
+	// DEBUG
+	// -------------------------------------------- //
+	
+	public static void debug(int level, String format, Object... args)
+	{
+		if (MConf.get().debugLevel < level) return;
+		
+		String message = Txt.parse(format, args);
+		get().log(Level.INFO, message);
 	}
 	
 	// -------------------------------------------- //
