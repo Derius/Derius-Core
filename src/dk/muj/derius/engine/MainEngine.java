@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.util.PlayerUtil;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.Ability;
@@ -35,9 +34,9 @@ import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
 import dk.muj.derius.req.sp.ReqIsntBlacklisted;
 import dk.muj.derius.req.sp.ReqIsntSpecialised;
 import dk.muj.derius.req.sp.ReqSpCooldownIsExpired;
-import dk.muj.derius.scoreboard.ScoreboardUtil;
 import dk.muj.derius.util.AbilityUtil;
 import dk.muj.derius.util.Listener;
+import dk.muj.derius.util.ScoreboardUtil;
 
 public class MainEngine extends EngineAbstract
 {
@@ -111,6 +110,7 @@ public class MainEngine extends EngineAbstract
 	public void instantiatePlayerFields(PlayerJoinEvent event)
 	{
 		MPlayer mplayer = MPlayerColl.get().get(event.getPlayer(), true);
+		
 		for (Skill skill : DeriusAPI.getAllSkills())
 		{
 			mplayer.instantiateSkill(skill);
@@ -123,7 +123,7 @@ public class MainEngine extends EngineAbstract
 		
 		if (mplayer.getBoardShowAtAll() && mplayer.getStaminaBoardStay())
 		{
-			ScoreboardUtil.updateStaminaScore(mplayer, 5);
+			ScoreboardUtil.updateStaminaScore(mplayer, 5, mplayer.getStamina());
 		}
 		return;
 	}

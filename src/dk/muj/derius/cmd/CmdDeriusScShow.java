@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
-import dk.muj.derius.scoreboard.ScoreboardUtil;
+import dk.muj.derius.util.ScoreboardUtil;
 
 
 public class CmdDeriusScShow extends DeriusCommand
@@ -53,7 +53,7 @@ public class CmdDeriusScShow extends DeriusCommand
 		}
 		else if (show.equals(true) && dplayer.getStaminaBoardStay())
 		{
-			ScoreboardUtil.updateStaminaScore(dplayer, 5);
+			ScoreboardUtil.updateStaminaScore(dplayer, 5, dplayer.getStamina());
 		}
 		
 		// Inform
