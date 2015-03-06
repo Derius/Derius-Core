@@ -25,51 +25,51 @@ public abstract class DeriusAbility extends Entity<DeriusAbility> implements Abi
 	// FIELDS
 	// -------------------------------------------- //
 
-	protected boolean enabled = true;
+	boolean enabled = true;
 	public boolean isEnabled() { return enabled && this.getSkill().isEnabled(); }
 	public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	
-	private String name;
+	String name;
 	public String getName() { return name; }
 	public void setName(String newName) { this.name = newName; }
 	
-	private String desc = "";
+	String desc = "";
 	public String getDesc() { return desc; }
 	public void setDesc(String newDescription) { this.desc = newDescription; }
 	
-	private int millisCooldown = 1000*60*2;
+	int millisCooldown = 1000*60*2;
 	public void setCooldownMillis(int millis) { this.millisCooldown = millis; }
 	public int getCooldownMillis() { return this.millisCooldown; }
 	public boolean hasCooldown() { return this.getCooldownMillis() > 0; }
 	
-	private WorldExceptionSet worldsUse = new WorldExceptionSet();
+	WorldExceptionSet worldsUse = new WorldExceptionSet();
 	public WorldExceptionSet getWorldsUse() { return this.worldsUse; }
 	public void setWorldsUse(WorldExceptionSet worldsUse) { this.worldsUse = worldsUse; }
 	
-	private double staminaUsage = 0.0;
+	double staminaUsage = 0.0;
 	public void setStaminaUsage(double stamina) { this.staminaUsage = stamina; }
 	public double getStaminaUsage() { return this.staminaUsage; }
 	
-	private double staminaMultiplier = 1.0;
+	double staminaMultiplier = 1.0;
 	public void setStaminaMultiplier(double multiplier) { this.staminaMultiplier = multiplier; }
 	public double getStaminaMultiplier() { return this.staminaMultiplier; }
 	
-	private transient AbilityType type;
+	transient AbilityType type;
 	public AbilityType getType() { return this.type; }
 	public void setType(AbilityType newType){ this.type = newType; }
 	
-	protected transient List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
+	transient List<Req> seeRequirements = new CopyOnWriteArrayList<Req>();
 	public List<Req> getSeeRequirements() { return this.seeRequirements; }
 	public void setSeeRequirements(List<Req> requirements) { this.seeRequirements = requirements; }
 	public void addSeeRequirements(Req... requirements) { this.seeRequirements.addAll(Arrays.asList(requirements)); }
 	
-	protected transient List<Req> activateRequirements = new CopyOnWriteArrayList<Req>();
+	transient List<Req> activateRequirements = new CopyOnWriteArrayList<Req>();
 	public List<Req> getActivateRequirements() { return this.activateRequirements; }
 	public void setActivateRequirements(List<Req> requirements) { this.activateRequirements = requirements; }
 	public void addActivateRequirements(Req... requirements) { this.activateRequirements.addAll(Arrays.asList(requirements)); }
 	
 	// Lambda
-	private transient MillisLastCalculator levelToTicks = level -> ((2 + level/50) * (int) TimeUnit.MILLIS_PER_SECOND);
+	transient MillisLastCalculator levelToTicks = level -> ((2 + level/50) * (int) TimeUnit.MILLIS_PER_SECOND);
 	public int getDurationMillis(int level) { return this.levelToTicks.calcDuration(level); }
 	public final void setDurationAlgorithm(MillisLastCalculator algorithm){ this.levelToTicks = algorithm; }
 	public final MillisLastCalculator getDurationAlgorithm(){ return this.levelToTicks; }

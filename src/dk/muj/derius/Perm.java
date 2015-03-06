@@ -42,7 +42,7 @@ public enum Perm implements MPerm
 	SPECIALISATION_LIST_OTHER	("sp.list.other",		0, "list others specialisations"),
 	SPECIALISATION_UNLEARN		("sp.unlearn",			0, "unspecialise in a skill"), 
 	VERSION						("version",				0, "see plugin version"),
-
+	
 	// END OF LIST
 	;
 	
@@ -82,8 +82,7 @@ public enum Perm implements MPerm
 		this.kit = kit;
 		this.desc = desc;
 	}
-
-	public String getStartNode()
+			public String getStartNode()
 	{
 		return "derius.";
 	}
