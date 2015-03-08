@@ -10,7 +10,7 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 
 public class CmdDeriusKeysList extends DeriusCommand

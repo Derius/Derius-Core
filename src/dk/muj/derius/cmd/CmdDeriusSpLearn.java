@@ -11,12 +11,12 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.skill.Skill;
+import dk.muj.derius.api.util.SkillUtil;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.entity.MLang;
-import dk.muj.derius.util.SkillUtil;
 
 public class CmdDeriusSpLearn extends DeriusCommand
 {
@@ -50,13 +50,13 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		{
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAll()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
-			msg(MLang.get().specialisationCantChange);
-			msg(MLang.get().specialisationMoveCooldown, moveDesc);
+			msg(DLang.get().getSpecialisationCantChange());
+			msg(DLang.get().getSpecialisationMoveCooldown().replaceAll("{time}", moveDesc));
 			return;
 		}
 		
 		dsender.setSpecialisedIn(skill, true);
-		msg(MLang.get().specialisationSuccess, skill.getDisplayName(dsender));
+		msg(DLang.get().getSpecialisationSuccess().replaceAll("{skill}", skill.getDisplayName(dsender)));
 	
 		return;
 	}

@@ -1,26 +1,10 @@
 package dk.muj.derius.cmd;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
-import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.Ability;
-import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.LvlStatus;
-import dk.muj.derius.api.Skill;
-import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.entity.MLang;
-import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkills extends DeriusCommand
 {
@@ -40,7 +24,7 @@ public class CmdDeriusSkills extends DeriusCommand
 	@Override
 	public void perform() throws MassiveException
 	{
-		List<ItemStack> skills = new ArrayList<ItemStack>();
+		/* List<ItemStack> skills = new ArrayList<ItemStack>();
 		
 		for (Skill skill : DeriusAPI.getAllSkills())
 		{
@@ -89,6 +73,6 @@ public class CmdDeriusSkills extends DeriusCommand
 			inv.addItem(stack);
 		}
 		
-		me.openInventory(inv);
+		me.openInventory(inv); */
 	}
 }

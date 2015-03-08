@@ -13,7 +13,7 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.skill.Skill;
 
 public class CmdDeriusList extends DeriusCommand
 {

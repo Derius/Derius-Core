@@ -5,34 +5,40 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.bukkit.plugin.Plugin;
+
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.ReflectionUtil;
 import com.massivecraft.massivecore.util.Txt;
+import com.massivecraft.massivecore.xlib.gson.Gson;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 
-import dk.muj.derius.api.Ability;
-import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.adapter.AbilityAdapter;
+import dk.muj.derius.adapter.SkillAdapter;
 import dk.muj.derius.api.Derius;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.ScheduledDeactivate;
+import dk.muj.derius.api.ability.Ability;
+import dk.muj.derius.api.events.AbilityRegisteredEvent;
+import dk.muj.derius.api.events.SkillRegisteredEvent;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.CmdDerius;
-import dk.muj.derius.engine.MainEngine;
-import dk.muj.derius.engine.MsgEngine;
+import dk.muj.derius.engine.EngineMain;
+import dk.muj.derius.engine.EngineMsg;
+import dk.muj.derius.engine.EngineScheduledDeactivate;
+import dk.muj.derius.entity.AbilityColl;
 import dk.muj.derius.entity.MConf;
 import dk.muj.derius.entity.MConfColl;
+import dk.muj.derius.entity.MLang;
 import dk.muj.derius.entity.MLangColl;
-import dk.muj.derius.entity.ability.AbilityAdapter;
-import dk.muj.derius.entity.ability.AbilityColl;
-import dk.muj.derius.entity.ability.DeriusAbility;
+import dk.muj.derius.entity.SkillColl;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerAdapter;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
-import dk.muj.derius.entity.skill.DeriusSkill;
-import dk.muj.derius.entity.skill.SkillAdapter;
-import dk.muj.derius.entity.skill.SkillColl;
 import dk.muj.derius.inventory.ItemManager;
 import dk.muj.derius.mixin.BlockMixinDefault;
 import dk.muj.derius.mixin.MaxLevelMixinDefault;
@@ -61,8 +67,9 @@ public class DeriusCore extends MassivePlugin implements Derius
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
-		MainEngine.get(),
-		MsgEngine.get());
+		EngineMain.get(),
+		EngineScheduledDeactivate.get(),
+		EngineMsg.get());
 	
 	// -------------------------------------------- //
 	// OVERRIDE: PLUGIN
@@ -122,8 +129,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 	public GsonBuilder getGsonBuilder()
 	{
 		return super.getGsonBuilder()
-				.registerTypeAdapter(DeriusSkill.class, SkillAdapter.get())
-				.registerTypeAdapter(DeriusAbility.class, AbilityAdapter.get())
+				.registerTypeAdapter(Skill.class, SkillAdapter.get())
+				.registerTypeAdapter(Ability.class, AbilityAdapter.get())
 				.registerTypeAdapter(MPlayer.class, MPlayerAdapter.get());
 	}
 	
@@ -148,12 +155,17 @@ public class DeriusCore extends MassivePlugin implements Derius
 		// Mixins
 		this.initMixins();
 		
+		// DLang
+		DeriusAPI.setDLang(MLang.get());
+		
 		// The "core" field
 		Class<DeriusAPI> apiClass = DeriusAPI.class;
 		Field coreField = ReflectionUtil.getField(apiClass, DeriusConst.API_DERIUS_FIELD);
-		if (coreField == null) return; // Avoid useless NPE
-		ReflectionUtil.makeAccessible(coreField);
-		ReflectionUtil.setField(coreField, null, this);
+		if (coreField != null) // Avoid useless NPE
+		{	
+			ReflectionUtil.makeAccessible(coreField);
+			ReflectionUtil.setField(coreField, null, this);
+		}
 	}
 	
 	private void initMixins()
@@ -164,7 +176,21 @@ public class DeriusCore extends MassivePlugin implements Derius
 	}
 	
 	// -------------------------------------------- //
-	// OVERRIDE: DERIUS
+	// OVERRIDE: DERIUS: DATABASE
+	// -------------------------------------------- //
+	
+	@Override
+	public Gson getGson(Plugin plugin)
+	{
+		if (plugin instanceof MassivePlugin)
+		{
+			return ((MassivePlugin) plugin).gson;
+		}
+		return gson;
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: DERIUS: DPLAYER
 	// -------------------------------------------- //
 	
 	@Override
@@ -179,6 +205,10 @@ public class DeriusCore extends MassivePlugin implements Derius
 		return MPlayerColl.get().get(senderObject, false);
 	}
 	
+	// -------------------------------------------- //
+	// OVERRIDE: DERIUS: SKILL
+	// -------------------------------------------- //
+	
 	@Override
 	public Collection<? extends Skill> getAllSkills()
 	{
@@ -192,6 +222,30 @@ public class DeriusCore extends MassivePlugin implements Derius
 	}
 	
 	@Override
+	public void registerSkill(Skill skill)
+	{
+		SkillRegisteredEvent event = new SkillRegisteredEvent(skill);
+		if ( ! event.runEvent()) return;
+		
+		if ( ! skill.isRegistered())
+		{
+			Skill old = SkillColl.get().get(skill.getId(), false);
+			if (old != null)
+			{
+				skill.load(old);
+				SkillColl.get().removeAtLocal(skill.getId());
+			}
+			SkillColl.get().attach(skill, skill.getId());
+		}
+		
+		return;
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: DERIUS: ABILITY
+	// -------------------------------------------- //
+	
+	@Override
 	public Collection<? extends Ability> getAllAbilities()
 	{
 		return AbilityColl.getAllAbilities();
@@ -203,4 +257,39 @@ public class DeriusCore extends MassivePlugin implements Derius
 		return AbilityColl.get().get(id);
 	}
 	
+	@Override
+	public void registerAbility(Ability ability)
+	{
+		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
+		if ( ! event.runEvent()) return;
+		
+		if (ability.isRegistered()) return;
+		
+		Ability old = AbilityColl.get().get(ability.getId(), false);
+		if (old != null)
+		{
+			ability.load(old);
+			AbilityColl.get().removeAtLocal(ability.getId());
+		}
+		
+		AbilityColl.get().attach(ability, ability.getId());
+		return;
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: DERIUS: SCHEDULED TELEPORT
+	// -------------------------------------------- //
+	
+	@Override
+	public boolean isScheduled(ScheduledDeactivate sd)
+	{
+		return EngineScheduledDeactivate.get().isScheduled(sd);
+	}
+	
+	@Override
+	public void schedule(ScheduledDeactivate sd)
+	{
+		EngineScheduledDeactivate.get().schedule(sd);
+	}
+
 }

@@ -8,8 +8,8 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 
 public class CmdDeriusSpList  extends DeriusCommand

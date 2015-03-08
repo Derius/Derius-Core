@@ -6,10 +6,9 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.arg.ARSet;
 import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
-import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.MLang;
+import dk.muj.derius.api.config.DLang;
 
 public class CmdDeriusKeysRemove extends DeriusCommand
 {
@@ -39,7 +38,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		if (keys.contains("all"))
 		{
 			dsender.clearChatKeys();
-			msg(MLang.get().keysClearSuccess);
+			msg(DLang.get().getKeysClearSuccess());
 			return;
 		}
 		
@@ -48,12 +47,12 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 			// Isn't chat key
 			if ( ! dsender.isAlreadyChatKey(key))
 			{
-				msg(MLang.get().keyHanst, key);
+				msg(DLang.get().getKeyHasnt().replaceAll("{key}", key));
 				return;
 			}
 			
 			dsender.removeChatKey(key);
-			sendMessage(Txt.parse(MLang.get().keyRemoveSuccess, key));
+			msg(DLang.get().getKeyRemoveSuccess().replaceAll("{key}", key));
 		}
 		
 		return;

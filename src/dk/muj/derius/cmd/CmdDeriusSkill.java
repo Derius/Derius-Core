@@ -8,14 +8,14 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.Ability;
-import dk.muj.derius.api.LvlStatus;
-import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.ability.Ability;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.lvl.LvlStatus;
+import dk.muj.derius.api.skill.Skill;
+import dk.muj.derius.api.util.AbilityUtil;
 import dk.muj.derius.cmd.arg.ARLvlStatus;
 import dk.muj.derius.cmd.arg.ARSkill;
-import dk.muj.derius.entity.MLang;
-import dk.muj.derius.util.AbilityUtil;
 
 public class CmdDeriusSkill extends DeriusCommand
 {
@@ -51,19 +51,19 @@ public class CmdDeriusSkill extends DeriusCommand
 		msgs.add("<k>Desc: <i>" + skill.getDesc());			// Description
 		
 		// Exp descs
-		msgs.add(MLang.get().skillInfoExpGain + Txt.implodeCommaAndDot(skill.getEarnExpDescs(), "<lime>, <i>", "<lime>& <i>", "<lime>."));
+		msgs.add(DLang.get().getSkillInfoExpGain() + Txt.implodeCommaAndDot(skill.getEarnExpDescs(), "<lime>, <i>", "<lime>& <i>", "<lime>."));
 		
 		// Swapping between default and user inserted value
 		msgs.add(status.toString());
 		
 		// All Abilities
-		msgs.add(MLang.get().skillInfoAbilities);
+		msgs.add(DLang.get().getSkillInfoAbilities());
 		for (Ability ability : skill.getAbilities())
 		{
 			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;
 			msgs.add(ability.getDisplayedDescription(dsender));
 		}
-		msgs.add(MLang.get().skillInfoLevelStats);
+		msgs.add(DLang.get().getSkillInfoLevelStats());
 		for (Ability ability : skill.getAbilities())
 		{
 			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;

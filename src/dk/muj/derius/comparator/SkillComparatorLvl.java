@@ -4,9 +4,9 @@ import java.util.Comparator;
 
 import org.apache.commons.lang.Validate;
 
-import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.LvlStatus;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.lvl.LvlStatus;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 
 public class SkillComparatorLvl implements Comparator<Skill>
 {

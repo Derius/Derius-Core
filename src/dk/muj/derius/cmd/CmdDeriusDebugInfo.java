@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.ability.Ability;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.util.Listener;
 
 public class CmdDeriusDebugInfo extends DeriusCommand

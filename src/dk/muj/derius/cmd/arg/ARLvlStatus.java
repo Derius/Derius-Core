@@ -7,8 +7,8 @@ import com.massivecraft.massivecore.cmd.arg.ARInteger;
 import com.massivecraft.massivecore.cmd.arg.ArgReader;
 import com.massivecraft.massivecore.cmd.arg.ArgReaderAbstract;
 
-import dk.muj.derius.LvlStatusDefault;
-import dk.muj.derius.api.LvlStatus;
+import dk.muj.derius.api.lvl.LvlStatus;
+import dk.muj.derius.api.lvl.LvlStatusDefault;
 
 public class ARLvlStatus extends ArgReaderAbstract<LvlStatus>
 {

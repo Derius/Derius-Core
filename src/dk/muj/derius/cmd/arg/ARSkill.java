@@ -7,11 +7,11 @@ import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.cmd.arg.ARAbstractSelect;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.util.SkillUtil;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
+import dk.muj.derius.api.util.SkillUtil;
 
 public class ARSkill extends ARAbstractSelect<Skill>
 {

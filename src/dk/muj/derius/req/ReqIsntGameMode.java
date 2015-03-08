@@ -8,10 +8,10 @@ import org.bukkit.GameMode;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.entity.MLang;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.req.util.ReqToDefault;
 
 public class ReqIsntGameMode implements Req, ReqToDefault
@@ -58,7 +58,8 @@ public class ReqIsntGameMode implements Req, ReqToDefault
 	@Override
 	public String createErrorMessage(DPlayer dplayer)
 	{
-		return Txt.parse(MLang.get().mustNotBeGamemode, Txt.getNicedEnum(IdUtil.getGameMode(dplayer, null)));
+		//																					Using String.valueOf null is handled.
+		return Txt.parse(DLang.get().getMustNotBeGamemode().replaceAll("{gm}", Txt.getNicedEnum(String.valueOf(IdUtil.getGameMode(dplayer, null)))));
 	}
 
 }

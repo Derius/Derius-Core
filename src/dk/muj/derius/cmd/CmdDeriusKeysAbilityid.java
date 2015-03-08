@@ -8,9 +8,9 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.Ability;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.ability.Ability;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
 
 public class CmdDeriusKeysAbilityid extends DeriusCommand

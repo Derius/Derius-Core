@@ -4,9 +4,9 @@ import org.bukkit.permissions.Permission;
 
 import com.massivecraft.massivecore.util.PermUtil;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.req.util.ReqToDefault;
 
 public class ReqHasPerm implements Req, ReqToDefault

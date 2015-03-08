@@ -2,7 +2,7 @@ package dk.muj.derius.cmd;
 
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 
-import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 
 

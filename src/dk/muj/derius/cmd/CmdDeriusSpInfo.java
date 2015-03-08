@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.entity.MLang;
+import dk.muj.derius.api.config.DLang;
 
 public class CmdDeriusSpInfo extends DeriusCommand
 {	
@@ -23,7 +23,7 @@ public class CmdDeriusSpInfo extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		msg(MLang.get().specialisationInfo, dsender.getMaxSpecialisationSlots());
+		msg(DLang.get().getSpecialisationInfo().replaceAll("{max}", String.valueOf(dsender.getMaxSpecialisationSlots())));
 		return;
 	}
 

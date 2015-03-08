@@ -8,9 +8,9 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 
 import dk.muj.derius.DeriusCore;
-import dk.muj.derius.api.Ability;
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
+import dk.muj.derius.api.ability.Ability;
+import dk.muj.derius.api.player.DPlayer;
 
 public class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 {

@@ -6,10 +6,10 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.entity.MLang;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.req.util.ReqToDefault;
 
 public class ReqIsntExhausted implements Req, ReqToDefault
@@ -49,7 +49,7 @@ public class ReqIsntExhausted implements Req, ReqToDefault
 		LinkedHashMap<TimeUnit, Long> expireUnit = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(expire, TimeUnit.getAll()), 2);
 		String expireDesc = TimeDiffUtil.formatedVerboose(expireUnit, "<i>");
 		
-		return Txt.parse(MLang.get().prefix + MLang.get().exhausted, expireDesc);
+		return Txt.parse(DLang.get().getPrefix() + DLang.get().getExhausted().replaceAll("{time}", expireDesc));
 	}
 	
 }

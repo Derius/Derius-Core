@@ -5,7 +5,7 @@ import com.massivecraft.massivecore.cmd.arg.ARBoolean;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.util.ScoreboardUtil;
 

@@ -4,10 +4,10 @@ import org.bukkit.Location;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.Ability;
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
+import dk.muj.derius.api.ability.Ability;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.req.util.ReqNoDefault;
 import dk.muj.derius.req.util.ReqNoSkill;
 

@@ -8,7 +8,7 @@ public class DeriusConst
 	// -------------------------------------------- //
 	
 	public static final String BASENAME = "derius";
-	public static final String BASENAME_ = BASENAME + "_";
+	public static final String BASENAME_ = BASENAME + "/";
 	
 	public static final String COLLECTION_MPLAYER = BASENAME_ + "players";
 	public static final String COLLECTION_MCONF	= BASENAME_	+ "config";
@@ -20,6 +20,6 @@ public class DeriusConst
 	// REFLECTION
 	// -------------------------------------------- //
 
-	public static final String API_DERIUS_FIELD = "core";
+	public static final String API_DERIUS_FIELD = "CORE";
 	
 }

@@ -13,9 +13,10 @@ import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.comparator.SkillComparatorLvl;
 
@@ -48,8 +49,8 @@ public class CmdDeriusInspect extends DeriusCommand
 		
 		if (dplayer != dsender && Perm.INSPECT_OTHERS.has(dsender.getSender(), true)) return;
 		
-		String title =  (dplayer == dsender) ? Txt.parse("<green>Your Skills") 
-				: Txt.parse("%s's <green>Skills", dplayer.getDisplayName(dsender));
+		String title =  (dplayer == dsender) ? Txt.parse("<green>%s", DLang.get().getYourSkills()) 
+				: Txt.parse("%s's <green>%s", dplayer.getDisplayName(dsender), DLang.get().getSkills());
 
 		// Create Pager
 		final List<Skill> skills = new ArrayList<>(DeriusAPI.getAllSkills());

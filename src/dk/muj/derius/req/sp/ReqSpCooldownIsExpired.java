@@ -6,10 +6,10 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.entity.MLang;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.req.util.ReqToDefault;
 
 public class ReqSpCooldownIsExpired implements Req, ReqToDefault
@@ -51,8 +51,8 @@ public class ReqSpCooldownIsExpired implements Req, ReqToDefault
 		LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(spMillis, TimeUnit.getAllButMillisAndSeconds()), 3);
 		String spDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 		String msg = "%s\n%s";
-		msg = msg.replaceFirst("%s", MLang.get().specialisationCantChange);
-		msg = msg.replaceFirst("%s", String.format(MLang.get().specialisationChangeCooldown, spDesc) );
+		msg = msg.replaceFirst("%s", DLang.get().getSpecialisationCantChange());
+		msg = msg.replaceFirst("%s", DLang.get().getSpecialisationChangeCooldown().replaceAll("{time}", spDesc));
 		
 		return Txt.parse(msg);
 

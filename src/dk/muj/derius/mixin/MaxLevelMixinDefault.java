@@ -1,8 +1,8 @@
 package dk.muj.derius.mixin;
 
-import dk.muj.derius.api.DPlayer;
-import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.mixin.MaxLevelMixin;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 
 public class MaxLevelMixinDefault implements MaxLevelMixin
 {

@@ -2,11 +2,11 @@ package dk.muj.derius.req.sp;
 
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
-import dk.muj.derius.api.Skill;
 import dk.muj.derius.api.VerboseLevel;
-import dk.muj.derius.entity.MLang;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.req.util.ReqAbilityToSkill;
 import dk.muj.derius.req.util.ReqNoDefault;
 
@@ -43,7 +43,7 @@ public class ReqIsntSpecialised implements Req, ReqAbilityToSkill, ReqNoDefault
 	@Override
 	public String createErrorMessage(DPlayer dplayer, Skill skill)
 	{
-		return Txt.parse(MLang.get().specialisationHasAlready, skill.getDisplayName(dplayer));
+		return Txt.parse(DLang.get().getSpecialisationHasAlready().replaceAll("{skill}", skill.getDisplayName(dplayer)));
 	}
 
 }

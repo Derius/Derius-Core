@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.player.DPlayer;
 
 public interface Listener
 {

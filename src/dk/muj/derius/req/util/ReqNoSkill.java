@@ -1,8 +1,8 @@
 package dk.muj.derius.req.util;
 
-import dk.muj.derius.api.DPlayer;
 import dk.muj.derius.api.Req;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.skill.Skill;
 
 public interface ReqNoSkill extends Req
 {

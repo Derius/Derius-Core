@@ -10,10 +10,10 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.Perm;
-import dk.muj.derius.api.Skill;
+import dk.muj.derius.api.config.DLang;
+import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.entity.MLang;
 
 public class CmdDeriusSpUnlearn extends DeriusCommand
 {
@@ -44,25 +44,25 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		{
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
-			msg(MLang.get().specialisationCantChange);
-			msg(MLang.get().specialisationMoveCooldown, moveDesc);
+			msg(DLang.get().getSpecialisationCantChange());
+			msg(DLang.get().getSpecialisationMoveCooldown().replaceAll("{time}", moveDesc));
 			return;
 		}
 		
 		if (skill.isSpAutoAssigned())
 		{
-			msg(MLang.get().specialisationAutoAssigned, skill.getDisplayName(dsender));
+			msg(DLang.get().getSpecialisationAutoAssigned().replaceAll("{skill}", skill.getDisplayName(dsender)));
 			return;
 		}
 		else if ( ! dsender.isSpecialisedIn(skill))
 		{
-			msg(MLang.get().specialisationIsnt, skill.getDisplayName(dsender));
+			msg(DLang.get().getSpecialisationIsnt().replaceAll("{skill}", skill.getDisplayName(dsender)));
 			return;
 		}
 		
 		dsender.setNotSpecialisedIn(skill);
 		
-		msg(MLang.get().specialisationRemoved, skill.getDisplayName(dsender));
+		msg(DLang.get().getSpecialisationRemoved().replaceAll("{skill}", skill.getDisplayName(dsender)));
 		
 		return;
 	}

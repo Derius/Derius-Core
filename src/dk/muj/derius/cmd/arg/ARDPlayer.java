@@ -3,7 +3,7 @@ package dk.muj.derius.cmd.arg;
 import com.massivecraft.massivecore.cmd.arg.ARSenderIdAbstract;
 import com.massivecraft.massivecore.cmd.arg.ArgReader;
 
-import dk.muj.derius.api.DPlayer;
+import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 
 
