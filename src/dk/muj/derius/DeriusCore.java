@@ -87,18 +87,15 @@ public class DeriusCore extends MassivePlugin implements Derius
 		AbilityColl.get().init();
 		
 		// Engine activation
-		for (Engine engine : engines)
-		{
-			engine.activate();
-		}
-		
+		engines.forEach(Engine::activate);
+
 		ItemManager.setup();
 		
 		// Command registration
 		this.outerCmdDerius = new CmdDerius() { @Override public List<String> getAliases() { return MConf.get().outerAliasesDerius; } };
 		this.outerCmdDerius.register(this);
 		
-		MPlayerColl.get().get(IdUtil.getConsole(), true);
+		EngineMain.instantiatePlayerFields(IdUtil.CONSOLE_ID);
 		
 		// ModulaRepeatTask
 		TaskPlayerStaminaUpdate.get().activate();

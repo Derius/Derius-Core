@@ -2,13 +2,10 @@ package dk.muj.derius.engine;
 
 import java.util.Optional;
 
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -24,18 +21,17 @@ import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.events.AbilityRegisteredEvent;
 import dk.muj.derius.api.events.SkillRegisteredEvent;
 import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.api.req.ReqAbilityCanBeUsedInArea;
+import dk.muj.derius.api.req.ReqHasOpenSlot;
+import dk.muj.derius.api.req.ReqIsEnabled;
+import dk.muj.derius.api.req.ReqIsntAutoAssigned;
+import dk.muj.derius.api.req.ReqIsntBlacklisted;
+import dk.muj.derius.api.req.ReqIsntSpecialised;
+import dk.muj.derius.api.req.ReqSpCooldownIsExpired;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.api.util.AbilityUtil;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
-import dk.muj.derius.req.ReqAbilityCanBeUsedInArea;
-import dk.muj.derius.req.ReqIsEnabled;
-import dk.muj.derius.req.sp.ReqHasOpenSlot;
-import dk.muj.derius.req.sp.ReqIsntAutoAssigned;
-import dk.muj.derius.req.sp.ReqIsntBlacklisted;
-import dk.muj.derius.req.sp.ReqIsntSpecialised;
-import dk.muj.derius.req.sp.ReqSpCooldownIsExpired;
-import dk.muj.derius.util.Listener;
 import dk.muj.derius.util.ScoreboardUtil;
 
 public class EngineMain extends EngineAbstract
@@ -109,7 +105,12 @@ public class EngineMain extends EngineAbstract
 	@EventHandler(priority = EventPriority.LOW)
 	public void instantiatePlayerFields(PlayerJoinEvent event)
 	{
-		MPlayer mplayer = MPlayerColl.get().get(event.getPlayer(), true);
+		instantiatePlayerFields(event.getPlayer().getUniqueId().toString());
+	}
+	
+	public static void instantiatePlayerFields(String playerId)
+	{
+		MPlayer mplayer = MPlayerColl.get().get(playerId, true);
 		
 		for (Skill skill : DeriusAPI.getAllSkills())
 		{
@@ -125,6 +126,7 @@ public class EngineMain extends EngineAbstract
 		{
 			ScoreboardUtil.updateStaminaScore(mplayer, 5, mplayer.getStamina());
 		}
+		
 		return;
 	}
 	
@@ -163,25 +165,7 @@ public class EngineMain extends EngineAbstract
 	// -------------------------------------------- //
 	// CALL LISTENERS
 	// -------------------------------------------- //
-	
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void callListener(BlockBreakEvent event)
-	{	
-		Block block = event.getBlock();
-		
-		// Listeners
-		Listener listener = Listener.getBlockBreakListener(block.getType());
-		if (listener == null) return;
-		
-		// Check if player placed block
-		if (DeriusAPI.isBlockPlacedByPlayer(block)) return;
-		
-		listener.onBlockBreak(DeriusAPI.getDPlayer(event.getPlayer()), block.getState());
-		
-		return;
-	}
-	
+
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent event)
 	{	
@@ -194,54 +178,5 @@ public class EngineMain extends EngineAbstract
 		
 		return;
 	}
-	
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerAttack(EntityDamageByEntityEvent event)
-	{
-		if ( ! (event.getDamager() instanceof Player)) return;
-		Player player = (Player) event.getDamager();
-		Listener listener = Listener.getPlayerAttackKeyListener(player.getItemInHand().getType());
-		if (listener == null) return;
-		
-		listener.onPlayerAttack(DeriusAPI.getDPlayer(player), event);
-		
-		return;
-	}
-
-	// -------------------------------------------- //
-	// MUTIPLIER
-	// -------------------------------------------- //
-	
-	
-	// TODO: Break out into expansion
-	/*@EventHandler(priority = EventPriority.LOWEST)
-	public void muliplier(PlayerAddExpEvent event)
-	{
-		CommandSender sender = event.getDPlayer().getSender();
-		if (sender == null) return;
-		Skill skill = event.getSkill();
-		
-		double exp = event.getExpAmount();
-		
-		exp *= MConf.get().baseMultiplier;
-		exp *= event.getSkill().getMultiplier();
-		
-		for (int i = 100; i >= 0; i++)
-		{
-			if ( ! sender.hasPermission("derius.basemultiplier." + i)) continue;
-			exp *= i/10.0;
-			break;
-		}
-		
-		for (int i = 100; i >= 0; i++)
-		{
-			if ( ! sender.hasPermission("derius.skillmultiplier." + skill.getId() + "." + i)) continue;
-			exp *= i/10.0;
-			break;
-		}
-		
-		event.setExpAmount(exp);
-	}*/
 
 }
