@@ -112,10 +112,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 		super.onDisable();
 		
 		// Engine deactivation
-		for (Engine engine : engines)
-		{
-			engine.deactivate();
-		}
+		engines.forEach(Engine::deactivate);
 	}
 	
 	// -------------------------------------------- //
