@@ -115,6 +115,12 @@ public class MLang extends Entity<MConf> implements DLang
 	private int timeAbilityDeactivateFadeOut = 5;
 
 	// -------------------------------------------- //
+	// EXTENSIONS
+	// -------------------------------------------- //
+	
+	private String mcmmoSkillMustBeDisabled = "<b>To use the skill {skill} <b>you must disable it's mcmmo equivalent <b>{mcmmoSkill}";
+	
+	// -------------------------------------------- //
 	// GETTRS & SETTERS
 	// -------------------------------------------- //
 	
@@ -282,5 +288,8 @@ public class MLang extends Entity<MConf> implements DLang
 	
 	@Override public int getTimeAbilityDeactivateFadeOut(){	return this.timeAbilityDeactivateFadeOut;}
 	@Override public void setTimeAbilityDeactivateFadeOut(int timeAbilityDeactivateFadeOut){	this.timeAbilityDeactivateFadeOut = timeAbilityDeactivateFadeOut;}
+	
+	@Override public String getMcmmoSkillMustBeDisabled() { return this.mcmmoSkillMustBeDisabled; }
+	@Override public void setMcmmoSkillMustBeDisabled(String mcmmoSkillMustBeDisabled) { this.mcmmoSkillMustBeDisabled = mcmmoSkillMustBeDisabled; }
 
 }

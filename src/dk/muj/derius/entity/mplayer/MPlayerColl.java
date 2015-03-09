@@ -45,4 +45,5 @@ public class MPlayerColl extends SenderColl<MPlayer>
 	{
 		return IdUtil.getId(oid);
 	}
+	
 }
