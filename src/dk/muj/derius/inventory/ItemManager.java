@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import com.massivecraft.massivecore.event.EventMassiveCorePlayerLeave;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.inventory.SpecialItemManager;
 
 /**
  * Idea behind item manager: We want to give an item an encahnt and remove it when ability deactivates.

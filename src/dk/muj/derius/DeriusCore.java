@@ -24,6 +24,7 @@ import dk.muj.derius.api.ScheduledDeactivate;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.events.AbilityRegisteredEvent;
 import dk.muj.derius.api.events.SkillRegisteredEvent;
+import dk.muj.derius.api.inventory.SpecialItemManager;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.CmdDerius;
@@ -285,5 +286,18 @@ public class DeriusCore extends MassivePlugin implements Derius
 	{
 		EngineScheduledDeactivate.get().schedule(sd);
 	}
-
+	
+	// -------------------------------------------- //
+	// OTHER
+	// -------------------------------------------- //
+	
+	/**
+	 * Registers a special item manager, used to avoid cheating.
+	 * @param {SpecialItemManager} manager to activate.
+	 */
+	public void registerSpecialItemManager(SpecialItemManager manager)
+	{
+		ItemManager.addManager(manager);
+	}
+	
 }

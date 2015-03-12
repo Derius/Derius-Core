@@ -36,7 +36,6 @@ import dk.muj.derius.util.ScoreboardUtil;
 
 public class EngineMain extends EngineAbstract
 {
-
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
