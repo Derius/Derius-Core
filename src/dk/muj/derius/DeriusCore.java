@@ -28,6 +28,7 @@ import dk.muj.derius.api.inventory.SpecialItemManager;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.CmdDerius;
+import dk.muj.derius.engine.EngineActivate;
 import dk.muj.derius.engine.EngineMain;
 import dk.muj.derius.engine.EngineMsg;
 import dk.muj.derius.engine.EngineScheduledDeactivate;
@@ -68,6 +69,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 	
 	// Engines
 	private List<Engine> engines = MUtil.list(
+		EngineActivate.get(),
 		EngineMain.get(),
 		EngineScheduledDeactivate.get(),
 		EngineMsg.get());
