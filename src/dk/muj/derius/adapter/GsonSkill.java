@@ -2,10 +2,10 @@ package dk.muj.derius.adapter;
 
 import org.bukkit.plugin.Plugin;
 
-import dk.muj.derius.api.skill.DeriusSkill;
+import dk.muj.derius.api.skill.SkillAbstract;
 
 
-public final class GsonSkill extends DeriusSkill
+public final class GsonSkill extends SkillAbstract
 {
 	// -------------------------------------------- //
 	// CONSTRUCT

@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.arg.ARDPlayer;
@@ -22,7 +22,7 @@ public class CmdDeriusSpList  extends DeriusCommand
 	{
 		this.addOptionalArg("player", "you");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LIST.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SPECIALISATION_LIST.getNode()));
 	}
 		
 	// -------------------------------------------- //
@@ -37,7 +37,7 @@ public class CmdDeriusSpList  extends DeriusCommand
 		
 		List<String> msgs = new ArrayList<String>();
 		
-		if (mplayer != dsender && !Perm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
+		if (mplayer != dsender && !DeriusPerm.SPECIALISATION_LIST_OTHER.has(sender, true)) return;
 
 		msgs.add(Txt.titleize(String.format("%s's <i>Specialisations", mplayer.getDisplayName(dsender))));
 		

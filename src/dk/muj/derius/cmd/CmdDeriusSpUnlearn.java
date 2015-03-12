@@ -9,7 +9,7 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.cmd.arg.ARSkill;
@@ -25,7 +25,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 	{
 		this.addRequiredArg("skill");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_UNLEARN.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SPECIALISATION_UNLEARN.getNode()));
 	}
 		
 	// -------------------------------------------- //

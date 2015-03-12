@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.cmd.HelpCommand;
 import com.massivecraft.massivecore.cmd.VisibilityMode;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 
 public class CmdDeriusDebug extends DeriusCommand
 {
@@ -32,7 +32,7 @@ public class CmdDeriusDebug extends DeriusCommand
 		this.setVisibilityMode(VisibilityMode.SECRET);
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.DEBUG.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.DEBUG.getNode()));
 	}
 	
 }

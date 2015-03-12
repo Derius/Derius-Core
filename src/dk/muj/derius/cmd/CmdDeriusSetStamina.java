@@ -5,7 +5,7 @@ import com.massivecraft.massivecore.cmd.VisibilityMode;
 import com.massivecraft.massivecore.cmd.arg.ARDouble;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.entity.mplayer.MPlayer;
 
@@ -25,7 +25,7 @@ public class CmdDeriusSetStamina extends DeriusCommand
 		this.setVisibilityMode(VisibilityMode.SECRET);
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.SETSTAMINA.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SETSTAMINA.getNode()));
 	}
 	
 	// -------------------------------------------- //

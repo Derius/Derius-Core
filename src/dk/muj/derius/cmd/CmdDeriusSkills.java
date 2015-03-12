@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.cmd.req.ReqIsPlayer;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 
 public class CmdDeriusSkills extends DeriusCommand
 {
@@ -14,7 +14,7 @@ public class CmdDeriusSkills extends DeriusCommand
 	
 	public CmdDeriusSkills()
 	{
-		this.addRequirements(ReqHasPerm.get(Perm.SKILL.getNode()), ReqIsPlayer.get());
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SKILL.getNode()), ReqIsPlayer.get());
 	}
 	
 	// -------------------------------------------- //

@@ -10,7 +10,7 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.skill.Skill;
@@ -29,7 +29,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		this.addRequiredArg("skill");
 		
 		this.addRequirements(ReqIsPlayer.get());
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION_LEARN.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SPECIALISATION_LEARN.getNode()));
 	}
 		
 	// -------------------------------------------- //

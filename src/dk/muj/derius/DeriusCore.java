@@ -92,7 +92,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 		ItemManager.setup();
 		
 		// Command registration
-		this.outerCmdDerius = new CmdDerius() { @Override public List<String> getAliases() { return MConf.get().outerAliasesDerius; } };
+		this.outerCmdDerius = new CmdDerius() { public List<String> getAliases() { return MConf.get().outerAliasesDerius; } };
 		this.outerCmdDerius.register(this);
 		
 		EngineMain.instantiatePlayerFields(IdUtil.CONSOLE_ID);

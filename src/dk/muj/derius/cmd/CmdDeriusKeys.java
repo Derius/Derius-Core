@@ -5,7 +5,7 @@ import java.util.List;
 import com.massivecraft.massivecore.cmd.HelpCommand;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusKeys extends DeriusCommand
@@ -31,7 +31,7 @@ public class CmdDeriusKeys extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusKeysRemove);
 		this.addSubCommand(this.innerCmdDeriusKeysAbilityid);
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.KEYS.getNode()));
 	}
 	
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.massivecraft.massivecore.cmd.HelpCommand;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.entity.MConf;
 
 public class CmdDeriusSpecialise extends DeriusCommand
@@ -31,7 +31,7 @@ public class CmdDeriusSpecialise extends DeriusCommand
 		this.addSubCommand(innerCmdDeriusSpInfo);
 		this.addSubCommand(innerCmdDeriusSpList);
 		
-		this.addRequirements(ReqHasPerm.get(Perm.SPECIALISATION.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SPECIALISATION.getNode()));
 	}
 	
 }

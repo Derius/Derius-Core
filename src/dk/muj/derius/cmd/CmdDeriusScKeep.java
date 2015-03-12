@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.arg.ARBoolean;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.util.ScoreboardUtil;
@@ -22,7 +22,7 @@ public class CmdDeriusScKeep extends DeriusCommand
 		this.addOptionalArg("player", "you");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.SCOREBOARD_KEEP.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SCOREBOARD_KEEP.getNode()));
 	}
 	
 	// -------------------------------------------- //

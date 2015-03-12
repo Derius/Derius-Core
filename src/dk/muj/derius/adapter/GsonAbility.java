@@ -1,10 +1,10 @@
 package dk.muj.derius.adapter;
 
-import dk.muj.derius.api.ability.DeriusAbility;
+import dk.muj.derius.api.ability.AbilityAbstract;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 
-public final class GsonAbility extends DeriusAbility
+public final class GsonAbility extends AbilityAbstract
 {
 	// -------------------------------------------- //
 	// CONSTRUCT

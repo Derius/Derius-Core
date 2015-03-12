@@ -11,7 +11,7 @@ import com.massivecraft.massivecore.pager.PagerSimple;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.skill.Skill;
 
@@ -27,7 +27,7 @@ public class CmdDeriusList extends DeriusCommand
 		this.addOptionalArg("page", "1");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.LIST.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.LIST.getNode()));
 	}
 	
 	// -------------------------------------------- //

@@ -12,7 +12,7 @@ import com.massivecraft.massivecore.pager.PagerSimple;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.player.DPlayer;
@@ -33,7 +33,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		this.addOptionalArg("page", "1");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.INSPECT.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.INSPECT.getNode()));
 	}
 	
 	// -------------------------------------------- //
@@ -47,7 +47,7 @@ public class CmdDeriusInspect extends DeriusCommand
 		DPlayer dplayer = this.arg(0, ARDPlayer.getAny(), dsender);
 		int pageHumanBased = this.arg(1, ARInteger.get(), 1);
 		
-		if (dplayer != dsender && Perm.INSPECT_OTHERS.has(dsender.getSender(), true)) return;
+		if (dplayer != dsender && DeriusPerm.INSPECT_OTHERS.has(dsender.getSender(), true)) return;
 		
 		String title =  (dplayer == dsender) ? Txt.parse("<green>%s", DLang.get().getYourSkills()) 
 				: Txt.parse("%s's <green>%s", dplayer.getDisplayName(dsender), DLang.get().getSkills());

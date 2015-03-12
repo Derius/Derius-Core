@@ -9,7 +9,7 @@ import com.massivecraft.massivecore.pager.PagerSimple;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 
@@ -24,7 +24,7 @@ public class CmdDeriusKeysList extends DeriusCommand
 		this.addOptionalArg("player", "yourself");
 		this.addOptionalArg("page", "1");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_LIST.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.KEYS_LIST.getNode()));
 	}
 	
 	// -------------------------------------------- //

@@ -11,7 +11,6 @@ import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.adapter.GsonAbility;
 import dk.muj.derius.api.ability.Ability;
-import dk.muj.derius.api.ability.DeriusAbility;
 
 public class AbilityColl extends Coll<Ability>
 {
@@ -49,7 +48,7 @@ public class AbilityColl extends Coll<Ability>
 		for (Ability ability : get().getAll())
 		{
 			if (ability == null) continue;
-			if ( ! ability.isEnabled()) continue;
+			if (ability instanceof GsonAbility) continue;
 			abilities.add(ability);
 		}
 		
@@ -61,7 +60,7 @@ public class AbilityColl extends Coll<Ability>
 	// -------------------------------------------- //
 	
 	@Override
-	public DeriusAbility createNewInstance()
+	public Ability createNewInstance()
 	{
 		return new GsonAbility();
 	}

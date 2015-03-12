@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.config.DLang;
@@ -30,7 +30,7 @@ public class CmdDeriusSkill extends DeriusCommand
 		this.addOptionalArg("level", "your");
 		
 		// Requirements
-		this.addRequirements(ReqHasPerm.get(Perm.SKILL.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.SKILL.getNode()));
 	}
 
 	// -------------------------------------------- //

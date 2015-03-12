@@ -26,11 +26,11 @@ public class MLang extends Entity<MConf> implements DLang
 	private String levelStatusFormat = "<yellow>LVL: <h>{level}  <yellow>XP: <silver><<aqua>{exp}<lime> / <aqua>{expToNext}<silver>>";
 	private String levelStatusFormatMini = "<yellow>LVL: <h>{level}";
 	
-	private String toolPrepared = "<i>You prepared your <h>{tool}";
-	private String toolNotPrepared = "<i>You lowered your <h>{tool}";
+	private String toolPrepared = "<i>You prepared your <h>{tool}<i>.";
+	private String toolNotPrepared = "<i>You lowered your <h>{tool}<i>.";
 	
-	private String mustBeGamemode = "<b>Your gamemode must be <h>{gm} <b>to do this";
-	private String mustNotBeGamemode = "<b>Your gamemode can't be <h>{gm} <b>to do this";
+	private String mustBeGamemode = "<b>Your gamemode must be <h>{gm} <b>to do this.";
+	private String mustNotBeGamemode = "<b>Your gamemode can't be <h>{gm} <b>to do this.";
 	
 	private String mustHaveEnoughStamina = "<b>You don't have enough Stamina to use %s<b>.";
 	
@@ -42,18 +42,15 @@ public class MLang extends Entity<MConf> implements DLang
 	// MESSAGES: ABILITIES
 	// -------------------------------------------- //
 	
-	private String abilityActivated = "<i>You activated {ability}";
-	private String abilityDeactivated = "<i>The ability {ability} <i>ran out";
-	private String abilityAreaIllegal = "<b>Sorry, {ability}<b> can't be used in this area";
-	
+	private String abilityActivated = "<i>You activated {ability}<i>.";
+	private String abilityDeactivated = "<i>The ability {ability} <i>ran out.";
+	private String abilityAreaIllegal = "<b>Sorry, {ability}<b> can't be used in this area.";
 	
 	private String abilityColorPlayerCanUse = "<pink>";
 	private String abilityColorPlayerCantUse = "<gray>";
 	
-	
 	private String abilityNoSuchId = "<i>The ability id <h>{id} <i>not valid/not in use.";
-	private String abilityDisabled = "<b>The ability {ability} <b>is not enabled";
-	
+	private String abilityDisabled = "<b>The ability {ability} <b>is not enabled.";
 	
 	private String abilityDisplayedDescription = "{name}: <i>{desc}";
 	
@@ -186,7 +183,7 @@ public class MLang extends Entity<MConf> implements DLang
 	
 	@Override public String getAbilityDisplayedDescription(){	return this.abilityDisplayedDescription;}
 	@Override public void setAbilityDisplayedDescription(String abilityDisplayedDescription){	this.abilityDisplayedDescription = abilityDisplayedDescription;}
-	
+
 	@Override public String getSkillDisplayedDescription(){	return this.skillDisplayedDesc;}
 	@Override public void setSkillDIsplayedDescription(String skillDisplayedDesc){	this.skillDisplayedDesc = skillDisplayedDesc;}
 	

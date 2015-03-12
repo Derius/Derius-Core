@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.cmd.arg.ARSet;
 import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.config.DLang;
 
 public class CmdDeriusKeysRemove extends DeriusCommand
@@ -21,7 +21,7 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 		this.addRequiredArg("keys/all");
 		
 		this.setErrorOnToManyArgs(false);
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_REMOVE.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.KEYS_REMOVE.getNode()));
 	}
 	
 	// -------------------------------------------- //

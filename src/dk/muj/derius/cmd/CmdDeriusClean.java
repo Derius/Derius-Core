@@ -3,7 +3,7 @@ package dk.muj.derius.cmd;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 
 public class CmdDeriusClean extends DeriusCommand
 {
@@ -17,7 +17,7 @@ public class CmdDeriusClean extends DeriusCommand
 		this.addOptionalArg("player/all", "you");
 		this.addOptionalArg("force it", "no");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.CLEAN.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.CLEAN.getNode()));
 	}
 	
 	// -------------------------------------------- //

@@ -11,7 +11,6 @@ import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.adapter.GsonSkill;
 import dk.muj.derius.api.ability.Ability;
-import dk.muj.derius.api.skill.DeriusSkill;
 import dk.muj.derius.api.skill.Skill;
 
 public class SkillColl extends Coll<Skill>
@@ -62,7 +61,7 @@ public class SkillColl extends Coll<Skill>
 	// -------------------------------------------- //
 	
 	@Override
-	public DeriusSkill createNewInstance()
+	public Skill createNewInstance()
 	{
 		return new GsonSkill();
 	}

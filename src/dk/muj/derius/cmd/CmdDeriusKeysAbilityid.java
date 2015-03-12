@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.Perm;
+import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.skill.Skill;
@@ -23,7 +23,7 @@ public class CmdDeriusKeysAbilityid extends DeriusCommand
 	{
 		this.addOptionalArg("skill", "all");
 		
-		this.addRequirements(ReqHasPerm.get(Perm.KEYS_ABILITYID.getNode()));
+		this.addRequirements(ReqHasPerm.get(DeriusPerm.KEYS_ABILITYID.getNode()));
 	}
 	
 	// -------------------------------------------- //
