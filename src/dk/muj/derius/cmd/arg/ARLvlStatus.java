@@ -30,7 +30,7 @@ public class ARLvlStatus extends ArgReaderAbstract<LvlStatus>
 		ArgReader<Integer> innerReader = ARInteger.get();
 		Integer inner = innerReader.read(arg, sender);
 		
-		return new LvlStatusDefault(inner);
+		return LvlStatusDefault.valueOf(inner);
 	}
 
 }
