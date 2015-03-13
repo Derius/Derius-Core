@@ -135,7 +135,7 @@ public class DeriusCore extends MassivePlugin implements Derius
 	// DEBUG
 	// -------------------------------------------- //
 	
-	public static void debug(int level, String format, Object... args)
+	public void debug(int level, String format, Object... args)
 	{
 		if (MConf.get().debugLevel < level) return;
 		

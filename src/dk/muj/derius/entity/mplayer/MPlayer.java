@@ -89,7 +89,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
 	private transient long cooldown = 0;
-	public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; Thread.dumpStack(); }
+	public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; }
 	public long getCooldownExpire() { return cooldown; }
 	public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
 	
