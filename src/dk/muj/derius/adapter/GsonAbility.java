@@ -1,5 +1,7 @@
 package dk.muj.derius.adapter;
 
+import java.util.Optional;
+
 import dk.muj.derius.api.ability.AbilityAbstract;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
@@ -42,9 +44,9 @@ public final class GsonAbility extends AbilityAbstract
 	}
 
 	@Override
-	public String getLvlDescriptionMsg(int lvl)
+	public Optional<String> getLvlDescriptionMsg(int lvl)
 	{
-		return null;
+		return Optional.empty();
 	}
 
 	@Override

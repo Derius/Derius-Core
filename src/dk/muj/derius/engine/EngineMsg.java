@@ -19,7 +19,7 @@ import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.ability.Ability.AbilityType;
 import dk.muj.derius.api.config.DLang;
-import dk.muj.derius.api.events.AbilityActivateEvent;
+import dk.muj.derius.api.events.AbilityActivatePreEvent;
 import dk.muj.derius.api.events.AbilityDeactivateEvent;
 import dk.muj.derius.api.events.player.PlayerLevelUpEvent;
 import dk.muj.derius.api.events.player.PlayerToolPrepareEvent;
@@ -53,7 +53,7 @@ public class EngineMsg extends EngineAbstract
 	
 	// Ability
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void sendAbilityActivateMsg(AbilityActivateEvent event)
+	public void sendAbilityActivateMsg(AbilityActivatePreEvent event)
 	{
 		Ability ability = event.getAbility();
 		DPlayer dplayer = event.getDPlayer();

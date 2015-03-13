@@ -67,8 +67,8 @@ public class CmdDeriusSkill extends DeriusCommand
 		for (Ability ability : skill.getAbilities())
 		{
 			if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;
-			if (ability.getLvlDescriptionMsg(status.getLvl()) == null) continue;
-			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));
+			if ( ! ability.getLvlDescriptionMsg(status.getLvl()).isPresent()) continue;
+			msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl()).get()));
 		}
 		
 		// Send Message
