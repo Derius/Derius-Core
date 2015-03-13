@@ -51,12 +51,12 @@ public class CmdDeriusSpLearn extends DeriusCommand
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAll()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 			msg(DLang.get().getSpecialisationCantChange());
-			msg(DLang.get().getSpecialisationMoveCooldown().replaceAll("{time}", moveDesc));
+			msg(DLang.get().getSpecialisationMoveCooldown().replace("{time}", moveDesc));
 			return;
 		}
 		
 		dsender.setSpecialisedIn(skill, true);
-		msg(DLang.get().getSpecialisationSuccess().replaceAll("{skill}", skill.getDisplayName(dsender)));
+		msg(DLang.get().getSpecialisationSuccess().replace("{skill}", skill.getDisplayName(dsender)));
 	
 		return;
 	}

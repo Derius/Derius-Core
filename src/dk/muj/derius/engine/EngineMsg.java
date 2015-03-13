@@ -64,7 +64,7 @@ public class EngineMsg extends EngineAbstract
 		int fadeOut = DLang.get().getTimeAbilityActivateFadeOut();
 		
 		String name = ability.getDisplayName(dplayer);
-		String message =  DLang.get().getAbilityActivated().replaceAll("{ability}", name);
+		String message =  DLang.get().getAbilityActivated().replace("{ability}", name);
 		
 		Mixin.sendTitleMsg(dplayer, fadeIn, stay, fadeOut, null, message);
 		
@@ -83,7 +83,7 @@ public class EngineMsg extends EngineAbstract
 		int fadeOut = DLang.get().getTimeAbilityDeactivateFadeOut();
 		
 		String name = ability.getDisplayName(dplayer);
-		String message =  DLang.get().getAbilityDeactivated().replaceAll("{ability}", name);
+		String message =  DLang.get().getAbilityDeactivated().replace("{ability}", name);
 		
 		Mixin.sendTitleMsg(dplayer, fadeIn, stay, fadeOut, null, message);
 		
@@ -105,7 +105,7 @@ public class EngineMsg extends EngineAbstract
 		int fadeOut = DLang.get().getTimeLvlUpFadeOut();
 		
 		String name = skill.getDisplayName(dplayer);
-		String message = DLang.get().getLevelUp().replaceAll("{level}", String.valueOf(dplayer.getLvl(skill))).replaceAll("{skill}", name);
+		String message = DLang.get().getLevelUp().replace("{level}", String.valueOf(dplayer.getLvl(skill))).replace("{skill}", name);
 		
 		Mixin.sendTitleMsg(dplayer, fadeIn, stay, fadeOut, null, message);
 	}
@@ -117,7 +117,7 @@ public class EngineMsg extends EngineAbstract
 		DPlayer dplayer = event.getDPlayer();
 		Material tool = event.getTool();
 		String toolName = toolToString(tool);
-		String message = Txt.parse(DLang.get().getToolPrepared().replaceAll("{tool}", toolName));
+		String message = Txt.parse(DLang.get().getToolPrepared().replace("{tool}", toolName));
 		
 		sendActionBar(dplayer.getPlayer(), message);
 		
@@ -130,7 +130,7 @@ public class EngineMsg extends EngineAbstract
 		DPlayer dplayer = event.getDPlayer();
 		Material tool = event.getTool();
 		String toolName = toolToString(tool);
-		String message = Txt.parse(DLang.get().getToolNotPrepared().replaceAll("{tool}", toolName));
+		String message = Txt.parse(DLang.get().getToolNotPrepared().replace("{tool}", toolName));
 		
 		sendActionBar(dplayer.getPlayer(), message);
 		

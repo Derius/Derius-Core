@@ -83,7 +83,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// A Map that stores which string a player types in chat should activate what ability.
 	protected Map<String, String> chatKeys = new HashMap<String, String>();
 	
-	private Scoreboard sc = ScoreboardUtil.MANAGER.getNewScoreboard();
+	private Scoreboard sc = ScoreboardUtil.getManager().getNewScoreboard();
 	public Scoreboard getScoreboard() { return this.sc; }
 	
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer

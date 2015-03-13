@@ -47,12 +47,12 @@ public class CmdDeriusKeysRemove extends DeriusCommand
 			// Isn't chat key
 			if ( ! dsender.isAlreadyChatKey(key))
 			{
-				msg(DLang.get().getKeyHasnt().replaceAll("{key}", key));
+				msg(DLang.get().getKeyHasnt().replace("{key}", key));
 				return;
 			}
 			
 			dsender.removeChatKey(key);
-			msg(DLang.get().getKeyRemoveSuccess().replaceAll("{key}", key));
+			msg(DLang.get().getKeyRemoveSuccess().replace("{key}", key));
 		}
 		
 		return;

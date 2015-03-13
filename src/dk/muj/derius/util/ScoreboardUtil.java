@@ -38,7 +38,12 @@ public final class ScoreboardUtil
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public static ScoreboardManager MANAGER = Bukkit.getScoreboardManager();
+	private static ScoreboardManager MANAGER = null;
+	public static ScoreboardManager getManager()
+	{
+		if (MANAGER == null) MANAGER = Bukkit.getScoreboardManager();
+		return MANAGER;
+	}
 	
 	// -------------------------------------------- //
 	// STAMINA SCOREBOARD

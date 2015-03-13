@@ -89,6 +89,8 @@ public class DeriusCore extends MassivePlugin implements Derius
 		SkillColl.get().init();
 		AbilityColl.get().init();
 		
+		this.setApiFields();
+		
 		// Engine activation
 		engines.forEach(Engine::activate);
 
@@ -102,8 +104,6 @@ public class DeriusCore extends MassivePlugin implements Derius
 		
 		// ModulaRepeatTask
 		TaskPlayerStaminaUpdate.get().activate();
-		
-		this.setApiFields();
 		
 		this.postEnable();
 	}

@@ -36,19 +36,19 @@ public class CmdDeriusKeysAdd extends DeriusCommand
 		// Already a chat key?
 		if (dsender.isAlreadyChatKey(key))
 		{
-			sendMessage(Txt.parse(DLang.get().getKeyAlreadyHas().replaceAll("{key}", key)));
+			sendMessage(Txt.parse(DLang.get().getKeyAlreadyHas().replace("{key}", key)));
 			return;
 		}
 		
 		Ability ability = DeriusAPI.getAbility(id);
 		if (ability == null)
 		{
-			sendMessage(Txt.parse(DLang.get().getAbilityNoSuchId().replaceAll("{id}", id)));
+			sendMessage(Txt.parse(DLang.get().getAbilityNoSuchId().replace("{id}", id)));
 			return;
 		}
 		
 		dsender.addChatKey(key, ability);
-		sendMessage(Txt.parse(DLang.get().getKeyAddSuccess().replaceAll("{key}", key).replaceAll("{ability}", ability.getDisplayName(dsender))));
+		sendMessage(Txt.parse(DLang.get().getKeyAddSuccess().replace("{key}", key).replace("{ability}", ability.getDisplayName(dsender))));
 		
 		return;
 	}

@@ -23,7 +23,7 @@ public class CmdDeriusSpInfo extends DeriusCommand
 	@Override
 	public void perform()
 	{
-		msg(DLang.get().getSpecialisationInfo().replaceAll("{max}", String.valueOf(dsender.getMaxSpecialisationSlots())));
+		msg(DLang.get().getSpecialisationInfo().replace("{max}", String.valueOf(dsender.getMaxSpecialisationSlots())));
 		return;
 	}
 

@@ -45,24 +45,24 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(moveMillis, TimeUnit.getAllButMillis()), 3);
 			String moveDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
 			msg(DLang.get().getSpecialisationCantChange());
-			msg(DLang.get().getSpecialisationMoveCooldown().replaceAll("{time}", moveDesc));
+			msg(DLang.get().getSpecialisationMoveCooldown().replace("{time}", moveDesc));
 			return;
 		}
 		
 		if (skill.isSpAutoAssigned())
 		{
-			msg(DLang.get().getSpecialisationAutoAssigned().replaceAll("{skill}", skill.getDisplayName(dsender)));
+			msg(DLang.get().getSpecialisationAutoAssigned().replace("{skill}", skill.getDisplayName(dsender)));
 			return;
 		}
 		else if ( ! dsender.isSpecialisedIn(skill))
 		{
-			msg(DLang.get().getSpecialisationIsnt().replaceAll("{skill}", skill.getDisplayName(dsender)));
+			msg(DLang.get().getSpecialisationIsnt().replace("{skill}", skill.getDisplayName(dsender)));
 			return;
 		}
 		
 		dsender.setNotSpecialisedIn(skill);
 		
-		msg(DLang.get().getSpecialisationRemoved().replaceAll("{skill}", skill.getDisplayName(dsender)));
+		msg(DLang.get().getSpecialisationRemoved().replace("{skill}", skill.getDisplayName(dsender)));
 		
 		return;
 	}
