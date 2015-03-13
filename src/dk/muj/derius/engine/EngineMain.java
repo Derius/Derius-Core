@@ -2,14 +2,12 @@ package dk.muj.derius.engine;
 
 import java.util.Optional;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
@@ -32,7 +30,6 @@ import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.api.util.AbilityUtil;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
-import dk.muj.derius.util.ScoreboardUtil;
 
 public class EngineMain extends EngineAbstract
 {
@@ -120,12 +117,7 @@ public class EngineMain extends EngineAbstract
 		{
 			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
 		}
-		
-		if (mplayer.getBoardShowAtAll() && mplayer.getStaminaBoardStay())
-		{
-			ScoreboardUtil.updateStaminaScore(mplayer, 5, mplayer.getStamina());
-		}
-		
+
 		return;
 	}
 	
@@ -147,29 +139,15 @@ public class EngineMain extends EngineAbstract
 		
 		return;
 	}
-	
-	// -------------------------------------------- //
-	// STAMINA
-	// -------------------------------------------- //
-	
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void blockSprintOnLowStamina(PlayerToggleSprintEvent event)
-	{
-		if ( ! event.isSprinting()) return;
-		Player player = event.getPlayer();
-		DPlayer dplayer = DeriusAPI.getDPlayer(player);
-		event.setCancelled(dplayer.getStamina() < DeriusAPI.staminaSprintLimit(player));
-	}
-	
+
 	// -------------------------------------------- //
 	// CALL LISTENERS
 	// -------------------------------------------- //
 
 	@EventHandler(priority = EventPriority.MONITOR)//, ignoreCancelled = true)
-	public void onInteract(PlayerInteractEvent event)
+	public void setPreparedTool(PlayerInteractEvent event)
 	{	
-		Action action = event.getAction();
-		if (action != Action.RIGHT_CLICK_AIR) return;
+		if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
 		
 		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		

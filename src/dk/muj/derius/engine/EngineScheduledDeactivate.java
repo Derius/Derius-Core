@@ -18,6 +18,7 @@ public class EngineScheduledDeactivate extends EngineAbstract
 	
 	private static EngineScheduledDeactivate i = new EngineScheduledDeactivate();
 	public static EngineScheduledDeactivate get() { return i; }
+	private EngineScheduledDeactivate() { }
 	
 	// -------------------------------------------- //
 	// SCHEDULED TELEPORT INDEX
@@ -71,10 +72,7 @@ public class EngineScheduledDeactivate extends EngineAbstract
 		long now = System.currentTimeMillis();
 		for (ScheduledDeactivate sd : playerIdToScheduledDeactivate.values())
 		{
-			if (sd.isDue(now))
-			{
-				sd.run();
-			}
+			if (sd.isDue(now)) sd.run();
 		}
 	}
 	

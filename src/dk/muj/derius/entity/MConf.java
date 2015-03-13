@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
-import com.massivecraft.massivecore.util.Txt;
+import com.massivecraft.massivecore.util.TimeUnit;
 
 public class MConf extends Entity<MConf>
 {
@@ -34,7 +34,7 @@ public class MConf extends Entity<MConf>
 	 * before being able to change specialisation again
 	 * this counts for both learning & unlearning
 	 */
-	public long specialisationCooldown = Txt.millisPerDay*3;
+	public long specialisationCooldown = TimeUnit.MILLIS_PER_DAY*3;
 	
 	/**
 	 * The amount of millis a player will have to stand still

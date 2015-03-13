@@ -82,7 +82,7 @@ public class EngineActivate extends EngineAbstract
 			// ...and their action blocks contains the borken block...
 			if ( ! abilitySi.getBlockTypes().contains(block)) continue;
 			// ...activate
-			AbilityUtil.activateAbility(dplayer, ability, event, VerboseLevel.ALWAYS);
+			AbilityUtil.activateAbility(dplayer, ability, event.getBlock(), VerboseLevel.LOW);
 			break; // We are done now.
 		}
 	}
