@@ -35,7 +35,6 @@ import dk.muj.derius.api.lvl.LvlStatus;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.util.Listener;
 import dk.muj.derius.util.ScoreboardUtil;
 
 public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
@@ -421,7 +420,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		if (tool.isPresent())
 		{
 			if (this.hasActivatedAny() || this.getPreparedTool().isPresent()) return;
-			if ( ! Listener.isRegistered(tool.get())) return;
+			if ( ! DeriusAPI.isRegisteredAsPreparable(tool.get())) return;
 		
 			PlayerToolPrepareEvent event = new PlayerToolPrepareEvent(tool.get(), this);
 			if ( ! event.runEvent()) return;

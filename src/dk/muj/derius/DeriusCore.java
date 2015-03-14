@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.Engine;
@@ -83,12 +84,14 @@ public class DeriusCore extends MassivePlugin implements Derius
 	{
 		if ( ! this.preEnable()) return;
 		
+		// We must first init the collections...
 		MConfColl.get().init();
 		MLangColl.get().init();
 		MPlayerColl.get().init();
 		SkillColl.get().init();
 		AbilityColl.get().init();
 		
+		// ... because some of them are used when instantiating the api fields.
 		this.setApiFields();
 		
 		// Engine activation
@@ -274,6 +277,40 @@ public class DeriusCore extends MassivePlugin implements Derius
 	}
 	
 	// -------------------------------------------- //
+	// OVERRIDE: DERIUS: PREPARABLE TOOLS
+	// -------------------------------------------- //
+	
+	@Override
+	public Collection<Material> getPreparableTools()
+	{
+		return EngineMain.getPreparableTools();
+	}
+	
+	@Override
+	public void registerPreparableTools(Collection<Material> materials)
+	{
+		EngineMain.registerPreparableTools(materials);
+	}
+	
+	@Override
+	public void registerPreparableTool(Material material)
+	{
+		EngineMain.registerPreparableTool(material);
+	}
+	
+	@Override
+	public boolean isRegisteredAsPreparable(Material material)
+	{
+		return EngineMain.isRegisteredAsPreparable(material);
+	}
+	
+	@Override
+	public void unregisterPreparableTool(Material material)
+	{
+		EngineMain.unregisterPreparableTool(material);
+	}
+	
+	// -------------------------------------------- //
 	// OVERRIDE: DERIUS: SCHEDULED TELEPORT
 	// -------------------------------------------- //
 	
@@ -301,5 +338,5 @@ public class DeriusCore extends MassivePlugin implements Derius
 	{
 		ItemManager.addManager(manager);
 	}
-	
+
 }

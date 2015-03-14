@@ -1,7 +1,10 @@
 package dk.muj.derius.engine;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -51,6 +54,17 @@ public class EngineMain extends EngineAbstract
 	{
 		return DeriusCore.get();
 	}
+	
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
+	private final static Collection<Material> preparableTools = new HashSet<>();
+	public static Collection<Material> getPreparableTools() { return preparableTools; }
+	public static void registerPreparableTools(Collection<Material> materials) { preparableTools.addAll(materials);}
+	public static void registerPreparableTool(Material material) { preparableTools.add(material); }
+	public static boolean isRegisteredAsPreparable(Material material) { return getPreparableTools().contains(material); }
+	public static void unregisterPreparableTool(Material material) { preparableTools.remove(material); }
 	
 	// -------------------------------------------- //
 	// REGISTER
