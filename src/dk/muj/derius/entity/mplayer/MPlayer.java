@@ -83,8 +83,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// A Map that stores which string a player types in chat should activate what ability.
 	protected Map<String, String> chatKeys = new HashMap<String, String>();
 	
-	private Scoreboard sc = ScoreboardUtil.getManager().getNewScoreboard();
-	public Scoreboard getScoreboard() { return this.sc; }
+	private Scoreboard sc = null; // We can't init this field on startup.
+	public Scoreboard getScoreboard() { if(sc == null) sc = ScoreboardUtil.getManager().getNewScoreboard(); return this.sc; }
+	public void setScoreboard(Scoreboard sc) { this.sc = sc; }
 	
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
@@ -134,7 +135,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	public void addExp(Skill skill, long exp)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
-		Validate.isTrue(exp > 0, "Exp values must be positive");
+		if (exp < 0)
+		{
+			this.takeExp(skill, Math.abs(exp));
+			return;
+		}
 		
 		int lvlBefore = this.getLvl(skill);
 		
@@ -157,7 +162,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	public void takeExp(Skill skill, long exp)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
-		Validate.isTrue(exp > 0, "Exp values must be positive");
+		if (exp < 0)
+		{
+			this.addExp(skill, Math.abs(exp));
+			return;
+		}
 		
 		int lvlBefore = this.getLvl(skill);
 		

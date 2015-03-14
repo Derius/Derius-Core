@@ -7,14 +7,14 @@ public class DeriusConst
 	// DATABASE
 	// -------------------------------------------- //
 	
-	public static final String BASENAME = "derius";
+	public static final String BASENAME = "Derius";
 	public static final String BASENAME_ = BASENAME + "/";
 	
-	public static final String COLLECTION_MPLAYER = BASENAME_ + "players";
-	public static final String COLLECTION_MCONF	= BASENAME_	+ "config";
-	public static final String COLLECTION_MLANG	= BASENAME_	+ "lang";
-	public static final String COLLECTION_SKILLS = BASENAME_ + "skills";
-	public static final String COLLECTION_ABILITIES	= BASENAME_ + "abilities";
+	public static final String COLLECTION_MPLAYER = BASENAME_ + "Players";
+	public static final String COLLECTION_MCONF	= BASENAME_	+ "Config";
+	public static final String COLLECTION_MLANG	= BASENAME_	+ "Lang";
+	public static final String COLLECTION_SKILLS = BASENAME_ + "Skills";
+	public static final String COLLECTION_ABILITIES	= BASENAME_ + "Abilities";
 	
 	// -------------------------------------------- //
 	// REFLECTION

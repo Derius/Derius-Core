@@ -72,7 +72,11 @@ public class EngineScheduledDeactivate extends EngineAbstract
 		long now = System.currentTimeMillis();
 		for (ScheduledDeactivate sd : playerIdToScheduledDeactivate.values())
 		{
-			if (sd.isDue(now)) sd.run();
+			if (sd.isDue(now))
+			{
+				sd.run();
+				this.unschedule(sd);
+			}
 		}
 	}
 	
