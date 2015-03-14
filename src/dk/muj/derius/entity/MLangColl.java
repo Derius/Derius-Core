@@ -6,7 +6,7 @@ import com.massivecraft.massivecore.store.MStore;
 import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 
-public class MLangColl extends Coll<MLang>
+public final class MLangColl extends Coll<MLang>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT

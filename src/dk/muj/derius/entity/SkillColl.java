@@ -13,7 +13,7 @@ import dk.muj.derius.adapter.GsonSkill;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.skill.Skill;
 
-public class SkillColl extends Coll<Skill>
+public final class SkillColl extends Coll<Skill>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -69,8 +69,8 @@ public class SkillColl extends Coll<Skill>
 	@Override
 	public void copy(Object ofrom, Object oto)
 	{
-		if (ofrom == null) throw new NullPointerException("ofrom");
-		if (oto == null) throw new NullPointerException("oto");
+		if (ofrom == null) throw new IllegalArgumentException("ofrom");
+		if (oto == null) throw new IllegalArgumentException("oto");
 		
 		if ( ! (ofrom instanceof Skill)) throw new IllegalArgumentException("ofrom must be an ability");
 		if ( ! (oto instanceof Skill)) throw new IllegalArgumentException("ofrom must be an ability");

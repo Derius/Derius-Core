@@ -38,11 +38,9 @@ public final class ScoreboardUtil
 	// FIELDS
 	// -------------------------------------------- //
 	
-	private static ScoreboardManager MANAGER = null;
 	public static ScoreboardManager getManager()
 	{
-		if (MANAGER == null) MANAGER = Bukkit.getScoreboardManager();
-		return MANAGER;
+		return Bukkit.getScoreboardManager();
 	}
 	
 	// -------------------------------------------- //
@@ -105,7 +103,7 @@ public final class ScoreboardUtil
 	 */
 	public static void resetScoreBoard(DPlayer dplayer)
 	{
-		setScoreBoard(dplayer, MANAGER.getNewScoreboard());
+		setScoreBoard(dplayer, getManager().getNewScoreboard());
 	}
 	
 	// -------------------------------------------- //

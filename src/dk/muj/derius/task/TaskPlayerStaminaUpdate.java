@@ -12,7 +12,7 @@ import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.player.DPlayer;
 
-public class TaskPlayerStaminaUpdate extends ModuloRepeatTask
+public final class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT

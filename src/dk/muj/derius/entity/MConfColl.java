@@ -6,7 +6,7 @@ import com.massivecraft.massivecore.store.MStore;
 import dk.muj.derius.DeriusConst;
 import dk.muj.derius.DeriusCore;
 
-public class MConfColl extends Coll<MConf>
+public final class MConfColl extends Coll<MConf>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
