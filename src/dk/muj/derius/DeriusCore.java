@@ -20,6 +20,7 @@ import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 
 import dk.muj.derius.adapter.AbilityAdapter;
 import dk.muj.derius.adapter.SkillAdapter;
+import dk.muj.derius.api.BlockBreakExpGain;
 import dk.muj.derius.api.Derius;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.ScheduledDeactivate;
@@ -110,7 +111,7 @@ public final class DeriusCore extends MassivePlugin implements Derius
 			EngineMain.instantiatePlayerFields(player.getUniqueId().toString());
 		}
 		
-		// ModulaRepeatTask
+		// ModuloRepeatTask
 		TaskPlayerStaminaUpdate.get().activate();
 		
 		this.postEnable();
@@ -143,6 +144,7 @@ public final class DeriusCore extends MassivePlugin implements Derius
 	// DEBUG
 	// -------------------------------------------- //
 	
+	@Override
 	public void debug(int level, String format, Object... args)
 	{
 		if (MConf.get().debugLevel < level) return;
@@ -283,6 +285,15 @@ public final class DeriusCore extends MassivePlugin implements Derius
 		
 		AbilityColl.get().attach(ability, ability.getId());
 		return;
+	}
+	
+	// -------------------------------------------- //
+	// OVERRIDE: DERIUS: EXP
+	// -------------------------------------------- //
+	
+	public void registerExpGain(BlockBreakExpGain gainer)
+	{
+		EngineActivate.registerExpGain(gainer);
 	}
 	
 	// -------------------------------------------- //

@@ -1,10 +1,14 @@
 package dk.muj.derius.engine;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -15,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 import com.massivecraft.massivecore.EngineAbstract;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.BlockBreakExpGain;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.api.ability.Ability;
@@ -79,12 +84,33 @@ public class EngineActivate extends EngineAbstract
 	public void handeBlockBreak(BlockBreakEvent event)
 	{
 		
+		if (DeriusAPI.isBlockPlacedByPlayer(event.getBlock())) return;
+		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
+		this.activateSpecialItem(event, dplayer);
+		this.handleDoubleDrop(event, dplayer);
+		this.handleExpgain(event, dplayer);
 	}
 	
-	public void activateSpecialItem(BlockBreakEvent event)
+	private static List<BlockBreakExpGain> expGainers = new ArrayList<>();
+	public static void registerExpGain(BlockBreakExpGain gainer) { expGainers.add(gainer); }
+	
+	private void handleExpgain(BlockBreakEvent event, DPlayer dplayer)
+	{
+		Material block = event.getBlock().getType();
+		Player player = event.getPlayer();
+		for (BlockBreakExpGain gainer : expGainers)
+		{
+			if ( ! gainer.getBlockTypes().containsKey(block)) continue;
+			if ( ! gainer.getToolTypes().contains(player.getItemInHand().getType())) continue;
+			if ( ! SkillUtil.canPlayerLearnSkill(dplayer, gainer.getSkill(), VerboseLevel.HIGHEST)) continue;
+			
+			dplayer.addExp(gainer.getSkill(), gainer.getBlockTypes().get(block).longValue());
+		}
+	}
+	
+	private void activateSpecialItem(BlockBreakEvent event, DPlayer dplayer)
 	{
 		// Get fields
-		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		Optional<Material> optTool = dplayer.getPreparedTool();
 		if ( ! optTool.isPresent()) return;
 		Material tool = optTool.get();
@@ -94,55 +120,67 @@ public class EngineActivate extends EngineAbstract
 		if (inHand == null || inHand.getType() == Material.AIR) return;
 		
 		// Check in all abilities
-		for (Ability ability : DeriusAPI.getAllAbilities())
+		for (AbilitySpecialItem ability : getSpecialItemAbilities())
 		{
-			// If they are for special items...
-			if ( ! (ability instanceof AbilitySpecialItem)) continue;
-			AbilitySpecialItem abilitySi = (AbilitySpecialItem) ability;
-			
 			// ...and their activation tools contains the player preparedtool...
-			if ( ! abilitySi.getToolTypes().contains(tool)) continue;
+			if ( ! ability.getToolTypes().contains(tool)) continue;
 			// ...and their action blocks contains the borken block...
-			if ( ! abilitySi.getBlockTypes().contains(block)) continue;
+			if ( ! ability.getBlockTypes().contains(block)) continue;
 			// ...activate
 			AbilityUtil.activateAbility(dplayer, ability, event.getBlock(), VerboseLevel.LOW);
 			
 			// Their tool is no longer prepared.
 			dplayer.setPreparedTool(Optional.empty());
-			
 			break; // We are done now.
 		}
 	}
 	
-	public void handleDoubleDrop(BlockBreakEvent event)
+	private Collection<AbilitySpecialItem> getSpecialItemAbilities()
 	{
-		// Get fields
-		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
-		Block block = event.getBlock();
-		Material oreType = block.getType();
-		
-		if (DeriusAPI.isBlockPlacedByPlayer(block)) return;
-		
+		List<AbilitySpecialItem> ret = new ArrayList<>();
 		// Check in all abilities
 		for (Ability ability : DeriusAPI.getAllAbilities())
 		{
-			// If they are for double drop...
-			if ( ! (ability instanceof AbilityDoubleDrop)) continue;
-			AbilityDoubleDrop abilityDd = (AbilityDoubleDrop) ability;
-			
-			if ( ! abilityDd.getBlockTypes().contains(oreType)) continue;
-			if ( ! SkillUtil.shouldDoubleDropOccur(dplayer.getLvl(abilityDd.getSkill()), abilityDd.getLevelsPerPercent())) continue;
+			// If they are for special items...
+			if ( ! (ability instanceof AbilitySpecialItem)) continue;
+			ret.add((AbilitySpecialItem) ability);
+		}
+		
+		return ret;
+	}
+	
+	private void handleDoubleDrop(BlockBreakEvent event, DPlayer dplayer)
+	{
+		// Get fields
+		Block block = event.getBlock();
+		Material oreType = block.getType();
+
+		// Check in all abilities
+		for (AbilityDoubleDrop ability : getDoubleDropAbilities())
+		{
+			if ( ! SkillUtil.shouldDoubleDropOccur(dplayer.getLvl(ability.getSkill()), ability.getLevelsPerPercent())) continue;
 			
 			// ...and their action blocks contains the borken block...
-			if ( ! abilityDd.getBlockTypes().contains(oreType)) continue;
+			if ( ! ability.getBlockTypes().contains(oreType)) continue;
 			// ...activate
 			AbilityUtil.activateAbility(dplayer, ability, event.getBlock(), VerboseLevel.HIGH);
-			
-			// Their tool is no longer prepared.
-			dplayer.setPreparedTool(Optional.empty());
-			
 			break; // We are done now.
 		}
+	}
+	
+	
+	private Collection<AbilityDoubleDrop> getDoubleDropAbilities()
+	{
+		List<AbilityDoubleDrop> ret = new ArrayList<>();
+		// Check in all abilities
+		for (Ability ability : DeriusAPI.getAllAbilities())
+		{
+			// If they are for special items...
+			if ( ! (ability instanceof AbilityDoubleDrop)) continue;
+			ret.add((AbilityDoubleDrop) ability);
+		}
+		
+		return ret;
 	}
 	
 }
