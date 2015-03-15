@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.Engine;
@@ -103,6 +104,11 @@ public class DeriusCore extends MassivePlugin implements Derius
 		this.outerCmdDerius.register(this);
 		
 		EngineMain.instantiatePlayerFields(IdUtil.CONSOLE_ID);
+		
+		for (Player player : MUtil.getOnlinePlayers())
+		{
+			EngineMain.instantiatePlayerFields(player.getUniqueId().toString());
+		}
 		
 		// ModulaRepeatTask
 		TaskPlayerStaminaUpdate.get().activate();

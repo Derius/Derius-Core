@@ -58,6 +58,9 @@ public final class ScoreboardUtil
 		Validate.notNull(dplayer, "DPlayer musn't be null for setting Scoreboards.");
 		Validate.isTrue(ticks > 0, "ticks must be positive");
 		
+		MPlayer mplayer = (MPlayer) dplayer;
+		mplayer.getScoreboard();
+		
 		Bukkit.getScheduler().runTaskAsynchronously(DeriusCore.get(), () ->
 		{
 			Scoreboard score = loadScoreBoardProgressBar(dplayer, oldStamina);
