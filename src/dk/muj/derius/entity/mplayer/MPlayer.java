@@ -213,7 +213,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 		this.stamina = newStamina;
 		
-		ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay, oldStamina);
+		if (this.isPlayer())
+		{
+			ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay, oldStamina);
+		}
 		
 		return;
 	}
@@ -253,7 +256,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return;
 	}
 	
-	// We get this value atlast 10 times per second.
+	// We have a task running 10 times per second.
+	// It calls this method, it sets stamina (also calls this)
+	// and it updates the socreboard (which alo calls this)
+	// We get this value atlast 30 times per second.
 	// So we cach it and ask for a new value every once in a while.
 	public static final transient int STAMINA_MAX_ATTEMPTS = 100;
 	private transient int staminaLastCall = STAMINA_MAX_ATTEMPTS-1;

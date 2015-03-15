@@ -133,8 +133,9 @@ public class EngineMain extends EngineAbstract
 			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
 		}
 		
+		if (mplayer.isPlayer()) mplayer.getScoreboard();
+		
 		mplayer.setStamina(0.0);
-		mplayer.getScoreboard();
 		return;
 	}
 	

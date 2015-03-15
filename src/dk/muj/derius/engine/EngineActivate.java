@@ -134,7 +134,7 @@ public class EngineActivate extends EngineAbstract
 			if ( ! SkillUtil.shouldDoubleDropOccur(dplayer.getLvl(abilityDd.getSkill()), abilityDd.getLevelsPerPercent())) continue;
 			
 			// ...and their action blocks contains the borken block...
-			if ( ! abilityDd.getBlockTypes().contains(block)) continue;
+			if ( ! abilityDd.getBlockTypes().contains(oreType)) continue;
 			// ...activate
 			AbilityUtil.activateAbility(dplayer, ability, event.getBlock(), VerboseLevel.HIGH);
 			

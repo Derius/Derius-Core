@@ -48,7 +48,6 @@ import dk.muj.derius.mixin.MaxLevelMixinDefault;
 import dk.muj.derius.mixin.StaminaMixinDefault;
 import dk.muj.derius.task.TaskPlayerStaminaUpdate;
 
-
 public class DeriusCore extends MassivePlugin implements Derius
 {
 	// -------------------------------------------- //
