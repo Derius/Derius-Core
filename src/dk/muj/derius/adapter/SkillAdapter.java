@@ -16,6 +16,7 @@ import com.massivecraft.massivecore.xlib.gson.JsonSerializer;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
 import dk.muj.derius.DeriusCore;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.skill.Skill;
 
 public class SkillAdapter implements JsonDeserializer<Skill>, JsonSerializer<Skill>
@@ -111,7 +112,11 @@ public class SkillAdapter implements JsonDeserializer<Skill>, JsonSerializer<Ski
 		if (json == null) return null;
 		
 		// It must be an object!
-		if ( ! json.isJsonObject()) return null;
+		if ( ! json.isJsonObject())
+		{
+			DeriusAPI.debug(10000, "Non jsonObject %s", json);
+			return null;
+		}
 		JsonObject jsonSkill = json.getAsJsonObject();
 		
 		Skill ret = new GsonSkill();

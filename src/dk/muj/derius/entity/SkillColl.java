@@ -72,8 +72,8 @@ public final class SkillColl extends Coll<Skill>
 		if (ofrom == null) throw new IllegalArgumentException("ofrom");
 		if (oto == null) throw new IllegalArgumentException("oto");
 		
-		if ( ! (ofrom instanceof Skill)) throw new IllegalArgumentException("ofrom must be an ability");
-		if ( ! (oto instanceof Skill)) throw new IllegalArgumentException("ofrom must be an ability");
+		if ( ! (ofrom instanceof Skill)) throw new IllegalArgumentException("ofrom must be a skill");
+		if ( ! (oto instanceof Skill)) throw new IllegalArgumentException("ofrom must be a skillcd");
 		
 		Skill sfrom = (Skill) ofrom;
 		Skill sto = (Skill) oto;

@@ -232,11 +232,15 @@ public class DeriusCore extends MassivePlugin implements Derius
 		SkillRegisteredEvent event = new SkillRegisteredEvent(skill);
 		if ( ! event.runEvent()) return;
 		
+		DeriusAPI.debug(1000, "<i>Registering skill <h>%s<i>.", skill.getName());
+		
 		if ( ! skill.isRegistered())
 		{
+			SkillColl.get().loadFromRemote(skill.getId(), null, false);
 			Skill old = SkillColl.get().get(skill.getId(), false);
 			if (old != null)
 			{
+				DeriusAPI.debug(1000, "<i>Loading old values for skill <h>%s<i>.", skill.getName());
 				skill.load(old);
 				SkillColl.get().removeAtLocal(skill.getId());
 			}
