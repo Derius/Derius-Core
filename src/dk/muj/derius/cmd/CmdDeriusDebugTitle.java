@@ -31,9 +31,9 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	@Override
 	public void perform() throws MassiveException
 	{
-		Integer fadeIn = this.arg(0, ARInteger.get());
-		Integer stay = this.arg(1, ARInteger.get());
-		Integer fadeOut = this.arg(2, ARInteger.get());
+		int fadeIn = this.arg(0, ARInteger.get());
+		int stay = this.arg(1, ARInteger.get());
+		int fadeOut = this.arg(2, ARInteger.get());
 		
 		// Use quotes and stuff in the args.
 		String title = this.arg(3);

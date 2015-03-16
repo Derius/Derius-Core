@@ -5,6 +5,7 @@ import com.massivecraft.massivecore.cmd.arg.ARBoolean;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.DeriusPerm;
+import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.util.ScoreboardUtil;
@@ -18,7 +19,7 @@ public class CmdDeriusScKeep extends DeriusCommand
 	public CmdDeriusScKeep()
 	{
 		// Args
-		this.addOptionalArg("keep", "yes/no");
+		this.addOptionalArg("yes/no", "yes");
 		this.addOptionalArg("player", "you");
 		
 		// Requirements
@@ -33,30 +34,30 @@ public class CmdDeriusScKeep extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Boolean keep = this.arg(0, ARBoolean.get(), true);
+		boolean keep = this.arg(0, ARBoolean.get(), true);
 		DPlayer dplayer = this.arg(1, ARDPlayer.getAny(), dsender);
 		
 		boolean oldKeep = dplayer.getStaminaBoardStay();
 		
 		// Detect "no change"
-		if (keep.equals(oldKeep))
+		if (keep == oldKeep)
 		{
-			dsender.msg("<i>The scoreboard keep settings are already <h>%s",  keep.toString());
-			return;
+			throw new MassiveException().addMsg(
+					DLang.get().getScoreBoardSettingKeepAlready().replace("{player}", dplayer.getDisplayName(dsender)).replace("{state}", keep ? "on" : "off"));
 		}
 
 		// Inform
-		dsender.msg("<i>You have changed %s's <i>keep settings to <h>%s", dplayer.getDisplayName(dsender), keep.toString());
+		msg(DLang.get().getScoreBoardSettingKeepSet().replace("{player}", dplayer.getDisplayName(dsender)).replace("{state}", keep ? "on" : "off"));
 		if (dsender != dplayer)
 		{
-			dplayer.msg("%s <i>changed your show settings from <h>%s <i>to <h>%s<i>.", dsender.getDisplayName(dplayer), oldKeep, keep);
+			dplayer.msg(DLang.get().getScoreBoardSettingKeepSetByOther().replace("{player}", dplayer.getDisplayName(dsender)).replace("{state}", keep ? "on" : "off").replace("{oldstate}", oldKeep ? "on" : "off"));
 		}
 		
 		// Apply
 		dplayer.setStaminaBoardStay(keep);
 		
 		// Special cases
-		if (keep.equals(false))
+		if (keep == false)
 		{
 			ScoreboardUtil.resetScoreBoard(dplayer);
 		}

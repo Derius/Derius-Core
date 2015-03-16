@@ -38,6 +38,8 @@ public class MLang extends Entity<MConf> implements DLang
 	private String skills = "Skills";
 	private String yourSkills = "Your Skills";
 	
+	private String desc = "Desc";
+	
 	// -------------------------------------------- //
 	// MESSAGES: ABILITIES
 	// -------------------------------------------- //
@@ -84,7 +86,19 @@ public class MLang extends Entity<MConf> implements DLang
 	
 	private String specialisationInfo = "<i>When you specialise in a skill you are able to exceed level 1000, and reach level 2000."
 			+ " You can only specialise in {max} skills. If you unlearn/unspecialise in a skill you get reset back to level 0";
-			
+		
+	// -------------------------------------------- //
+	// MESSAGES: SCOREBOARD
+	// -------------------------------------------- //
+	
+	private String scoreBoardSettingKeepAlready = "{player}'s <i> scoreboard keep setting is already <h>{state}";
+	private String scoreBoardSettingKeepSet = "<i>You have changed {player}'s <i>keep settings to <h>{state}";
+	private String scoreBoardSettingKeepSetByOther = "{player} <i>changed your scoreboard keep settings from <h>{oldstate} <i>to <h>{state}<i>.";
+	
+	private String scoreBoardSettingShowAlready = "{player}'s <i> scoreboard show setting is already <h>{state}";
+	private String scoreBoardSettingShowSet = "<i>You have changed {player}'s <i>show settings to <h>{state}";
+	private String scoreBoardSettingShowSetByOther = "{player} <i>changed your scoreboard show settings from <h>{oldstate} <i>to <h>{state}<i>.";
+	
 	// -------------------------------------------- //
 	// MESSAGES: CHAT KEYS
 	// -------------------------------------------- //
@@ -94,6 +108,13 @@ public class MLang extends Entity<MConf> implements DLang
 	private String keyAlreadyHas = "<i>The key {key} is already in use. Please use another one.";
 	private String keyHasnst = "<i>The key {key} is not in use.";
 	private String keysClearSuccess = "<i>You have successfully cleared your chat activation keys.";
+	
+	// -------------------------------------------- //
+	// MESSAGES: STAMINA COMMAND
+	// -------------------------------------------- //
+	
+	private String staminaIsAlready = "{player}'s <i> stamina is already <h>{stamina}";
+	private String staminaSet = "{player} <i>changed your stamina from <h>{oldstamina} <i>to <h>{stamina}<i>.";
 	
 	// -------------------------------------------- //
 	// TITLE TIMES
@@ -288,5 +309,32 @@ public class MLang extends Entity<MConf> implements DLang
 	
 	@Override public String getMcmmoSkillMustBeDisabled() { return this.mcmmoSkillMustBeDisabled; }
 	@Override public void setMcmmoSkillMustBeDisabled(String mcmmoSkillMustBeDisabled) { this.mcmmoSkillMustBeDisabled = mcmmoSkillMustBeDisabled; }
+	
+	@Override public String getScoreBoardSettingKeepAlready() { return scoreBoardSettingKeepAlready; }
+	@Override public void setScoreBoardSettingKeepAlready(String scoreBoardSettingAlready) { this.scoreBoardSettingKeepAlready = scoreBoardSettingAlready; }
+	
+	@Override public String getScoreBoardSettingKeepSetByOther() { return scoreBoardSettingKeepSetByOther; }
+	@Override public void setScoreBoardSettingKeepSetByOther( String scoreBoardSettingSetByOther) { this.scoreBoardSettingKeepSetByOther = scoreBoardSettingSetByOther; }
+	
+	@Override public String getScoreBoardSettingKeepSet() { return scoreBoardSettingKeepSet; }
+	@Override public void setScoreBoardSettingKeepSet(String scoreBoardSettingSet) { this.scoreBoardSettingKeepSet = scoreBoardSettingSet; }
+	
+	@Override public String getScoreBoardSettingShowAlready() { return scoreBoardSettingShowAlready; }
+	@Override public void setScoreBoardSettingShowAlready(String scoreBoardSettingAlready) { this.scoreBoardSettingShowAlready = scoreBoardSettingAlready; }
+	
+	@Override public String getScoreBoardSettingShowSetByOther() { return scoreBoardSettingShowSetByOther; }
+	@Override public void setScoreBoardSettingShowSetByOther( String scoreBoardSettingSetByOther) { this.scoreBoardSettingShowSetByOther = scoreBoardSettingSetByOther; }
+	
+	@Override public String getScoreBoardSettingShowSet() { return scoreBoardSettingShowSet; }
+	@Override public void setScoreBoardSettingShowSet(String scoreBoardSettingSet) { this.scoreBoardSettingShowSet = scoreBoardSettingSet; }
+	
+	@Override public String getDesc() { return desc; }
+	@Override public void setDesc(String desc) { this.desc = desc; }
+	
+	@Override public String getStaminaIsAlready() { return staminaIsAlready; }
+	@Override public void setStaminaIsAlready(String staminaIsAlready) { this.staminaIsAlready = staminaIsAlready; }
+	
+	@Override public String getStaminaSet() { return staminaSet; }
+	@Override public void setStaminaSet(String staminaSet) { this.staminaSet = staminaSet; }
 
 }

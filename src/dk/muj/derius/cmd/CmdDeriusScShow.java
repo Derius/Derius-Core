@@ -5,6 +5,7 @@ import com.massivecraft.massivecore.cmd.arg.ARBoolean;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
 import dk.muj.derius.DeriusPerm;
+import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.util.ScoreboardUtil;
@@ -34,33 +35,33 @@ public class CmdDeriusScShow extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Boolean show = this.arg(0, ARBoolean.get(), true);
+		boolean show = this.arg(0, ARBoolean.get(), true);
 		DPlayer dplayer = this.arg(1, ARDPlayer.getAny(), dsender);
 		
 		boolean oldShow = dplayer.getBoardShowAtAll();
 		
 		// Detect "no change"
-		if (show.equals(oldShow))
+		if (show == oldShow)
 		{
-			dsender.msg("<i>The scoreboard show settings are already <h>%s",  show.toString());
-			return;
+			throw new MassiveException().addMsg(
+					DLang.get().getScoreBoardSettingShowAlready().replace("{player}", dplayer.getDisplayName(dsender)).replace("{state}", show ? "on" : "off"));
 		}
 		
 		// Special cases
-		if (show.equals(false))
+		if (show == false)
 		{
 			ScoreboardUtil.resetScoreBoard(dplayer);
 		}
-		else if (show.equals(true) && dplayer.getStaminaBoardStay())
+		else if (show == true && dplayer.getStaminaBoardStay())
 		{
 			ScoreboardUtil.updateStaminaScore(dplayer, 5, dplayer.getStamina());
 		}
 		
 		// Inform
-		dsender.msg("<i>You changed %s's <i>show settings to <h>%s", dplayer.getDisplayName(dsender), show.toString());
+		msg(DLang.get().getScoreBoardSettingShowSet().replace("{player}", dplayer.getDisplayName(dsender)).replace("{state}", show ? "on" : "off"));
 		if (dsender != dplayer)
 		{
-			dplayer.msg("%s <i>changed your show settings from <h>%s <i>to <h>%s<i>.", dsender.getDisplayName(dplayer), oldShow, show);
+			msg(DLang.get().getScoreBoardSettingShowSetByOther().replace("{player}", dplayer.getDisplayName(dsender)).replace("{state}", show ? "on" : "off").replace("{oldstate}", oldShow ? "on" : "off"));
 		}
 		
 		// Apply

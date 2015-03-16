@@ -3,6 +3,7 @@ package dk.muj.derius;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
@@ -17,6 +18,7 @@ import com.massivecraft.massivecore.util.ReflectionUtil;
 import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.massivecore.xlib.gson.Gson;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
+import com.massivecraft.massivecore.xlib.gson.JsonElement;
 
 import dk.muj.derius.adapter.AbilityAdapter;
 import dk.muj.derius.adapter.SkillAdapter;
@@ -236,20 +238,40 @@ public final class DeriusCore extends MassivePlugin implements Derius
 		
 		DeriusAPI.debug(1000, "<i>Registering skill <h>%s<i>.", skill.getName());
 		
-		if ( ! skill.isRegistered())
+		if ( skill.isRegistered()) throw new IllegalArgumentException("Skill is already registered.");
+		
+		this.ensureSkillIsLoaded(skill.getId());
+		Skill old = SkillColl.get().get(skill.getId(), false);
+		// If an old skill was in the system...
+		if (old != null)
 		{
-			SkillColl.get().loadFromRemote(skill.getId(), null, false);
-			Skill old = SkillColl.get().get(skill.getId(), false);
-			if (old != null)
-			{
-				DeriusAPI.debug(1000, "<i>Loading old values for skill <h>%s<i>.", skill.getName());
-				skill.load(old);
-				SkillColl.get().removeAtLocal(skill.getId());
-			}
-			SkillColl.get().attach(skill, skill.getId());
+			DeriusAPI.debug(1000, "<i>Loading old values for skill <h>%s<i>.", skill.getName());
+			// ...it configurations we would like to keep.
+			skill.load(old);
+			// Now remove the old one from the system.
+			SkillColl.get().removeAtLocal(skill.getId());
 		}
+		SkillColl.get().attach(skill, skill.getId());
 		
 		return;
+	}
+	
+	// Sometimes skills aren't loaded properly on init.
+	// This method should counter that.
+	private void ensureSkillIsLoaded(String id)
+	{
+		SkillColl coll = SkillColl.get();
+		// This might fail if the skill actually wasn't in the database...
+		try
+		{
+			// First we load the value.
+			Entry<JsonElement, Long> value = coll.getDb().load(coll, id);
+			if (value.getValue() == null || value.getValue().longValue() == 0) return;
+			// Then we load it into our system.
+			coll.loadFromRemote(id, value);
+		}
+		// ...so we fail silently.
+		catch(Throwable t) {t.printStackTrace();}
 	}
 	
 	// -------------------------------------------- //
@@ -274,8 +296,9 @@ public final class DeriusCore extends MassivePlugin implements Derius
 		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
 		if ( ! event.runEvent()) return;
 		
-		if (ability.isRegistered()) return;
+		if (ability.isRegistered()) throw new IllegalArgumentException("Ability is already registered.");
 		
+		this.ensureAbilityIsLoaded(ability.getId());
 		Ability old = AbilityColl.get().get(ability.getId(), false);
 		if (old != null)
 		{
@@ -285,6 +308,22 @@ public final class DeriusCore extends MassivePlugin implements Derius
 		
 		AbilityColl.get().attach(ability, ability.getId());
 		return;
+	}
+	
+	private void ensureAbilityIsLoaded(String id)
+	{
+		AbilityColl coll = AbilityColl.get();
+		// This might fail if the ability actually wasn't in the database...
+		try
+		{
+			// First we load the value.
+			Entry<JsonElement, Long> value = coll.getDb().load(coll, id);
+			if (value.getValue() == null || value.getValue().longValue() == 0) return;
+			// Then we load it into our system.
+			coll.loadFromRemote(id, value);
+		}
+		// ...so we fail silently.
+		catch(Throwable t) {}
 	}
 	
 	// -------------------------------------------- //

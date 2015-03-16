@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
-import com.massivecraft.massivecore.event.EventMassiveCorePlayerLeave;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.DeriusAPI;
@@ -132,26 +131,8 @@ public class EngineMain extends EngineAbstract
 		{
 			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
 		}
-		
-		if (mplayer.isPlayer()) mplayer.getScoreboard();
-		
-		mplayer.setStamina(0.0);
-		return;
-	}
-	
-	@EventHandler(priority = EventPriority.LOW)
-	public void deinstantiatePlayerFields(EventMassiveCorePlayerLeave event)
-	{
-		deinstantiatePlayerFields(event.getPlayer().getUniqueId().toString());
-	}
-	
-	public static void deinstantiatePlayerFields(String playerId)
-	{
-		MPlayer mplayer = MPlayerColl.get().get(playerId, false);
 
-		if (mplayer == null) return;
-		
-		mplayer.setScoreboard(null);
+		mplayer.setStamina(0.0);
 		return;
 	}
 	

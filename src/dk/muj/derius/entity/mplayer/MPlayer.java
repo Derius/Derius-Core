@@ -11,7 +11,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.scoreboard.Scoreboard;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.MUtil;
@@ -81,11 +80,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	// A Map that stores which string a player types in chat should activate what ability.
 	protected Map<String, String> chatKeys = new HashMap<String, String>();
-	
-	private Scoreboard sc = null; // We can't init this field on startup.
-	public Scoreboard getScoreboard() { if(sc == null) sc = ScoreboardUtil.getManager().getNewScoreboard(); return this.sc; }
-	public void setScoreboard(Scoreboard sc) { this.sc = sc; }
-	
+
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
 	private transient long cooldown = 0;

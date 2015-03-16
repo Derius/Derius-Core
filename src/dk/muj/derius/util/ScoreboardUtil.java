@@ -15,7 +15,6 @@ import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.player.DPlayer;
-import dk.muj.derius.entity.mplayer.MPlayer;
 
 public final class ScoreboardUtil
 {
@@ -58,12 +57,11 @@ public final class ScoreboardUtil
 		Validate.notNull(dplayer, "DPlayer musn't be null for setting Scoreboards.");
 		Validate.isTrue(ticks > 0, "ticks must be positive");
 		
-		MPlayer mplayer = (MPlayer) dplayer;
-		mplayer.getScoreboard();
-		
+		Scoreboard board = getManager().getNewScoreboard();
+
 		Bukkit.getScheduler().runTaskAsynchronously(DeriusCore.get(), () ->
 		{
-			Scoreboard score = loadScoreBoardProgressBar(dplayer, oldStamina);
+			Scoreboard score = loadScoreBoardProgressBar(dplayer, oldStamina, board);
 		
 			setScoreBoard(dplayer, score);
 		
@@ -113,10 +111,8 @@ public final class ScoreboardUtil
 	// PRIVATE SCOREBOARD METHODS
 	// -------------------------------------------- //
 	
-	private static Scoreboard loadScoreBoardProgressBar(DPlayer dplayer, double oldStamina)
+	private static Scoreboard loadScoreBoardProgressBar(DPlayer dplayer, double oldStamina, Scoreboard board)
 	{
-		MPlayer mplayer = (MPlayer) dplayer;
-		Scoreboard board = mplayer.getScoreboard();
 		Objective objective = board.getObjective("derius_stamina");
 		if (objective == null) objective = board.registerNewObjective("derius_stamina", "dummy");
 		
