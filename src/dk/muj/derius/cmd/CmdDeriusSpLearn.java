@@ -40,7 +40,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Skill skill = this.arg(0, ARSkill.get());
+		Skill skill = this.arg(ARSkill.get());
 		
 		if (! SkillUtil.canPlayerSpecialiseSkill(dsender, skill, VerboseLevel.LOW)) return;
 		

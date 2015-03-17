@@ -36,7 +36,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Skill skill = this.arg(0, ARSkill.get());
+		Skill skill = this.arg(ARSkill.get());
 		
 		long moveMillis = PlayerUtil.getLastMoveMillis(dsender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		

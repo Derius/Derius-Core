@@ -38,8 +38,8 @@ public class CmdDeriusSetStamina extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Double stamina = this.arg(0, ARDouble.get());
-		MPlayer mplayer = (MPlayer) this.arg(1, ARDPlayer.getAny(), dsender);
+		Double stamina = this.arg(ARDouble.get());
+		MPlayer mplayer = (MPlayer) this.arg(ARDPlayer.getAny(), dsender);
 		
 		// Power
 		double oldStamina = mplayer.getStamina();

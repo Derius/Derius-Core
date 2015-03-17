@@ -43,8 +43,8 @@ public class CmdDeriusInspect extends DeriusCommand
 	public void perform() throws MassiveException
 	{	
 		// Args
-		DPlayer dplayer = this.arg(0, ARDPlayer.getAny(), dsender);
-		int pageHumanBased = this.arg(1, ARInteger.get(), 1);
+		DPlayer dplayer = this.arg(ARDPlayer.getAny(), dsender);
+		int pageHumanBased = this.arg(ARInteger.get(), 1);
 		
 		if (dplayer != dsender && DeriusPerm.INSPECT_OTHERS.has(dsender.getSender(), true)) return;
 		

@@ -35,8 +35,8 @@ public class CmdDeriusScShow extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		boolean show = this.arg(0, ARBoolean.get(), true);
-		DPlayer dplayer = this.arg(1, ARDPlayer.getAny(), dsender);
+		boolean show = this.arg(ARBoolean.get(), true);
+		DPlayer dplayer = this.arg(ARDPlayer.getAny(), dsender);
 		
 		boolean oldShow = dplayer.getBoardShowAtAll();
 		

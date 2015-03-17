@@ -34,8 +34,8 @@ public class CmdDeriusScKeep extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		boolean keep = this.arg(0, ARBoolean.get(), true);
-		DPlayer dplayer = this.arg(1, ARDPlayer.getAny(), dsender);
+		boolean keep = this.arg(ARBoolean.get(), true);
+		DPlayer dplayer = this.arg(ARDPlayer.getAny(), dsender);
 		
 		boolean oldKeep = dplayer.getStaminaBoardStay();
 		

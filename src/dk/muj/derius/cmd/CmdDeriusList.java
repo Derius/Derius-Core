@@ -37,7 +37,7 @@ public class CmdDeriusList extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		int pageHumanBased = this.arg(0, ARInteger.get(), 1);
+		int pageHumanBased = this.arg(ARInteger.get(), 1);
 		
 		// Create Pager
 		final Collection<? extends Skill> skills = DeriusAPI.getAllSkills();

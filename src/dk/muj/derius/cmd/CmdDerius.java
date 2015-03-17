@@ -38,7 +38,7 @@ public class CmdDerius extends DeriusCommand
 		// Subcommands
 		this.addSubCommand(HelpCommand.get());
 		this.addSubCommand(this.innerCmdSkill);
-		this.addSubCommand(this.innerCmdSkills);
+		// this.addSubCommand(this.innerCmdSkills);
 		this.addSubCommand(this.innerCmdDeriusList);
 		this.addSubCommand(this.innerCmdDeriusInspect);
 		this.addSubCommand(this.innerCmdDeriusSpecialise);

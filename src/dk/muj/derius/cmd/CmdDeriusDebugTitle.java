@@ -31,13 +31,13 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	@Override
 	public void perform() throws MassiveException
 	{
-		int fadeIn = this.arg(0, ARInteger.get());
-		int stay = this.arg(1, ARInteger.get());
-		int fadeOut = this.arg(2, ARInteger.get());
+		int fadeIn = this.arg(ARInteger.get());
+		int stay = this.arg(ARInteger.get());
+		int fadeOut = this.arg(ARInteger.get());
 		
 		// Use quotes and stuff in the args.
-		String title = this.arg(3);
-		String subTitle = this.arg(4);
+		String title = this.arg();
+		String subTitle = this.arg();
 		
 		Mixin.sendTitleMsg(dsender, fadeIn, stay, fadeOut, title, subTitle);
 		

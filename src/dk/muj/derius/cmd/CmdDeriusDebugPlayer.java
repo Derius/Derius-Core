@@ -35,7 +35,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	public void perform() throws MassiveException 
 	{
 		// Args
-		MPlayer mplayer = (MPlayer) this.arg(0, ARDPlayer.getAny());
+		MPlayer mplayer = (MPlayer) this.arg(ARDPlayer.getAny());
 		
 		List<String> messages = new ArrayList<String>();
 		

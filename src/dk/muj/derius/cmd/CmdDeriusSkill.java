@@ -41,19 +41,18 @@ public class CmdDeriusSkill extends DeriusCommand
 	public void perform() throws MassiveException
 	{	
 		// Args
-		Skill skill = this.arg (0, ARSkill.get());
-		LvlStatus status = this.arg(1, ARLvlStatus.get(), dsender.getLvlStatus(skill));
+		Skill skill = this.arg(ARSkill.get());
+		LvlStatus status = this.arg(ARLvlStatus.get(), dsender.getLvlStatus(skill));
 		
 		// Message construction
 		List<String> msgs = new ArrayList<>();
 		
 		msgs.add(Txt.titleize(skill.getDisplayName(dsender)));	// Title
-		msgs.add("<k>Desc: <i>" + skill.getDesc());			// Description
+		msgs.add(String.format("<k>%s: <i>%s", DLang.get().getDesc(), skill.getDesc()));	// Description
 		
 		// Exp descs
 		msgs.add(DLang.get().getSkillInfoExpGain() + Txt.implodeCommaAndDot(skill.getEarnExpDescs(), "<lime>, <i>", "<lime>& <i>", "<lime>."));
 		
-		// Swapping between default and user inserted value
 		msgs.add(status.toString());
 		
 		// All Abilities

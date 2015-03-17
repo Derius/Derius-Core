@@ -1,6 +1,8 @@
 package dk.muj.derius.cmd;
 
+import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
+import com.massivecraft.massivecore.cmd.arg.ArgReader;
 
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
@@ -15,6 +17,8 @@ public class DeriusCommand extends MassiveCommand
 	protected DPlayer dsender;
 	public DPlayer getDSender() { return dsender; }
 	
+	private int idx = 0;
+	
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
@@ -23,12 +27,59 @@ public class DeriusCommand extends MassiveCommand
 	public void fixSenderVars() 
 	{
 		this.dsender = MPlayerColl.get().get(sender, true);
+		this.idx = 0;
 	}
 	
 	@Override
 	public void unsetSenderVars()
 	{
 		this.dsender = null;
+		this.idx = 0;
+	}
+	
+	// -------------------------------------------- //
+	// LE NICE ARG
+	// -------------------------------------------- //
+	
+	// argIsSet
+	
+	public boolean argIsSet()
+	{
+		return this.argIsSet(idx);
+	}
+	
+	// arg
+	
+	public String arg()
+	{
+		return this.arg(idx++);
+	}
+	
+	public <T> T arg(ArgReader<T> argReader) throws MassiveException
+	{
+		return this.arg(idx++, argReader);
+	}
+	
+	public <T> T arg(ArgReader<T> argReader, T defaultNotSet) throws MassiveException
+	{
+		return this.arg(idx++, argReader, defaultNotSet);
+	}
+	
+	// argConcatFrom
+	
+	public String argConcatFrom()
+	{
+		return this.argConcatFrom(idx++);
+	}
+	
+	public <T> T argConcatFrom(ArgReader<T> argReader) throws MassiveException
+	{
+		return this.argConcatFrom(idx++, argReader);
+	}
+	
+	public <T> T argConcatFrom(ArgReader<T> argReader, T defaultNotSet) throws MassiveException
+	{
+		return this.argConcatFrom(idx++, argReader, defaultNotSet);
 	}
 	
 }
