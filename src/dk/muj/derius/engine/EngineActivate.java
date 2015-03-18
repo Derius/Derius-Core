@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalDouble;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,7 +15,9 @@ import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import com.massivecraft.massivecore.Couple;
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.util.MUtil;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.BlockBreakExpGain;
@@ -56,24 +57,28 @@ public class EngineActivate extends EngineAbstract
 	// -------------------------------------------- //
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void changeDurability(PlayerItemDamageEvent event)
+	public void changeDurability(final PlayerItemDamageEvent event)
 	{
 		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
-		for (Ability ability : DeriusAPI.getAllAbilities())
-		{
-			if ( ! (ability instanceof AbilityDurabilityMultiplier)) continue;
-			AbilityDurabilityMultiplier abilitydm = (AbilityDurabilityMultiplier) ability;
-			
-			if ( ! abilitydm.getToolTypes().contains(event.getItem().getType())) return ;
-			
-			int level = dplayer.getLvl(abilitydm.getSkill());
-			OptionalDouble optMultiplier = LevelUtil.getLevelSettingFloat(abilitydm.getDurabilityMultiplier(), level);
-			if ( ! optMultiplier.isPresent()) return;
-			double multiplier = optMultiplier.getAsDouble();
-			
-			AbilityUtil.activateAbility(dplayer, ability, multiplier, VerboseLevel.ALWAYS);
-		}
 		
+		// The whole things as a stream.
+		DeriusAPI.getAllAbilities().stream()
+		// It must be a AbilityDurabilityMultiplier
+		.filter(ability -> (ability instanceof AbilityDurabilityMultiplier))
+		// Cast it to AbilityDurabilityMultiplier
+		.map(ability -> (AbilityDurabilityMultiplier) ability)
+		// Get the setting for that level. Keep the ability for later reference.
+		.map(ability -> new Couple<>(ability, LevelUtil.getLevelSettingFloat(ability.getDurabilityMultiplier(), dplayer.getLvl(ability.getSkill()))))
+		// The setting must be present (AKA there must be a change for that level.)
+		.filter(couple -> couple.getSecond().isPresent())
+		// Unbox the setting from OptionalDouble to Double
+		.map(couple -> new Couple<>(couple.getFirst(), couple.getSecond().getAsDouble()))
+		// Activation must succeed (AKA not return CANCEL)
+		.filter(couple -> AbilityUtil.CANCEL != AbilityUtil.activateAbility(dplayer, couple.getFirst(), couple.getSecond(), VerboseLevel.ALWAYS))
+		// Calculate the difference. EXAMPLE 1 / 3 = 0.333
+		.mapToInt(couple -> (int) MUtil.probabilityRound(event.getDamage() / couple.getSecond()))
+		// Set damage in the event
+		.forEach(damage -> event.setDamage(damage));
 	}
 	
 	// -------------------------------------------- //
@@ -83,7 +88,6 @@ public class EngineActivate extends EngineAbstract
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void handeBlockBreak(BlockBreakEvent event)
 	{
-		
 		if (DeriusAPI.isBlockPlacedByPlayer(event.getBlock())) return;
 		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		this.activateSpecialItem(event, dplayer);

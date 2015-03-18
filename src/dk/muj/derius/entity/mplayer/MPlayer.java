@@ -123,6 +123,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	public long getExp(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
+		if (this.exp == null) throw new RuntimeException("exp is null");
+		this.instantiateSkill(skill);
 		return this.exp.get(skill.getId());
 	}
 	
