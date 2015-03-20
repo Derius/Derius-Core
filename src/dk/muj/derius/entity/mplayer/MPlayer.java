@@ -68,10 +68,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	protected Set<String> specialised = new CopyOnWriteArraySet<String>();
 	
 	private long specialisedMillis = 0;
-	public long getSpecialisationChangeMillis() { return this.specialisedMillis; }
-	public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; this.changed();}
-	public long getSpecialisationCooldownExpire() { return this.specialisedMillis + MConf.get().specialisationCooldown; }
-	public boolean isSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
+	@Override public long getSpecialisationChangeMillis() { return this.specialisedMillis; }
+	@Override public void setSpecialisationChangeMillis(long millis) { this.specialisedMillis = millis; this.changed();}
+	@Override public long getSpecialisationCooldownExpire() { return this.specialisedMillis + MConf.get().specialisationCooldown; }
+	@Override public boolean isSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
 	
 	protected Map<String, Integer> specialisationBonus = new HashMap<>();
 	
@@ -84,15 +84,15 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
 	private transient long cooldown = 0;
-	public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; }
-	public long getCooldownExpire() { return cooldown; }
-	public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
+	@Override public void setCooldownExpire( long cooldownTime) { this.cooldown = cooldownTime; }
+	@Override public long getCooldownExpire() { return cooldown; }
+	@Override public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
 	
 	// Which Ability is currently activated.
 	private transient Optional<Ability> activatedAbility = Optional.empty();
-	public boolean hasActivatedAny() { return this.activatedAbility.isPresent(); }
-	public Optional<Ability> getActivatedAbility() { return this.activatedAbility; }
-	public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability;}
+	@Override public boolean hasActivatedAny() { return this.activatedAbility.isPresent(); }
+	@Override public Optional<Ability> getActivatedAbility() { return this.activatedAbility; }
+	@Override public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability;}
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
@@ -120,6 +120,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	
 	public void setExp(Skill skill, long exp) { this.exp.put(skill.getId(), exp); this.changed();}
 	
+	@Override
 	public long getExp(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
@@ -128,7 +129,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return this.exp.get(skill.getId());
 	}
 	
-	public void addExp(Skill skill, long exp)
+	@Override
+	public void addExp(Skill skill, double exp)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
 		if (exp < 0)
@@ -144,8 +146,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		PlayerExpAddEvent event = new PlayerExpAddEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
-		exp = MUtil.probabilityRound(event.getExpAmount());
-		this.setExp(skill, this.getExp(skill) + exp);
+		long lExp = MUtil.probabilityRound(event.getExpAmount());
+		this.setExp(skill, this.getExp(skill) + lExp);
 		
 		int lvlAfter = this.getLvl(skill);
 		if (lvlBefore != lvlAfter)
@@ -155,7 +157,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		}
 	}
 	
-	public void takeExp(Skill skill, long exp)
+	@Override
+	public void takeExp(Skill skill, double exp)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
 		if (exp < 0)
@@ -171,8 +174,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		PlayerExpTakeEvent event = new PlayerExpTakeEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
-		exp = MUtil.probabilityRound(event.getExpAmount());
-		this.setExp(skill, this.getExp(skill) - exp);
+		long lExp = MUtil.probabilityRound(event.getExpAmount());
+		this.setExp(skill, this.getExp(skill) - lExp);
 		
 		int lvlAfter = this.getLvl(skill);
 		if (lvlBefore != lvlAfter)
@@ -218,9 +221,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return;
 	}
 	
-	public double getStamina() { return this.stamina; }
+	@Override public double getStamina() { return this.stamina; }
 	
 	// Finer
+	@Override
 	public void addStamina(double stamina)
 	{
 		if (stamina < 0) this.takeStamina(-stamina);
@@ -237,6 +241,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return;
 	}
 	
+	@Override
 	public void takeStamina(double stamina)
 	{
 		if (stamina < 0) this.addStamina(-stamina);
@@ -261,6 +266,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	public static final transient int STAMINA_MAX_ATTEMPTS = 100;
 	private transient int staminaLastCall = STAMINA_MAX_ATTEMPTS-1;
 	private transient double staminaMaxCach = 0;
+	@Override
 	public double getStaminaMax()
 	{
 		// Use the cache
@@ -334,12 +340,14 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// SPECIALISATION
 	// -------------------------------------------- //
 	
+	@Override
 	public boolean isSpecialisedIn(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
 		return  this.specialised.contains(skill.getId()) || skill.isSpAutoAssigned();
 	}
 	
+	@Override
 	public boolean setSpecialisedIn(Skill skill, boolean verbooseNot)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
@@ -357,7 +365,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return true;
 	}
 	
-	
+	@Override
 	public void setNotSpecialisedIn(Skill skill)
 	{	
 		Validate.notNull(skill, "skill mustn't be null");
@@ -367,6 +375,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return;
 	}
 	
+	@Override
 	public List<Skill> getSpecialisedSkills()
 	{		
 		List<Skill> ret = new ArrayList<Skill>();
@@ -414,8 +423,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	// FIELD: PREPARED TOOL
 	// -------------------------------------------- //
 	
-	public Optional<Material> getPreparedTool() { return preparedTool; }
-
+	@Override public Optional<Material> getPreparedTool() { return preparedTool; }
+	
+	@Override 
 	public void setPreparedTool(final Optional<Material> tool)
 	{
 		Validate.notNull(tool, "Tool mustn't be null, it is an optional for gods sake.");

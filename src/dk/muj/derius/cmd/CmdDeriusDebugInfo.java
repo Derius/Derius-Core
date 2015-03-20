@@ -45,7 +45,10 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		msgs.add(Txt.titleize("<green>REGISTERED PREPARABLE MATERIALS"));
 		msgs.add(String.format("<red>%s", Txt.implodeCommaAnd(DeriusAPI.getPreparableTools(), "<i>, <red>", " <i>& <red>")));
 		
-		this.msg(msgs);
+		msgs.add(Txt.titleize("<green>REGISTERED LOGGABLE MATERIALS"));
+		msgs.add(String.format("<red>%s", Txt.implodeCommaAnd(DeriusAPI.getBlocksTypesToListenFor(), "<i>, <red>", " <i>& <red>")));
+		
+		msg(msgs);
 		
 		return;
 	}

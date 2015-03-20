@@ -49,7 +49,7 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 	public static final String BOARD_SHOW_AT_ALL = "board-show-at-all";
 	
 	// -------------------------------------------- //
-	// SERIALIZE
+	// OVERRIDE: SERIALIZE
 	// -------------------------------------------- //
 	
 	@Override
@@ -91,7 +91,7 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 	}
 
 	// -------------------------------------------- //
-	// DESERIALIZE
+	// OVERRIDE: DESERIALIZE
 	// -------------------------------------------- //
 	
 	@Override
@@ -171,4 +171,5 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 		
 		return ret;
 	}
+	
 }
