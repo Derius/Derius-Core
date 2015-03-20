@@ -89,6 +89,7 @@ public class EngineActivate extends EngineAbstract
 	public void handeBlockBreak(BlockBreakEvent event)
 	{
 		if (DeriusAPI.isBlockPlacedByPlayer(event.getBlock())) return;
+		//System.out.println(DeriusAPI.isBlockPlacedByPlayer(event.getBlock()));
 		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		this.activateSpecialItem(event, dplayer);
 		this.handleDoubleDrop(event, dplayer);
@@ -158,11 +159,13 @@ public class EngineActivate extends EngineAbstract
 		// Get fields
 		Block block = event.getBlock();
 		Material oreType = block.getType();
-
+		ItemStack item = event.getPlayer().getItemInHand();
 		// Check in all abilities
 		for (AbilityDoubleDrop ability : getDoubleDropAbilities())
 		{
 			if ( ! SkillUtil.shouldDoubleDropOccur(dplayer.getLvl(ability.getSkill()), ability.getLevelsPerPercent())) continue;
+			
+			//if ( ! ability.getToolTypes().contains(item.getType())) continue;
 			
 			// ...and their action blocks contains the borken block...
 			if ( ! ability.getBlockTypes().contains(oreType)) continue;
