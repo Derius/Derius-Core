@@ -8,6 +8,7 @@ import java.util.Set;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.util.Txt;
 
+import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.entity.mplayer.MPlayer;
 
@@ -48,6 +49,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 		messages.add(Txt.titleize(Txt.parse("Debug info about %s", mplayer.getDisplayName(dsender))));
 		messages.add(Txt.parse("<i>Current millis: <lime>%s", System.currentTimeMillis()));
 		messages.add(Txt.parse("<i>Specialisation millis: <lime>%s", mplayer.getSpecialisationChangeMillis()));
+		messages.add(Txt.parse("<i>Activated ability: <lime>%s", mplayer.getActivatedAbility().map(Ability::getName).orElse("none")));
 		messages.add(Txt.parse("<i>Prepared tool: <lime>%s", mplayer.getPreparedTool().map(Txt::getMaterialName).orElse("none")));
 		messages.add(Txt.parse("<red>Specialised: <art>%S", Txt.implodeCommaAnd( specialised, ",", "&")));
 		messages.add(Txt.parse("<red>Exp:"));

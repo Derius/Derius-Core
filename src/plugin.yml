@@ -1,4 +1,4 @@
-main: dk.muj.derius.DeriusCore
+main: dk.muj.derius.DeriusPlugin
 name: Derius-Core
 version: 0.2_dev
 #website: http://muj.dk/Derius

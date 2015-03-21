@@ -60,23 +60,31 @@ public class EngineActivate extends EngineAbstract
 	public void changeDurability(final PlayerItemDamageEvent event)
 	{
 		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
-		
+		Material tool = event.getPlayer().getItemInHand().getType();
 		// The whole things as a stream.
 		DeriusAPI.getAllAbilities().stream()
+		
 		// It must be a AbilityDurabilityMultiplier
 		.filter(ability -> (ability instanceof AbilityDurabilityMultiplier))
+		
 		// Cast it to AbilityDurabilityMultiplier
 		.map(ability -> (AbilityDurabilityMultiplier) ability)
+		
+		// The tool type must match
+		.filter(ability -> ability.getToolTypes().contains(tool))
+		
 		// Get the setting for that level. Keep the ability for later reference.
 		.map(ability -> new Couple<>(ability, LevelUtil.getLevelSettingFloat(ability.getDurabilityMultiplier(), dplayer.getLvl(ability.getSkill()))))
+		
 		// The setting must be present (AKA there must be a change for that level.)
 		.filter(couple -> couple.getSecond().isPresent())
-		// Unbox the setting from OptionalDouble to Double
-		.map(couple -> new Couple<>(couple.getFirst(), couple.getSecond().getAsDouble()))
+		
 		// Activation must succeed (AKA not return CANCEL)
-		.filter(couple -> AbilityUtil.CANCEL != AbilityUtil.activateAbility(dplayer, couple.getFirst(), couple.getSecond(), VerboseLevel.ALWAYS))
+		.filter(couple -> AbilityUtil.CANCEL != AbilityUtil.activateAbility(dplayer, couple.getFirst(), couple.getSecond().getAsDouble(), VerboseLevel.ALWAYS))
+		
 		// Calculate the difference. EXAMPLE 1 / 3 = 0.333
-		.mapToInt(couple -> (int) MUtil.probabilityRound(event.getDamage() / couple.getSecond()))
+		.mapToInt(couple -> (int) MUtil.probabilityRound(event.getDamage() / couple.getSecond().getAsDouble()))
+		
 		// Set damage in the event
 		.forEach(damage -> event.setDamage(damage));
 	}
@@ -101,15 +109,17 @@ public class EngineActivate extends EngineAbstract
 	
 	private void handleExpgain(BlockBreakEvent event, DPlayer dplayer)
 	{
+		System.out.println(1);
 		Material block = event.getBlock().getType();
 		Player player = event.getPlayer();
 		for (BlockBreakExpGain gainer : expGainers)
 		{
-			if ( ! gainer.getBlockTypes().containsKey(block)) continue;
-			if ( ! gainer.getToolTypes().contains(player.getItemInHand().getType())) continue;
-			if ( ! SkillUtil.canPlayerLearnSkill(dplayer, gainer.getSkill(), VerboseLevel.HIGHEST)) continue;
+			System.out.println(2 + gainer.getClass().getSimpleName());
+			if ( ! gainer.getBlockTypes().containsKey(block)) continue; System.out.println(3 + gainer.getClass().getSimpleName());
+			if ( ! gainer.getToolTypes().contains(player.getItemInHand().getType())) continue; System.out.println(4 + gainer.getClass().getSimpleName());
+			if ( ! SkillUtil.canPlayerLearnSkill(dplayer, gainer.getSkill(), VerboseLevel.HIGHEST)) continue; System.out.println(5 + gainer.getClass().getSimpleName());
 			
-			dplayer.addExp(gainer.getSkill(), gainer.getBlockTypes().get(block).longValue());
+			dplayer.addExp(gainer.getSkill(), gainer.getBlockTypes().get(block).doubleValue());
 		}
 	}
 	

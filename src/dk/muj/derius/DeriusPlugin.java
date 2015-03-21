@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
-import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
@@ -62,16 +61,6 @@ public final class DeriusPlugin extends MassivePlugin
 			EngineMsg.get()
 		);
 	
-	// Colls
-	private List<Coll<?>> colls = MUtil.list
-		(
-			MConfColl.get(),
-			MLangColl.get(),
-			MPlayerColl.get(),
-			SkillColl.get(),
-			AbilityColl.get()
-		);
-	
 	// -------------------------------------------- //
 	// OVERRIDE: PLUGIN
 	// -------------------------------------------- //
@@ -82,7 +71,11 @@ public final class DeriusPlugin extends MassivePlugin
 		if ( ! this.preEnable()) return;
 		
 		// We must first init the collections...
-		colls.forEach(Coll::init);
+		MConfColl.get().init();
+		MLangColl.get().init();
+		MPlayerColl.get().init();
+		SkillColl.get().init();
+		AbilityColl.get().init();
 		
 		// ... because some of them are used when instantiating the api fields.
 		this.setApiFields();
@@ -144,11 +137,10 @@ public final class DeriusPlugin extends MassivePlugin
 		// Mixins
 		this.injectMixin();
 		
+		DeriusCore.inject();
+		
 		// DLang
 		DeriusAPI.setDLang(MLang.get());
-		
-		// The "core" field
-		DeriusCore.inject();
 	}
 	
 	private void injectMixin()

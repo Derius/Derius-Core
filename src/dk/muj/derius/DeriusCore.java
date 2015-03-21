@@ -39,9 +39,9 @@ public class DeriusCore implements Derius
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-	private static DeriusCore i;
+	private static DeriusCore i = new DeriusCore();
 	public static DeriusCore get() { return i; }
-	private DeriusCore() { i = this; }
+	private DeriusCore() {}
 	
 	// -------------------------------------------- //
 	// INJECT
@@ -50,16 +50,17 @@ public class DeriusCore implements Derius
 	public static void inject()
 	{
 		Class<DeriusAPI> apiClass = DeriusAPI.class;
+		
 		Field coreField = ReflectionUtil.getField(apiClass, DeriusConst.API_DERIUS_FIELD);
-		if (coreField != null) // Avoid useless NPE, since we already got one exception.
-		{	
-			if (ReflectionUtil.makeAccessible(coreField)); // Returns true on success.
+		if (coreField != null)
+		{
+			if (ReflectionUtil.makeAccessible(coreField))
 			{
-				ReflectionUtil.setField(coreField, null, DeriusCore.get());
+				ReflectionUtil.setField(coreField, null, get());
 			}
 		}
 	}
-	
+
 	// -------------------------------------------- //
 	// DEBUG
 	// -------------------------------------------- //

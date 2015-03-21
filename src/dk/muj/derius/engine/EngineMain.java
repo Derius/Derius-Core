@@ -124,7 +124,7 @@ public class EngineMain extends EngineAbstract
 		
 		DeriusAPI.getAllSkills().forEach(skill -> mplayer.instantiateSkill(skill));
 		
-		if (mplayer.getSpecialisationCooldownExpire() == 0)
+		if (mplayer.getSpecialisationChangeMillis() == 0)
 		{
 			mplayer.setSpecialisationChangeMillis(System.currentTimeMillis());
 		}
