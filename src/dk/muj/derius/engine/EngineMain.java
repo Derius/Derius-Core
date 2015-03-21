@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
@@ -17,7 +16,6 @@ import com.massivecraft.massivecore.EngineAbstract;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.DeriusAPI;
-import dk.muj.derius.api.VerboseLevel;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.events.AbilityRegisteredEvent;
 import dk.muj.derius.api.events.SkillRegisteredEvent;
@@ -30,7 +28,6 @@ import dk.muj.derius.api.req.ReqIsntBlacklisted;
 import dk.muj.derius.api.req.ReqIsntSpecialised;
 import dk.muj.derius.api.req.ReqSpCooldownIsExpired;
 import dk.muj.derius.api.skill.Skill;
-import dk.muj.derius.api.util.AbilityUtil;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 
@@ -133,25 +130,6 @@ public class EngineMain extends EngineAbstract
 		}
 
 		mplayer.setStamina(0.0);
-		return;
-	}
-	
-	// -------------------------------------------- //
-	// CHAT
-	// -------------------------------------------- //
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onChat(AsyncPlayerChatEvent event)
-	{
-		DPlayer mplayer = DeriusAPI.getDPlayer(event.getPlayer());
-		
-		if ( ! mplayer.isChatListeningOk()) return;
-		
-		Ability ability = mplayer.getAbilityBySubString(event.getMessage().toLowerCase());
-		if (ability == null) return;
-		
-		AbilityUtil.activateAbility(mplayer, ability, null, VerboseLevel.NORMAL);
-		
 		return;
 	}
 

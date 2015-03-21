@@ -23,7 +23,6 @@ public class CmdDerius extends DeriusCommand
 	public CmdDeriusSpecialise innerCmdDeriusSpecialise = new CmdDeriusSpecialise() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusSpecialise; } };
 	public CmdDeriusInspect innerCmdDeriusInspect = new CmdDeriusInspect() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusInspect; } };
 	public CmdDeriusDebug innerCmdDeriusDebug = new CmdDeriusDebug() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusDebug; } };
-	public CmdDeriusKeys innerCmdDeriusKeys = new  CmdDeriusKeys() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusKeys; } };
 	public CmdDeriusClean innerCmdDeriusClean = new  CmdDeriusClean() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusClean; } };
 	public CmdDeriusSetStamina innerCmdDeriusSetStamina = new  CmdDeriusSetStamina() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusSetStamina; } };
 	public CmdDeriusScoarboard innerCmdDeriusScoarboard = new  CmdDeriusScoarboard() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusScoreboard; } };
@@ -42,7 +41,6 @@ public class CmdDerius extends DeriusCommand
 		this.addSubCommand(this.innerCmdDeriusList);
 		this.addSubCommand(this.innerCmdDeriusInspect);
 		this.addSubCommand(this.innerCmdDeriusSpecialise);
-		this.addSubCommand(this.innerCmdDeriusKeys);
 		this.addSubCommand(this.innerCmdDeriusClean);
 		this.addSubCommand(this.innerCmdDeriusScoarboard);
 		this.addSubCommand(this.innerCmdDeriusDebug);

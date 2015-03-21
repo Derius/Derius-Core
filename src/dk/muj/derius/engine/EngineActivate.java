@@ -159,7 +159,8 @@ public class EngineActivate extends EngineAbstract
 		// Get fields
 		Block block = event.getBlock();
 		Material oreType = block.getType();
-		ItemStack item = event.getPlayer().getItemInHand();
+		//ItemStack item = event.getPlayer().getItemInHand();
+		
 		// Check in all abilities
 		for (AbilityDoubleDrop ability : getDoubleDropAbilities())
 		{

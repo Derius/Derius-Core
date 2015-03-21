@@ -36,10 +36,6 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 	
 	public static final String SPECIALISATION_BONUS = "specialisation-bonus";
 	
-	public static final String LISTENING_TO_CHAT = "listening-to-chat";
-	
-	public static final String CHAT_KEYS = "chat-keys";
-	
 	public static final String STAMINA = "stamina";
 	
 	public static final String BONUS_STAMINA = "bonus-stamina";
@@ -71,12 +67,6 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 		
 		val = DeriusCore.get().gson.toJsonTree(src.getSpecialisationSlotBonus());
 		ret.add(SPECIALISATION_BONUS, val);
-		
-		val = DeriusCore.get().gson.toJsonTree(src.isChatListeningOk());
-		ret.add(LISTENING_TO_CHAT, val);
-		
-		val = DeriusCore.get().gson.toJsonTree(src.getChatKeys());
-		ret.add(CHAT_KEYS, val);
 		
 		val = DeriusCore.get().gson.toJsonTree(src.getStaminaBonus());
 		ret.add(BONUS_STAMINA, val);
@@ -132,20 +122,6 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 			val = jsonSkill.get(SPECIALISATION_BONUS);
 			Map<String, Integer> bonus = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, Integer>>(){}.getType());
 			ret.specialisationBonus = bonus;
-		}
-		
-		if (jsonSkill.has(LISTENING_TO_CHAT))
-		{
-			val = jsonSkill.get(LISTENING_TO_CHAT);
-			boolean listening = DeriusCore.get().gson.fromJson(val, Boolean.TYPE);
-			ret.setIsListeningToChat(listening);
-		}
-		
-		if (jsonSkill.has(CHAT_KEYS))
-		{
-			val = jsonSkill.get(CHAT_KEYS);
-			Map<String, String> keys = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, String>>(){}.getType());
-			ret.chatKeys = keys;
 		}
 		
 		if (jsonSkill.has(BONUS_STAMINA))

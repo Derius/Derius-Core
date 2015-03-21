@@ -14,7 +14,6 @@ import org.bukkit.Material;
 
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.MUtil;
-import com.massivecraft.massivecore.util.Txt;
 
 import dk.muj.derius.DeriusCore;
 import dk.muj.derius.api.DeriusAPI;
@@ -49,8 +48,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		this.exp = that.exp;
 		this.specialised = that.specialised;
 		this.specialisedMillis = that.specialisedMillis;
-		this.isListeningToChat = that.isListeningToChat;
-		this.chatKeys = that.chatKeys;
 		this.stamina = that.stamina;
 		this.staminaBonus = that.staminaBonus;
 		this.staminaBoardStay = that.staminaBoardStay;
@@ -74,12 +71,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	@Override public boolean isSpecialisationCooldownExpired() { return this.getSpecialisationCooldownExpire() < System.currentTimeMillis(); }
 	
 	protected Map<String, Integer> specialisationBonus = new HashMap<>();
-	
-	// A boolean that defines whether the player wants to activate abilities by chat or not.
-	private boolean isListeningToChat = false;
-	
-	// A Map that stores which string a player types in chat should activate what ability.
-	protected Map<String, String> chatKeys = new HashMap<String, String>();
 
 	// Global Cooldown for all the skills/abilities (exhaustion), individual cooldowns can be added by the skill writer
 	// Long is the millis when the abilitys cooldown expires.
@@ -450,78 +441,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			this.preparedTool = Optional.empty();
 		}
 		
-	}
-	
-	// -------------------------------------------- //
-	// MANAGING CHAT | ACTIVATION
-	// -------------------------------------------- //
-	
-	public boolean getIsListeningToChat() { return this.isListeningToChat; }
-	
-	public void setIsListeningToChat (boolean state) { this.isListeningToChat = state; }
-	
-	// Adding, getting, setting to the chatKeys map
-	
-	public void addChatKey(String key, Ability ability) { this.chatKeys.put(key, ability.getId()); this.changed();}
-	
-	public void removeChatKey (String key) { this.chatKeys.remove(key);this.changed(); }
-	
-	public List<String> getChatKeys()
-	{
-		List<String> list = new ArrayList<String>();
-		list.addAll(this.chatKeys.keySet());
-		return list;
-	}
-	
-	public void clearChatKeys() { this.chatKeys.clear(); }
-	
-	public boolean isAlreadyChatKey(String key)
-	{
-		for (String string :  this.chatKeys.keySet())
-		{
-			if (string.equalsIgnoreCase(key)) return true;
-		}
-		return false;
-	}
-	
-	public boolean hasAnyChatKeys () { return ! this.chatKeys.isEmpty(); }
-	
-	public Ability getAbilityBySubString (String message)
-	{
-		int pos = -1;
-		
-		for (String key : this.getChatKeys())
-		{
-			pos = message.indexOf(key);
-			if (pos != -1)
-			{
-				return this.getAbilityfromChatKey(key);
-			}
-		}
-		return null;
-	}
-	
-	public Ability getAbilityfromChatKey(String key)
-	{
-		String id = this.chatKeys.get(key);
-		if (null == id) return null;
-		
-		return DeriusAPI.getAbility(id);
-	}
-	
-	public List<String> chatKeysToString()
-	{
-		List<String> messages = new ArrayList<String>();	
-		for(String str: chatKeys.keySet())
-		{
-			messages.add(Txt.parse("<lime>" + str + "<i> activates " + getAbilityfromChatKey(str).toString()));
-		}
-		return messages;
-	}
-
-	public boolean isChatListeningOk()
-	{
-		return this.getIsListeningToChat() && this.hasAnyChatKeys();
 	}
 	
 	// -------------------------------------------- //
