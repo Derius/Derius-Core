@@ -5,7 +5,7 @@ import com.massivecraft.massivecore.store.SenderColl;
 import com.massivecraft.massivecore.util.IdUtil;
 
 import dk.muj.derius.DeriusConst;
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 
 public class MPlayerColl extends SenderColl<MPlayer>
 {
@@ -17,7 +17,7 @@ public class MPlayerColl extends SenderColl<MPlayer>
 	public static MPlayerColl get() { return i; }
 	private MPlayerColl()
 	{
-		super(DeriusConst.COLLECTION_MPLAYER, MPlayer.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_MPLAYER, MPlayer.class, MStore.getDb(), DeriusPlugin.get());
 	}
 	
 	// -------------------------------------------- //

@@ -8,7 +8,7 @@ import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
 import dk.muj.derius.DeriusConst;
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.adapter.GsonAbility;
 import dk.muj.derius.api.ability.Ability;
 
@@ -22,7 +22,7 @@ public final class AbilityColl extends Coll<Ability>
 	public static AbilityColl get() { return i; }
 	private AbilityColl()
 	{
-		super(DeriusConst.COLLECTION_ABILITIES, Ability.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_ABILITIES, Ability.class, MStore.getDb(), DeriusPlugin.get());
 		this.setLowercasing(true);
 		this.setCreative(false);
 	}

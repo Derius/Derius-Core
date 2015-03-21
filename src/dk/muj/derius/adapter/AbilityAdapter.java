@@ -11,7 +11,8 @@ import com.massivecraft.massivecore.xlib.gson.JsonParseException;
 import com.massivecraft.massivecore.xlib.gson.JsonSerializationContext;
 import com.massivecraft.massivecore.xlib.gson.JsonSerializer;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
+import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.ability.Ability.AbilityType;
 
@@ -63,34 +64,34 @@ public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer
 		JsonElement val;
 		
 		// Enabled
-		val = DeriusCore.get().gson.toJsonTree(src.getEnabled());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getEnabled());
 		ret.add(ENABLED, val);
 		
 		// Name
-		val = DeriusCore.get().gson.toJsonTree(src.getName());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getName());
 		ret.add(NAME, val);
 		
 		// Description
-		val = DeriusCore.get().gson.toJsonTree(src.getDesc());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getDesc());
 		ret.add(DESC, val);
 		
 		// Ticks Cooldown
-		val = DeriusCore.get().gson.toJsonTree(src.getCooldownMillis());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getCooldownMillis());
 		ret.add(MILLIS_COOLDOWN, val);
 		
 		// stamina usage
-		val = DeriusCore.get().gson.toJsonTree(src.getStaminaUsage());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getStaminaUsage());
 		ret.add(STAMINA_USAGE, val);
 		
 		// Since this only makes sense for active abilities. We won't confuse our users.
 		if (src.getType() == AbilityType.ACTIVE)
 		{
-			val = DeriusCore.get().gson.toJsonTree(src.getStaminaMultiplier());
+			val = DeriusPlugin.get().gson.toJsonTree(src.getStaminaMultiplier());
 			ret.add(STAMINA_MULTIPLIER, val);
 		}
 		
 		// Description
-		val = DeriusCore.get().gson.toJsonTree(src.getWorldsUse());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getWorldsUse());
 		ret.add(WORLDS_USE, val);
 		
 		return ret;
@@ -106,7 +107,11 @@ public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer
 		if (json == null) return null;
 		
 		// It must be an object!
-		if ( ! json.isJsonObject()) return null;
+		if ( ! json.isJsonObject())
+		{
+			DeriusAPI.debug(10000, "Non jsonObject %s", json);
+			return null;
+		}
 		JsonObject jsonAbility = json.getAsJsonObject();
 		
 		Ability ret = new GsonAbility();
@@ -115,49 +120,49 @@ public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer
 		if (jsonAbility.has(ENABLED))
 		{
 			val = jsonAbility.get(ENABLED);
-			boolean enabled = DeriusCore.get().gson.fromJson(val, Boolean.class);
+			boolean enabled = DeriusPlugin.get().gson.fromJson(val, Boolean.class);
 			ret.setEnabled(enabled);
 		}
 		
 		if (jsonAbility.has(NAME))
 		{
 			val = jsonAbility.get(NAME);
-			String name = DeriusCore.get().gson.fromJson(val, String.class);
+			String name = DeriusPlugin.get().gson.fromJson(val, String.class);
 			ret.setName(name);
 		}
 		
 		if (jsonAbility.has(DESC))
 		{
 			val = jsonAbility.get(DESC);
-			String desc = DeriusCore.get().gson.fromJson(val, String.class);
+			String desc = DeriusPlugin.get().gson.fromJson(val, String.class);
 			ret.setDesc(desc);
 		}
 		
 		if (jsonAbility.has(MILLIS_COOLDOWN))
 		{
 			val = jsonAbility.get(MILLIS_COOLDOWN);
-			int millis = DeriusCore.get().gson.fromJson(val, Integer.class);
+			int millis = DeriusPlugin.get().gson.fromJson(val, Integer.class);
 			ret.setCooldownMillis(millis);
 		}
 		
 		if (jsonAbility.has(STAMINA_USAGE))
 		{
 			val = jsonAbility.get(STAMINA_USAGE);
-			double stamina = DeriusCore.get().gson.fromJson(val, Double.class);
+			double stamina = DeriusPlugin.get().gson.fromJson(val, Double.class);
 			ret.setStaminaUsage(stamina);
 		}
 		
 		if (jsonAbility.has(STAMINA_MULTIPLIER))
 		{
 			val = jsonAbility.get(STAMINA_MULTIPLIER);
-			double multiplier = DeriusCore.get().gson.fromJson(val, Double.class);
+			double multiplier = DeriusPlugin.get().gson.fromJson(val, Double.class);
 			ret.setStaminaMultiplier(multiplier);
 		}
 		
 		if (jsonAbility.has(WORLDS_USE))
 		{
 			val = jsonAbility.get(WORLDS_USE);
-			WorldExceptionSet worlds = DeriusCore.get().gson.fromJson(val, WorldExceptionSet.class);
+			WorldExceptionSet worlds = DeriusPlugin.get().gson.fromJson(val, WorldExceptionSet.class);
 			ret.setWorldsUse(worlds);
 		}
 		

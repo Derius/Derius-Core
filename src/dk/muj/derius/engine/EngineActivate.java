@@ -19,7 +19,7 @@ import com.massivecraft.massivecore.Couple;
 import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.util.MUtil;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.BlockBreakExpGain;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.VerboseLevel;
@@ -40,7 +40,7 @@ public class EngineActivate extends EngineAbstract
 	
 	private static EngineActivate i = new EngineActivate();
 	public static EngineActivate get() { return i; }
-	public EngineActivate() {}
+	private EngineActivate() {}
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -49,7 +49,7 @@ public class EngineActivate extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return DeriusCore.get();
+		return DeriusPlugin.get();
 	}
 	
 	// -------------------------------------------- //
@@ -166,6 +166,7 @@ public class EngineActivate extends EngineAbstract
 		{
 			if ( ! SkillUtil.shouldDoubleDropOccur(dplayer.getLvl(ability.getSkill()), ability.getLevelsPerPercent())) continue;
 			
+			//TODO: Enable this, when we are sure all the skills implemnt it.
 			//if ( ! ability.getToolTypes().contains(item.getType())) continue;
 			
 			// ...and their action blocks contains the borken block...

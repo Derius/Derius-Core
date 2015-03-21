@@ -13,7 +13,7 @@ import com.massivecraft.massivecore.Progressbar;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.player.DPlayer;
 
 public final class ScoreboardUtil
@@ -59,7 +59,7 @@ public final class ScoreboardUtil
 		
 		Scoreboard board = getManager().getNewScoreboard();
 
-		Bukkit.getScheduler().runTaskAsynchronously(DeriusCore.get(), () ->
+		Bukkit.getScheduler().runTaskAsynchronously(DeriusPlugin.get(), () ->
 		{
 			Scoreboard score = loadScoreBoardProgressBar(dplayer, oldStamina, board);
 		
@@ -136,7 +136,7 @@ public final class ScoreboardUtil
 	
 	private static void resetScoreboardTask(DPlayer dplayer, long tick) 
 	{
-		Bukkit.getScheduler().runTaskLater(DeriusCore.get(), () -> resetScoreBoard(dplayer), tick);
+		Bukkit.getScheduler().runTaskLater(DeriusPlugin.get(), () -> resetScoreBoard(dplayer), tick);
 	}
 
 }

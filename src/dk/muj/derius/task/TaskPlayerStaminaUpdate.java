@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.ModuloRepeatTask;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.player.DPlayer;
@@ -29,7 +29,7 @@ public final class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 	@Override
 	public Plugin getPlugin()
 	{
-		return DeriusCore.get();
+		return DeriusPlugin.get();
 	}
 
 	// -------------------------------------------- //

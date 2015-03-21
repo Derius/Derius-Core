@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
 import dk.muj.derius.DeriusConst;
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 
 public final class MConfColl extends Coll<MConf>
 {
@@ -16,7 +16,7 @@ public final class MConfColl extends Coll<MConf>
 	public static MConfColl get() { return i; }
 	private MConfColl()
 	{
-		super(DeriusConst.COLLECTION_MCONF, MConf.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_MCONF, MConf.class, MStore.getDb(), DeriusPlugin.get());
 	}
 	
 	// -------------------------------------------- //

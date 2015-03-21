@@ -2,26 +2,18 @@ package dk.muj.derius;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
-import com.massivecraft.massivecore.util.IdUtil;
-import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.ReflectionUtil;
 import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.massivecore.xlib.gson.Gson;
-import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 import com.massivecraft.massivecore.xlib.gson.JsonElement;
 
-import dk.muj.derius.adapter.AbilityAdapter;
-import dk.muj.derius.adapter.SkillAdapter;
 import dk.muj.derius.api.BlockBreakExpGain;
 import dk.muj.derius.api.Derius;
 import dk.muj.derius.api.DeriusAPI;
@@ -32,27 +24,16 @@ import dk.muj.derius.api.events.SkillRegisteredEvent;
 import dk.muj.derius.api.inventory.SpecialItemManager;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
-import dk.muj.derius.cmd.CmdDerius;
 import dk.muj.derius.engine.EngineActivate;
 import dk.muj.derius.engine.EngineMain;
-import dk.muj.derius.engine.EngineMsg;
 import dk.muj.derius.engine.EngineScheduledDeactivate;
 import dk.muj.derius.entity.AbilityColl;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.entity.MConfColl;
-import dk.muj.derius.entity.MLang;
-import dk.muj.derius.entity.MLangColl;
 import dk.muj.derius.entity.SkillColl;
-import dk.muj.derius.entity.mplayer.MPlayer;
-import dk.muj.derius.entity.mplayer.MPlayerAdapter;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 import dk.muj.derius.inventory.ItemManager;
-import dk.muj.derius.mixin.BlockMixinDefault;
-import dk.muj.derius.mixin.MaxLevelMixinDefault;
-import dk.muj.derius.mixin.StaminaMixinDefault;
-import dk.muj.derius.task.TaskPlayerStaminaUpdate;
 
-public final class DeriusCore extends MassivePlugin implements Derius
+public class DeriusCore implements Derius
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -60,86 +41,23 @@ public final class DeriusCore extends MassivePlugin implements Derius
 	
 	private static DeriusCore i;
 	public static DeriusCore get() { return i; }
-	public DeriusCore() { i = this; }
+	private DeriusCore() { i = this; }
 	
 	// -------------------------------------------- //
-	// FIELDS
+	// INJECT
 	// -------------------------------------------- //
 	
-	// Commands 
-	// "outer" means it is accessed directly as a command. ex. "/example"
-	private CmdDerius outerCmdDerius;
-	public CmdDerius getOuterCmdDerius() { return this.outerCmdDerius; }
-	
-	// Engines
-	private List<Engine> engines = MUtil.list(
-		EngineActivate.get(),
-		EngineMain.get(),
-		EngineScheduledDeactivate.get(),
-		EngineMsg.get());
-	
-	// -------------------------------------------- //
-	// OVERRIDE: PLUGIN
-	// -------------------------------------------- //
-	
-	@Override
-	public void onEnable()
+	public static void inject()
 	{
-		if ( ! this.preEnable()) return;
-		
-		// We must first init the collections...
-		MConfColl.get().init();
-		MLangColl.get().init();
-		MPlayerColl.get().init();
-		SkillColl.get().init();
-		AbilityColl.get().init();
-		
-		// ... because some of them are used when instantiating the api fields.
-		this.setApiFields();
-		
-		// Engine activation
-		engines.forEach(Engine::activate);
-
-		ItemManager.setup();
-		
-		// Command registration
-		this.outerCmdDerius = new CmdDerius() { public List<String> getAliases() { return MConf.get().outerAliasesDerius; } };
-		this.outerCmdDerius.register(this);
-		
-		EngineMain.instantiatePlayerFields(IdUtil.CONSOLE_ID);
-		
-		for (Player player : MUtil.getOnlinePlayers())
-		{
-			EngineMain.instantiatePlayerFields(player.getUniqueId().toString());
+		Class<DeriusAPI> apiClass = DeriusAPI.class;
+		Field coreField = ReflectionUtil.getField(apiClass, DeriusConst.API_DERIUS_FIELD);
+		if (coreField != null) // Avoid useless NPE, since we already got one exception.
+		{	
+			if (ReflectionUtil.makeAccessible(coreField)); // Returns true on success.
+			{
+				ReflectionUtil.setField(coreField, null, DeriusCore.get());
+			}
 		}
-		
-		// ModuloRepeatTask
-		TaskPlayerStaminaUpdate.get().activate();
-		
-		this.postEnable();
-	}
-	
-
-	@Override
-	public void onDisable()
-	{
-		super.onDisable();
-		
-		// Engine deactivation
-		engines.forEach(Engine::deactivate);
-	}
-	
-	// -------------------------------------------- //
-	// OVERRIDE: MASSIVEPLUGIN
-	// -------------------------------------------- //
-	
-	@Override
-	public GsonBuilder getGsonBuilder()
-	{
-		return super.getGsonBuilder()
-				.registerTypeAdapter(Skill.class, SkillAdapter.get())
-				.registerTypeAdapter(Ability.class, AbilityAdapter.get())
-				.registerTypeAdapter(MPlayer.class, MPlayerAdapter.get());
 	}
 	
 	// -------------------------------------------- //
@@ -152,36 +70,7 @@ public final class DeriusCore extends MassivePlugin implements Derius
 		if (MConf.get().debugLevel < level) return;
 		
 		String message = Txt.parse(format, args);
-		get().log(Level.INFO, message);
-	}
-	
-	// -------------------------------------------- //
-	// INIT API
-	// -------------------------------------------- //
-	
-	private void setApiFields()
-	{
-		// Mixins
-		this.initMixins();
-		
-		// DLang
-		DeriusAPI.setDLang(MLang.get());
-		
-		// The "core" field
-		Class<DeriusAPI> apiClass = DeriusAPI.class;
-		Field coreField = ReflectionUtil.getField(apiClass, DeriusConst.API_DERIUS_FIELD);
-		if (coreField != null) // Avoid useless NPE
-		{	
-			ReflectionUtil.makeAccessible(coreField);
-			ReflectionUtil.setField(coreField, null, this);
-		}
-	}
-	
-	private void initMixins()
-	{
-		DeriusAPI.setBlockMixin(BlockMixinDefault.get());
-		DeriusAPI.setMaxLevelMixin(MaxLevelMixinDefault.get());
-		DeriusAPI.setStaminaMixin(StaminaMixinDefault.get());
+		DeriusPlugin.get().log(Level.INFO, message);
 	}
 	
 	// -------------------------------------------- //
@@ -195,7 +84,7 @@ public final class DeriusCore extends MassivePlugin implements Derius
 		{
 			return ((MassivePlugin) plugin).gson;
 		}
-		return gson;
+		return DeriusPlugin.get().gson;
 	}
 	
 	// -------------------------------------------- //
@@ -271,7 +160,7 @@ public final class DeriusCore extends MassivePlugin implements Derius
 			coll.loadFromRemote(id, value);
 		}
 		// ...so we fail silently.
-		catch(Throwable t) {t.printStackTrace();}
+		catch(Throwable t) { t.printStackTrace(); } // We might fail silently, when releasing the plugin.
 	}
 	
 	// -------------------------------------------- //
@@ -322,8 +211,7 @@ public final class DeriusCore extends MassivePlugin implements Derius
 			// Then we load it into our system.
 			coll.loadFromRemote(id, value);
 		}
-		// ...so we fail silently.
-		catch(Throwable t) {}
+		catch(Throwable t) { t.printStackTrace(); } // We might fail silently, when releasing the plugin.
 	}
 	
 	// -------------------------------------------- //

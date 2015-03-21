@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.massivecraft.massivecore.event.EventMassiveCorePlayerLeave;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.inventory.SpecialItemManager;
 
 /**
@@ -37,7 +37,7 @@ public final class ItemManager implements Listener
 	
 	public static void setup()
 	{
-		Bukkit.getPluginManager().registerEvents(get(), DeriusCore.get());
+		Bukkit.getPluginManager().registerEvents(get(), DeriusPlugin.get());
 	}
 	
 	// -------------------------------------------- //

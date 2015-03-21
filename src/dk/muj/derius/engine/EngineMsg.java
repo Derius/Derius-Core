@@ -15,7 +15,7 @@ import com.massivecraft.massivecore.EngineAbstract;
 import com.massivecraft.massivecore.mixin.Mixin;
 import com.massivecraft.massivecore.util.Txt;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.ability.Ability.AbilityType;
 import dk.muj.derius.api.config.DLang;
@@ -35,7 +35,7 @@ public class EngineMsg extends EngineAbstract
 	
 	private static EngineMsg i = new EngineMsg();
 	public static EngineMsg get() { return i; }
-	public EngineMsg() {}
+	private EngineMsg() {}
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -44,7 +44,7 @@ public class EngineMsg extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return DeriusCore.get();
+		return DeriusPlugin.get();
 	}
 	
 	// -------------------------------------------- //

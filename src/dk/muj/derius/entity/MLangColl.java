@@ -4,7 +4,7 @@ import com.massivecraft.massivecore.store.Coll;
 import com.massivecraft.massivecore.store.MStore;
 
 import dk.muj.derius.DeriusConst;
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 
 public final class MLangColl extends Coll<MLang>
 {
@@ -16,7 +16,7 @@ public final class MLangColl extends Coll<MLang>
 	public static MLangColl get() { return i; }
 	private MLangColl()
 	{
-		super(DeriusConst.COLLECTION_MLANG, MLang.class, MStore.getDb(), DeriusCore.get());
+		super(DeriusConst.COLLECTION_MLANG, MLang.class, MStore.getDb(), DeriusPlugin.get());
 	}
 	
 	// -------------------------------------------- //

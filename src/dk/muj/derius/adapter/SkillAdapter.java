@@ -15,7 +15,7 @@ import com.massivecraft.massivecore.xlib.gson.JsonSerializationContext;
 import com.massivecraft.massivecore.xlib.gson.JsonSerializer;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.skill.Skill;
 
@@ -64,39 +64,39 @@ public class SkillAdapter implements JsonDeserializer<Skill>, JsonSerializer<Ski
 		JsonElement val;
 		
 		// Enabled
-		val = DeriusCore.get().gson.toJsonTree(src.isEnabled());
+		val = DeriusPlugin.get().gson.toJsonTree(src.isEnabled());
 		ret.add(ENABLED, val);
 		
 		// Name
-		val = DeriusCore.get().gson.toJsonTree(src.getName());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getName());
 		ret.add(NAME, val);
 		
 		// Description
-		val = DeriusCore.get().gson.toJsonTree(src.getDesc());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getDesc());
 		ret.add(DESC, val);
 		
 		// Icon
-		val = DeriusCore.get().gson.toJsonTree(src.getIcon());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getIcon());
 		ret.add(ICON, val);
 		
 		// Specialisation auto assigned
-		val = DeriusCore.get().gson.toJsonTree(src.isSpAutoAssigned());
+		val = DeriusPlugin.get().gson.toJsonTree(src.isSpAutoAssigned());
 		ret.add(SP_AUTO_ASSIGNED, val);
 		
 		// Specialisation blacklisted
-		val = DeriusCore.get().gson.toJsonTree(src.isSpBlackListed());
+		val = DeriusPlugin.get().gson.toJsonTree(src.isSpBlackListed());
 		ret.add(SP_BLACKLISTED, val);
 		
 		// Earn experience descriptions
-		val = DeriusCore.get().gson.toJsonTree(src.getEarnExpDescs());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getEarnExpDescs());
 		ret.add(EARN_EXP_DESCS, val);
 		
 		// World earn
-		val = DeriusCore.get().gson.toJsonTree(src.getWorldsEarn());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getWorldsEarn());
 		ret.add(WORLDS_EARN, val);
 		
 		// Config
-		val = DeriusCore.get().gson.toJsonTree(src.getConfiguration());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getConfiguration());
 		ret.add(CONFIGURATION, val);
 		
 		return ret;
@@ -125,63 +125,63 @@ public class SkillAdapter implements JsonDeserializer<Skill>, JsonSerializer<Ski
 		if (jsonSkill.has(ENABLED))
 		{
 			val = jsonSkill.get(ENABLED);
-			boolean enabled = DeriusCore.get().gson.fromJson(val, Boolean.class);
+			boolean enabled = DeriusPlugin.get().gson.fromJson(val, Boolean.class);
 			ret.setEnabled(enabled);
 		}
 		
 		if (jsonSkill.has(NAME))
 		{
 			val = jsonSkill.get(NAME);
-			String name = DeriusCore.get().gson.fromJson(val, String.class);
+			String name = DeriusPlugin.get().gson.fromJson(val, String.class);
 			ret.setName(name);
 		}
 		
 		if (jsonSkill.has(DESC))
 		{
 			val = jsonSkill.get(DESC);
-			String desc = DeriusCore.get().gson.fromJson(val, String.class);
+			String desc = DeriusPlugin.get().gson.fromJson(val, String.class);
 			ret.setDesc(desc);
 		}
 		
 		if (jsonSkill.has(EARN_EXP_DESCS))
 		{
 			val = jsonSkill.get(EARN_EXP_DESCS);
-			List<String> descs = DeriusCore.get().gson.fromJson(val, new TypeToken<List<String>>(){}.getType());
+			List<String> descs = DeriusPlugin.get().gson.fromJson(val, new TypeToken<List<String>>(){}.getType());
 			ret.setEarnExpDescs(descs);
 		}
 		
 		if (jsonSkill.has(ICON))
 		{
 			val = jsonSkill.get(ICON);
-			Material icon = DeriusCore.get().gson.fromJson(val, Material.class);
+			Material icon = DeriusPlugin.get().gson.fromJson(val, Material.class);
 			ret.setIcon(icon);
 		}
 		
 		if (jsonSkill.has(SP_AUTO_ASSIGNED))
 		{
 			val = jsonSkill.get(SP_AUTO_ASSIGNED);
-			boolean assigned = DeriusCore.get().gson.fromJson(val, Boolean.class);
+			boolean assigned = DeriusPlugin.get().gson.fromJson(val, Boolean.class);
 			ret.setSpAutoAssiged(assigned);
 		}
 		
 		if (jsonSkill.has(SP_BLACKLISTED))
 		{
 			val = jsonSkill.get(SP_BLACKLISTED);
-			boolean blacklisted = DeriusCore.get().gson.fromJson(val, Boolean.class);
+			boolean blacklisted = DeriusPlugin.get().gson.fromJson(val, Boolean.class);
 			ret.setSpBlackListed(blacklisted);
 		}
 		
 		if (jsonSkill.has(WORLDS_EARN))
 		{
 			val = jsonSkill.get(WORLDS_EARN);
-			WorldExceptionSet worlds = DeriusCore.get().gson.fromJson(val, WorldExceptionSet.class);
+			WorldExceptionSet worlds = DeriusPlugin.get().gson.fromJson(val, WorldExceptionSet.class);
 			ret.setWorldsEarn(worlds);
 		}
 		
 		if (jsonSkill.has(CONFIGURATION))
 		{
 			val = jsonSkill.get(CONFIGURATION);
-			JsonObject conf = DeriusCore.get().gson.fromJson(val, JsonObject.class);
+			JsonObject conf = DeriusPlugin.get().gson.fromJson(val, JsonObject.class);
 			ret.setConfiguration(conf);
 		}
 		

@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.ScheduledDeactivate;
 
 public class EngineScheduledDeactivate extends EngineAbstract
@@ -18,10 +18,10 @@ public class EngineScheduledDeactivate extends EngineAbstract
 	
 	private static EngineScheduledDeactivate i = new EngineScheduledDeactivate();
 	public static EngineScheduledDeactivate get() { return i; }
-	private EngineScheduledDeactivate() { }
+	private EngineScheduledDeactivate() {}
 	
 	// -------------------------------------------- //
-	// SCHEDULED TELEPORT INDEX
+	// SCHEDULED DEATIVATES
 	// -------------------------------------------- //
 	
 	protected Map<String, ScheduledDeactivate> playerIdToScheduledDeactivate = new ConcurrentHashMap<>();
@@ -57,7 +57,7 @@ public class EngineScheduledDeactivate extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return DeriusCore.get();
+		return DeriusPlugin.get();
 	}
 	
 	@Override

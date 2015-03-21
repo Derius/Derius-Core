@@ -6,7 +6,7 @@ import com.massivecraft.massivecore.cmd.HelpCommand;
 import com.massivecraft.massivecore.cmd.VersionCommand;
 import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.entity.MConf;
 
@@ -16,7 +16,7 @@ public class CmdDerius extends DeriusCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	public VersionCommand innerCmdDeriusVersion = new VersionCommand(DeriusCore.get(), DeriusPerm.VERSION.getNode(), "v", "version");
+	public VersionCommand innerCmdDeriusVersion = new VersionCommand(DeriusPlugin.get(), DeriusPerm.VERSION.getNode(), "v", "version");
 	public CmdDeriusSkill innerCmdSkill = new CmdDeriusSkill() { public List<String> getAliases() { return MConf.get().innerAliasesSkill; } };
 	public CmdDeriusSkills innerCmdSkills = new CmdDeriusSkills() { public List<String>  getAliases() { return MConf.get().innerAliasesSkills; } };
 	public CmdDeriusList innerCmdDeriusList = new CmdDeriusList() { public List<String> getAliases() { return MConf.get().innerAliasesDeriusList; } };

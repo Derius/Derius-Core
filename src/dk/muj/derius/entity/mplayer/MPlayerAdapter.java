@@ -13,7 +13,7 @@ import com.massivecraft.massivecore.xlib.gson.JsonSerializationContext;
 import com.massivecraft.massivecore.xlib.gson.JsonSerializer;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 
 public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer<MPlayer>
 {
@@ -56,25 +56,25 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 		JsonObject ret = new JsonObject();
 		JsonElement val;
 		
-		val = DeriusCore.get().gson.toJsonTree(src.exp);
+		val = DeriusPlugin.get().gson.toJsonTree(src.exp);
 		ret.add(EXP, val);
 		
-		val = DeriusCore.get().gson.toJsonTree(src.specialised);
+		val = DeriusPlugin.get().gson.toJsonTree(src.specialised);
 		ret.add(SPECIALISED, val);
 		
-		val = DeriusCore.get().gson.toJsonTree(src.getSpecialisationChangeMillis());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getSpecialisationChangeMillis());
 		ret.add(SPECIALISED_MILLIS, val);
 		
-		val = DeriusCore.get().gson.toJsonTree(src.getSpecialisationSlotBonus());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getSpecialisationSlotBonus());
 		ret.add(SPECIALISATION_BONUS, val);
-		
-		val = DeriusCore.get().gson.toJsonTree(src.getStaminaBonus());
+
+		val = DeriusPlugin.get().gson.toJsonTree(src.getStaminaBonus());
 		ret.add(BONUS_STAMINA, val);
 		
-		val = DeriusCore.get().gson.toJsonTree(src.getStaminaBoardStay());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getStaminaBoardStay());
 		ret.add(STAMINA_BOARD_STAY, val);
 		
-		val = DeriusCore.get().gson.toJsonTree(src.getBoardShowAtAll());
+		val = DeriusPlugin.get().gson.toJsonTree(src.getBoardShowAtAll());
 		ret.add(BOARD_SHOW_AT_ALL, val);
 		
 		return ret;
@@ -99,49 +99,49 @@ public class MPlayerAdapter implements JsonDeserializer<MPlayer>, JsonSerializer
 		if (jsonSkill.has(EXP))
 		{
 			val = jsonSkill.get(EXP);
-			Map<String, Long> exp = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, Long>>(){}.getType());
+			Map<String, Long> exp = DeriusPlugin.get().gson.fromJson(val, new TypeToken<Map<String, Long>>(){}.getType());
 			ret.exp = exp;
 		}
 		
 		if (jsonSkill.has(SPECIALISED))
 		{
 			val = jsonSkill.get(SPECIALISED);
-			Set<String> specialised = DeriusCore.get().gson.fromJson(val, new TypeToken<Set<String>>(){}.getType());
+			Set<String> specialised = DeriusPlugin.get().gson.fromJson(val, new TypeToken<Set<String>>(){}.getType());
 			ret.specialised = specialised;
 		}
 		
 		if (jsonSkill.has(SPECIALISED_MILLIS))
 		{
 			val = jsonSkill.get(SPECIALISED_MILLIS);
-			long millis = DeriusCore.get().gson.fromJson(val, Long.TYPE);
+			long millis = DeriusPlugin.get().gson.fromJson(val, Long.TYPE);
 			ret.setSpecialisationChangeMillis(millis);
 		}
 		
 		if (jsonSkill.has(SPECIALISATION_BONUS))
 		{
 			val = jsonSkill.get(SPECIALISATION_BONUS);
-			Map<String, Integer> bonus = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, Integer>>(){}.getType());
+			Map<String, Integer> bonus = DeriusPlugin.get().gson.fromJson(val, new TypeToken<Map<String, Integer>>(){}.getType());
 			ret.specialisationBonus = bonus;
 		}
 		
 		if (jsonSkill.has(BONUS_STAMINA))
 		{
 			val = jsonSkill.get(BONUS_STAMINA);
-			Map<String, Double> staminaBonus = DeriusCore.get().gson.fromJson(val, new TypeToken<Map<String, Double>>(){}.getType());
+			Map<String, Double> staminaBonus = DeriusPlugin.get().gson.fromJson(val, new TypeToken<Map<String, Double>>(){}.getType());
 			ret.staminaBonus = staminaBonus;
 		}
 		
 		if (jsonSkill.has(STAMINA_BOARD_STAY))
 		{
 			val = jsonSkill.get(STAMINA_BOARD_STAY);
-			boolean staminaBoardStay = DeriusCore.get().gson.fromJson(val, Boolean.TYPE);
+			boolean staminaBoardStay = DeriusPlugin.get().gson.fromJson(val, Boolean.TYPE);
 			ret.staminaBoardStay = staminaBoardStay;
 		}
 		
 		if (jsonSkill.has(BOARD_SHOW_AT_ALL))
 		{
 			val = jsonSkill.get(BOARD_SHOW_AT_ALL);
-			boolean boardShowAtAll = DeriusCore.get().gson.fromJson(val, Boolean.TYPE);
+			boolean boardShowAtAll = DeriusPlugin.get().gson.fromJson(val, Boolean.TYPE);
 			ret.boardShowAtAll = boardShowAtAll;
 		}
 		

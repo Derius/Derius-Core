@@ -13,8 +13,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.massivecraft.massivecore.EngineAbstract;
+import com.massivecraft.massivecore.util.IdUtil;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.ability.Ability;
 import dk.muj.derius.api.events.AbilityRegisteredEvent;
@@ -39,7 +40,7 @@ public class EngineMain extends EngineAbstract
 	
 	private static EngineMain i = new EngineMain();
 	public static EngineMain get() { return i; }
-	public EngineMain() {}
+	private EngineMain() {}
 	
 	// -------------------------------------------- //
 	// OVERRIDE
@@ -48,7 +49,7 @@ public class EngineMain extends EngineAbstract
 	@Override
 	public Plugin getPlugin()
 	{
-		return DeriusCore.get();
+		return DeriusPlugin.get();
 	}
 	
 	// -------------------------------------------- //
@@ -115,14 +116,13 @@ public class EngineMain extends EngineAbstract
 		instantiatePlayerFields(event.getPlayer().getUniqueId().toString());
 	}
 	
-	public static void instantiatePlayerFields(String playerId)
+	public static void instantiatePlayerFields(Object oid)
 	{
+		String playerId = IdUtil.getId(oid);
+		if (playerId == null) return;
 		MPlayer mplayer = MPlayerColl.get().get(playerId, true);
 		
-		for (Skill skill : DeriusAPI.getAllSkills())
-		{
-			mplayer.instantiateSkill(skill);
-		}
+		DeriusAPI.getAllSkills().forEach(skill -> mplayer.instantiateSkill(skill));
 		
 		if (mplayer.getSpecialisationCooldownExpire() == 0)
 		{

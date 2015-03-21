@@ -15,7 +15,7 @@ import org.bukkit.Material;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.MUtil;
 
-import dk.muj.derius.DeriusCore;
+import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.Req;
 import dk.muj.derius.api.ability.Ability;
@@ -429,7 +429,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			PlayerToolPrepareEvent event = new PlayerToolPrepareEvent(tool.get(), this);
 			if ( ! event.runEvent()) return;
 			this.preparedTool = tool;
-			Bukkit.getScheduler().runTaskLaterAsynchronously(DeriusCore.get(), () -> setPreparedTool(Optional.empty()), 20*2);
+			Bukkit.getScheduler().runTaskLaterAsynchronously(DeriusPlugin.get(), () -> setPreparedTool(Optional.empty()), 20*2);
 		}
 		else 
 		{

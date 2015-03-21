@@ -28,7 +28,7 @@ public class SkillComparatorLvl implements Comparator<Skill>
 	private final DPlayer dplayer;
 	
 	// -------------------------------------------- //
-	// INSTANCE & CONSTRUCT
+	// OVERRIDE
 	// -------------------------------------------- //
 	
 	@Override
