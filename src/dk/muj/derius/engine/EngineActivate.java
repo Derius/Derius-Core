@@ -109,15 +109,13 @@ public class EngineActivate extends EngineAbstract
 	
 	private void handleExpgain(BlockBreakEvent event, DPlayer dplayer)
 	{
-		System.out.println(1);
 		Material block = event.getBlock().getType();
 		Player player = event.getPlayer();
 		for (BlockBreakExpGain gainer : expGainers)
 		{
-			System.out.println(2 + gainer.getClass().getSimpleName());
-			if ( ! gainer.getBlockTypes().containsKey(block)) continue; System.out.println(3 + gainer.getClass().getSimpleName());
-			if ( ! gainer.getToolTypes().contains(player.getItemInHand().getType())) continue; System.out.println(4 + gainer.getClass().getSimpleName());
-			if ( ! SkillUtil.canPlayerLearnSkill(dplayer, gainer.getSkill(), VerboseLevel.HIGHEST)) continue; System.out.println(5 + gainer.getClass().getSimpleName());
+			if ( ! gainer.getBlockTypes().containsKey(block)) continue;
+			if ( ! gainer.getToolTypes().contains(player.getItemInHand().getType())) continue;
+			if ( ! SkillUtil.canPlayerLearnSkill(dplayer, gainer.getSkill(), VerboseLevel.HIGHEST)) continue;
 			
 			dplayer.addExp(gainer.getSkill(), gainer.getBlockTypes().get(block).doubleValue());
 		}
