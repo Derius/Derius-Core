@@ -38,7 +38,7 @@ public class MLang extends Entity<MConf> implements DLang
 	private String skills = "Skills";
 	private String yourSkills = "Your Skills";
 	
-	private String desc = "Desc";
+	private String desc = "Description";
 	
 	// -------------------------------------------- //
 	// MESSAGES: ABILITIES
@@ -61,7 +61,7 @@ public class MLang extends Entity<MConf> implements DLang
 	// -------------------------------------------- //
 
 	private String skillDisplayedDesc = "{name}: <i>{desc}";
-	private String skillInfoExpGain = "<k>Exp Gain: <i>";
+	private String skillInfoExpGain = "<k>Gain Exp From: <i>";
 	private String skillInfoAbilities = "<art>____.[<aqua> Abilities <art>].____";
 	private String skillInfoLevelStats = "<art>____.[<aqua> Level Stats <art>].____";
 	
