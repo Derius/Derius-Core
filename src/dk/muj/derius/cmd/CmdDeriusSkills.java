@@ -40,13 +40,13 @@ public class CmdDeriusSkills extends DeriusCommand
 
 			// All Abilities
 			msgs.add(MLang.get().skillInfoAbilities);
-			for (Ability ability : skill.getAbilities())
+			for (Ability<?> ability : skill.getAbilities())
 			{
 				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;
 				msgs.add(ability.getDisplayedDescription(dsender));
 			}
 			msgs.add(MLang.get().skillInfoLevelStats);
-			for (Ability ability : skill.getAbilities())
+			for (Ability<?> ability : skill.getAbilities())
 			{
 				if ( ! AbilityUtil.canPlayerSeeAbility(dsender, ability, VerboseLevel.ALWAYS)) continue;
 				msgs.add(String.format("%s: <i>%s", ability.getDisplayName(dsender), ability.getLvlDescriptionMsg(status.getLvl())));

@@ -20,7 +20,7 @@ import dk.muj.derius.api.ability.Ability.AbilityType;
  * This adapter exists so we can have a MStore coll with abilities
  * but still keep ability abstract so everyone is forced to implement required methods.
  */
-public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer<Ability>
+public class AbilityAdapter implements JsonDeserializer<Ability<?>>, JsonSerializer<Ability<?>>
 {
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -54,11 +54,11 @@ public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer
 	// -------------------------------------------- //
 	
 	@Override
-	public JsonElement serialize(Ability osrc, Type typeOfSrc, JsonSerializationContext context)
+	public JsonElement serialize(Ability<?> osrc, Type typeOfSrc, JsonSerializationContext context)
 	{
 		if (osrc == null) return null;
 		
-		Ability src = osrc;
+		Ability<?> src = osrc;
 		
 		JsonObject ret = new JsonObject();
 		JsonElement val;
@@ -102,7 +102,7 @@ public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer
 	// -------------------------------------------- //
 	
 	@Override
-	public Ability deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+	public Ability<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 	{
 		if (json == null) return null;
 		
@@ -114,7 +114,7 @@ public class AbilityAdapter implements JsonDeserializer<Ability>, JsonSerializer
 		}
 		JsonObject jsonAbility = json.getAsJsonObject();
 		
-		Ability ret = new GsonAbility();
+		Ability<?> ret = new GsonAbility();
 		JsonElement val;
 		
 		if (jsonAbility.has(ENABLED))

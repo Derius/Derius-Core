@@ -6,7 +6,7 @@ import dk.muj.derius.api.ability.AbilityAbstract;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 
-public final class GsonAbility extends AbilityAbstract
+public final class GsonAbility extends AbilityAbstract<Object>
 {
 	// -------------------------------------------- //
 	// CONSTRUCT

@@ -94,7 +94,7 @@ public class EngineMain extends EngineAbstract
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void setupAbility(AbilityRegisteredEvent event)
 	{
-		Ability ability = event.getAbility();
+		Ability<?> ability = event.getAbility();
 		Skill skill = ability.getSkill();
 		skill.getAbilities().add(ability);
 		// Requirements

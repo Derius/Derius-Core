@@ -79,11 +79,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	@Override public long getCooldownExpire() { return cooldown; }
 	@Override public long getCooldownExpireIn() { return cooldown - System.currentTimeMillis(); }
 	
-	// Which Ability is currently activated.
-	private transient Optional<Ability> activatedAbility = Optional.empty();
+	// Which Ability<?> is currently activated.
+	private transient Optional<Ability<?>> activatedAbility = Optional.empty();
 	@Override public boolean hasActivatedAny() { return this.activatedAbility.isPresent(); }
-	@Override public Optional<Ability> getActivatedAbility() { return this.activatedAbility; }
-	@Override public void setActivatedAbility(Optional<Ability> ability) { this.activatedAbility = ability;}
+	@Override public Optional<Ability<?>> getActivatedAbility() { return this.activatedAbility; }
+	@Override public void setActivatedAbility(Optional<Ability<?>> ability) { this.activatedAbility = ability;}
 	
 	// The tool which the user has prepared.
 	// A tool is prepared by right clicking, then can activate abilities
@@ -440,7 +440,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			}
 			this.preparedTool = Optional.empty();
 		}
-		
 	}
 	
 	// -------------------------------------------- //

@@ -41,11 +41,11 @@ public final class AbilityColl extends Coll<Ability>
 	// CONVENIENCE
 	// -------------------------------------------- //
 	
-	public static Collection<Ability> getAllAbilities()
+	public static Collection<? extends Ability<?>> getAllAbilities()
 	{
-		Set<Ability> abilities = new HashSet<>();
+		Set<Ability<?>> abilities = new HashSet<>();
 		
-		for (Ability ability : get().getAll())
+		for (Ability<?> ability : get().getAll())
 		{
 			if (ability == null) continue;
 			if (ability instanceof GsonAbility) continue;
@@ -60,7 +60,7 @@ public final class AbilityColl extends Coll<Ability>
 	// -------------------------------------------- //
 	
 	@Override
-	public Ability createNewInstance()
+	public Ability<?> createNewInstance()
 	{
 		return new GsonAbility();
 	}
@@ -74,8 +74,8 @@ public final class AbilityColl extends Coll<Ability>
 		if ( ! (ofrom instanceof Ability)) throw new IllegalArgumentException("ofrom must be an ability");
 		if ( ! (oto instanceof Ability)) throw new IllegalArgumentException("ofrom must be an ability");
 		
-		Ability afrom = (Ability) ofrom;
-		Ability ato = (Ability) oto;
+		Ability<?> afrom = (Ability) ofrom;
+		Ability<?> ato = (Ability) oto;
 		
 		ato.load(afrom);
 	}

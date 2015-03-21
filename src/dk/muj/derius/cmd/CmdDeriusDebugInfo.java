@@ -37,7 +37,7 @@ public class CmdDeriusDebugInfo extends DeriusCommand
 		}
 		
 		msgs.add(Txt.titleize("<green>REGISTERED ABILITIES"));
-		for (Ability ability : DeriusAPI.getAllAbilities())
+		for (Ability<?> ability : DeriusAPI.getAllAbilities())
 		{
 			msgs.add(String.format("<red>%s %s		   %s", ability.getId(), ability.getName(), ability.getSkill().getId()));
 		}

@@ -152,7 +152,7 @@ public class EngineActivate extends EngineAbstract
 	{
 		List<AbilitySpecialItem> ret = new ArrayList<>();
 		// Check in all abilities
-		for (Ability ability : DeriusAPI.getAllAbilities())
+		for (Ability<?> ability : DeriusAPI.getAllAbilities())
 		{
 			// If they are for special items...
 			if ( ! (ability instanceof AbilitySpecialItem)) continue;
@@ -190,7 +190,7 @@ public class EngineActivate extends EngineAbstract
 	{
 		List<AbilityDoubleDrop> ret = new ArrayList<>();
 		// Check in all abilities
-		for (Ability ability : DeriusAPI.getAllAbilities())
+		for (Ability<?> ability : DeriusAPI.getAllAbilities())
 		{
 			// If they are for special items...
 			if ( ! (ability instanceof AbilityDoubleDrop)) continue;

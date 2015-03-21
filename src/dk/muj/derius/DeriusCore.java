@@ -169,27 +169,27 @@ public class DeriusCore implements Derius
 	// -------------------------------------------- //
 	
 	@Override
-	public Collection<? extends Ability> getAllAbilities()
+	public Collection<? extends Ability<?>> getAllAbilities()
 	{
 		return AbilityColl.getAllAbilities();
 	}
 	
 	@Override
-	public Ability getAbility(String id)
+	public Ability<?> getAbility(String id)
 	{
 		return AbilityColl.get().get(id);
 	}
 	
 	@Override
-	public void registerAbility(Ability ability)
+	public void registerAbility(Ability<?> ability)
 	{
 		AbilityRegisteredEvent event = new AbilityRegisteredEvent(ability);
 		if ( ! event.runEvent()) return;
 		
-		if (ability.isRegistered()) throw new IllegalArgumentException("Ability is already registered.");
+		if (ability.isRegistered()) throw new IllegalArgumentException("Ability<?> is already registered.");
 		
 		this.ensureAbilityIsLoaded(ability.getId());
-		Ability old = AbilityColl.get().get(ability.getId(), false);
+		Ability<?> old = AbilityColl.get().get(ability.getId(), false);
 		if (old != null)
 		{
 			ability.load(old);

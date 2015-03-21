@@ -55,7 +55,7 @@ public class EngineMsg extends EngineAbstract
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void sendAbilityActivateMsg(AbilityActivatePreEvent event)
 	{
-		Ability ability = event.getAbility();
+		Ability<?> ability = event.getAbility();
 		DPlayer dplayer = event.getDPlayer();
 		if (ability.getType() != AbilityType.ACTIVE) return;
 		
@@ -74,7 +74,7 @@ public class EngineMsg extends EngineAbstract
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void sendAbilityDeactivateMsg(AbilityDeactivateEvent event)
 	{
-		Ability ability = event.getAbility();
+		Ability<?> ability = event.getAbility();
 		DPlayer dplayer = event.getDPlayer();
 		if (ability.getType() != AbilityType.ACTIVE) return;
 		
