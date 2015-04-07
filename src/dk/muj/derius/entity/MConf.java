@@ -59,18 +59,11 @@ public class MConf extends Entity<MConf>
 	public double staminaMax = 200.0;
 	
 	/**
-	 * The stamina you get per minute
-	 */
-	public double staminaPerMinute = 20.0;
-	
-	/**
 	 * How long the stamina scoreboard stays
 	 */
 	public int staminaBoardStay = 200;
 
 	public int staminaRegenSeconds = 3*60;
-	
-	public double staminaShowInterval = 5.0;
 	
 	public double staminaStandStillMultiplier = 2.0;
 	public double staminaSprintMultiplier = 0.0;

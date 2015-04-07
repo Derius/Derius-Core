@@ -192,14 +192,16 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		newStamina = Math.max(newStamina, min);
 		newStamina = Math.min(newStamina, max);
 		
-		// In case of minimal change we won't update.
-		if (newStamina == this.getStamina()) return;
+		double oldStamina = this.getStamina();
 		
-		double oldStamina = this.stamina;
+		// In case of minimal change we won't update.
+		if (newStamina == oldStamina) return;
 		
 		this.stamina = newStamina;
 		
-		if (this.isPlayer() && ! inInterval(oldStamina, newStamina))
+		if (Math.round(newStamina) == Math.round(oldStamina)) return;
+		
+		if (this.isPlayer())
 		{
 			ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay, newStamina);
 		}
@@ -207,17 +209,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		return;
 	}
 	
-	private boolean inInterval(double oldStamina, double newStamina)
-	{
-		double interval = MConf.get().staminaShowInterval;
-		
-		// Is near max? return false
-		if (newStamina >= this.getStaminaMax() - interval) return false;
-		
-		// Is in interval? return true
-		if (newStamina <= oldStamina + interval && newStamina >= oldStamina - interval) return true;
-		return false;
-	}
 	@Override public double getStamina() { return this.stamina; }
 	
 	// Finer

@@ -47,7 +47,7 @@ public final class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 			DPlayer dplayer = DeriusAPI.getDPlayer(player);
 			
 			// EXAMPLE 300*600 / 60000 = 3
-			double stamina = (dplayer.getStaminaMax()*timesPerMinute) / DeriusAPI.staminaRegenTime(player);
+			double stamina = (dplayer.getStaminaMax() * timesPerMinute) / DeriusAPI.staminaRegenTime(player);
 			
 			stamina *= DeriusAPI.getStaminaMultiplier(player);
 			stamina *= dplayer.getActivatedAbility().map(Ability::getStaminaMultiplier).orElse(1D);
@@ -57,6 +57,4 @@ public final class TaskPlayerStaminaUpdate extends ModuloRepeatTask
 		return;
 	}
 	
-
-
 }

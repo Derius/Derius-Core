@@ -52,7 +52,7 @@ public final class ScoreboardUtil
 	 * @param {DPlayer} the player we want to update
 	 * @param {int} the amount of ticks we want it to be shown
 	 */
-	public static void updateStaminaScore(DPlayer dplayer, final int ticks, double oldStamina)
+	public static void updateStaminaScore(DPlayer dplayer, final int ticks, double newStamina)
 	{
 		Validate.notNull(dplayer, "DPlayer musn't be null for setting Scoreboards.");
 		Validate.isTrue(ticks > 0, "ticks must be positive");
@@ -61,12 +61,12 @@ public final class ScoreboardUtil
 
 		Bukkit.getScheduler().runTaskAsynchronously(DeriusPlugin.get(), () ->
 		{
-			Scoreboard score = loadScoreBoardProgressBar(dplayer, oldStamina, board);
+			Scoreboard score = loadScoreBoardProgressBar(dplayer, newStamina, board);
 		
 			setScoreBoard(dplayer, score);
 		
 			if (dplayer.getStaminaBoardStay()) return;
-			resetScoreboardTask(dplayer, ticks);
+			resetScoreboardTask(dplayer, newStamina, ticks);
 		});
 		
 		return;
@@ -127,16 +127,19 @@ public final class ScoreboardUtil
 			board.resetScores(entry);	
 		}
 		String bar = Progressbar.HEALTHBAR_CLASSIC.withQuota(quota).withWidth(30).render();
-
 		
 		Score progressBar = objective.getScore(bar);
 		progressBar.setScore((int) Math.round(dplayer.getStamina()));
 		return board;
 	}
 	
-	private static void resetScoreboardTask(DPlayer dplayer, long tick) 
+	private static void resetScoreboardTask(DPlayer dplayer, double newStamina, long tick) 
 	{
-		Bukkit.getScheduler().runTaskLater(DeriusPlugin.get(), () -> resetScoreBoard(dplayer), tick);
+		Bukkit.getScheduler().runTaskLater(DeriusPlugin.get(), () ->
+		{
+			if ( dplayer.getStamina() >= newStamina) return;
+			resetScoreBoard(dplayer);
+		}, tick);
 	}
 
 }
