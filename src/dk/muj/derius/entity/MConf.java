@@ -70,6 +70,8 @@ public class MConf extends Entity<MConf>
 
 	public int staminaRegenSeconds = 3*60;
 	
+	public double staminaShowInterval = 5.0;
+	
 	public double staminaStandStillMultiplier = 2.0;
 	public double staminaSprintMultiplier = 0.0;
 	public double staminaSneakMultiplier = 1.5;

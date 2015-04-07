@@ -186,13 +186,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		Validate.isTrue(Double.isFinite(newStamina), "Stamina value must be finite.");
 		Validate.isTrue( ! Double.isNaN(newStamina), "Stamina value must be a number.");
 		
-		// This line was there and caused bugs. Don't ever reimplement it.
-		// if (Math.round(newStamina) == Math.round(this.getStamina())) return;
-		
 		double max = this.getStaminaMax();
 		double min = 0.0;
-		
-
 		
 		newStamina = Math.max(newStamina, min);
 		newStamina = Math.min(newStamina, max);
@@ -204,14 +199,25 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 		this.stamina = newStamina;
 		
-		if (this.isPlayer())
+		if (this.isPlayer() && ! inInterval(oldStamina, newStamina))
 		{
-			ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay, oldStamina);
+			ScoreboardUtil.updateStaminaScore(this, MConf.get().staminaBoardStay, newStamina);
 		}
 		
 		return;
 	}
 	
+	private boolean inInterval(double oldStamina, double newStamina)
+	{
+		double interval = MConf.get().staminaShowInterval;
+		
+		// Is near max? return false
+		if (newStamina >= this.getStaminaMax() - interval) return false;
+		
+		// Is in interval? return true
+		if (newStamina <= oldStamina + interval && newStamina >= oldStamina - interval) return true;
+		return false;
+	}
 	@Override public double getStamina() { return this.stamina; }
 	
 	// Finer
