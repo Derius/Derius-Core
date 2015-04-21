@@ -1,16 +1,18 @@
 package dk.muj.derius.cmd.arg;
 
+import java.util.Collection;
+
 import org.bukkit.command.CommandSender;
 
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.cmd.arg.AR;
+import com.massivecraft.massivecore.cmd.arg.ARAbstract;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
-import com.massivecraft.massivecore.cmd.arg.ArgReader;
-import com.massivecraft.massivecore.cmd.arg.ArgReaderAbstract;
 
 import dk.muj.derius.api.lvl.LvlStatus;
 import dk.muj.derius.api.lvl.LvlStatusDefault;
 
-public class ARLvlStatus extends ArgReaderAbstract<LvlStatus>
+public class ARLvlStatus extends ARAbstract<LvlStatus>
 {
 
 	// -------------------------------------------- //
@@ -27,10 +29,17 @@ public class ARLvlStatus extends ArgReaderAbstract<LvlStatus>
 	@Override
 	public LvlStatus read(String arg, CommandSender sender) throws MassiveException
 	{
-		ArgReader<Integer> innerReader = ARInteger.get();
+		AR<Integer> innerReader = ARInteger.get();
 		Integer inner = innerReader.read(arg, sender);
 		
 		return LvlStatusDefault.valueOf(inner);
+	}
+
+	@Override
+	public Collection<String> getTabList(CommandSender sender, String arg)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

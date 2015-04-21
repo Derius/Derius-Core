@@ -1,6 +1,7 @@
 package dk.muj.derius.cmd.arg;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -25,12 +26,6 @@ public class ARSkill extends ARAbstractSelect<Skill>
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
-	@Override
-	public String typename()
-	{
-		return "skill";
-	}
 	
 	@Override
 	public Skill select(String arg, CommandSender sender)
@@ -64,6 +59,13 @@ public class ARSkill extends ARAbstractSelect<Skill>
 			ret.add(skill.getName());
 		}
 		return ret;
+	}
+
+	@Override
+	public Collection<String> getTabList(CommandSender sender, String arg)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

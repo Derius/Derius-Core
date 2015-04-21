@@ -2,7 +2,7 @@ package dk.muj.derius.cmd;
 
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
-import com.massivecraft.massivecore.cmd.arg.ArgReader;
+import com.massivecraft.massivecore.cmd.arg.AR;
 
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
@@ -55,12 +55,12 @@ public class DeriusCommand extends MassiveCommand
 		return this.arg(idx++);
 	}
 	
-	public <T> T arg(ArgReader<T> argReader) throws MassiveException
+	public <T> T arg(AR<T> argReader) throws MassiveException
 	{
 		return this.arg(idx++, argReader);
 	}
 	
-	public <T> T arg(ArgReader<T> argReader, T defaultNotSet) throws MassiveException
+	public <T> T arg(AR<T> argReader, T defaultNotSet) throws MassiveException
 	{
 		return this.arg(idx++, argReader, defaultNotSet);
 	}
@@ -72,12 +72,12 @@ public class DeriusCommand extends MassiveCommand
 		return this.argConcatFrom(idx++);
 	}
 	
-	public <T> T argConcatFrom(ArgReader<T> argReader) throws MassiveException
+	public <T> T argConcatFrom(AR<T> argReader) throws MassiveException
 	{
 		return this.argConcatFrom(idx++, argReader);
 	}
 	
-	public <T> T argConcatFrom(ArgReader<T> argReader, T defaultNotSet) throws MassiveException
+	public <T> T argConcatFrom(AR<T> argReader, T defaultNotSet) throws MassiveException
 	{
 		return this.argConcatFrom(idx++, argReader, defaultNotSet);
 	}
