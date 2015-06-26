@@ -142,170 +142,170 @@ public class MLang extends Entity<MConf> implements DLang
 	// GETTRS & SETTERS
 	// -------------------------------------------- //
 	
-	@Override public String getSkill() { return this.skill;}
-	@Override public void setSkill(String skill) { this.skill = skill;}
+	@Override public String getSkill() { return this.skill; }
+	@Override public void setSkill(String skill) { this.skill = skill; }
 	
-	@Override public String getSkills() { return this.skills;}
-	@Override public void setSkills(String skills)  { this.skills = skills;}
+	@Override public String getSkills() { return this.skills; }
+	@Override public void setSkills(String skills)  { this.skills = skills; }
 	
-	@Override public String getYourSkills() { return this.yourSkills;}
-	@Override public void setYourSkills(String yourSkills) { this.yourSkills = yourSkills;}
+	@Override public String getYourSkills() { return this.yourSkills; }
+	@Override public void setYourSkills(String yourSkills) { this.yourSkills = yourSkills; }
 	
-	@Override public String getPrefix() { return this.prefix;}
-	@Override public void setPrefix(String prefix) { this.prefix = prefix;}
+	@Override public String getPrefix() { return this.prefix; }
+	@Override public void setPrefix(String prefix) { this.prefix = prefix; }
 	
-	@Override public String getLevelUp() { return this.levelUp;}
-	@Override public void setLevelUp(String levelUp) { this.levelUp = levelUp;}
+	@Override public String getLevelUp() { return this.levelUp; }
+	@Override public void setLevelUp(String levelUp) { this.levelUp = levelUp; }
 	
-	@Override public String getExhausted() { return this.exhausted;}
-	@Override public void setExhausted(String exhausted) { this.exhausted = exhausted;}
+	@Override public String getExhausted() { return this.exhausted; }
+	@Override public void setExhausted(String exhausted) { this.exhausted = exhausted; }
 	
-	@Override public String getLevelStatusFormat() { return this.levelStatusFormat;}
-	@Override public void setLevelStatusFormat(String levelStatusFormat) { this.levelStatusFormat = levelStatusFormat;}
+	@Override public String getLevelStatusFormat() { return this.levelStatusFormat; }
+	@Override public void setLevelStatusFormat(String levelStatusFormat) { this.levelStatusFormat = levelStatusFormat; }
 	
-	@Override public String getLevelStatusFormatMini() { return this.levelStatusFormatMini;}
-	@Override public void setLevelStatusFormatMini(String levelStatusFormatMini) { this.levelStatusFormatMini = levelStatusFormatMini;}
+	@Override public String getLevelStatusFormatMini() { return this.levelStatusFormatMini; }
+	@Override public void setLevelStatusFormatMini(String levelStatusFormatMini) { this.levelStatusFormatMini = levelStatusFormatMini; }
 	
-	@Override public String getToolPrepared() { return this.toolPrepared;}
-	@Override public void setToolPrepared(String toolPrepared)  { this.toolPrepared = toolPrepared;}
+	@Override public String getToolPrepared() { return this.toolPrepared; }
+	@Override public void setToolPrepared(String toolPrepared)  { this.toolPrepared = toolPrepared; }
 	
-	@Override public String getToolNotPrepared() { return this.toolNotPrepared;}
-	@Override public void setToolNotPrepared(String toolNotPrepared) { this.toolNotPrepared = toolNotPrepared;}
+	@Override public String getToolNotPrepared() { return this.toolNotPrepared; }
+	@Override public void setToolNotPrepared(String toolNotPrepared) { this.toolNotPrepared = toolNotPrepared; }
 	
-	@Override public String getMustBeGamemode() { return this.mustBeGamemode;}
-	@Override public void setMustBeGamemode(String mustBeGamemode)  { this.mustBeGamemode = mustBeGamemode;}
+	@Override public String getMustBeGamemode() { return this.mustBeGamemode; }
+	@Override public void setMustBeGamemode(String mustBeGamemode)  { this.mustBeGamemode = mustBeGamemode; }
 	
-	@Override public String getMustNotBeGamemode()  { return this.mustNotBeGamemode;}
-	@Override public void setMustNotBeGamemode(String mustNotBeGamemode) { this.mustNotBeGamemode = mustNotBeGamemode;}
+	@Override public String getMustNotBeGamemode()  { return this.mustNotBeGamemode; }
+	@Override public void setMustNotBeGamemode(String mustNotBeGamemode) { this.mustNotBeGamemode = mustNotBeGamemode; }
 	
-	@Override public String getMustHaveEnoughStamina() { return this.mustHaveEnoughStamina;}
-	@Override public void setMustHaveEnoughStamina(String mustHaveEnoughStamina) { this.mustHaveEnoughStamina = mustHaveEnoughStamina;}
+	@Override public String getMustHaveEnoughStamina() { return this.mustHaveEnoughStamina; }
+	@Override public void setMustHaveEnoughStamina(String mustHaveEnoughStamina) { this.mustHaveEnoughStamina = mustHaveEnoughStamina; }
 	
-	@Override public String getAbilityActivated() { return this.abilityActivated;}
-	@Override public void setAbilityActivated(String abilityActivated) { this.abilityActivated = abilityActivated;}
+	@Override public String getAbilityActivated() { return this.abilityActivated; }
+	@Override public void setAbilityActivated(String abilityActivated) { this.abilityActivated = abilityActivated; }
 	
-	@Override public String getAbilityDeactivated() { return this.abilityDeactivated;}
-	@Override public void setAbilityDeactivated(String abilityDeactivated) { this.abilityDeactivated = abilityDeactivated;}
+	@Override public String getAbilityDeactivated() { return this.abilityDeactivated; }
+	@Override public void setAbilityDeactivated(String abilityDeactivated) { this.abilityDeactivated = abilityDeactivated; }
 	
-	@Override public String getAbilityAreaIllegal() { return this.abilityAreaIllegal;}
-	@Override public void setAbilityAreaIllegal(String abilityAreaIllegal) { this.abilityAreaIllegal = abilityAreaIllegal;}
+	@Override public String getAbilityAreaIllegal() { return this.abilityAreaIllegal; }
+	@Override public void setAbilityAreaIllegal(String abilityAreaIllegal) { this.abilityAreaIllegal = abilityAreaIllegal; }
 	
-	@Override public String getAbilityColorPlayerCanUse() { return this.abilityColorPlayerCanUse;}
-	@Override public void setAbilityColorPlayerCanUse(String abilityColorPlayerCanUse) { this.abilityColorPlayerCanUse = abilityColorPlayerCanUse;}
+	@Override public String getAbilityColorPlayerCanUse() { return this.abilityColorPlayerCanUse; }
+	@Override public void setAbilityColorPlayerCanUse(String abilityColorPlayerCanUse) { this.abilityColorPlayerCanUse = abilityColorPlayerCanUse; }
 	
-	@Override public String getAbilityColorPlayerCantUse() { return this.abilityColorPlayerCantUse;}
-	@Override public void setAbilityColorPlayerCantUse(String abilityColorPlayerCantUse) { this.abilityColorPlayerCantUse = abilityColorPlayerCantUse;}
+	@Override public String getAbilityColorPlayerCantUse() { return this.abilityColorPlayerCantUse; }
+	@Override public void setAbilityColorPlayerCantUse(String abilityColorPlayerCantUse) { this.abilityColorPlayerCantUse = abilityColorPlayerCantUse; }
 	
-	@Override public String getAbilityNoSuchId() { return this.abilityNoSuchId;}
-	@Override public void setAbilityNoSuchId(String abilityNoSuchId) { this.abilityNoSuchId = abilityNoSuchId;}
+	@Override public String getAbilityNoSuchId() { return this.abilityNoSuchId; }
+	@Override public void setAbilityNoSuchId(String abilityNoSuchId) { this.abilityNoSuchId = abilityNoSuchId; }
 	
-	@Override public String getAbilityDisabled() { return this.abilityDisabled;}
-	@Override public void setAbilityDisabled(String abilityDisabled) { this.abilityDisabled = abilityDisabled;}
+	@Override public String getAbilityDisabled() { return this.abilityDisabled; }
+	@Override public void setAbilityDisabled(String abilityDisabled) { this.abilityDisabled = abilityDisabled; }
 	
-	@Override public String getAbilityDisplayedDescription() { return this.abilityDisplayedDescription;}
-	@Override public void setAbilityDisplayedDescription(String abilityDisplayedDescription) { this.abilityDisplayedDescription = abilityDisplayedDescription;}
+	@Override public String getAbilityDisplayedDescription() { return this.abilityDisplayedDescription; }
+	@Override public void setAbilityDisplayedDescription(String abilityDisplayedDescription) { this.abilityDisplayedDescription = abilityDisplayedDescription; }
 
-	@Override public String getSkillDisplayedDescription() { return this.skillDisplayedDesc;}
-	@Override public void setSkillDIsplayedDescription(String skillDisplayedDesc) { this.skillDisplayedDesc = skillDisplayedDesc;}
+	@Override public String getSkillDisplayedDescription() { return this.skillDisplayedDesc; }
+	@Override public void setSkillDIsplayedDescription(String skillDisplayedDesc) { this.skillDisplayedDesc = skillDisplayedDesc; }
 	
-	@Override public String getSkillInfoExpGain() { return this.skillInfoExpGain;}
-	@Override public void setSkillInfoExpGain(String skillInfoExpGain) { this.skillInfoExpGain = skillInfoExpGain;}
+	@Override public String getSkillInfoExpGain() { return this.skillInfoExpGain; }
+	@Override public void setSkillInfoExpGain(String skillInfoExpGain) { this.skillInfoExpGain = skillInfoExpGain; }
 	
-	@Override public String getSkillInfoAbilities() { return this.skillInfoAbilities;}
-	@Override public void setSkillInfoAbilities(String skillInfoAbilities) { this.skillInfoAbilities = skillInfoAbilities;}
+	@Override public String getSkillInfoAbilities() { return this.skillInfoAbilities; }
+	@Override public void setSkillInfoAbilities(String skillInfoAbilities) { this.skillInfoAbilities = skillInfoAbilities; }
 	
-	@Override public String getSkillInfoLevelStats() { return this.skillInfoLevelStats;}
-	@Override public void setSkillInfoLevelStats(String skillInfoLevelStats) { this.skillInfoLevelStats = skillInfoLevelStats;}
+	@Override public String getSkillInfoLevelStats() { return this.skillInfoLevelStats; }
+	@Override public void setSkillInfoLevelStats(String skillInfoLevelStats) { this.skillInfoLevelStats = skillInfoLevelStats; }
 	
-	@Override public String getSkillColorPlayerCanUse() { return this.skillColorPlayerCanUse;}
-	@Override public void setSkillColorPlayerCanUse(String skillColorPlayerCanUse) { this.skillColorPlayerCanUse = skillColorPlayerCanUse;}
+	@Override public String getSkillColorPlayerCanUse() { return this.skillColorPlayerCanUse; }
+	@Override public void setSkillColorPlayerCanUse(String skillColorPlayerCanUse) { this.skillColorPlayerCanUse = skillColorPlayerCanUse; }
 	
-	@Override public String getSkillColorPlayerCantUse() { return this.skillColorPlayerCantUse;}
-	@Override public void setSkillColorPlayerCantUse(String skillColorPlayerCantUse) { this.skillColorPlayerCantUse = skillColorPlayerCantUse;}
+	@Override public String getSkillColorPlayerCantUse() { return this.skillColorPlayerCantUse; }
+	@Override public void setSkillColorPlayerCantUse(String skillColorPlayerCantUse) { this.skillColorPlayerCantUse = skillColorPlayerCantUse; }
 	
-	@Override public String getSkillColorPlayerIsSpecialised() { return this.skillColorPlayerIsSpecialised;}
-	@Override public void setSkillColorPlayerIsSpecialised(		String skillColorPlayerIsSpecialised) { this.skillColorPlayerIsSpecialised = skillColorPlayerIsSpecialised;}
+	@Override public String getSkillColorPlayerIsSpecialised() { return this.skillColorPlayerIsSpecialised; }
+	@Override public void setSkillColorPlayerIsSpecialised(		String skillColorPlayerIsSpecialised) { this.skillColorPlayerIsSpecialised = skillColorPlayerIsSpecialised; }
 	
-	@Override public String getSkillLevelIsTooLow() { return this.skillLevelIsTooLow;}
-	@Override public void setSkillLevelIsTooLow(String skillLevelIsTooLow) { this.skillLevelIsTooLow = skillLevelIsTooLow;}
+	@Override public String getSkillLevelIsTooLow() { return this.skillLevelIsTooLow; }
+	@Override public void setSkillLevelIsTooLow(String skillLevelIsTooLow) { this.skillLevelIsTooLow = skillLevelIsTooLow; }
 	
-	@Override public String getSkillDisabled() { return this.skillDisabled;}
-	@Override public void setSkillDisabled(String skillDisabled) { this.skillDisabled = skillDisabled;}
+	@Override public String getSkillDisabled() { return this.skillDisabled; }
+	@Override public void setSkillDisabled(String skillDisabled) { this.skillDisabled = skillDisabled; }
 	
-	@Override public String getSpecialisationAutoAssigned() { return this.specialisationAutoAssigned;}
-	@Override public void setSpecialisationAutoAssigned(String specialisationAutoAssigned) { this.specialisationAutoAssigned = specialisationAutoAssigned;}
+	@Override public String getSpecialisationAutoAssigned() { return this.specialisationAutoAssigned; }
+	@Override public void setSpecialisationAutoAssigned(String specialisationAutoAssigned) { this.specialisationAutoAssigned = specialisationAutoAssigned; }
 	
-	@Override public String getSpecialisationBlacklisted() { return this.specialisationBlacklisted;}
-	@Override public void setSpecialisationBlacklisted(String specialisationBlacklisted) { this.specialisationBlacklisted = specialisationBlacklisted;}
+	@Override public String getSpecialisationBlacklisted() { return this.specialisationBlacklisted; }
+	@Override public void setSpecialisationBlacklisted(String specialisationBlacklisted) { this.specialisationBlacklisted = specialisationBlacklisted; }
 	
-	@Override public String getSpecialisationHasAlready() { return this.specialisationHasAlready;}
-	@Override public void setSpecialisationHasAlready(String specialisationHasAlready) { this.specialisationHasAlready = specialisationHasAlready;}
+	@Override public String getSpecialisationHasAlready() { return this.specialisationHasAlready; }
+	@Override public void setSpecialisationHasAlready(String specialisationHasAlready) { this.specialisationHasAlready = specialisationHasAlready; }
 	
-	@Override public String getSpecialisationTooMany() { return this.specialisationTooMany;}
-	@Override public void setSpecialisationTooMany(String specialisationTooMany) { this.specialisationTooMany = specialisationTooMany;}
+	@Override public String getSpecialisationTooMany() { return this.specialisationTooMany; }
+	@Override public void setSpecialisationTooMany(String specialisationTooMany) { this.specialisationTooMany = specialisationTooMany; }
 	
-	@Override public String getSpecialisationSuccess() { return this.specialisationSuccess;}
-	@Override public void setSpecialisationSuccess(String specialisationSuccess) { this.specialisationSuccess = specialisationSuccess;}
+	@Override public String getSpecialisationSuccess() { return this.specialisationSuccess; }
+	@Override public void setSpecialisationSuccess(String specialisationSuccess) { this.specialisationSuccess = specialisationSuccess; }
 	
-	@Override public String getSpecialisationRemoved() { return this.specialisationRemoved;}
-	@Override public void setSpecialisationRemoved(String specialisationRemoved) { this.specialisationRemoved = specialisationRemoved;}
+	@Override public String getSpecialisationRemoved() { return this.specialisationRemoved; }
+	@Override public void setSpecialisationRemoved(String specialisationRemoved) { this.specialisationRemoved = specialisationRemoved; }
 	
-	@Override public String getSpecialisationIsnt() { return this.specialisationIsnt;}
-	@Override public void setSpecialisationIsnt(String specialisationIsnt) { this.specialisationIsnt = specialisationIsnt;}
+	@Override public String getSpecialisationIsnt() { return this.specialisationIsnt; }
+	@Override public void setSpecialisationIsnt(String specialisationIsnt) { this.specialisationIsnt = specialisationIsnt; }
 	
-	@Override public String getSpecialisationCantChange() { return this.specialisationCantChange;}
-	@Override public void setSpecialisationCantChange(String specialisationCantChange) { this.specialisationCantChange = specialisationCantChange;}
+	@Override public String getSpecialisationCantChange() { return this.specialisationCantChange; }
+	@Override public void setSpecialisationCantChange(String specialisationCantChange) { this.specialisationCantChange = specialisationCantChange; }
 	
-	@Override public String getSpecialisationMoveCooldown() { return this.specialisationMoveCooldown;}
-	@Override public void setSpecialisationMoveCooldown(String specialisationMoveCooldown) { this.specialisationMoveCooldown = specialisationMoveCooldown;}
+	@Override public String getSpecialisationMoveCooldown() { return this.specialisationMoveCooldown; }
+	@Override public void setSpecialisationMoveCooldown(String specialisationMoveCooldown) { this.specialisationMoveCooldown = specialisationMoveCooldown; }
 	
-	@Override public String getSpecialisationChangeCooldown() { return this.specialisationChangeCooldown;}
-	@Override public void setSpecialisationChangeCooldown(String specialisationChangeCooldown) { this.specialisationChangeCooldown = specialisationChangeCooldown;}
+	@Override public String getSpecialisationChangeCooldown() { return this.specialisationChangeCooldown; }
+	@Override public void setSpecialisationChangeCooldown(String specialisationChangeCooldown) { this.specialisationChangeCooldown = specialisationChangeCooldown; }
 	
-	@Override public String getSpecialisationInfo() { return this.specialisationInfo;}
-	@Override public void setSpecialisationInfo(String specialisationInfo) { this.specialisationInfo = specialisationInfo;}
+	@Override public String getSpecialisationInfo() { return this.specialisationInfo; }
+	@Override public void setSpecialisationInfo(String specialisationInfo) { this.specialisationInfo = specialisationInfo; }
 	
-	@Override public String getKeyAddSuccess() { return this.keyAddSuccess;}
-	@Override public void setKeyAddSuccess(String keyAddSuccess) { this.keyAddSuccess = keyAddSuccess;}
+	@Override public String getKeyAddSuccess() { return this.keyAddSuccess; }
+	@Override public void setKeyAddSuccess(String keyAddSuccess) { this.keyAddSuccess = keyAddSuccess; }
 	
-	@Override public String getKeyRemoveSuccess() { return this.keyRemoveSuccess;}
-	@Override public void setKeyRemoveSuccess(String keyRemoveSuccess) { this.keyRemoveSuccess = keyRemoveSuccess;}
+	@Override public String getKeyRemoveSuccess() { return this.keyRemoveSuccess; }
+	@Override public void setKeyRemoveSuccess(String keyRemoveSuccess) { this.keyRemoveSuccess = keyRemoveSuccess; }
 	
-	@Override public String getKeyAlreadyHas() { return this.keyAlreadyHas;}
-	@Override public void setKeyAlreadyHas(String keyAlreadyHas) { this.keyAlreadyHas = keyAlreadyHas;}
+	@Override public String getKeyAlreadyHas() { return this.keyAlreadyHas; }
+	@Override public void setKeyAlreadyHas(String keyAlreadyHas) { this.keyAlreadyHas = keyAlreadyHas; }
 	
-	@Override public String getKeyHasnt() { return this.keyHasnst;}
-	@Override public void setKeyHasnt(String keyHasnst) { this.keyHasnst = keyHasnst;}
+	@Override public String getKeyHasnt() { return this.keyHasnst; }
+	@Override public void setKeyHasnt(String keyHasnst) { this.keyHasnst = keyHasnst; }
 	
-	@Override public String getKeysClearSuccess() { return this.keysClearSuccess;}
-	@Override public void setKeysClearSuccess(String keysClearSuccess) { this.keysClearSuccess = keysClearSuccess;}
+	@Override public String getKeysClearSuccess() { return this.keysClearSuccess; }
+	@Override public void setKeysClearSuccess(String keysClearSuccess) { this.keysClearSuccess = keysClearSuccess; }
 	
-	@Override public int getTimeLvlUpFadeIn() { return this.timeLvlUpFadeIn;}
-	@Override public void setTimeLvlUpFadeIn(int timeLvlUpFadeIn) { this.timeLvlUpFadeIn = timeLvlUpFadeIn;}
+	@Override public int getTimeLvlUpFadeIn() { return this.timeLvlUpFadeIn; }
+	@Override public void setTimeLvlUpFadeIn(int timeLvlUpFadeIn) { this.timeLvlUpFadeIn = timeLvlUpFadeIn; }
 	
-	@Override public int getTimeLvlUpStay() { return this.timeLvlUpStay;}
-	@Override public void setTimeLvlUpStay(int timeLvlUpStay) { this.timeLvlUpStay = timeLvlUpStay;}
+	@Override public int getTimeLvlUpStay() { return this.timeLvlUpStay; }
+	@Override public void setTimeLvlUpStay(int timeLvlUpStay) { this.timeLvlUpStay = timeLvlUpStay; }
 	
-	@Override public int getTimeLvlUpFadeOut() { return this.timeLvlUpFadeOut;}
-	@Override public void setTimeLvlUpFadeOut(int timeLvlUpFadeOut) { this.timeLvlUpFadeOut = timeLvlUpFadeOut;}
+	@Override public int getTimeLvlUpFadeOut() { return this.timeLvlUpFadeOut; }
+	@Override public void setTimeLvlUpFadeOut(int timeLvlUpFadeOut) { this.timeLvlUpFadeOut = timeLvlUpFadeOut; }
 	
-	@Override public int getTimeAbilityActivateFadeIn() { return this.timeAbilityActivateFadeIn;}
-	@Override public void setTimeAbilityActivateFadeIn(int timeAbilityActivateFadeIn) { this.timeAbilityActivateFadeIn = timeAbilityActivateFadeIn;}
+	@Override public int getTimeAbilityActivateFadeIn() { return this.timeAbilityActivateFadeIn; }
+	@Override public void setTimeAbilityActivateFadeIn(int timeAbilityActivateFadeIn) { this.timeAbilityActivateFadeIn = timeAbilityActivateFadeIn; }
 	
-	@Override public int getTimeAbilityActivateStay() { return this.timeAbilityActivateStay;}
-	@Override public void setTimeAbilityActivateStay(int timeAbilityActivateStay) { this.timeAbilityActivateStay = timeAbilityActivateStay;}
+	@Override public int getTimeAbilityActivateStay() { return this.timeAbilityActivateStay; }
+	@Override public void setTimeAbilityActivateStay(int timeAbilityActivateStay) { this.timeAbilityActivateStay = timeAbilityActivateStay; }
 	
-	@Override public int getTimeAbilityActivateFadeOut() { return this.timeAbilityActivateFadeOut;}
-	@Override public void setTimeAbilityActivateFadeOut(int timeAbilityActivateFadeOut) { this.timeAbilityActivateFadeOut = timeAbilityActivateFadeOut;}
+	@Override public int getTimeAbilityActivateFadeOut() { return this.timeAbilityActivateFadeOut; }
+	@Override public void setTimeAbilityActivateFadeOut(int timeAbilityActivateFadeOut) { this.timeAbilityActivateFadeOut = timeAbilityActivateFadeOut; }
 	
-	@Override public int getTimeAbilityDeactivateFadeIn() { return this.timeAbilityDeactivateFadeIn;}
-	@Override public void setTimeAbilityDeactivateFadeIn(int timeAbilityDeactivateFadeIn) { this.timeAbilityDeactivateFadeIn = timeAbilityDeactivateFadeIn;}
+	@Override public int getTimeAbilityDeactivateFadeIn() { return this.timeAbilityDeactivateFadeIn; }
+	@Override public void setTimeAbilityDeactivateFadeIn(int timeAbilityDeactivateFadeIn) { this.timeAbilityDeactivateFadeIn = timeAbilityDeactivateFadeIn; }
 	
-	@Override public int getTimeAbilityDeactivateStay() { return this.timeAbilityDeactivateStay;}
-	@Override public void setTimeAbilityDeactivateStay(int timeAbilityDeactivateStay) { this.timeAbilityDeactivateStay = timeAbilityDeactivateStay;}
+	@Override public int getTimeAbilityDeactivateStay() { return this.timeAbilityDeactivateStay; }
+	@Override public void setTimeAbilityDeactivateStay(int timeAbilityDeactivateStay) { this.timeAbilityDeactivateStay = timeAbilityDeactivateStay; }
 	
-	@Override public int getTimeAbilityDeactivateFadeOut() { return this.timeAbilityDeactivateFadeOut;}
-	@Override public void setTimeAbilityDeactivateFadeOut(int timeAbilityDeactivateFadeOut) { this.timeAbilityDeactivateFadeOut = timeAbilityDeactivateFadeOut;}
+	@Override public int getTimeAbilityDeactivateFadeOut() { return this.timeAbilityDeactivateFadeOut; }
+	@Override public void setTimeAbilityDeactivateFadeOut(int timeAbilityDeactivateFadeOut) { this.timeAbilityDeactivateFadeOut = timeAbilityDeactivateFadeOut; }
 	
 	@Override public String getMcmmoSkillMustBeDisabled() { return this.mcmmoSkillMustBeDisabled; }
 	@Override public void setMcmmoSkillMustBeDisabled(String mcmmoSkillMustBeDisabled) { this.mcmmoSkillMustBeDisabled = mcmmoSkillMustBeDisabled; }
