@@ -11,10 +11,7 @@ public final class GsonSkill extends SkillAbstract
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public GsonSkill()
-	{
-		
-	}
+	public GsonSkill() { }
 
 	// -------------------------------------------- //
 	// OVERRIDE

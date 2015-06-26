@@ -74,8 +74,8 @@ public final class AbilityColl extends Coll<Ability>
 		if ( ! (ofrom instanceof Ability)) throw new IllegalArgumentException("ofrom must be an ability");
 		if ( ! (oto instanceof Ability)) throw new IllegalArgumentException("ofrom must be an ability");
 		
-		Ability<?> afrom = (Ability) ofrom;
-		Ability<?> ato = (Ability) oto;
+		Ability<?> afrom = (Ability<?>) ofrom;
+		Ability<?> ato = (Ability<?>) oto;
 		
 		ato.load(afrom);
 	}
@@ -84,7 +84,7 @@ public final class AbilityColl extends Coll<Ability>
 	public String fixId(Object oid)
 	{
 		if (oid instanceof String) return (String) oid;
-		if (oid instanceof Ability) return ((Ability) oid).getId();
+		if (oid instanceof Ability) return ((Ability<?>) oid).getId();
 		return null;
 	}
 	

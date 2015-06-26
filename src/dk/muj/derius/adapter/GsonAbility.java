@@ -1,10 +1,9 @@
 package dk.muj.derius.adapter;
 
-import java.util.Optional;
-
 import dk.muj.derius.api.ability.AbilityAbstract;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
+import dk.muj.derius.lib.optional.Optional;
 
 public final class GsonAbility extends AbilityAbstract<Object>
 {
@@ -12,10 +11,7 @@ public final class GsonAbility extends AbilityAbstract<Object>
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public GsonAbility()
-	{
-		
-	}
+	public GsonAbility() { }
 
 	// -------------------------------------------- //
 	// OVERRIDE: ACTUAL
@@ -50,13 +46,13 @@ public final class GsonAbility extends AbilityAbstract<Object>
 	}
 
 	@Override
-	public Object onActivate(DPlayer p, Object other)
+	public Object onActivate(DPlayer dplayer, Object other)
 	{
 		return null;
 	}
 
 	@Override
-	public void onDeactivate(DPlayer p, Object other)
+	public void onDeactivate(DPlayer dplayer, Object other)
 	{
 		
 	}

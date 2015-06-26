@@ -8,7 +8,6 @@ import com.massivecraft.massivecore.util.MUtil;
 
 import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.config.DLang;
-import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.entity.mplayer.MPlayer;
 
 public class CmdDeriusSetStamina extends DeriusCommand
@@ -20,8 +19,8 @@ public class CmdDeriusSetStamina extends DeriusCommand
 	public CmdDeriusSetStamina()
 	{
 		// Args
-		this.addRequiredArg("stamina");
-		this.addOptionalArg("player", "you");
+		this.addArg(ARDouble.get(), "stamina").setDesc("The amount we wat to set the stamina to");
+		this.addArg(getPlayerYou()).setDesc("the player whose stamina to set");
 		
 		// Visibility
 		this.setVisibilityMode(VisibilityMode.SECRET);
@@ -38,8 +37,8 @@ public class CmdDeriusSetStamina extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Double stamina = this.arg(ARDouble.get());
-		MPlayer mplayer = (MPlayer) this.arg(ARDPlayer.getAny(), dsender);
+		Double stamina = this.readArg();
+		MPlayer mplayer = (MPlayer) this.readArg(dsender);
 		
 		// Power
 		double oldStamina = mplayer.getStamina();

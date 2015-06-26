@@ -7,7 +7,6 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.player.DPlayer;
-import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.util.ScoreboardUtil;
 
 public class CmdDeriusScKeep extends DeriusCommand
@@ -19,8 +18,8 @@ public class CmdDeriusScKeep extends DeriusCommand
 	public CmdDeriusScKeep()
 	{
 		// Args
-		this.addOptionalArg("yes/no", "yes");
-		this.addOptionalArg("player", "you");
+		this.addArg(ARBoolean.get(), "yes/no", "toggle").setDesc("Toggle scoreboard keeping on/off");
+		this.addArg(getPlayerYou()).setDesc("The player you wat to toogle it for");
 		
 		// Requirements
 		this.addRequirements(ReqHasPerm.get(DeriusPerm.SCOREBOARD_KEEP.getNode()));
@@ -34,8 +33,8 @@ public class CmdDeriusScKeep extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		boolean keep = this.arg(ARBoolean.get(), true);
-		DPlayer dplayer = this.arg(ARDPlayer.getAny(), dsender);
+		DPlayer dplayer = this.readArg(dsender);
+		boolean keep = this.readArg( ! dplayer.getStaminaBoardStay());
 		
 		boolean oldKeep = dplayer.getStaminaBoardStay();
 		

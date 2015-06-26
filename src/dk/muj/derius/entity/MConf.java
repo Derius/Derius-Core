@@ -16,17 +16,30 @@ public class MConf extends Entity<MConf>
 	public static MConf get() { return i; }
 	
 	// -------------------------------------------- //
-	// TIMING SETTINGS
+	// VARIOUS
 	// -------------------------------------------- //
 	
+	/**
+	 * Debug level is only used internally to print certain
+	 * ongoings inside derius. Set this according to the level you want and
+	 * you will recieve different levels of debug messages.
+	 */
 	public int debugLevel = -1;
 	
+	/**
+	 * When timings we do are lower than this amount in
+	 * milliseconds, we log it to the console.
+	 */
 	public double timingMax = 4.999999;
 	
 	// -------------------------------------------- //
 	// SKILL SETTINGS
 	// -------------------------------------------- //
 	
+	/**
+	 * Every player has a base amount of specialization slots. 
+	 * Any bonuses to that will be added on top of this number.
+	 */
 	public int baseSpSlot = 3;
 	
 	/**
@@ -34,7 +47,7 @@ public class MConf extends Entity<MConf>
 	 * before being able to change specialisation again
 	 * this counts for both learning & unlearning
 	 */
-	public long specialisationCooldown = TimeUnit.MILLIS_PER_DAY*3;
+	public long specialisationCooldown = TimeUnit.MILLIS_PER_DAY * 3;
 	
 	/**
 	 * The amount of millis a player will have to stand still
@@ -63,13 +76,34 @@ public class MConf extends Entity<MConf>
 	 */
 	public int staminaBoardStay = 200;
 
+	/**
+	 * How long all the stamina will need to regenerate.
+	 */
 	public int staminaRegenSeconds = 3*60;
 	
+	/**
+	 * Regeneration multiplier on standing still
+	 */
 	public double staminaStandStillMultiplier = 2.0;
+	
+	/**
+	 * Regeneration multiplier on sprinting
+	 */
 	public double staminaSprintMultiplier = 0.0;
+	
+	/**
+	 * Regeneration multiplier on sneaking
+	 */
 	public double staminaSneakMultiplier = 1.5;
+	
+	/**
+	 * Regeneration multiplier on walking
+	 */
 	public double staminaWalkMultiplier = 0.8;
 	
+	/**
+	 * Blocks sprinting if lower than this amount.
+	 */
 	public double staminaBlockSprintIfLower = 50;
 	
 	// -------------------------------------------- //

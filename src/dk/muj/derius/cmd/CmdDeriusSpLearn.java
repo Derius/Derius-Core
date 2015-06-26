@@ -26,7 +26,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 		
 	public CmdDeriusSpLearn()
 	{
-		this.addRequiredArg("skill");
+		this.addArg(ARSkill.get(), "skill").setDesc("The skill to specialise");
 		
 		this.addRequirements(ReqIsPlayer.get());
 		this.addRequirements(ReqHasPerm.get(DeriusPerm.SPECIALISATION_LEARN.getNode()));
@@ -40,7 +40,7 @@ public class CmdDeriusSpLearn extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Skill skill = this.arg(ARSkill.get());
+		Skill skill = this.readArg();
 		
 		if (! SkillUtil.canPlayerSpecialiseSkill(dsender, skill, VerboseLevel.LOW)) return;
 		

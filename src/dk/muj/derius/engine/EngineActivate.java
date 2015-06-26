@@ -3,7 +3,6 @@ package dk.muj.derius.engine;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,6 +30,8 @@ import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.util.AbilityUtil;
 import dk.muj.derius.api.util.LevelUtil;
 import dk.muj.derius.api.util.SkillUtil;
+import dk.muj.derius.lib.optional.Optional;
+import dk.muj.derius.lib.optional.OptionalDouble;
 
 public class EngineActivate extends EngineAbstract
 {
@@ -61,8 +62,26 @@ public class EngineActivate extends EngineAbstract
 	{
 		DPlayer dplayer = DeriusAPI.getDPlayer(event.getPlayer());
 		Material tool = event.getPlayer().getItemInHand().getType();
+		
+		for (Ability<?> ability : DeriusAPI.getAllAbilities())
+		{
+			if ( ! (ability instanceof AbilityDurabilityMultiplier)) continue;
+			AbilityDurabilityMultiplier multiplier = (AbilityDurabilityMultiplier) ability;
+			
+			if ( ! multiplier.getToolTypes().contains(tool)) continue;
+			
+			Couple<AbilityDurabilityMultiplier, OptionalDouble> couple = new Couple<>(multiplier, LevelUtil.getLevelSettingFloat(multiplier.getDurabilityMultiplier(), dplayer.getLvl(ability.getSkill())));
+			
+			if ( ! couple.getSecond().isPresent()) continue;
+			if (AbilityUtil.CANCEL == AbilityUtil.activateAbility(dplayer, couple.getFirst(), couple.getSecond().getAsDouble(), VerboseLevel.ALWAYS)) continue;
+			
+			int difference = (int) MUtil.probabilityRound(event.getDamage() / couple.getSecond().getAsDouble());
+			event.setDamage(difference);
+		}
+		
+		/*
 		// The whole things as a stream.
-		DeriusAPI.getAllAbilities().stream()
+		//DeriusAPI.getAllAbilities().stream()
 		
 		// It must be a AbilityDurabilityMultiplier
 		.filter(ability -> (ability instanceof AbilityDurabilityMultiplier))
@@ -87,6 +106,7 @@ public class EngineActivate extends EngineAbstract
 		
 		// Set damage in the event
 		.forEach(damage -> event.setDamage(damage));
+		*/
 	}
 	
 	// -------------------------------------------- //

@@ -24,7 +24,7 @@ public class StaminaMixinDefault implements StaminaMixin
 	@Override
 	public long regenTime(Player senderObject)
 	{
-		return MConf.get().staminaRegenSeconds*TimeUnit.MILLIS_PER_SECOND;
+		return MConf.get().staminaRegenSeconds * TimeUnit.MILLIS_PER_SECOND;
 	}
 	
 	@Override

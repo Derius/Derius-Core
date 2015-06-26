@@ -26,8 +26,8 @@ public class CmdDeriusSkill extends DeriusCommand
 	public CmdDeriusSkill()
 	{
 		// Args
-		this.addRequiredArg("skillname");
-		this.addOptionalArg("level", "your");
+		this.addArg(ARSkill.get(), "skill").setDesc("The skill to inspect");
+		this.addArg(ARLvlStatus.get(), "level", "your").setDesc("What level to inspect the skill at");
 		
 		// Requirements
 		this.addRequirements(ReqHasPerm.get(DeriusPerm.SKILL.getNode()));
@@ -41,8 +41,8 @@ public class CmdDeriusSkill extends DeriusCommand
 	public void perform() throws MassiveException
 	{	
 		// Args
-		Skill skill = this.arg(ARSkill.get());
-		LvlStatus status = this.arg(ARLvlStatus.get(), dsender.getLvlStatus(skill));
+		Skill skill = this.readArg();
+		LvlStatus status = this.readArg(dsender.getLvlStatus(skill));
 		
 		// Message construction
 		List<String> msgs = new ArrayList<>();

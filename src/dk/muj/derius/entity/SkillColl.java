@@ -86,7 +86,7 @@ public final class SkillColl extends Coll<Skill>
 	{
 		if (oid instanceof String) return (String) oid;
 		if (oid instanceof Skill) return ((Skill) oid).getId();
-		if (oid instanceof Ability) return ((Ability) oid).getSkill().getId();
+		if (oid instanceof Ability) return ((Ability<?>) oid).getSkill().getId();
 		return null;
 	}
 	

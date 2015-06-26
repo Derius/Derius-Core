@@ -18,7 +18,7 @@ import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.inventory.SpecialItemManager;
 
 /**
- * Idea behind item manager: We want to give an item an encahnt and remove it when ability deactivates.
+ * Idea behind item manager: We want to give an item an enchant and remove it when ability deactivates.
  * Logical solution: Would be to pass the itemStack from onActive to onDeactive in the active ability.
  * Issue: Bukkit changes the ItemStack and we can't trust the reference.
  * Solution: On disable we check for ALL items in a players inventory and make them not special.

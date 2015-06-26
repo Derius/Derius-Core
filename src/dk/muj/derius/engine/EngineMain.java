@@ -2,7 +2,6 @@ package dk.muj.derius.engine;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -31,6 +30,7 @@ import dk.muj.derius.api.req.ReqSpCooldownIsExpired;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
+import dk.muj.derius.lib.optional.Optional;
 
 public class EngineMain extends EngineAbstract
 {
@@ -81,7 +81,6 @@ public class EngineMain extends EngineAbstract
 		skill.addSeeRequirements(ReqIsEnabled.get());
 		skill.addSpecialiseRequirements(ReqIsEnabled.get());
 		
-		
 		skill.addSpecialiseRequirements(ReqIsntAutoAssigned.get());
 		skill.addSpecialiseRequirements(ReqIsntBlacklisted.get());
 		skill.addSpecialiseRequirements(ReqIsntSpecialised.get());
@@ -97,9 +96,9 @@ public class EngineMain extends EngineAbstract
 		Ability<?> ability = event.getAbility();
 		Skill skill = ability.getSkill();
 		skill.getAbilities().add(ability);
+		
 		// Requirements
 		ability.addActivateRequirements(ReqAbilityCanBeUsedInArea.get());
-		
 		ability.addActivateRequirements(ReqIsEnabled.get());
 		ability.addSeeRequirements(ReqIsEnabled.get());
 		
@@ -122,7 +121,10 @@ public class EngineMain extends EngineAbstract
 		if (playerId == null) return;
 		MPlayer mplayer = MPlayerColl.get().get(playerId, true);
 		
-		DeriusAPI.getAllSkills().forEach(skill -> mplayer.instantiateSkill(skill));
+		for (Skill skill : DeriusAPI.getAllSkills())
+		{
+			mplayer.instantiateSkill(skill);
+		}
 		
 		if (mplayer.getSpecialisationChangeMillis() == 0)
 		{

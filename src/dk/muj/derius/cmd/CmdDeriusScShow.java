@@ -7,7 +7,6 @@ import com.massivecraft.massivecore.cmd.req.ReqHasPerm;
 import dk.muj.derius.DeriusPerm;
 import dk.muj.derius.api.config.DLang;
 import dk.muj.derius.api.player.DPlayer;
-import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.util.ScoreboardUtil;
 
 
@@ -20,8 +19,8 @@ public class CmdDeriusScShow extends DeriusCommand
 	public CmdDeriusScShow()
 	{
 		// Args
-		this.addOptionalArg("show", "yes/no");
-		this.addOptionalArg("player", "you");
+		this.addArg(ARBoolean.get(), "show", "toggle").setDesc("Toggle scoreboard visibility on/off");
+		this.addArg(getPlayerYou()).setDesc("The player whose visibility is toggled");
 		
 		// Requirements
 		this.addRequirements(ReqHasPerm.get(DeriusPerm.SCOREBOARD_SHOW.getNode()));
@@ -35,10 +34,9 @@ public class CmdDeriusScShow extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		boolean show = this.arg(ARBoolean.get(), true);
-		DPlayer dplayer = this.arg(ARDPlayer.getAny(), dsender);
-		
+		DPlayer dplayer = this.readArg(dsender);
 		boolean oldShow = dplayer.getBoardShowAtAll();
+		boolean show = this.readArg( ! oldShow);
 		
 		// Detect "no change"
 		if (show == oldShow)

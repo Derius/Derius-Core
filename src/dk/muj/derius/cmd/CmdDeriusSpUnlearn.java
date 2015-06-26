@@ -23,7 +23,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 		
 	public CmdDeriusSpUnlearn()
 	{
-		this.addRequiredArg("skill");
+		this.addArg(ARSkill.get(), "skill").setDesc("The skill to unspecialise");
 		
 		this.addRequirements(ReqHasPerm.get(DeriusPerm.SPECIALISATION_UNLEARN.getNode()));
 	}
@@ -36,7 +36,7 @@ public class CmdDeriusSpUnlearn extends DeriusCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		Skill skill = this.arg(ARSkill.get());
+		Skill skill = this.readArg();
 		
 		long moveMillis = PlayerUtil.getLastMoveMillis(dsender.getPlayer()) - System.currentTimeMillis() + Txt.millisPerSecond * MConf.get().specialiseChangeStandStillSeconds;
 		

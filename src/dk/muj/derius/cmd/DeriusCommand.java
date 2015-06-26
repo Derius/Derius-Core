@@ -1,10 +1,12 @@
 package dk.muj.derius.cmd;
 
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.cmd.ArgSetting;
 import com.massivecraft.massivecore.cmd.MassiveCommand;
 import com.massivecraft.massivecore.cmd.arg.AR;
 
 import dk.muj.derius.api.player.DPlayer;
+import dk.muj.derius.cmd.arg.ARDPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
 
 
@@ -80,6 +82,11 @@ public class DeriusCommand extends MassiveCommand
 	public <T> T argConcatFrom(AR<T> argReader, T defaultNotSet) throws MassiveException
 	{
 		return this.argConcatFrom(idx++, argReader, defaultNotSet);
+	}
+	
+	public static ArgSetting<DPlayer> getPlayerYou()
+	{
+		return new ArgSetting<DPlayer>(ARDPlayer.getAny(), "player", "you");
 	}
 	
 }

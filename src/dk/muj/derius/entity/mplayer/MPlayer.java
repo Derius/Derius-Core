@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -33,6 +32,7 @@ import dk.muj.derius.api.lvl.LvlStatus;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.entity.MConf;
+import dk.muj.derius.lib.optional.Optional;
 import dk.muj.derius.util.ScoreboardUtil;
 
 public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
@@ -137,8 +137,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		PlayerExpAddEvent event = new PlayerExpAddEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
-		long lExp = MUtil.probabilityRound(event.getExpAmount());
-		this.setExp(skill, this.getExp(skill) + lExp);
+		
+		long eventExp = MUtil.probabilityRound(event.getExpAmount());
+		this.setExp(skill, this.getExp(skill) + eventExp);
 		
 		int lvlAfter = this.getLvl(skill);
 		if (lvlBefore != lvlAfter)
@@ -165,8 +166,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		PlayerExpTakeEvent event = new PlayerExpTakeEvent(this, skill, exp);
 		event.run();
 		if (event.isCancelled()) return;
-		long lExp = MUtil.probabilityRound(event.getExpAmount());
-		this.setExp(skill, this.getExp(skill) - lExp);
+		long eventExp = MUtil.probabilityRound(event.getExpAmount());
+		this.setExp(skill, this.getExp(skill) - eventExp);
 		
 		int lvlAfter = this.getLvl(skill);
 		if (lvlBefore != lvlAfter)
@@ -332,7 +333,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 	public boolean isSpecialisedIn(Skill skill)
 	{
 		Validate.notNull(skill, "skill mustn't be null");
-		return  this.specialised.contains(skill.getId()) || skill.isSpAutoAssigned();
+		return this.specialised.contains(skill.getId()) || skill.isSpAutoAssigned();
 	}
 	
 	@Override
@@ -359,7 +360,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		Validate.notNull(skill, "skill mustn't be null");
 		this.specialised.remove(skill.getId());
 		this.setExp(skill, 0);
-		// this.changed(); this is actually done when settin exp
 		return;
 	}
 	
@@ -425,8 +425,18 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 		
 			PlayerToolPrepareEvent event = new PlayerToolPrepareEvent(tool.get(), this);
 			if ( ! event.runEvent()) return;
+			
 			this.preparedTool = tool;
-			Bukkit.getScheduler().runTaskLaterAsynchronously(DeriusPlugin.get(), () -> setPreparedTool(Optional.empty()), 20*2);
+			Bukkit.getScheduler().runTaskLaterAsynchronously(DeriusPlugin.get(), new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							setPreparedTool(Optional.empty());
+						}
+				
+					}, 20*2);
+			
 		}
 		else 
 		{

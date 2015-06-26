@@ -2,6 +2,7 @@ package dk.muj.derius.cmd;
 
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.cmd.arg.ARInteger;
+import com.massivecraft.massivecore.cmd.arg.ARString;
 import com.massivecraft.massivecore.mixin.Mixin;
 
 public class CmdDeriusDebugTitle extends DeriusCommand
@@ -14,14 +15,13 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	{
 		this.addAliases("title");
 		
-		this.addRequiredArg("fadeIn");
-		this.addRequiredArg("stay");
-		this.addRequiredArg("fadeOut");
+		this.addArg(ARInteger.get(), "fadeIn").setDesc("How many seconds it fades in");
+		this.addArg(ARInteger.get(), "stay").setDesc("How many seconds it stays");
+		this.addArg(ARInteger.get(), "fadeOut").setDesc("How many seconds it fades out");
 		
-		this.addRequiredArg("title");
-		this.addRequiredArg("subTitle");
+		this.addArg(ARString.get(), "title").setDesc("The upper part of the display");
+		this.addArg(ARString.get(), "subTitle").setDesc("The lower part of the display");
 		
-		this.setErrorOnToManyArgs(false);
 	}
 	
 	// -------------------------------------------- //
@@ -31,13 +31,13 @@ public class CmdDeriusDebugTitle extends DeriusCommand
 	@Override
 	public void perform() throws MassiveException
 	{
-		int fadeIn = this.arg(ARInteger.get());
-		int stay = this.arg(ARInteger.get());
-		int fadeOut = this.arg(ARInteger.get());
+		int fadeIn = this.readArg();
+		int stay = this.readArg();
+		int fadeOut = this.readArg();
 		
 		// Use quotes and stuff in the args.
-		String title = this.arg();
-		String subTitle = this.arg();
+		String title = this.readArg();
+		String subTitle = this.readArg();
 		
 		Mixin.sendTitleMsg(dsender, fadeIn, stay, fadeOut, title, subTitle);
 		

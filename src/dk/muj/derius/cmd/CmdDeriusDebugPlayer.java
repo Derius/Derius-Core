@@ -22,7 +22,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	public CmdDeriusDebugPlayer()
 	{
 		// Args
-		this.addRequiredArg("player");
+		this.addArg(ARDPlayer.getAny(), "player").setDesc("The player to debug");
 		
 		// Aliases
 		this.addAliases("player");
@@ -36,7 +36,7 @@ public class CmdDeriusDebugPlayer extends DeriusCommand
 	public void perform() throws MassiveException 
 	{
 		// Args
-		MPlayer mplayer = (MPlayer) this.arg(ARDPlayer.getAny());
+		MPlayer mplayer = this.readArg();
 		
 		List<String> messages = new ArrayList<String>();
 		

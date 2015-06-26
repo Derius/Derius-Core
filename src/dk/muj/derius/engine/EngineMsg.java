@@ -1,11 +1,6 @@
 package dk.muj.derius.engine;
 
-import net.minecraft.server.v1_8_R2.IChatBaseComponent;
-import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
-
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -143,6 +138,8 @@ public class EngineMsg extends EngineAbstract
 	
 	public static boolean sendActionBar(Player player, String msg)
 	{
+		return false;
+		/*
 		// Null checks, just in case
 		if (msg == null || player == null) return false;
 		
@@ -164,6 +161,7 @@ public class EngineMsg extends EngineAbstract
 	    
 	    // Success
 		return true;
+		*/
 	}
 	
 	public static String toolToString(Material tool)

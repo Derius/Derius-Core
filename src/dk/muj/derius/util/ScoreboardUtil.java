@@ -135,10 +135,14 @@ public final class ScoreboardUtil
 	
 	private static void resetScoreboardTask(DPlayer dplayer, double newStamina, long tick) 
 	{
-		Bukkit.getScheduler().runTaskLater(DeriusPlugin.get(), () ->
+		Bukkit.getScheduler().runTaskLater(DeriusPlugin.get(), new Runnable()
 		{
-			if ( dplayer.getStamina() >= newStamina) return;
-			resetScoreBoard(dplayer);
+			@Override
+			public void run()
+			{
+				if ( dplayer.getStamina() >= newStamina) return;
+				resetScoreBoard(dplayer);
+			}
 		}, tick);
 	}
 

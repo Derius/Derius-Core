@@ -2,6 +2,8 @@ package dk.muj.derius;
 
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.util.IdUtil;
@@ -81,7 +83,10 @@ public final class DeriusPlugin extends MassivePlugin
 		this.setApiFields();
 		
 		// Engine activation
-		engines.forEach(Engine::activate);
+		for (Engine engine : engines)
+		{
+			engine.activate();
+		}
 		TaskPlayerStaminaUpdate.get().activate();
 		ItemManager.setup();
 		
@@ -103,7 +108,7 @@ public final class DeriusPlugin extends MassivePlugin
 	private void instantiatePlayerFields()
 	{
 		EngineMain.instantiatePlayerFields(IdUtil.CONSOLE_ID);
-		MUtil.getOnlinePlayers().forEach(EngineMain::instantiatePlayerFields);
+		for (Player player : MUtil.getOnlinePlayers()) EngineMain.instantiatePlayerFields(player);
 	}
 
 	@Override
@@ -112,7 +117,10 @@ public final class DeriusPlugin extends MassivePlugin
 		super.onDisable();
 		
 		// Engine deactivation
-		engines.forEach(Engine::deactivate);
+		for (Engine engine : engines)
+		{
+			engine.deactivate();
+		}
 	}
 	
 	// -------------------------------------------- //
