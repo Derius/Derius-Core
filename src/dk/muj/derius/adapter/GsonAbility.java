@@ -1,9 +1,10 @@
 package dk.muj.derius.adapter;
 
+import java.util.Optional;
+
 import dk.muj.derius.api.ability.AbilityAbstract;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
-import dk.muj.derius.lib.optional.Optional;
 
 public final class GsonAbility extends AbilityAbstract<Object>
 {

@@ -1,6 +1,7 @@
 package dk.muj.derius.adapter;
 
 import java.lang.reflect.Type;
+import java.util.OptionalInt;
 
 import com.massivecraft.massivecore.xlib.gson.JsonDeserializationContext;
 import com.massivecraft.massivecore.xlib.gson.JsonDeserializer;
@@ -13,7 +14,6 @@ import dk.muj.derius.DeriusPlugin;
 import dk.muj.derius.api.DeriusAPI;
 import dk.muj.derius.api.lvl.LvlStatus;
 import dk.muj.derius.api.lvl.LvlStatusDefault;
-import dk.muj.derius.lib.optional.OptionalInt;
 
 public class LvlStatusAdapter implements JsonDeserializer<LvlStatus>, JsonSerializer<LvlStatus>
 {

@@ -3,6 +3,8 @@ package dk.muj.derius.engine;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -30,8 +32,6 @@ import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.util.AbilityUtil;
 import dk.muj.derius.api.util.LevelUtil;
 import dk.muj.derius.api.util.SkillUtil;
-import dk.muj.derius.lib.optional.Optional;
-import dk.muj.derius.lib.optional.OptionalDouble;
 
 public class EngineActivate extends EngineAbstract
 {

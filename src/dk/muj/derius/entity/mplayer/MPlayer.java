@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -32,7 +33,6 @@ import dk.muj.derius.api.lvl.LvlStatus;
 import dk.muj.derius.api.player.DPlayer;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.entity.MConf;
-import dk.muj.derius.lib.optional.Optional;
 import dk.muj.derius.util.ScoreboardUtil;
 
 public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
@@ -448,25 +448,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements DPlayer
 			this.preparedTool = Optional.empty();
 		}
 	}
-	
-	// -------------------------------------------- //
-	// EQUALS & HASH CODE
-	// -------------------------------------------- //
-	
-	@Override
-	public boolean equals(Object obj)
-	{		
-		return obj == this;
-	}
-	
-	@Override
-	public int hashCode()
-	{
-		int result = 1;
-		result += this.getId().hashCode();
-		return result;
-	}
-	
+
 	// -------------------------------------------- //
 	// RAW DATA
 	// -------------------------------------------- //

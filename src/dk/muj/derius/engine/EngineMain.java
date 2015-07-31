@@ -2,6 +2,7 @@ package dk.muj.derius.engine;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -30,7 +31,6 @@ import dk.muj.derius.api.req.ReqSpCooldownIsExpired;
 import dk.muj.derius.api.skill.Skill;
 import dk.muj.derius.entity.mplayer.MPlayer;
 import dk.muj.derius.entity.mplayer.MPlayerColl;
-import dk.muj.derius.lib.optional.Optional;
 
 public class EngineMain extends EngineAbstract
 {
